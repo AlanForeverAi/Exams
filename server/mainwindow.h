@@ -1,0 +1,113 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QCloseEvent>
+#include "data.h"
+#include "ui_mainwindow.h"
+#include "QuestionsManageUI.h"
+#include "PaperManageUI.h"
+#include "ExamCtrlUI.h"
+#include "SubMarkUI.h"
+#include "MemberManageUI.h"
+#include "LoginUI.h"
+#include "MainMenuUI.h"
+#include "ConfigUI.h"
+#include "ScoreManageUI.h"
+#include "InOutPutUI.h"
+namespace Ui {
+    class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+signals:
+    void getQuestions();
+    void addOb_Questoins(Ob_questions*);
+    void addSub_Questoins(Sub_questions*);
+    void modifyOb_Questoins(Ob_questions*);
+    void modifySub_Questoins(Sub_questions*);
+    void deleteOb_Questoins(int);
+    void deleteSub_Questoins(int);
+    void showQuestions(QList<Ob_questions*>,QList<Sub_questions*>);
+    void addPaper(Paper);
+    void getAllPaper();
+    void showAllPaper(QList<Paper*>);
+    void deletePaper(int);
+    void queryPaperMark(int);
+    void saveUsertoPaperMark(int,QList<User*>);
+    void modifyPaper(Paper);
+    void showCurrentPaper(Paper);
+    void getPaperById(int);
+    void sendPaper(int);
+    void beginExam();
+    void getUserList();
+    void updateUserTable(QList<User*>);
+    void endExam();
+    void getUserByPaperId(int,QString);
+    void showUserByPaperId(QList<User*>);
+    void getSubAnswer(int,QString);
+    void showSubAnswer(QVector<QString>);
+    void submitSubMark(QStringList);
+    void loginSignal(Manager);
+    void getUser();/////
+    void addUser(User*);//////增加用户
+    void addManager(Manager *);
+    void deleteUserId(QString);
+    void deleteManagerId(int);
+    void showUser(QList<User*>,QList<Manager*>);/////
+    void getcurrentPaperTime(int);
+    void sendPaperTime(int,int);
+    void getCombo_id(QString);//根据userid 获得
+    void getCombo_paperid(int );
+    void showCombo(QList<Combo *>);
+    void delete_score(int,qlonglong);
+    void outputUser();
+    void outputOb();
+    void outputSub();
+    void outputPaper();
+    void inputUser(QString);
+    void inputOb(QString);
+    void inputSub(QString);
+    void inputPaper(QString);
+    void sendInfo(QStringList);
+private slots:
+    void on_action_QuestionsManager_triggered();
+    void on_action_makepaper_triggered();
+    void on_action_examctrl_triggered();
+    void on_action_subscore_triggered();
+    void on_action_memmanager_triggered();
+    void on_action_login_triggered();
+    void on_action_mainmenu_triggered();
+    void on_action_config_triggered();
+    void on_action_scomanage_triggered();
+    void on_action_inoutput_triggered();
+    void on_action_Qt_triggered();
+    void examMode();
+    void endExamMode();
+    void LoginOK();
+    void backToMenu();
+    void closeEvent(QCloseEvent *);
+private:
+    Ui::MainWindow *ui;
+    void do_QuestionsManager();
+    void do_makepaper();
+    void do_examctrl();
+    void do_subscore();
+    void do_memmanage();
+    void do_login();
+    void do_mainmenu();
+    void do_config();
+    void do_scomanage();
+    void do_inoutput();
+    QStatusBar *statusbar;
+
+
+};
+
+#endif // MAINWINDOW_H

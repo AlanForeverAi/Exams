@@ -1,0 +1,48 @@
+#ifndef EXAMUI_H
+#define EXAMUI_H
+
+#include <QWidget>
+#include "ui_ExamUI.h"
+#include"data.h"
+#include<QMessageBox>
+#include<QTimer>
+class ExamUI : public QWidget,public Ui::ExamUI
+{
+    Q_OBJECT
+
+public:
+    explicit ExamUI(QWidget *parent = 0);
+    ~ExamUI();
+
+    void resetRadioGroup();
+    QTimer *timer;
+signals:
+    void sendAnswers(All_answers);
+      void sendAnswersingle(All_answers);
+public slots:
+    void showPaper(Paper);
+    void on_Button_prev_clicked();
+    void on_Button_next_clicked();
+    void on_pushButton_jump_clicked();
+    void on_Button_mark_clicked();
+    void showQueInfo(int);
+    void iniQueInfo();
+    void on_pushButton_submit_clicked();
+    void timeUpdate();
+    void submitAnswers();
+    void showQuestion(int);
+    void yiditijiao();
+private:
+    Paper currentPaper;
+    int currentQue;
+    int totalque;
+    QVector<QString> obanslist;
+    QVector<QString> subanslist;
+    QMessageBox msg;
+    QButtonGroup radionGroup;
+    QButtonGroup *btngroup;
+    QTime examTime;
+
+};
+
+#endif // EXAMUI_H

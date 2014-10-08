@@ -1,0 +1,4 @@
+DBname qtdb
+DBuser root
+DBpassword allen
+port 3306

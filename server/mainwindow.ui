@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>718</width>
+    <height>316</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>在线考试系统</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>718</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>管理</string>
+    </property>
+    <addaction name="action_QuestionsManager"/>
+    <addaction name="action_makepaper"/>
+    <addaction name="action_memmanager"/>
+    <addaction name="action_scomanage"/>
+   </widget>
+   <widget class="QMenu" name="menu_ctrl">
+    <property name="title">
+     <string>控制</string>
+    </property>
+    <addaction name="action_login"/>
+    <addaction name="action_examctrl"/>
+    <addaction name="action_subscore"/>
+    <addaction name="action_mainmenu"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>其他</string>
+    </property>
+    <addaction name="action_config"/>
+    <addaction name="action_inoutput"/>
+   </widget>
+   <widget class="QMenu" name="menu_about">
+    <property name="title">
+     <string>关于</string>
+    </property>
+    <addaction name="action_Qt"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_ctrl"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_about"/>
+  </widget>
+  <action name="action_QuestionsManager">
+   <property name="text">
+    <string>题库管理</string>
+   </property>
+  </action>
+  <action name="action_examctrl">
+   <property name="text">
+    <string>考试控制</string>
+   </property>
+  </action>
+  <action name="action_makepaper">
+   <property name="text">
+    <string>试卷管理</string>
+   </property>
+  </action>
+  <action name="action_subscore">
+   <property name="text">
+    <string>主观题批改</string>
+   </property>
+  </action>
+  <action name="action_memmanager">
+   <property name="text">
+    <string>用户管理</string>
+   </property>
+  </action>
+  <action name="action_login">
+   <property name="text">
+    <string>登录</string>
+   </property>
+  </action>
+  <action name="action_mainmenu">
+   <property name="text">
+    <string>主菜单</string>
+   </property>
+  </action>
+  <action name="action_config">
+   <property name="text">
+    <string>设置</string>
+   </property>
+  </action>
+  <action name="action_scomanage">
+   <property name="text">
+    <string>成绩管理</string>
+   </property>
+  </action>
+  <action name="action_Qt">
+   <property name="text">
+    <string>关于Qt</string>
+   </property>
+  </action>
+  <action name="action_program">
+   <property name="text">
+    <string>关于本程序</string>
+   </property>
+  </action>
+  <action name="action_inoutput">
+   <property name="text">
+    <string>导入导出</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
