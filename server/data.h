@@ -35,11 +35,12 @@ private:
     QString Password;
     QString state;
     QString hostname;
-    int socketDescriptor;
+    int socketDescriptor; //socket文件描述符
 
 };
 Q_DECLARE_METATYPE(User)
 
+//管理员。。。这个以后需要修改。。。。权限不正确。。。。
 class Manager
 {
 public:
@@ -58,6 +59,10 @@ private:
 
 };
 
+/*
+ * 参考设计模式，修改？设置问题基类，方便以后添加新的题型。。。。。但是如何解决判断题目的类型。。。设计模式。。。
+  */
+//客观题
 class Ob_questions
 {
     friend QDataStream &operator <<(QDataStream &,const Ob_questions &);
@@ -80,6 +85,7 @@ private:
 
 };
 
+//主观题，添加参考答案？
 class Sub_questions
 {
     friend QDataStream &operator <<(QDataStream &,const Sub_questions &);
@@ -98,6 +104,7 @@ private:
     QString Title;
 };
 
+//主观题答案。。。。
 class Sub_answers
 {
     friend QDataStream &operator <<(QDataStream &,const Sub_answers &);
@@ -120,6 +127,7 @@ private:
 
 };
 
+//客观题答案
 class Ob_answers   //作答的答案
 {
     friend QDataStream &operator <<(QDataStream &,const Ob_answers &);
@@ -142,6 +150,8 @@ private:
 
 };
 
+//试卷。。。。坑爹的通过主观题id和客观题id来决定试卷内容。。。以后需要添加新的题型又需要修改。。。。
+//可以使用vector存储题目id？QList可以存储题目父类指针。。。。方便以后修改。。。。
 class Paper
 {
     friend QDataStream &operator <<(QDataStream &,const Paper &);
@@ -164,6 +174,7 @@ public:
     int     getPercent();
     int     getTime();
     QString getDate();
+    //一下两个list看着好不顺眼。。。。
     QList<Ob_questions> obList;
     QList<Sub_questions> subList;
 private:
@@ -186,6 +197,7 @@ class All_answers
     friend QDataStream &operator >>(QDataStream &,All_answers &);
     public:
         All_answers();
+        //下面的东西又又做死了。。。。
         void setObanswer(Ob_answers);
         void setSubanswer(Sub_answers);
         void setPaperid(int);

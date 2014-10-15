@@ -1,4 +1,4 @@
-#ifndef IOMANAGER_H
+﻿#ifndef IOMANAGER_H
 #define IOMANAGER_H
 #include "data.h"
 class IOManager:public QObject
@@ -12,6 +12,7 @@ public:
     QList<User*> inputUser(QString);
     void outputPaper(QList<Paper*>);
     QList<Paper*> inputPaper(QString);
+    //下面又写死了。。。。
     void outputOb(QList<Ob_questions*>);
     QList<Ob_questions*> inputOb(QString);
     void outputSub(QList<Sub_questions*>);

@@ -3,8 +3,6 @@
 #include <QDebug>
 MainApp::MainApp()
 {
-
-
     readConfig();
     iniMainWindow();
     iniDBManager();
@@ -21,7 +19,6 @@ MainApp::~MainApp()
     delete(DBM);
     delete(server);
     delete(IOM);
-
 }
 
 void MainApp::readConfig()
@@ -49,7 +46,6 @@ void MainApp::readConfig()
 void MainApp::iniDBManager()
 {
     DBM=new DBManager(DBname,DBuser,DBpassword);
-
 }
 
 void MainApp::iniServer()
@@ -123,6 +119,10 @@ void MainApp::iniMainWindow()
     w.show();
 }
 
+/*
+ * PS：不应该每位学生都需要老师判断是否能进行考试，这样太不符合真实情况
+ * 应该通过数据库来判断吧。。。。。。
+ */
 void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 {
     QMessageBox msg;
@@ -131,7 +131,7 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
     switch(m)
     {
     case MSG_NEWCONNECT:
-         infolist.replace(0,1,QString::number(serverState));
+        infolist.replace(0,1,QString::number(serverState));
         v.setValue(infolist);
         emit this->sendData(descriptor,MSG_NEWCONNECT,v);
         break;
