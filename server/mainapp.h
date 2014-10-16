@@ -1,4 +1,4 @@
-#ifndef MAINAPP_H
+﻿#ifndef MAINAPP_H
 #define MAINAPP_H
 #include "DBManager.h"
 #include "mainwindow.h"
@@ -31,10 +31,10 @@ signals:
     void showQuestions(QList<Ob_questions*>,QList<Sub_questions*>);//显示题目
     void showAllPaper(QList<Paper*>);//显示所以试卷
     void showCurrentPaper(Paper);//显示某一张试卷
-    void updateUserTable(QList<User*>);//更新考试控制界面的考生表
-    void showUserByPaperId(QList<User*>);//按试卷显示考生
+    void updateUserTable(QList<Student*>);//更新考试控制界面的考生表
+    void showUserByPaperId(QList<Student*>);//按试卷显示考生
     void showSubAnswer(QVector<QString>);//显示主观题答案
-    void showUser(QList<User*>,QList<Manager*>);//显示用户
+    void showUser(QList<Student*>,QList<Manager*>);//显示用户
     void showCombo(QList<Combo*>);//显示成绩
     void LoginOK();//登录成功信号
     void getcurrentPaperTime(int);//取得当前考试剩余时间
@@ -51,22 +51,22 @@ public slots:
     void addPaper(Paper);//添加试卷
     void getAllPaper();//获取试卷
     void getPaperById(int);//按ID获取试卷
-    void saveUsertoPaperMark(int,QList<User*>);//按试卷ID，将考生信息保存到papermark
+    void saveUsertoPaperMark(int,QList<Student*>);//按试卷ID，将考生信息保存到papermark
     void deletePaper(int);//删除试卷
     void modifyPaper(Paper);//修改试卷
     void sendPaper(int);//发送试卷
     void getUserList();//更新考生状态信息
     void beginExam();//考试考试
     void endExam();//结束考试
-    bool userLogin(User);//考生登录
+    bool userLogin(Student);//考生登录
     void sendPaperTime(int,int);//发送带有当前剩余时间的试卷
     bool managerLogin(Manager);//管理员登录
-    QList<User*> getUserByPaperId(int,QString);//按试卷id查找考生
+    QList<Student*> getUserByPaperId(int,QString);//按试卷id查找考生
     void getSubAnswer(int,QString);//取得主观题答案
     void submitSubMark(QStringList);//提交主观题评分
     void getUser();//取得用户信息（考生、管理员）
-    void addUser(User *);//添加考生
-    void modifyUser(User);//修改考生
+    void addUser(Student *);//添加考生
+    void modifyUser(Student);//修改考生
     void addManager(Manager *);//添加管理员
     void deleteUserId(QString);//删除考生
     void deleteManagerId(int);//删除管理员
@@ -89,7 +89,7 @@ private:
     MainWindow w;
     Server* server;
     Paper mainPaper;
-    QList<User*> userList;
+    QList<Student*> userList;
     QString DBname;
     QString DBuser;
     QString DBpassword;

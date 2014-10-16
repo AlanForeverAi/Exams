@@ -1,4 +1,4 @@
-#ifndef PAPAERMANAGEUI_H
+﻿#ifndef PAPAERMANAGEUI_H
 #define PAPAERMANAGEUI_H
 
 #include <QWidget>
@@ -24,7 +24,7 @@ signals:
     void modifyPaper(Paper);
     void getPaperById(int);
     void queryPaperMark(int,QString);
-    void saveUsertoPaperMark(int,QList<User*>);
+    void saveUsertoPaperMark(int,QList<Student*>);
 private slots:
     void on_horizontalSlider_valueChanged(int value);
     void on_pushButton_Add_Ob_clicked();
@@ -48,8 +48,8 @@ private slots:
     void showQuestions(QList<Ob_questions*>,QList<Sub_questions*>);
     void showAllPaper(QList<Paper*>);
     void showCurrentPaper(Paper);
-    void showAllUser(QList<User*>,QList<Manager*>);
-    void showSelectUser(QList<User*>);
+    void showAllUser(QList<Student*>,QList<Manager*>);
+    void showSelectUser(QList<Student*>);
     void paperChange(QTableWidgetItem*);
     void typeChange(QString);
     void showCurrentType(QList<Ob_questions*>,QList<Sub_questions*>);
@@ -57,6 +57,7 @@ private slots:
 
 private:
     int currentPaperId;
+    //又又见到坑爹的东西。。。。。。。
     QList<Ob_questions*> all_Ob;
     QList<Ob_questions*> select_Ob;
     QList<Sub_questions*> all_Sub;
@@ -66,9 +67,9 @@ private:
     QString  ob_que_ids;
     QString sub_que_ids;
     QList<Paper*> paperList;
-    QList<User*> userlist;
-    QList<User*> selectuserlist;
-    QList<User*> searchlist;
+    QList<Student*> userlist;
+    QList<Student*> selectuserlist;
+    QList<Student*> searchlist;
     QStringList typelist;
 
 };

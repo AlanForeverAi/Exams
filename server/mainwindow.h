@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -40,27 +40,27 @@ signals:
     void showAllPaper(QList<Paper*>);
     void deletePaper(int);
     void queryPaperMark(int);
-    void saveUsertoPaperMark(int,QList<User*>);
+    void saveUsertoPaperMark(int,QList<Student*>);
     void modifyPaper(Paper);
     void showCurrentPaper(Paper);
     void getPaperById(int);
     void sendPaper(int);
     void beginExam();
     void getUserList();
-    void updateUserTable(QList<User*>);
+    void updateUserTable(QList<Student*>);
     void endExam();
     void getUserByPaperId(int,QString);
-    void showUserByPaperId(QList<User*>);
+    void showUserByPaperId(QList<Student*>);
     void getSubAnswer(int,QString);
     void showSubAnswer(QVector<QString>);
     void submitSubMark(QStringList);
     void loginSignal(Manager);
     void getUser();/////
-    void addUser(User*);//////增加用户
+    void addUser(Student*);//////增加用户
     void addManager(Manager *);
     void deleteUserId(QString);
     void deleteManagerId(int);
-    void showUser(QList<User*>,QList<Manager*>);/////
+    void showUser(QList<Student*>,QList<Manager*>);/////
     void getcurrentPaperTime(int);
     void sendPaperTime(int,int);
     void getCombo_id(QString);//根据userid 获得

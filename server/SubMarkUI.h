@@ -21,7 +21,7 @@ private slots:
     void showPapers(QList<Paper*>);
     void paperTableChange(QTableWidgetItem*);
     void userTableChange(QTableWidgetItem*);
-    void showUserByPaperId(QList<User*>);
+    void showUserByPaperId(QList<Student*>);
     void showSubAnswer(QVector<QString>);
     void on_pushButton_Pre_clicked();
     void on_pushButton_Next_clicked();

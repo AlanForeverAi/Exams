@@ -1,80 +1,80 @@
 ﻿#include"data.h"
 
-User::User()
+Student::Student()
 {
-     qRegisterMetaTypeStreamOperators<User>("User");
+     qRegisterMetaTypeStreamOperators<Student>("User");
 }
-void User::setID(QString id)
+void Student::setID(QString id)
 {
     ID=id;
 }
-void User::setName(QString n)
+void Student::setName(QString n)
 {
     Name=n;
 }
-void User::setGrade(int c)
+void Student::setGrade(int c)
 {
     Grade=c;
 }
-void User::setClass(int c)
+void Student::setClass(int c)
 {
     Class=c;
 }
-void User::setPassword(QString c)
+void Student::setPassword(QString c)
 {
     Password=c;
 }
-void User::setState(QString s)
+void Student::setState(QString s)
 {
     state=s;
 }
-void User::setHostname(QString host)
+void Student::setHostname(QString host)
 {
     hostname=host;
 }
-void User::setSockDescriptor(int descriptor)
+void Student::setSockDescriptor(int descriptor)
 {
 
     socketDescriptor=descriptor;
 }
-QString User::getID()
+QString Student::getID()
 {
     return ID;
 }
-QString User::getName()
+QString Student::getName()
 {
     return Name;
 }
-int User::getGrade()
+int Student::getGrade()
 {
     return Grade;
 }
-int User::getClass()
+int Student::getClass()
 {
     return Class;
 }
-QString User::getPassword()
+QString Student::getPassword()
 {
     return Password;
 }
-QString User::getState()
+QString Student::getState()
 {
     return state;
 }
-QString User::getHostname()
+QString Student::getHostname()
 {
     return hostname;
 }
-int User::getSockDescriptor()
+int Student::getSockDescriptor()
 {
     return socketDescriptor;
 }
-QDataStream &operator >>(QDataStream &in,User &user)
+QDataStream &operator >>(QDataStream &in,Student &user)
 {
     in>>user.ID>>user.Name>>user.Class>>user.Grade>>user.Password>>user.hostname;
     return in;
 }
-QDataStream &operator <<(QDataStream &out,const User &user)
+QDataStream &operator <<(QDataStream &out,const Student &user)
 {
     out<<user.ID<<user.Name<<user.Class<<user.Grade<<user.Password<<user.hostname;
     return out;

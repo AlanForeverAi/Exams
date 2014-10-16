@@ -1,4 +1,4 @@
-#ifndef EXAMCTRL_H
+﻿#ifndef EXAMCTRL_H
 #define EXAMCTRL_H
 
 
@@ -26,7 +26,7 @@ private slots:
 
     void counttimeUpdate();
     void datetimeUpdate();
-    void updateUserTable(QList<User*>);
+    void updateUserTable(QList<Student*>);
     void on_pushButton_end_clicked();
     void getcurrentPaperTime(int);
 private:

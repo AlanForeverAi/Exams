@@ -61,9 +61,9 @@ void MainWindow::do_makepaper()
     connect(make_paper,SIGNAL(getPaperById(int)),this,SIGNAL(getPaperById(int)));
     connect(make_paper->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
-    connect(this,SIGNAL(showUserByPaperId(QList<User*>)),make_paper,SLOT(showSelectUser(QList<User*>)));
-    connect(make_paper,SIGNAL(saveUsertoPaperMark(int,QList<User*>)),this,SIGNAL(saveUsertoPaperMark(int,QList<User*>)));
-    connect(this,SIGNAL(showUser(QList<User*>,QList<Manager*>)),make_paper,SLOT(showAllUser(QList<User*>,QList<Manager*>)));
+    connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),make_paper,SLOT(showSelectUser(QList<Student*>)));
+    connect(make_paper,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<Manager*>)),make_paper,SLOT(showAllUser(QList<Student*>,QList<Manager*>)));
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
@@ -79,7 +79,7 @@ void MainWindow::do_examctrl()
     connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
     connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SLOT(examMode()));
     connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SIGNAL(beginExam()));
-    connect(this,SIGNAL(updateUserTable(QList<User*>)),examctrl,SLOT(updateUserTable(QList<User*>)));
+    connect(this,SIGNAL(updateUserTable(QList<Student*>)),examctrl,SLOT(updateUserTable(QList<Student*>)));
     connect(examctrl,SIGNAL(endExam()),this,SIGNAL(endExam()));
     connect(examctrl,SIGNAL(endExam()),this,SLOT(endExamMode()));
     connect(examctrl->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
@@ -98,7 +98,7 @@ void MainWindow::do_subscore()
     SubMarkUI *sub_score=new SubMarkUI;
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),sub_score,SLOT(showPapers(QList<Paper*>)));
     connect(sub_score,SIGNAL(getUserByPaperId(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
-    connect(this,SIGNAL(showUserByPaperId(QList<User*>)),sub_score,SLOT(showUserByPaperId(QList<User*>)));
+    connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),sub_score,SLOT(showUserByPaperId(QList<Student*>)));
     connect(sub_score,SIGNAL(getSubAnswer(int,QString)),this,SIGNAL(getSubAnswer(int,QString)));
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),sub_score,SLOT(showSubAnswer(QVector<QString>)));
     connect(sub_score,SIGNAL(submitSubMark(QStringList)),this,SIGNAL(submitSubMark(QStringList)));
@@ -112,8 +112,8 @@ void MainWindow::do_subscore()
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
-    connect(this,SIGNAL(showUser(QList<User*>,QList<Manager*>)),mem_Manage,SLOT(showUser(QList<User*>,QList<Manager*>)));
-    connect(mem_Manage,SIGNAL(addUser(User*)),this,SIGNAL(addUser(User*)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<Manager*>)),mem_Manage,SLOT(showUser(QList<Student*>,QList<Manager*>)));
+    connect(mem_Manage,SIGNAL(addUser(Student*)),this,SIGNAL(addUser(Student*)));
     connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
     connect(mem_Manage,SIGNAL(addManager(Manager*)),this,SIGNAL(addManager(Manager*)));
     connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));

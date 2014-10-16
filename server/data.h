@@ -4,13 +4,13 @@
 #include<QDataStream>
 #include<QMetaType>
 #include<QVector>
-class User
+class Student
 {
     //这个两个运算符重载，是给C/S通讯用的，可以不理
-    friend QDataStream &operator <<(QDataStream &,const User &);
-    friend QDataStream &operator >>(QDataStream &,User &);
+    friend QDataStream &operator <<(QDataStream &,const Student &);
+    friend QDataStream &operator >>(QDataStream &,Student &);
 public:
-    User();
+    Student();
     void setID(QString);
     void setName(QString);
     void setGrade(int);
@@ -38,9 +38,26 @@ private:
     int socketDescriptor; //socket文件描述符
 
 };
-Q_DECLARE_METATYPE(User)
+Q_DECLARE_METATYPE(Student)
 
-//管理员。。。这个以后需要修改。。。。权限不正确。。。。
+//管理员。。。这个以后需要修改。。。。权限不正确。。。。通过用户ID判断是否管理员。。。。
+
+class USER{
+public:
+    USER();
+    void setId(int);
+    void setName(QString);
+    void setPassword(QString);
+
+    int getId();
+    QString getName();
+    QString getPassword();
+private:
+    int Id;
+    QString Name;
+    QString Password;
+};
+
 class Manager
 {
 public:
@@ -60,8 +77,53 @@ private:
 };
 
 /*
+class Teacher {
+public:
+  Teacher();\
+  void setID(int);
+  void setName(QString);
+  void setPasswod(QString);
+
+  int getID();
+  QString getName();
+  QString getPassword();
+private:
+  int ID;
+  QString Name;
+  QString Password;
+};
+*/
+/*
  * 参考设计模式，修改？设置问题基类，方便以后添加新的题型。。。。。但是如何解决判断题目的类型。。。设计模式。。。
   */
+
+//问题基类。。。。
+class Questions{
+public:
+    Questions();
+    void setId(int);
+    void setType(QString);
+    void setTitle(QString);
+    void setAnswer(QString);
+    int getId();
+    QString getType();
+    QString getTitle();
+    QString getAnswer();
+private:
+    int id;
+    QString Type; //科目
+    QString Title;
+    QString Answer;
+};
+
+class ObQuestions : public Questions {
+
+};
+
+class SubQuestions : public Questions {
+
+};
+
 //客观题
 class Ob_questions
 {
@@ -104,6 +166,41 @@ private:
     QString Title;
 };
 
+
+//答案基类
+class Answers{
+public:
+  Answers();
+  void setAnswer_id(int);
+  void setPaper_id(int);
+  void setStudent_id(QString);
+  int getAnswer_id();
+  int getPaper_id();
+  QString getStrudent_id();
+
+private:
+  int Answer_id;
+  int Paper_id;
+  QString Student_id;
+};
+
+class SubAnswers : public Answers{
+public:
+  void setSUB_AnswersList(QVector<QString>);
+  QVector<QString>getSUB_AnswersList();
+private:
+  QVector<QString> SUB_AnswersList;
+};
+
+
+class ObAnswers : public Answers{
+public:
+  void setOB_Answer(QString);
+  QString getOB_Answer();
+private:
+  QString OB_Answer;
+};
+
 //主观题答案。。。。
 class Sub_answers
 {
@@ -123,7 +220,7 @@ private:
     int Su_an_id;
     int Paper_id;
     QString Student_id;
-   QVector<QString> subanslist;
+    QVector<QString> subanslist;
 
 };
 

@@ -8,8 +8,8 @@ public:
     IOManager();
    ~IOManager();
 
-    void outputUser(QList<User*>);
-    QList<User*> inputUser(QString);
+    void outputUser(QList<Student*>);
+    QList<Student*> inputUser(QString);
     void outputPaper(QList<Paper*>);
     QList<Paper*> inputPaper(QString);
     //下面又写死了。。。。

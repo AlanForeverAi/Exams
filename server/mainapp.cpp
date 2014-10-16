@@ -75,27 +75,27 @@ void MainApp::iniMainWindow()
     connect(&w,SIGNAL(deletePaper(int)),this,SLOT(deletePaper(int)));
     connect(&w,SIGNAL(modifyPaper(Paper)),this,SLOT(modifyPaper(Paper)));
     connect(this,SIGNAL(showCurrentPaper(Paper)),&w,SIGNAL(showCurrentPaper(Paper)));
-    connect(&w,SIGNAL(saveUsertoPaperMark(int,QList<User*>)),this,SLOT(saveUsertoPaperMark(int,QList<User*>)));
+    connect(&w,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SLOT(saveUsertoPaperMark(int,QList<Student*>)));
 
     ////////examctrl
     connect(&w,SIGNAL(sendPaper(int)),this,SLOT(sendPaper(int)));
     connect(&w,SIGNAL(beginExam()),this,SLOT(beginExam()));
     connect(&w,SIGNAL(getUserList()),this,SLOT(getUserList()));
-    connect(this,SIGNAL(updateUserTable(QList<User*>)),&w,SIGNAL(updateUserTable(QList<User*>)));
+    connect(this,SIGNAL(updateUserTable(QList<Student*>)),&w,SIGNAL(updateUserTable(QList<Student*>)));
     connect(&w,SIGNAL(endExam()),this,SLOT(endExam()));
     connect(this,SIGNAL(getcurrentPaperTime(int)),&w,SIGNAL(getcurrentPaperTime(int)));
     connect(&w,SIGNAL(sendPaperTime(int,int)),this,SLOT(sendPaperTime(int,int)));
     connect(&w,SIGNAL(sendInfo(QStringList)),this,SLOT(sendInfo(QStringList)));
     //subcore
     connect(&w,SIGNAL(getUserByPaperId(int,QString)),this,SLOT(getUserByPaperId(int,QString)));
-    connect(this,SIGNAL(showUserByPaperId(QList<User*>)),&w,SIGNAL(showUserByPaperId(QList<User*>)));
+    connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),&w,SIGNAL(showUserByPaperId(QList<Student*>)));
     connect(&w,SIGNAL(getSubAnswer(int,QString)),this,SLOT(getSubAnswer(int,QString)));
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&w,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&w,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
     connect(&w,SIGNAL(getUser()),this,SLOT(getUser()));//mainwindow发，mainapp收
-    connect(this,SIGNAL(showUser(QList<User*>,QList<Manager*>)),&w,SIGNAL(showUser(QList<User*>,QList<Manager*>)));
-    connect(&w,SIGNAL(addUser(User*)),this,SLOT(addUser(User *)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<Manager*>)),&w,SIGNAL(showUser(QList<Student*>,QList<Manager*>)));
+    connect(&w,SIGNAL(addUser(Student*)),this,SLOT(addUser(Student *)));
     connect(&w,SIGNAL(addManager(Manager*)),this,SLOT(addManager(Manager*)));
     connect(&w,SIGNAL(deleteUserId(QString)),this,SLOT(deleteUserId(QString)));
     connect(&w,SIGNAL(deleteManagerId(int)),this,SLOT(deleteManagerId(int)));
@@ -126,7 +126,7 @@ void MainApp::iniMainWindow()
 void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 {
     QMessageBox msg;
-    User u;
+    Student u;
     All_answers allans;
     switch(m)
     {
@@ -136,7 +136,7 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
         emit this->sendData(descriptor,MSG_NEWCONNECT,v);
         break;
     case MSG_LOGIN:
-        u=v.value<User>();
+        u=v.value<Student>();
         if(this->userLogin(u))
         {
             if(serverState==STATE_EXAMING)
@@ -417,7 +417,7 @@ void MainApp::endExam()
     userList.clear();
 }
 
-bool MainApp::userLogin(User u)
+bool MainApp::userLogin(Student u)
 {
     int isIn=0;
     QVariant v;
@@ -528,7 +528,7 @@ void MainApp::removeUser(int descriptor)
         }
 }
 
-void MainApp::saveUsertoPaperMark(int pid, QList<User *> ulist)
+void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 {
 
     bool isdelete=DBM->deletePapermark(pid);
@@ -616,13 +616,13 @@ void MainApp::submitSubMark(QStringList submark)
     DBM->updatePaper_mark_totalmark(totalmark,submark.at(0).toInt(),submark.at(1));
 }
 
-QList<User*> MainApp::getUserByPaperId(int id,QString state)
+QList<Student*> MainApp::getUserByPaperId(int id,QString state)
 {
     QSqlQuery query=DBM->Query_papermark1(id);
-    QList<User*> ulist;
+    QList<Student*> ulist;
     while(query.next())
         {
-            User *u=new User;
+            Student *u=new Student;
             u->setID(query.value(8).toString());
             u->setName(query.value(9).toString());
             u->setGrade(query.value(10).toInt());
@@ -786,7 +786,7 @@ void MainApp::getCombo_paperid(int id)
 
 void MainApp::getUser()
 {
-    QList<User*> userList;
+    QList<Student*> userList;
     QList<Manager*> managerList;
 
     QSqlQuery query;
@@ -794,7 +794,7 @@ void MainApp::getUser()
 
     while(query.next())
     {
-        User *userptr = new User;
+        Student *userptr = new Student;
         userptr->setID(query.value(0).toString());
         userptr->setName(query.value(1).toString());
         userptr->setGrade(query.value(2).toInt());
@@ -823,7 +823,7 @@ void MainApp::getUser()
     emit this->showUser(userList,managerList);
 }
 
-void MainApp::addUser(User *user)
+void MainApp::addUser(Student *user)
 {
     DBM->InsertUser(
                 user->getID(),
@@ -838,7 +838,7 @@ void MainApp::addManager(Manager *m)
     DBM->InsertManager(m->getId(),m->getName(),m->getPassword());
 }
 
-void MainApp::modifyUser(User u)
+void MainApp::modifyUser(Student u)
 {
     DBM->ModifyUser(u.getID(),u.getName(),u.getGrade(),u.getClass(),u.getPassword());
 }
@@ -855,14 +855,14 @@ void MainApp::deleteManagerId(int a)
 
 void MainApp::outputUser()
 {
-    QList<User*> userList;
+    QList<Student*> userList;
 
     QSqlQuery query;
     query = DBM->SelectUser();
 
     while(query.next())
     {
-        User *userptr = new User;
+        Student *userptr = new Student;
         userptr->setID(query.value(0).toString());
         userptr->setName(query.value(1).toString());
         userptr->setGrade(query.value(2).toInt());
@@ -939,7 +939,7 @@ void MainApp::outputPaper()
 
 void MainApp::inputUser(QString path)
 {
-    QList<User*> userlist;
+    QList<Student*> userlist;
     userlist=IOM->inputUser(path);
     for(int i=0;i<userlist.count();i++)
         {

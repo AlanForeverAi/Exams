@@ -106,7 +106,7 @@ void ExamCtrlUI::datetimeUpdate()
     dateTimeEdit->setTime(QTime::currentTime());
 }
 
-void ExamCtrlUI::updateUserTable(QList<User *> userlist)
+void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
 {
     tableWidget_user->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_user->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽

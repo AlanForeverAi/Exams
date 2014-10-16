@@ -19,7 +19,7 @@ IOManager::~IOManager()
 {
 }
 
-void IOManager::outputUser(QList<User*> userlist)
+void IOManager::outputUser(QList<Student*> userlist)
  {
 
     QString filename;
@@ -60,9 +60,9 @@ void IOManager::outputUser(QList<User*> userlist)
 
 
 //以下为读取文件
- QList<User*> IOManager::inputUser(QString path)
+ QList<Student*> IOManager::inputUser(QString path)
  {
-       QList<User*> userlist;
+       QList<Student*> userlist;
 
    QFile inouput(path);
    if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
@@ -74,7 +74,7 @@ void IOManager::outputUser(QList<User*> userlist)
    qDebug()<<"this is title:"<<temp<<"\n";
    while(!in.atEnd())
    {
-       User* user=new User;
+       Student* user=new Student;
        temp=in.readLine();
 
 

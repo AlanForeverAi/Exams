@@ -77,7 +77,7 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
     emit this->getUserByPaperId(currentPaperid.toInt(),QString("已完成"));
 }
 
-void SubMarkUI::showUserByPaperId(QList<User*> ulist)
+void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
 {
     tableWidget_userInfo->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_userInfo->setRowCount(ulist.count());

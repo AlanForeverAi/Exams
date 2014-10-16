@@ -1,4 +1,4 @@
-#ifndef MEMBERMANAGEUI_H
+﻿#ifndef MEMBERMANAGEUI_H
 #define MEMBERMANAGEUI_H
 //
 #include <QWidget>
@@ -13,7 +13,7 @@ public:
     explicit MemberManageUI(QWidget *parent = 0);
     ~MemberManageUI();
 signals:
-    void addUser(User*);
+    void addUser(Student*);
     void addManager(Manager*);
     void deleteUserId(QString);
     void deleteManagerId(int);
@@ -24,12 +24,12 @@ private slots:
     void on_pushButton_delete_user_clicked();
     void on_pushButton_search_clicked();
     void on_pushButton_all_clicked();
-    void showUser(QList<User*>, QList<Manager *> );
+    void showUser(QList<Student*>, QList<Manager *> );
     void textClear();
 private:
-    QList<User*> userlist;
+    QList<Student*> userlist;
     QList<Manager*> managerlist;
-    QList<User*> usearchlist;
+    QList<Student*> usearchlist;
     QList<Manager*> msearchlist;
 
 };

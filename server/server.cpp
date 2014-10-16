@@ -109,7 +109,7 @@ void ClientSocket::readData()
 
     QVariant v;
     All_answers allans;
-    User u;
+    Student u;
     /*如果还没有块大小信息则尝试去读取*/
     if(totalBytes==0)
        {
@@ -179,7 +179,7 @@ void ClientSocket::send()
     /*写入信息类型*/
     out<<messageType;
     Paper p;
-    User u;
+    Student u;
     QString s;
     /*根据信息类型将信息还原成原来的数据类型并写入*/
     switch(messageType)
@@ -189,7 +189,7 @@ void ClientSocket::send()
         out<<s;
         break;
     case MSG_LOGIN:
-        u=data.value<User>();
+        u=data.value<Student>();
         out<<u;
         break;
     case MSG_GETPAPER:

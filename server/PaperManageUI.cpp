@@ -470,7 +470,7 @@ void PaperManageUI::clear()
 
 }
 
-void PaperManageUI::showAllUser(QList<User *> ulist, QList<Manager *> m)
+void PaperManageUI::showAllUser(QList<Student *> ulist, QList<Manager *> m)
 {
     if(userlist.isEmpty())
         {
@@ -493,7 +493,7 @@ void PaperManageUI::showAllUser(QList<User *> ulist, QList<Manager *> m)
      }
 }
 
-void PaperManageUI::showSelectUser(QList<User *> ulist)
+void PaperManageUI::showSelectUser(QList<Student *> ulist)
 {
     if(selectuserlist.isEmpty())
         {
