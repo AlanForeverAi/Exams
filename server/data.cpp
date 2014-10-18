@@ -515,3 +515,65 @@ QDataStream &operator <<(QDataStream &out,const Combo &c)
     out<<c.paperName<<c.obmark<<c.submark<<c.Paper_mark;
     return out;
 }
+
+
+Answers::Answers()
+{
+
+}
+
+Answers::~Answers()
+{
+
+}
+
+void Answers::setanswerId(int id)
+{
+    AnswerId = id;
+}
+
+void Answers::setpaperId(int id)
+{
+    PaperId = id;
+}
+
+int Answers::getanswerId()
+{
+    return AnswerId;
+}
+
+int Answers::getpaperId()
+{
+    return PaperId;
+}
+
+QString Answers::getstrudentId()
+{
+    return StudentId;
+}
+
+void Answers::setstudentId(int id){
+    AnswerId = id;
+}
+
+void SubAnswers::setsubAnswerslist(QVector<QString> answerList)
+{
+    SubAnswerslist = answerList;
+}
+
+QVector<QString> SubAnswers::getsubAnswerslist()
+{
+    return SubAnswerslist;
+}
+
+void ObAnswers::setobAnswer(QString answer)
+{
+    ObAnswer = answer;
+}
+
+QString ObAnswers::getobAnswer()
+{
+    return ObAnswer;
+}
+
+

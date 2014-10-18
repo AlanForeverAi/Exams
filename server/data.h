@@ -166,39 +166,38 @@ private:
     QString Title;
 };
 
-
 //答案基类
 class Answers{
 public:
   Answers();
-  void setAnswer_id(int);
-  void setPaper_id(int);
-  void setStudent_id(QString);
-  int getAnswer_id();
-  int getPaper_id();
-  QString getStrudent_id();
+  ~Answers();
+  void setanswerId(int id);
+  void setpaperId(int);
+  void setstudentId(QString);
+  int getanswerId();
+  int getpaperId();
+  QString getstrudentId();
 
 private:
-  int Answer_id;
-  int Paper_id;
-  QString Student_id;
+  int AnswerId;
+  int PaperId;
+  QString StudentId;
 };
 
 class SubAnswers : public Answers{
 public:
-  void setSUB_AnswersList(QVector<QString>);
-  QVector<QString>getSUB_AnswersList();
+  void setsubAnswerslist(QVector<QString>);
+  QVector<QString>getsubAnswerslist();
 private:
-  QVector<QString> SUB_AnswersList;
+  QVector<QString> SubAnswerslist;
 };
-
 
 class ObAnswers : public Answers{
 public:
-  void setOB_Answer(QString);
-  QString getOB_Answer();
+  void setobAnswer(QString);
+  QString getobAnswer();
 private:
-  QString OB_Answer;
+  QString ObAnswer;
 };
 
 //主观题答案。。。。
@@ -274,10 +273,18 @@ public:
     //一下两个list看着好不顺眼。。。。
     QList<Ob_questions> obList;
     QList<Sub_questions> subList;
+
+    /*
+     QList<Questions *> questionList;
+    */
 private:
     int Paper_id;
     QString Ob_qu_ids;
     QString Sub_qu_ids;
+
+    /*
+      QString questionsID;
+     */
     QString Description;
     int     Total_mark;
     int     Percent;
@@ -311,6 +318,8 @@ class All_answers
 };
 Q_DECLARE_METATYPE(All_answers)
 
+
+//
 class Combo ///用于成绩管理 包括了user paper papermark全部或者部分属性
 {
     friend QDataStream &operator <<(QDataStream &,const Combo &);
