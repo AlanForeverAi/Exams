@@ -41,7 +41,6 @@ private:
 Q_DECLARE_METATYPE(Student)
 
 //管理员。。。这个以后需要修改。。。。权限不正确。。。。通过用户ID判断是否管理员。。。。
-
 class USER{
 public:
     USER();
@@ -56,6 +55,7 @@ private:
     int Id;
     QString Name;
     QString Password;
+    int Type; //根据Type判断用户为管理员还是老师（还要判断老师类型）
 };
 
 class Manager
@@ -112,16 +112,23 @@ public:
 private:
     int id;
     QString Type; //科目
+    /*
+     int Type  //结合老师的类型（科目）来判断题目类型（科目）。。。
+     */
     QString Title;
     QString Answer;
 };
 
 class ObQuestions : public Questions {
-
+  /*
+   * 暂时还没考虑具体子类的结构。。。。
+   */
 };
 
 class SubQuestions : public Questions {
-
+  /*
+   * 暂时还没考虑具体子类的结构。。。。
+   */
 };
 
 //客观题
@@ -275,7 +282,7 @@ public:
     QList<Sub_questions> subList;
 
     /*
-     QList<Questions *> questionList;
+     QList<Questions *> questionList; //试卷的题目列表。。。。
     */
 private:
     int Paper_id;
@@ -304,22 +311,37 @@ class All_answers
         //下面的东西又又做死了。。。。
         void setObanswer(Ob_answers);
         void setSubanswer(Sub_answers);
+
+        /*
+         void setAnswer(Answers *); //设置答案
+         */
         void setPaperid(int);
         void setUserid(QString);
+
+        //下面的东西又又写死了
         Ob_answers getObanswer();
         Sub_answers getSubanswer();
+
+        /*
+          Answers* getAnswer(); //获取答案
+        */
         int getPaperid();
         QString getUserid();
     private:
+        //改进。。。。
         Ob_answers obanswer;
         Sub_answers subanswer;
+
+        /*
+          Answers * answer; //答案。。。
+        */
         int paperid;
         QString userid;
 };
 Q_DECLARE_METATYPE(All_answers)
 
 
-//
+//有必要包括所有属性么？
 class Combo ///用于成绩管理 包括了user paper papermark全部或者部分属性
 {
     friend QDataStream &operator <<(QDataStream &,const Combo &);
