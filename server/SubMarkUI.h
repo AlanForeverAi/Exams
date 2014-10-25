@@ -8,7 +8,7 @@
 
 class SubMarkUI : public QWidget,public Ui::SubMarkUI
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     explicit SubMarkUI(QWidget *parent = 0);
     ~SubMarkUI();
