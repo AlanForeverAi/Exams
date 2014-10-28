@@ -10,12 +10,11 @@ DBManager::DBManager(QString name, QString user, QString pw)
     db.setPassword("allen");                 //密码
 
     if(!db.open())
-        {
-            QMessageBox msg;
-            msg.setText(QString("连接数据库失败！"));
-            msg.exec();
-        }
-
+    {
+      QMessageBox msg;
+      msg.setText(QString("连接数据库失败！"));
+      msg.exec();
+    }
 }
 DBManager::~DBManager()
 {
@@ -120,6 +119,19 @@ QSqlQuery DBManager::SelectManager()
         ;
 }
 
+/*
+QSqlQuery DBManager::SelectManager()
+{
+    QSqlQuery query;
+    if( query.exec("select userid,name,password,type from serveruser"))
+        return query;
+    else
+        return query;
+        ;
+}
+*/
+
+
 void DBManager::InsertManager(int a,QString b,QString c)
 {
     QSqlQuery query;
@@ -129,8 +141,23 @@ void DBManager::InsertManager(int a,QString b,QString c)
     query.bindValue(":name", b);
     query.bindValue(":password",c);
     query.exec();
-        qDebug()<<query.lastError();
+    qDebug()<<query.lastError();
 }
+
+/*
+void DBManager::InsertManager(int a,QString b,QString c, int d)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO serveruser (userid,name,password,type) "
+                  "VALUES (:userid, :name, :password, :type)");
+    query.bindValue(":userid", a);
+    query.bindValue(":name", b);
+    query.bindValue(":password",c);
+    query.bindValue(":type",d)
+    query.exec();
+    qDebug()<<query.lastError();
+}
+*/
 
 void DBManager::DeleteManagerId(int a)
 {
@@ -142,6 +169,18 @@ void DBManager::DeleteManagerId(int a)
     query.exec();
 }
 
+/*
+void DBManager::DeleteManagerId(int a)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM serveruser where userid = (?)");
+    query.addBindValue(a);
+    if(!query.isValid())
+
+    query.exec();
+}
+ */
+
 void DBManager::DeleteManagerName(QString a)
 {
     QSqlQuery query;
@@ -151,6 +190,19 @@ void DBManager::DeleteManagerName(QString a)
 
     query.exec();
 }
+
+/*
+void DBManager::DeleteManagerName(QString a)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM serveruser where name = (?)");
+    query.addBindValue(a);
+    if(!query.isValid())
+
+    query.exec();
+}
+*/
+
 //插入客观题到数据库
 void DBManager::InserOb(int id,QString type,QString title,QString answer)
 {

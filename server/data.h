@@ -47,7 +47,6 @@ public:
     void setId(int);
     void setName(QString);
     void setPassword(QString);
-
     int getId();
     QString getName();
     QString getPassword();
