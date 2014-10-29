@@ -1,10 +1,13 @@
+#include <iostream>
+#include <QDebug>
+#include "data.h"
 #include "MainMenuUI.h"
 
 MainMenuUI::MainMenuUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-
+    //std::cout << "I'm" << Manager::GetInstance().getId() << std::endl;
 }
 
 void MainMenuUI::on_pushButton_question_clicked()

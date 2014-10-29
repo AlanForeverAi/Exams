@@ -109,6 +109,12 @@ QString Manager::getPassword()
     return Password;
 }
 
+Manager &Manager::GetInstance()
+{
+    static Manager manager;
+    return manager;
+}
+
 Sub_questions::Sub_questions()
 {
     qRegisterMetaTypeStreamOperators<Sub_questions>("Sub_questions");
@@ -576,4 +582,44 @@ QString ObAnswers::getobAnswer()
     return ObAnswer;
 }
 
+//USER function
+USER::USER()
+{
 
+}
+
+void USER::setId(int id)
+{
+    Id = id;
+}
+
+void USER::setName(QString name)
+{
+    Name = name;
+}
+
+void USER::setPassword(QString password)
+{
+    Password = password;
+}
+
+int USER::getId()
+{
+    return Id;
+}
+
+QString USER::getName()
+{
+    return Name;
+}
+
+QString USER::getPassword()
+{
+    return Password;
+}
+
+USER &USER::GetInstance()
+{
+    static USER user;
+    return user;
+}
