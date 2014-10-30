@@ -428,16 +428,16 @@ bool MainApp::userLogin(Student u)
             {
                 if(userList.at(i)->getID()==u.getID())
                     {
-                        if(userList.at(i)->getState()==QString("已经交卷"))
+                        if(userList.at(i)->getState()==QStringLiteral("已经交卷"))
                             {
-                                QString errorstring=QString("你已经交卷了");
+                                QString errorstring=QStringLiteral("你已经交卷了");
                                 v.setValue(errorstring);
                                 emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
                                 return false;
                             }
-                        if(userList.at(i)->getState()!=QString("未登录"))
+                        if(userList.at(i)->getState()!=QStringLiteral("未登录"))
                             {
-                                QString errorstring=QString("你已经登录了");
+                                QString errorstring=QStringLiteral("你已经登录了");
                                 v.setValue(errorstring);
                                 emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
                                 return false;
@@ -447,7 +447,7 @@ bool MainApp::userLogin(Student u)
                         userList.at(i)->setHostname(u.getHostname());
                         userList.at(i)->setSockDescriptor(u.getSockDescriptor());
 
-                        this->userStateChange(userList.at(i)->getSockDescriptor(),QString("等待"));
+                        this->userStateChange(userList.at(i)->getSockDescriptor(),QStringLiteral("等待"));
                         v.setValue(*userList.at(i));
 
                     }
@@ -459,7 +459,7 @@ bool MainApp::userLogin(Student u)
             }
         else
             {
-                QString errorstring=QString("你不能参加这个考试");
+                QString errorstring=QStringLiteral("你不能参加这个考试");
                 v.setValue(errorstring);
                 emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
                 return false;
@@ -468,7 +468,7 @@ bool MainApp::userLogin(Student u)
     }
     else
     {
-        QString errorstring=QString("用户名或密码错误");
+        QString errorstring=QStringLiteral("用户名或密码错误");
         v.setValue(errorstring);
         emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
         return false;
@@ -483,21 +483,23 @@ void MainApp::sendPaperTime(int descriptor,int time)
     emit this->sendData(descriptor,MSG_GETPAPER,v);
 }
 
+//登录验证。。。
 bool MainApp::managerLogin(Manager m)
 {
     QSqlQuery query=DBM->managerLogin(m.getId(),m.getPassword());
     if(query.size()>0)
     {
         emit this->LoginOK();
+
         return true;
     }
     else
-        {
+    {
         QMessageBox msg;
-        msg.setText(QString("用户名或密码错误"));
+        msg.setText(QStringLiteral("用户名或密码错误"));
         msg.exec();
         return false;
-        }
+     }
 }
 
 void MainApp::userStateChange(int descriptor, QString state)

@@ -1,2 +1,11 @@
 *.37550df
 *.autosave
+*.user
+*.user
+*.user
+server/Examsys.pro.user
+*.obj
+*.manifest
+*.rc
+*.res
+*.ilk

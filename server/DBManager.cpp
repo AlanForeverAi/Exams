@@ -592,6 +592,26 @@ QSqlQuery DBManager::managerLogin(int id ,QString password)
 
 }
 
+//转成serveruser数据库。。。
+/*
+QSqlQuery DBManager::managerLogin(int id ,QString password)
+{
+    QSqlQuery query;
+    QString s="select userid, name, type from serveruser where userid=%1 and password='%2' ";
+    if( query.exec(s.arg(id).arg(password)))
+      {
+          qDebug()<<query.lastError();
+          return query;
+      }
+    else
+      {
+        qDebug()<<query.lastError();
+        return query;
+    }
+
+}
+*/
+
 void DBManager::updatePaper_mark_obmark(QString obmark,int pid,QString uid)
 {
     QSqlQuery query;
