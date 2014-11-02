@@ -603,6 +603,11 @@ void USER::setPassword(QString password)
     Password = password;
 }
 
+void USER::setType(int type)
+{
+    Type = type;
+}
+
 int USER::getId()
 {
     return Id;

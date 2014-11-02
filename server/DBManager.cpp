@@ -574,6 +574,7 @@ QSqlQuery DBManager::Login(QString id ,QString password)
 
 }
 
+//serveruser登录
 QSqlQuery DBManager::managerLogin(int id ,QString password)
 {
     QSqlQuery query;
@@ -592,7 +593,7 @@ QSqlQuery DBManager::managerLogin(int id ,QString password)
 
 }
 
-//转成serveruser数据库。。。
+//转成serveruser数据库。。。验证成功的时候顺便把用户的设置用户的type。。。方便以后可以获得当前用户的信息。
 /*
 QSqlQuery DBManager::managerLogin(int id ,QString password)
 {
@@ -600,6 +601,7 @@ QSqlQuery DBManager::managerLogin(int id ,QString password)
     QString s="select userid, name, type from serveruser where userid=%1 and password='%2' ";
     if( query.exec(s.arg(id).arg(password)))
       {
+          USER::GetInstance().setType(query.value(2));
           qDebug()<<query.lastError();
           return query;
       }
@@ -611,7 +613,6 @@ QSqlQuery DBManager::managerLogin(int id ,QString password)
 
 }
 */
-
 void DBManager::updatePaper_mark_obmark(QString obmark,int pid,QString uid)
 {
     QSqlQuery query;

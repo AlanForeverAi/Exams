@@ -9,3 +9,5 @@ server/Examsys.pro.user
 *.rc
 *.res
 *.ilk
+*.user
+*.user

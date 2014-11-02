@@ -1,6 +1,7 @@
-#ifndef DBMANAGER_H
+﻿#ifndef DBMANAGER_H
 #define DBMANAGER_H
 #include<QtSql>
+#include "data.h"
 
 
 class DBManager:public QObject

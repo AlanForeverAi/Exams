@@ -490,7 +490,6 @@ bool MainApp::managerLogin(Manager m)
     if(query.size()>0)
     {
         emit this->LoginOK();
-
         return true;
     }
     else
