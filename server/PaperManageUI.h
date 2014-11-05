@@ -48,7 +48,7 @@ private slots:
     void showQuestions(QList<Ob_questions*>,QList<Sub_questions*>);
     void showAllPaper(QList<Paper*>);
     void showCurrentPaper(Paper);
-    void showAllUser(QList<Student*>,QList<Manager*>);
+    void showAllUser(QList<Student*>,QList<USER*>);
     void showSelectUser(QList<Student*>);
     void paperChange(QTableWidgetItem*);
     void typeChange(QString);

@@ -94,13 +94,13 @@ void MainApp::iniMainWindow()
     connect(&w,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
     connect(&w,SIGNAL(getUser()),this,SLOT(getUser()));//mainwindow发，mainapp收
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<Manager*>)),&w,SIGNAL(showUser(QList<Student*>,QList<Manager*>)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<USER*>)),&w,SIGNAL(showUser(QList<Student*>,QList<USER*>)));
     connect(&w,SIGNAL(addUser(Student*)),this,SLOT(addUser(Student *)));
-    connect(&w,SIGNAL(addManager(Manager*)),this,SLOT(addManager(Manager*)));
+    connect(&w,SIGNAL(addManager(USER*)),this,SLOT(addManager(USER*)));
     connect(&w,SIGNAL(deleteUserId(QString)),this,SLOT(deleteUserId(QString)));
     connect(&w,SIGNAL(deleteManagerId(int)),this,SLOT(deleteManagerId(int)));
     //login
-    connect(&w,SIGNAL(loginSignal(Manager)),this,SLOT(managerLogin(Manager)));
+    connect(&w,SIGNAL(loginSignal(USER)),this,SLOT(managerLogin(USER)));
     connect(this,SIGNAL(LoginOK()),&w,SLOT(LoginOK()));
     //scomem
     connect(&w,SIGNAL(getCombo_id(QString)),this,SLOT(getCombo_id(QString)));
@@ -484,7 +484,7 @@ void MainApp::sendPaperTime(int descriptor,int time)
 }
 
 //登录验证。。。
-bool MainApp::managerLogin(Manager m)
+bool MainApp::managerLogin(USER m)
 {
     QSqlQuery query=DBM->managerLogin(m.getId(),m.getPassword());
     if(query.size()>0)
@@ -788,7 +788,7 @@ void MainApp::getCombo_paperid(int id)
 void MainApp::getUser()
 {
     QList<Student*> userList;
-    QList<Manager*> managerList;
+    QList<USER*> managerList;
 
     QSqlQuery query;
     query = DBM->SelectUser();
@@ -808,7 +808,7 @@ void MainApp::getUser()
     query = DBM->SelectManager();
     while(query.next())
     {
-        Manager *managerptr = new Manager;
+        USER *managerptr = new USER;
         managerptr->setId(query.value(0).toInt());
         managerptr->setName(query.value(1).toString());
         managerptr->setPassword(query.value(2).toString());
@@ -834,7 +834,7 @@ void MainApp::addUser(Student *user)
                 user->getPassword());
 }
 
-void MainApp::addManager(Manager *m)
+void MainApp::addManager(USER *m)
 {
     DBM->InsertManager(m->getId(),m->getName(),m->getPassword());
 }

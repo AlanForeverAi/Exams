@@ -54,13 +54,13 @@ signals:
     void getSubAnswer(int,QString);
     void showSubAnswer(QVector<QString>);
     void submitSubMark(QStringList);
-    void loginSignal(Manager);
+    void loginSignal(USER);
     void getUser();/////
     void addUser(Student*);//////增加用户
-    void addManager(Manager *);
+    void addManager(USER *);
     void deleteUserId(QString);
     void deleteManagerId(int);
-    void showUser(QList<Student*>,QList<Manager*>);/////
+    void showUser(QList<Student*>,QList<USER*>);/////
     void getcurrentPaperTime(int);
     void sendPaperTime(int,int);
     void getCombo_id(QString);//根据userid 获得

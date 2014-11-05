@@ -470,7 +470,7 @@ void PaperManageUI::clear()
 
 }
 
-void PaperManageUI::showAllUser(QList<Student *> ulist, QList<Manager *> m)
+void PaperManageUI::showAllUser(QList<Student *> ulist, QList<USER *> m)
 {
     if(userlist.isEmpty())
         {
@@ -532,7 +532,7 @@ void PaperManageUI::on_pushButton_searchall_clicked()
                                 searchlist.append(userlist.at(i));
                         }
         }
-    QList<Manager*> l;//没用的，凑参数。。
+    QList<USER*> l;//没用的，凑参数。。
     this->showAllUser(searchlist,l);
 }
 
@@ -557,7 +557,7 @@ void PaperManageUI::on_pushButton_searchselect_clicked()
 
 void PaperManageUI::on_pushButton_all_1_clicked()
 {
-    QList<Manager*> l;//没用的，凑参数。。
+    QList<USER*> l;//没用的，凑参数。。
     this->showAllUser(userlist,l);
 }
 

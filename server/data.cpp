@@ -80,40 +80,43 @@ QDataStream &operator <<(QDataStream &out,const Student &user)
     return out;
 }
 
-Manager::Manager()
+//旧Managerde函数
+/*
+USER::USER()
 {
 
 }
-void Manager::setId(int i)
+void USER::setId(int i)
 {
     Id = i;
 }
-void Manager::setName(QString n)
+void USER::setName(QString n)
 {
     Name = n;
 }
-void Manager::setPassword(QString p)
+void USER::setPassword(QString p)
 {
     Password = p;
 }
-int Manager::getId()
+int USER::getId()
 {
     return Id;
 }
-QString Manager::getName()
+QString USER::getName()
 {
     return Name;
 }
-QString Manager::getPassword()
+QString USER::getPassword()
 {
     return Password;
 }
 
-Manager &Manager::GetInstance()
+USER &USER::GetInstance()
 {
-    static Manager manager;
+    static USER manager;
     return manager;
 }
+*/
 
 Sub_questions::Sub_questions()
 {
@@ -583,6 +586,7 @@ QString ObAnswers::getobAnswer()
 }
 
 //USER function
+
 USER::USER()
 {
 
@@ -605,7 +609,12 @@ void USER::setPassword(QString password)
 
 void USER::setType(int type)
 {
-    Type = type;
+  Type = type;
+}
+
+int USER::getType()
+{
+  return Type;
 }
 
 int USER::getId()

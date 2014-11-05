@@ -41,6 +41,7 @@ private:
 Q_DECLARE_METATYPE(Student)
 
 //管理员。。。这个以后需要修改。。。。权限不正确。。。。通过用户ID判断是否管理员。。。。
+
 class USER{
 public:
     USER();
@@ -60,6 +61,29 @@ private:
     int Type; //根据Type判断用户为管理员还是老师（还要判断老师类型）
 };
 
+/*
+class USER
+{
+public:
+    USER();
+    void setId(int);
+    void setName(QString);
+    void setPassword(QString);
+
+    int getId();
+    QString getName();
+    QString getPassword();
+
+    static USER& GetInstance();
+
+private:
+    int Id;
+    QString Name;
+    QString Password;
+
+};
+*/
+/*
 class Manager
 {
 public:
@@ -80,7 +104,7 @@ private:
     QString Password;
 
 };
-
+*/
 /*
 class Teacher {
 public:

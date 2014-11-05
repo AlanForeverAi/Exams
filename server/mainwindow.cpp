@@ -63,7 +63,7 @@ void MainWindow::do_makepaper()
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
     connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),make_paper,SLOT(showSelectUser(QList<Student*>)));
     connect(make_paper,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)));
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<Manager*>)),make_paper,SLOT(showAllUser(QList<Student*>,QList<Manager*>)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<USER*>)),make_paper,SLOT(showAllUser(QList<Student*>,QList<USER*>)));
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
@@ -112,10 +112,10 @@ void MainWindow::do_subscore()
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<Manager*>)),mem_Manage,SLOT(showUser(QList<Student*>,QList<Manager*>)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<USER*>)),mem_Manage,SLOT(showUser(QList<Student*>,QList<USER*>)));
     connect(mem_Manage,SIGNAL(addUser(Student*)),this,SIGNAL(addUser(Student*)));
     connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
-    connect(mem_Manage,SIGNAL(addManager(Manager*)),this,SIGNAL(addManager(Manager*)));
+    connect(mem_Manage,SIGNAL(addManager(USER*)),this,SIGNAL(addManager(USER*)));
     connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
     connect(mem_Manage,SIGNAL(deleteUserId(QString)),this,SIGNAL(deleteUserId(QString)));
     connect(mem_Manage->pushButton_delete_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
@@ -130,7 +130,7 @@ void MainWindow::do_memmanage()
 void MainWindow::do_login()
 {
     LoginUI *loginPage=new LoginUI;
-    connect(loginPage,SIGNAL(loginSignal(Manager)),this,SIGNAL(loginSignal(Manager)));
+    connect(loginPage,SIGNAL(loginSignal(USER)),this,SIGNAL(loginSignal(USER)));
     this->setCentralWidget(loginPage);
     statusbar->showMessage(QString("登录"));
 }

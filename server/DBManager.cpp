@@ -110,7 +110,6 @@ void DBManager::DeleteUserName(QString a)
 /*
  *改用serveruser数据库。。。
  */
-/*
 QSqlQuery DBManager::SelectManager()
 {
     QSqlQuery query;
@@ -119,7 +118,19 @@ QSqlQuery DBManager::SelectManager()
     else
         return query;
 }
-
+void DBManager::InsertManager(int a,QString b,QString c)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO serveruser (userid, name,password) "
+                  "VALUES (:teacherid, :name, :password)");
+    query.bindValue(":teacherid", a);
+    query.bindValue(":name", b);
+    query.bindValue(":password",c);
+    query.exec();
+    qDebug()<<query.lastError();
+}
+//下面的插入管理员函数需要修改UI使得支持用户类型。。所以暂时使用原来不带用户类型的函数
+/*
 void DBManager::InsertManager(int a,QString b,QString c, int d)
 {
     QSqlQuery query;
@@ -132,6 +143,7 @@ void DBManager::InsertManager(int a,QString b,QString c, int d)
     query.exec();
     qDebug()<<query.lastError();
 }
+*/
 
 void DBManager::DeleteManagerId(int a)
 {
@@ -152,10 +164,10 @@ void DBManager::DeleteManagerName(QString a)
 
     query.exec();
 }
-*/
 
 ///////////////////////////////////////////////
 //查询manager表的所有数据
+/*
 QSqlQuery DBManager::SelectManager()
 {
     QSqlQuery query;
@@ -196,6 +208,7 @@ void DBManager::DeleteManagerName(QString a)
 
     query.exec();
 }
+*/
 
 //插入客观题到数据库
 void DBManager::InserOb(int id,QString type,QString title,QString answer)
@@ -575,33 +588,13 @@ QSqlQuery DBManager::Login(QString id ,QString password)
 }
 
 //serveruser登录
-QSqlQuery DBManager::managerLogin(int id ,QString password)
-{
-    QSqlQuery query;
-    QString s="select * from manager where teacherid=%1 and password='%2' ";
-
-    if( query.exec(s.arg(id).arg(password)))
-      {
-          qDebug()<<query.lastError();
-          return query;
-      }
-    else
-      {
-        qDebug()<<query.lastError();
-        return query;
-    }
-
-}
-
-//转成serveruser数据库。。。验证成功的时候顺便把用户的设置用户的type。。。方便以后可以获得当前用户的信息。
 /*
 QSqlQuery DBManager::managerLogin(int id ,QString password)
 {
     QSqlQuery query;
-    QString s="select userid, name, type from serveruser where userid=%1 and password='%2' ";
+    QString s="select * from manager where teacherid=%1 and password='%2' ";
     if( query.exec(s.arg(id).arg(password)))
       {
-          USER::GetInstance().setType(query.value(2));
           qDebug()<<query.lastError();
           return query;
       }
@@ -613,6 +606,25 @@ QSqlQuery DBManager::managerLogin(int id ,QString password)
 
 }
 */
+//转成serveruser数据库。。。验证成功的时候顺便把用户的设置用户的type。。。方便以后可以获得当前用户的信息。
+QSqlQuery DBManager::managerLogin(int id ,QString password)
+{
+    QSqlQuery query;
+    QString s="select userid, name, type from serveruser where userid=%1 and password='%2' ";
+    if( query.exec(s.arg(id).arg(password)))
+    {
+        USER::GetInstance().setType(query.value(2).toInt());
+        qDebug()<<query.lastError();
+        return query;
+    }
+    else
+    {
+        qDebug()<<query.lastError();
+        return query;
+    }
+
+}
+
 void DBManager::updatePaper_mark_obmark(QString obmark,int pid,QString uid)
 {
     QSqlQuery query;

@@ -11,7 +11,7 @@ public:
     explicit LoginUI(QWidget *parent = 0);
 
 signals:
-    void loginSignal(Manager);
+    void loginSignal(USER);
 public slots:
     void on_pushButton_login_clicked();
 };

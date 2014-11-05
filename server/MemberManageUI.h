@@ -14,7 +14,7 @@ public:
     ~MemberManageUI();
 signals:
     void addUser(Student*);
-    void addManager(Manager*);
+    void addManager(USER*);
     void deleteUserId(QString);
     void deleteManagerId(int);
 
@@ -24,13 +24,13 @@ private slots:
     void on_pushButton_delete_user_clicked();
     void on_pushButton_search_clicked();
     void on_pushButton_all_clicked();
-    void showUser(QList<Student*>, QList<Manager *> );
+    void showUser(QList<Student*>, QList<USER *> );
     void textClear();
 private:
     QList<Student*> userlist;
-    QList<Manager*> managerlist;
+    QList<USER*> managerlist;
     QList<Student*> usearchlist;
-    QList<Manager*> msearchlist;
+    QList<USER*> msearchlist;
 
 };
 

@@ -10,7 +10,7 @@ MemberManageUI::~MemberManageUI()
 {
 }
 
-void MemberManageUI::showUser(QList<Student *> userList,QList<Manager *> managerList)
+void MemberManageUI::showUser(QList<Student *> userList,QList<USER *> managerList)
 {
     if(userlist.isEmpty())
         userlist=userList;
@@ -69,7 +69,7 @@ void MemberManageUI::on_pushButton_add_user_clicked()
     }
     else if(tabWidget->currentIndex()==1)
     {
-        Manager *managerptr = new Manager;
+        USER *managerptr = new USER;
         managerptr->setId(lineEdit_managerId->text().toInt());
         managerptr->setName(lineEdit_managerName->text());
         managerptr->setPassword(lineEdit_managerPwd->text());
