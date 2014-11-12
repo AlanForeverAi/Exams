@@ -198,7 +198,7 @@ void MainApp::getQuestions()
     QList<Ob_questions*> obList;
     QList<Sub_questions*> subList;
     QSqlQuery query;
-    query=DBM->SelectOb_questions();
+    query=DBM->SelectobQuestions();
 
         while(query.next())
         {
@@ -211,7 +211,7 @@ void MainApp::getQuestions()
         }
 
         query.clear();
-        query=DBM->SelectSub_questions();
+        query=DBM->SelectsubQuestions();
         while(query.next())
         {
             Sub_questions *sub_que=new Sub_questions;
@@ -236,22 +236,22 @@ void MainApp::addSub_Questions(Sub_questions *s_que)
 
 void MainApp::modifyOb_Questoins(Ob_questions *o_que)
 {
-    DBM->AlterOb_questions(o_que->getOb_id(),o_que->getType(),o_que->getTitle(),o_que->getAnswer());
+    DBM->AlterobQuestions(o_que->getOb_id(),o_que->getType(),o_que->getTitle(),o_que->getAnswer());
 }
 
 void MainApp::modifySub_Questoins(Sub_questions *s_que)
 {
-    DBM->AlterSub_questions(s_que->getSub_id(),s_que->getType(),s_que->getTitle());
+    DBM->AltersubQuestions(s_que->getSub_id(),s_que->getType(),s_que->getTitle());
 }
 
 void MainApp::deleteOb_Questoins(int id)
 {
-    DBM->DeleteOb_questions(id);
+    DBM->DeleteobQuestions(id);
 }
 
 void MainApp::deleteSub_Questoins(int id)
 {
-    DBM->DeleteSub_questions(id);
+    DBM->DeletesubQuestions(id);
 }
 
 void MainApp::addPaper(Paper paper)
@@ -343,7 +343,7 @@ Paper MainApp::preparePaper(int id)
     paper.setTime(query.value(6).toInt());
     query.clear();
 
-    query=DBM->SelectOb_questions();
+    query=DBM->SelectobQuestions();
         while(query.next())
         {
             if(paper.getOb_qu_ids().indexOf(query.value(0).toString())>=0)
@@ -360,7 +360,7 @@ Paper MainApp::preparePaper(int id)
         }
 
         query.clear();
-        query=DBM->SelectSub_questions();
+        query=DBM->SelectsubQuestions();
         while(query.next())
         {
             if(paper.getSub_qu_ids().indexOf(query.value(0).toString())>=0)
@@ -486,7 +486,7 @@ void MainApp::sendPaperTime(int descriptor,int time)
 //登录验证。。。
 bool MainApp::managerLogin(USER m)
 {
-    QSqlQuery query=DBM->managerLogin(m.getId(),m.getPassword());
+    QSqlQuery query=DBM->ManagerLogin(m.getId(),m.getPassword());
     if(query.size()>0)
     {
         emit this->LoginOK();
@@ -532,13 +532,13 @@ void MainApp::removeUser(int descriptor)
 void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 {
 
-    bool isdelete=DBM->deletePapermark(pid);
+    bool isdelete=DBM->DeletePapermark(pid);
     QMessageBox msg;
         for(int i=0;i<ulist.count();i++)
             {
-               if(DBM->InserPaper_mark(NULL,NULL,NULL,pid,ulist.at(i)->getID())){
-                DBM->InserOb_answers(pid,ulist.at(i)->getID(),NULL);
-                DBM->InserSub_answers(pid,ulist.at(i)->getID());
+               if(DBM->InserpaperMark(NULL,NULL,NULL,pid,ulist.at(i)->getID())){
+                DBM->InserobAnswers(pid,ulist.at(i)->getID(),NULL);
+                DBM->InsersubAnswers(pid,ulist.at(i)->getID());
 
             }else{
                    QString name=ulist.at(i)->getName();
@@ -555,7 +555,7 @@ void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 
 void MainApp::dealObAnswers(Ob_answers obans)
 {
-    DBM->updateOb_answers(obans.getPaper_id(),obans.getStudent_id(),obans.getAnswers());
+    DBM->UpdateobAnswers(obans.getPaper_id(),obans.getStudent_id(),obans.getAnswers());
 
     QString ans_string=obans.getAnswers();
     QStringList ansList;
@@ -581,7 +581,7 @@ void MainApp::dealObAnswers(Ob_answers obans)
 
         obMarkString.append(",");
     }
-   DBM->updatePaper_mark_obmark(obMarkString,obans.getPaper_id(),obans.getStudent_id());
+   DBM->UpdatepaperMarkObmark(obMarkString,obans.getPaper_id(),obans.getStudent_id());
 }
 
 void MainApp::dealSubAnswers(Sub_answers subans)
@@ -589,15 +589,15 @@ void MainApp::dealSubAnswers(Sub_answers subans)
 
     for(int i=0;i<subans.getSubanslist().count();i++)
     {
-            DBM->updateSub_answers(subans.getPaper_id(),subans.getStudent_id(),i+1,subans.getSubanslist().at(i));
+            DBM->UpdatesubAnswers(subans.getPaper_id(),subans.getStudent_id(),i+1,subans.getSubanslist().at(i));
     }
-    DBM->updatePapermark_done(QDate::currentDate().toString(),subans.getPaper_id(),subans.getStudent_id());
+    DBM->UpdatepapermarkDone(QDate::currentDate().toString(),subans.getPaper_id(),subans.getStudent_id());
 }
 
 void MainApp::submitSubMark(QStringList submark)
 {
-    DBM->updatePaper_mark_Submark(submark.at(2),submark.at(0).toInt(),submark.at(1));
-    QSqlQuery query=DBM->SearchPaper_mark(submark.at(0).toInt(),submark.at(1));
+    DBM->UpdatepaperMarkSubmark(submark.at(2),submark.at(0).toInt(),submark.at(1));
+    QSqlQuery query=DBM->SearchpaperMark(submark.at(0).toInt(),submark.at(1));
     query.next();
     int totalmark=0;
     QString ob=query.value(0).toString();
@@ -614,12 +614,12 @@ void MainApp::submitSubMark(QStringList submark)
         totalmark+=sub.mid(temp,sub.indexOf(",",temp)-temp).toInt();
         temp=sub.indexOf(",",temp)+1;
     }
-    DBM->updatePaper_mark_totalmark(totalmark,submark.at(0).toInt(),submark.at(1));
+    DBM->UpdatepaperMarkTotalmark(totalmark,submark.at(0).toInt(),submark.at(1));
 }
 
 QList<Student*> MainApp::getUserByPaperId(int id,QString state)
 {
-    QSqlQuery query=DBM->Query_papermark1(id);
+    QSqlQuery query=DBM->QueryPapermark1(id);
     QList<Student*> ulist;
     while(query.next())
         {
@@ -651,7 +651,7 @@ void MainApp::getSubAnswer(int pid,QString uid)
     // sub.resize(2*sub_ids.count(","));
 
      query.clear();
-     query=DBM->SelectSub_questions();
+     query=DBM->SelectsubQuestions();
      while(query.next())
          {
              if(sub_ids.indexOf(query.value(0).toString())>=0)
@@ -660,7 +660,7 @@ void MainApp::getSubAnswer(int pid,QString uid)
              }
          }
      query.clear();
-     query=DBM->QuerySub_answers(pid,uid);
+     query=DBM->QuerysubAnswers(pid,uid);
      query.next();
      int m=2;
      int count=sub.size();
@@ -677,7 +677,7 @@ void MainApp::getSubAnswer(int pid,QString uid)
   {
       QList <Combo*> comboList;
       QSqlQuery query;
-      query = DBM->Query_papermark2(a);
+      query = DBM->QueryPapermark2(a);
 
       QSqlQuery s = DBM->SelectUserId(a);
       QString temp;
@@ -733,7 +733,7 @@ void MainApp::getCombo_paperid(int id)
 {
     QList <Combo*> comboList;
     QSqlQuery query;
-    query = DBM->Query_papermark1(id);
+    query = DBM->QueryPapermark1(id);
 
     QSqlQuery s = DBM->SelectPaperById(id);
     QString temp;
@@ -834,6 +834,7 @@ void MainApp::addUser(Student *user)
                 user->getPassword());
 }
 
+//serveruser用户添加
 void MainApp::addManager(USER *m)
 {
     DBM->InsertManager(m->getId(),m->getName(),m->getPassword());
@@ -881,7 +882,7 @@ void MainApp::outputOb()
 {
     QList<Ob_questions*> obList;
     QSqlQuery query;
-    query=DBM->SelectOb_questions();
+    query=DBM->SelectobQuestions();
         while(query.next())
         {
             Ob_questions *ob_que=new Ob_questions;
@@ -900,7 +901,7 @@ void MainApp::outputOb()
 void MainApp::outputSub()
 {
     QList<Sub_questions*> subList;
-    QSqlQuery query=DBM->SelectSub_questions();
+    QSqlQuery query=DBM->SelectsubQuestions();
     while(query.next())
     {
         Sub_questions *sub_que=new Sub_questions;
@@ -1018,7 +1019,7 @@ void MainApp::sendInfo(QStringList list)
 }
 
 void MainApp::delete_score(int pid,qlonglong uid){
-   if(DBM->delete_score(pid,uid)){
+   if(DBM->DeleteScore(pid,uid)){
    QMessageBox msg;
    msg.setText("删除成功");
    msg.exec();

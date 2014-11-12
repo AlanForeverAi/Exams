@@ -80,44 +80,6 @@ QDataStream &operator <<(QDataStream &out,const Student &user)
     return out;
 }
 
-//旧Managerde函数
-/*
-USER::USER()
-{
-
-}
-void USER::setId(int i)
-{
-    Id = i;
-}
-void USER::setName(QString n)
-{
-    Name = n;
-}
-void USER::setPassword(QString p)
-{
-    Password = p;
-}
-int USER::getId()
-{
-    return Id;
-}
-QString USER::getName()
-{
-    return Name;
-}
-QString USER::getPassword()
-{
-    return Password;
-}
-
-USER &USER::GetInstance()
-{
-    static USER manager;
-    return manager;
-}
-*/
-
 Sub_questions::Sub_questions()
 {
     qRegisterMetaTypeStreamOperators<Sub_questions>("Sub_questions");
@@ -584,8 +546,6 @@ QString ObAnswers::getobAnswer()
 {
     return ObAnswer;
 }
-
-//USER function
 
 USER::USER()
 {

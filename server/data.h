@@ -40,8 +40,7 @@ private:
 };
 Q_DECLARE_METATYPE(Student)
 
-//管理员。。。这个以后需要修改。。。。权限不正确。。。。通过用户ID判断是否管理员。。。。
-
+//管理员。。。通过用户ID判断是否管理员。。。。
 class USER{
 public:
     USER();
@@ -61,67 +60,6 @@ private:
     int Type; //根据Type判断用户为管理员还是老师（还要判断老师类型）
 };
 
-/*
-class USER
-{
-public:
-    USER();
-    void setId(int);
-    void setName(QString);
-    void setPassword(QString);
-
-    int getId();
-    QString getName();
-    QString getPassword();
-
-    static USER& GetInstance();
-
-private:
-    int Id;
-    QString Name;
-    QString Password;
-
-};
-*/
-/*
-class Manager
-{
-public:
-    Manager();
-    void setId(int);
-    void setName(QString);
-    void setPassword(QString);
-
-    int getId();
-    QString getName();
-    QString getPassword();
-
-    static Manager& GetInstance();
-
-private:
-    int Id;
-    QString Name;
-    QString Password;
-
-};
-*/
-/*
-class Teacher {
-public:
-  Teacher();\
-  void setID(int);
-  void setName(QString);
-  void setPasswod(QString);
-
-  int getID();
-  QString getName();
-  QString getPassword();
-private:
-  int ID;
-  QString Name;
-  QString Password;
-};
-*/
 /*
  * 参考设计模式，修改？设置问题基类，方便以后添加新的题型。。。。。但是如何解决判断题目的类型。。。设计模式。。。
   */
