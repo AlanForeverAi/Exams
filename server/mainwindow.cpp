@@ -286,12 +286,14 @@ void MainWindow::LoginOK()
     ui->action_config->setEnabled(true);
     ui->action_inoutput->setEnabled(true);
     */
-    if(USER::GetInstance().getType() == 1){
+    if(USER::GetInstance().getType() == 1)
+    {
         ui->action_memmanager->setEnabled(true);
         ui->action_config->setEnabled(true);
 
     }
-    else{
+    else
+    {
         ui->action_examctrl->setEnabled(true);
         ui->action_makepaper->setEnabled(true);
         ui->action_scomanage->setEnabled(true);

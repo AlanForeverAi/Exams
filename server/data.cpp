@@ -2,7 +2,7 @@
 
 Student::Student()
 {
-     qRegisterMetaTypeStreamOperators<Student>("User");
+    qRegisterMetaTypeStreamOperators<Student>("User");
 }
 void Student::setID(QString id)
 {
@@ -185,27 +185,27 @@ QDataStream &operator <<(QDataStream &out,const Paper &p)
 }
 int Paper::getPaper_id()
 {
- return Paper_id;
+    return Paper_id;
 }
 QString Paper::getOb_qu_ids()
 {
- return Ob_qu_ids;
+    return Ob_qu_ids;
 }
 QString Paper::getSub_qu_ids()
 {
- return Sub_qu_ids;
+    return Sub_qu_ids;
 }
 QString Paper::getDescription()
 {
- return Description;
+    return Description;
 }
 int Paper::getTotal_mark()
 {
- return Total_mark;
+    return Total_mark;
 }
 int Paper::getPercent()
 {
- return Percent;
+    return Percent;
 }
 int Paper::getTime()
 {
@@ -217,27 +217,27 @@ QString Paper::getDate()
 }
 void Paper::setPaper_id(int id )
 {
-   Paper_id=id;
+    Paper_id=id;
 }
 void Paper::setOb_qu_ids(QString id )
 {
-   Ob_qu_ids=id;
+    Ob_qu_ids=id;
 }
 void Paper::setSub_qu_ids(QString id )
 {
-   Sub_qu_ids=id;
+    Sub_qu_ids=id;
 }
 void Paper::setDescription(QString description )
 {
-   Description=description;
+    Description=description;
 }
 void Paper::setTotal_mark(int mark )
 {
-   Total_mark=mark;
+    Total_mark=mark;
 }
 void Paper::setPercent(int percent )
 {
-   Percent=percent;
+    Percent=percent;
 }
 void Paper::setTime(int t)
 {
@@ -264,23 +264,23 @@ QDataStream &operator <<(QDataStream &out,const Ob_questions &ob)
 }
 int Ob_questions::getOb_id()
 {
- return Ob_id;
+    return Ob_id;
 }
 QString Ob_questions::getType()
 {
- return Type;
+    return Type;
 }
 QString Ob_questions::getTitle()
 {
- return Title;
+    return Title;
 }
 QString Ob_questions::getAnswer()
 {
- return Answer;
+    return Answer;
 }
 void Ob_questions::setOb_id(int id)
 {
- Ob_id=id;
+    Ob_id=id;
 }
 void Ob_questions::setType(QString t)
 {
@@ -288,11 +288,11 @@ void Ob_questions::setType(QString t)
 }
 void Ob_questions::setTitle(QString title)
 {
- Title=title;
+    Title=title;
 }
 void Ob_questions::setAnswer(QString answer)
 {
- Answer=answer;
+    Answer=answer;
 }
 
 Ob_answers::Ob_answers()
@@ -301,35 +301,35 @@ Ob_answers::Ob_answers()
 }
 int Ob_answers::getOb_an_id()
 {
- return Ob_an_id;
+    return Ob_an_id;
 }
 int Ob_answers::getPaper_id()
 {
- return Paper_id;
+    return Paper_id;
 }
 QString Ob_answers::getStudent_id()
 {
- return Student_id;
+    return Student_id;
 }
 QString Ob_answers::getAnswers()
 {
- return Answers;
+    return Answers;
 }
 void Ob_answers::setOb_an_id(int id)
 {
- Ob_an_id=id;
+    Ob_an_id=id;
 }
 void Ob_answers::setPaper_id(int id)
 {
- Paper_id=id;
+    Paper_id=id;
 }
 void Ob_answers::setStudent_id(QString id)
 {
- Student_id=id;
+    Student_id=id;
 }
 void Ob_answers::setAnswers(QString answers)
 {
- Answers=answers;
+    Answers=answers;
 }
 QDataStream &operator >>(QDataStream &in,Ob_answers &ob)
 {
@@ -523,7 +523,8 @@ QString Answers::getstrudentId()
     return StudentId;
 }
 
-void Answers::setstudentId(int id){
+void Answers::setstudentId(int id)
+{
     AnswerId = id;
 }
 
@@ -569,12 +570,12 @@ void USER::setPassword(QString password)
 
 void USER::setType(int type)
 {
-  Type = type;
+    Type = type;
 }
 
 int USER::getType()
 {
-  return Type;
+    return Type;
 }
 
 int USER::getId()

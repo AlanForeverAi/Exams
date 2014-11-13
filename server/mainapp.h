@@ -4,7 +4,8 @@
 #include "mainwindow.h"
 #include "server.h"
 #include "IOManager.h"
-enum ServerState{
+enum ServerState
+{
     STATE_NOEXAM,
     STATE_PAPERREADY,
     STATE_EXAMING
@@ -12,7 +13,7 @@ enum ServerState{
 
 class MainApp : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     MainApp();
     ~MainApp();

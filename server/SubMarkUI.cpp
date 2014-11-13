@@ -25,7 +25,7 @@ void SubMarkUI::showPapers(QList<Paper *> pList)
     tableWidget_paper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_paper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_paper->setRowCount(pList.count());
-    for(int i=0;i<pList.count();i++)
+    for(int i=0; i<pList.count(); i++)
     {
 
         QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaper_id()));
@@ -43,35 +43,35 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 
     currentPaperid=tableWidget_paper->item(item->row(),0)->text();
 
-    for(int i=0;i<paperList.count();i++)
+    for(int i=0; i<paperList.count(); i++)
+    {
+        if(paperList.at(i)->getPaper_id()==currentPaperid.toInt())
         {
-            if(paperList.at(i)->getPaper_id()==currentPaperid.toInt())
-                {
 
-                    int obnumber=paperList.at(i)->getOb_qu_ids().count(",");
-                    int subnumber=paperList.at(i)->getSub_qu_ids().count(",");
+            int obnumber=paperList.at(i)->getOb_qu_ids().count(",");
+            int subnumber=paperList.at(i)->getSub_qu_ids().count(",");
 
-                    QTableWidgetItem* id=new QTableWidgetItem(QString::number(paperList.at(i)->getPaper_id()));
-                    QTableWidgetItem* description=new QTableWidgetItem(paperList.at(i)->getDescription());
-                    QTableWidgetItem* obn=new QTableWidgetItem(QString::number(obnumber));
-                    QTableWidgetItem* subn=new QTableWidgetItem(QString::number(subnumber));
+            QTableWidgetItem* id=new QTableWidgetItem(QString::number(paperList.at(i)->getPaper_id()));
+            QTableWidgetItem* description=new QTableWidgetItem(paperList.at(i)->getDescription());
+            QTableWidgetItem* obn=new QTableWidgetItem(QString::number(obnumber));
+            QTableWidgetItem* subn=new QTableWidgetItem(QString::number(subnumber));
 
-                    tableWidget_examInfo->setItem(0,0,id);
-                    tableWidget_examInfo->setItem(1,0,description);
-                    tableWidget_examInfo->setItem(2,0,obn);
-                    tableWidget_examInfo->setItem(3,0,subn);
+            tableWidget_examInfo->setItem(0,0,id);
+            tableWidget_examInfo->setItem(1,0,description);
+            tableWidget_examInfo->setItem(2,0,obn);
+            tableWidget_examInfo->setItem(3,0,subn);
 
-                    int mark=0;
-                    if(subnumber)
-                        mark=paperList.at(i)->getTotal_mark()*(100-paperList.at(i)->getPercent())/100/subnumber;
-                    lineEdit_mark->setText(QString::number(mark));
+            int mark=0;
+            if(subnumber)
+                mark=paperList.at(i)->getTotal_mark()*(100-paperList.at(i)->getPercent())/100/subnumber;
+            lineEdit_mark->setText(QString::number(mark));
 
-                    QIntValidator *validator = new QIntValidator(0,mark,this);//0-mark值之间的整数验证器
-                    lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
+            QIntValidator *validator = new QIntValidator(0,mark,this);//0-mark值之间的整数验证器
+            lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
 
 
-                }
         }
+    }
     pushButton_Pre->setEnabled(false);
     pushButton_Next->setEnabled(false);
     emit this->getUserByPaperId(currentPaperid.toInt(),QString("已完成"));
@@ -81,7 +81,7 @@ void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
 {
     tableWidget_userInfo->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_userInfo->setRowCount(ulist.count());
-    for(int i=0;i<ulist.count();i++)
+    for(int i=0; i<ulist.count(); i++)
     {
 
         QTableWidgetItem *id=new QTableWidgetItem(ulist.at(i)->getID());
@@ -90,9 +90,9 @@ void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
         QTableWidgetItem *clas=new QTableWidgetItem(QString::number(ulist.at(i)->getClass()));
         QTableWidgetItem *state=new QTableWidgetItem(ulist.at(i)->getState());
         if(state->text()==QString("未批改"))
-            {
-                state->setTextColor(QColor("red"));
-            }
+        {
+            state->setTextColor(QColor("red"));
+        }
         tableWidget_userInfo->setItem(i,0,id);
         tableWidget_userInfo->setItem(i,1,name);
         tableWidget_userInfo->setItem(i,2,grade);
@@ -129,20 +129,20 @@ void SubMarkUI::on_pushButton_Pre_clicked()
 {
     submark.replace(subNo,lineEdit_GotMark->text());
     if(subNo-1>=0)
-        {
-            subNo--;
-            this->showCurrentAnswer(subNo);
-        }
+    {
+        subNo--;
+        this->showCurrentAnswer(subNo);
+    }
 }
 
 void SubMarkUI::on_pushButton_Next_clicked()
 {
     submark.replace(subNo,lineEdit_GotMark->text());
     if(subNo+1<sub.size()/2)
-        {
-            subNo++;
-            this->showCurrentAnswer(subNo);
-        }
+    {
+        subNo++;
+        this->showCurrentAnswer(subNo);
+    }
 }
 
 void SubMarkUI::showCurrentAnswer(int n)
@@ -156,7 +156,7 @@ void SubMarkUI::showCurrentAnswer(int n)
 
     if(n>0&&n<sub.size()/2)
         pushButton_Pre->setEnabled(true);
-        pushButton_Next->setEnabled(true);
+    pushButton_Next->setEnabled(true);
     if(n+1==sub.size()/2)
         pushButton_Next->setEnabled(false);
     if(n==0)
@@ -172,11 +172,11 @@ void SubMarkUI::on_pushButton_submit_clicked()
 
 
     QString mark;
-    for(int i=0;i<submark.size();i++)
-        {
-            mark.append(submark.at(i));
-            mark.append(",");
-        }
+    for(int i=0; i<submark.size(); i++)
+    {
+        mark.append(submark.at(i));
+        mark.append(",");
+    }
     QStringList list;
     list.append(currentPaperid);
     list.append(currentUserid);

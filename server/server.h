@@ -37,7 +37,7 @@ private:
 /*服务器线程类，每一个实例对应一个连接*/
 class ServerThread : public QThread
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     ServerThread(int descriptor,QObject *parent);
     void run();
@@ -58,7 +58,7 @@ private:
 /*服务器类*/
 class Server : public QTcpServer
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     Server(QObject *parent = 0,int port=0);
 signals:

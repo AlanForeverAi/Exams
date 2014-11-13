@@ -11,9 +11,9 @@ DBManager::DBManager(QString name, QString user, QString pw)
 
     if(!db.open())
     {
-      QMessageBox msg;
-      msg.setText(QString("连接数据库失败！"));
-      msg.exec();
+        QMessageBox msg;
+        msg.setText(QString("连接数据库失败！"));
+        msg.exec();
     }
 }
 DBManager::~DBManager()
@@ -31,9 +31,9 @@ QSqlQuery DBManager::SelectUser()
         return query;
     else
     {
-       // return NULL;
+        // return NULL;
         qDebug()<<query.lastError();
-     }
+    }
 }
 
 QSqlQuery DBManager::SelectUserId(QString a)
@@ -94,7 +94,7 @@ void DBManager::DeleteUserId(QString a)
     query.addBindValue(a);
     if(!query.isValid())
 
-    query.exec();
+        query.exec();
 }
 //根据name删除用户
 void DBManager::DeleteUserName(QString a)
@@ -104,7 +104,7 @@ void DBManager::DeleteUserName(QString a)
     query.addBindValue(a);
     if(!query.isValid())
 
-    query.exec();
+        query.exec();
 }
 
 /*
@@ -152,7 +152,7 @@ void DBManager::DeleteManagerId(int a)
     query.addBindValue(a);
     if(!query.isValid())
 
-    query.exec();
+        query.exec();
 }
 
 void DBManager::DeleteManagerName(QString a)
@@ -162,7 +162,7 @@ void DBManager::DeleteManagerName(QString a)
     query.addBindValue(a);
     if(!query.isValid())
 
-    query.exec();
+        query.exec();
 }
 
 ///////////////////////////////////////////////
@@ -233,7 +233,7 @@ void DBManager::InserSub(int id,QString type,QString title)
 
     QSqlQuery query;
     query.prepare("INSERT INTO subquestions (subid,title,type) " "VALUES ( ?,?, ?)");
-   // query.prepare("INSERT INTO subquestions (subid,mark,title,type) " "VALUES ( ?,?, ?)");
+    // query.prepare("INSERT INTO subquestions (subid,mark,title,type) " "VALUES ( ?,?, ?)");
     query.addBindValue(id);
     query.addBindValue(title);
     query.addBindValue(type);
@@ -253,7 +253,7 @@ QSqlQuery DBManager::SelectobQuestions()
         return query;
     else
         return query;
-        ;
+    ;
 }
 
 
@@ -265,7 +265,7 @@ QSqlQuery DBManager::SelectsubQuestions()
         return query;
     else
         return query;
-        ;
+    ;
 }
 //按ID找到记录把在问题表和答案表内的该记录一并删除（客观题）
 void DBManager::DeleteobQuestions(int id)
@@ -286,12 +286,7 @@ void DBManager::DeletesubQuestions(int id)
 
     QSqlQuery query;
 
-     query.exec(QString("DELETE FROM subquestions WHERE subid = %1").arg(id));
-
-     //query.exec(QString("DELETE FROM obanswers WHERE suanid = %1").arg(id));
-
-
-
+    query.exec(QString("DELETE FROM subquestions WHERE subid = %1").arg(id));
     query.exec();
     qDebug()<<query.lastError();
 
@@ -344,13 +339,13 @@ QSqlQuery DBManager::SelectPaperById(int id)
     QSqlQuery query;
     QString s="SELECT * FROM paper WHERE paperid=%1";
     if( query.exec(s.arg(id)))
-      {
-          qDebug()<<query.lastError();
-          return query;
+    {
+        qDebug()<<query.lastError();
+        return query;
 
-      }
+    }
     else
-      {
+    {
         qDebug()<<query.lastError();
         return query;
     }
@@ -364,7 +359,7 @@ QSqlQuery DBManager::SelectPaper()
         return query;
     else
         return query;
-;
+    ;
 
 }
 
@@ -393,16 +388,10 @@ void DBManager::AlterPaper(int id,QString obids, QString subids, int total, int 
 void DBManager::InserobAnswers(int fpaperid,QString studentid,QString answers)
 {
     QSqlQuery query;
-
     query.prepare("INSERT INTO obanswers (fpaperid,studentid,answers) " "VALUES (?,?,?)");
-
-
     query.addBindValue(fpaperid);
     query.addBindValue(studentid);
     query.addBindValue(answers);
-
-
-
     query.exec();
 
     qDebug()<<query.lastError();
@@ -414,7 +403,7 @@ void DBManager::UpdateobAnswers(int pid, QString uid, QString ans)
     QSqlQuery query;
     query.exec(s.arg(ans).arg(pid).arg(uid));
 
-   qDebug()<< query.lastError();
+    qDebug()<< query.lastError();
 
 }
 
@@ -438,7 +427,7 @@ void DBManager::UpdatesubAnswers(int pid, QString uid, int index, QString answer
     QSqlQuery query;
     query.exec(s.arg(index).arg(answer).arg(pid).arg(uid));
 
-   qDebug()<< query.lastError();
+    qDebug()<< query.lastError();
 }
 
 //把学生某张试卷的成绩插入试卷成绩表
@@ -458,7 +447,13 @@ bool DBManager::InserpaperMark(QString obqumark,QString subqumark,int totalmark,
 
     query.exec();
     if (query.numRowsAffected()>0)
-      {return true;}else{return false;}
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
     qDebug()<<query.lastError();
 
 }
@@ -466,35 +461,20 @@ bool DBManager::InserpaperMark(QString obqumark,QString subqumark,int totalmark,
 
 bool DBManager::DeletePapermark(int pid)
 {
-        QSqlQuery query;
+    QSqlQuery query;
 
-        query.exec(QString("DELETE FROM papermark WHERE fpaperid= %1 and done='%2'").arg(pid).arg(QString("未完成")));
-        if (query.numRowsAffected()>0)
-                              {return true;}else{return false;}
-        query.exec();
-        qDebug()<<query.lastError();
-    }
-    /*QSqlQuery query;
-    query.exec(QString("SELECT * FROM papermark WHERE fpaperid=%1").arg(pid));
-    query.first();
-    int ok=0;
-    query.first();
-    while(query.isActive())
+    query.exec(QString("DELETE FROM papermark WHERE fpaperid= %1 and done='%2'").arg(pid).arg(QString("未完成")));
+    if (query.numRowsAffected()>0)
     {
-    QString str=query.value(5).toString();
-    if(str=="未完成"){
-                   qlonglong fuserid=query.value(4).toLongLong();
-                   query.exec(QString("DELETE FROM papermark WHERE fpaperid= %1 and fuserid=%2 and done='%3'").arg(pid).arg(fuserid).arg(QString("未完成")));
-                   qDebug()<<fuserid;
-                   qDebug()<<query.at();
-                   qDebug()<<query.numRowsAffected();
-
-                  // if (query.numRowsAffected()>0)
-                    //  {return 1;}else{return 0;}}
-              // else{return 0;}
-} query.next();}
-    query.exec();return true;}*/
-
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+    query.exec();
+    qDebug()<<query.lastError();
+}
 
 QSqlQuery DBManager::SearchpaperMark(int pid, QString uid)
 {
@@ -502,13 +482,13 @@ QSqlQuery DBManager::SearchpaperMark(int pid, QString uid)
     QString s="SELECT * FROM papermark WHERE fpaperid=%1 and fuserid=%2 ";
 
     if( query.exec(s.arg(pid).arg(uid)))
-      {
-          qDebug()<<query.lastQuery();
-          qDebug()<<query.lastError();
-          return query;
-      }
+    {
+        qDebug()<<query.lastQuery();
+        qDebug()<<query.lastError();
+        return query;
+    }
     else
-      {
+    {
         qDebug()<<query.lastError();
         return query;
     }
@@ -519,13 +499,13 @@ QSqlQuery DBManager::QueryPapermark1(int id)
     QSqlQuery query;
     QString s="SELECT * FROM papermark inner join user on user.userid=papermark.fuserid WHERE fpaperid=%1";
     if( query.exec(s.arg(id)))
-      {
-          qDebug()<<query.lastError();
-          return query;
+    {
+        qDebug()<<query.lastError();
+        return query;
 
-      }
+    }
     else
-      {
+    {
         qDebug()<<query.lastError();
         return query;
     }
@@ -539,13 +519,13 @@ QSqlQuery DBManager::QueryPapermark2(QString id)
     QSqlQuery query;
     QString s="SELECT * FROM papermark WHERE fuserid=%1";
     if( query.exec(s.arg(id)))
-      {
-          qDebug()<<query.lastError();
-          return query;
+    {
+        qDebug()<<query.lastError();
+        return query;
 
-      }
+    }
     else
-      {
+    {
         qDebug()<<query.lastError();
         return query;
     }
@@ -556,7 +536,6 @@ QSqlQuery DBManager::QuerysubAnswers(int fpaperid,QString studentid)
 {
 
     QSqlQuery query;
-
     query.exec(QString("SELECT * FROM subanswers WHERE fpaperid=%1 and studentid='%2' ").arg(fpaperid).arg(studentid));
     qDebug()<<query.lastQuery();
     qDebug()<<query.lastError();
@@ -574,12 +553,12 @@ QSqlQuery DBManager::Login(QString id ,QString password)
     QString s="SELECT * FROM user WHERE userid=%1 and password='%2' ";
 
     if( query.exec(s.arg(id).arg(password)))
-      {
-          qDebug()<<query.lastError();
-          return query;
-      }
+    {
+        qDebug()<<query.lastError();
+        return query;
+    }
     else
-      {
+    {
         qDebug()<<query.lastError();
         return query;
     }
@@ -655,30 +634,30 @@ void DBManager::UpdatepapermarkDone(QString date,int pid,QString uid)
 
 int DBManager::DeleteScore(int pid,qlonglong uid)
 {
-   QSqlQuery query;
-   int rowsaffected=0;
-   QString s="delete FROM papermark WHERE fpaperid='%1' and fuserid='%2'";
-   query.exec(s.arg(pid).arg(uid));
-   //qDebug()<<s<<pid<<"\t"<<uid;
-   qDebug()<<query.lastQuery();
-   qDebug()<<query.lastError();
+    QSqlQuery query;
+    int rowsaffected=0;
+    QString s="DELETE FROM papermark WHERE fpaperid='%1' and fuserid='%2'";
+    query.exec(s.arg(pid).arg(uid));
+    //qDebug()<<s<<pid<<"\t"<<uid;
+    qDebug()<<query.lastQuery();
+    qDebug()<<query.lastError();
     qDebug()<<"rowsaffected:"<<query.numRowsAffected();
-   rowsaffected=query.numRowsAffected()+ rowsaffected;
-   QString r="delete FROM obanswers WHERE fpaperid='%1' and studentid='%2'";
-   query.exec(r.arg(pid).arg(uid));
-   //qDebug()<<r;
-   qDebug()<<query.lastQuery();
-   qDebug()<<query.lastError();
+    rowsaffected=query.numRowsAffected()+ rowsaffected;
+    QString r="DELETE FROM obanswers WHERE fpaperid='%1' and studentid='%2'";
+    query.exec(r.arg(pid).arg(uid));
+    //qDebug()<<r;
+    qDebug()<<query.lastQuery();
+    qDebug()<<query.lastError();
     qDebug()<<"rowsaffected:"<<query.numRowsAffected();
-   rowsaffected=query.numRowsAffected()+ rowsaffected;
-   QString t="delete FROM subanswers WHERE fpaperid='%1' and studentid='%2'";
-   query.exec(t.arg(pid).arg(uid));
-   rowsaffected=query.numRowsAffected()+ rowsaffected;
-  // qDebug()<<t;
-   qDebug()<<query.lastQuery();
-   qDebug()<<query.lastError();
-   qDebug()<<"rowsaffected:"<<query.numRowsAffected()<<rowsaffected;
-   return rowsaffected;
+    rowsaffected=query.numRowsAffected()+ rowsaffected;
+    QString t="DELETE FROM subanswers WHERE fpaperid='%1' and studentid='%2'";
+    query.exec(t.arg(pid).arg(uid));
+    rowsaffected=query.numRowsAffected()+ rowsaffected;
+    // qDebug()<<t;
+    qDebug()<<query.lastQuery();
+    qDebug()<<query.lastError();
+    qDebug()<<"rowsaffected:"<<query.numRowsAffected()<<rowsaffected;
+    return rowsaffected;
 }
 
 

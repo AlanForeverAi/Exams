@@ -29,7 +29,7 @@ void ExamCtrlUI::showPapers(QList<Paper*> pList)
     tableWidget_paper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_paper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_paper->setRowCount(pList.count());
-    for(int i=0;i<pList.count();i++)
+    for(int i=0; i<pList.count(); i++)
     {
 
         QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaper_id()));
@@ -46,16 +46,16 @@ void ExamCtrlUI::showPapers(QList<Paper*> pList)
 void ExamCtrlUI::on_pushButton_begin_clicked()
 {
 
-        QMessageBox::about(this,"msg",QString("考试已经开始，请不要关闭程序，在结束之前都不能切换到其他页面。"));
+    QMessageBox::about(this,"msg",QString("考试已经开始，请不要关闭程序，在结束之前都不能切换到其他页面。"));
 
-       pushButton_begin->setEnabled(false);
-       pushButton_back->setEnabled(false);
-       pushButton_end->setEnabled(true);
-       pushButton_send->setEnabled(false);
-       tableWidget_paper->setEnabled(false);
-       counttimer->start(1000);
+    pushButton_begin->setEnabled(false);
+    pushButton_back->setEnabled(false);
+    pushButton_end->setEnabled(true);
+    pushButton_send->setEnabled(false);
+    tableWidget_paper->setEnabled(false);
+    counttimer->start(1000);
 
-       label_state->setText(QString("考试进行中"));
+    label_state->setText(QString("考试进行中"));
 
 }
 
@@ -65,21 +65,20 @@ void ExamCtrlUI::on_pushButton_end_clicked()
     msg.setText(QString("将要结束考试，并强制所有学生提交答案\n是否继续？"));
     int ret=msg.exec();
     if(ret==QMessageBox::Ok)
-        {
-            pushButton_send->setEnabled(true);
-            pushButton_begin->setEnabled(true);
-            pushButton_end->setEnabled(false);
-            pushButton_back->setEnabled(true);
-            tableWidget_paper->setEnabled(true);
-            counttimer->stop();
-
-            emit this->endExam();
-            label_state->setText(QString("考试已经结束"));
-        }
+    {
+        pushButton_send->setEnabled(true);
+        pushButton_begin->setEnabled(true);
+        pushButton_end->setEnabled(false);
+        pushButton_back->setEnabled(true);
+        tableWidget_paper->setEnabled(true);
+        counttimer->stop();
+        emit this->endExam();
+        label_state->setText(QString("考试已经结束"));
+    }
     else
-        {
-            return;
-        }
+    {
+        return;
+    }
 }
 
 void ExamCtrlUI::counttimeUpdate()
@@ -111,7 +110,7 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
     tableWidget_user->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_user->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
     tableWidget_user->setRowCount(userlist.count());
-    for(int i=0;i<userlist.count();i++)
+    for(int i=0; i<userlist.count(); i++)
     {
 
         QTableWidgetItem *hostname=new QTableWidgetItem(userlist.at(i)->getHostname());
@@ -121,9 +120,9 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
         QTableWidgetItem *clas=new QTableWidgetItem(QString::number(userlist.at(i)->getClass()));
         QTableWidgetItem *state=new QTableWidgetItem(userlist.at(i)->getState());
         if(state->text()==QString("未登录"))
-            {
-                state->setTextColor(QColor("red"));
-            }
+        {
+            state->setTextColor(QColor("red"));
+        }
         tableWidget_user->setItem(i,0,hostname);
         tableWidget_user->setItem(i,1,id);
         tableWidget_user->setItem(i,2,username);
@@ -134,13 +133,13 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
 
     int numberlogin=0;
     int numbersubmit=0;
-    for(int i=0;i<userlist.count();i++)
-        {
-            if(userlist.at(i)->getState()!=QString("未登录"))
-                numberlogin++;
-            if(userlist.at(i)->getState()==QString("已经交卷"))
-                numbersubmit++;
-        }
+    for(int i=0; i<userlist.count(); i++)
+    {
+        if(userlist.at(i)->getState()!=QString("未登录"))
+            numberlogin++;
+        if(userlist.at(i)->getState()==QString("已经交卷"))
+            numbersubmit++;
+    }
     label_usercount->setText(QString("共有%1名学生    已登录%2人  已交卷%3人")
                              .arg(userlist.count())
                              .arg(numberlogin)
@@ -150,14 +149,14 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
 void ExamCtrlUI::on_pushButton_send_clicked()
 {
     if(tableWidget_paper->currentRow()>=0)
-        {
-            label_name->setText(tableWidget_paper->item(tableWidget_paper->currentRow(),1)->text());
-            int time=tableWidget_paper->item(tableWidget_paper->currentRow(),2)->text().toInt();
-            counttime.setHMS(time/60,time%60,0);
-            timeEdit_papertime->setTime(counttime);
-            int paperid= tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
-            emit this->sendPaper(paperid);
-        }
+    {
+        label_name->setText(tableWidget_paper->item(tableWidget_paper->currentRow(),1)->text());
+        int time=tableWidget_paper->item(tableWidget_paper->currentRow(),2)->text().toInt();
+        counttime.setHMS(time/60,time%60,0);
+        timeEdit_papertime->setTime(counttime);
+        int paperid= tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
+        emit this->sendPaper(paperid);
+    }
     else
     {
         QMessageBox::about(this,"msg",QString("请选择一个试卷"));

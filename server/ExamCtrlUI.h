@@ -30,9 +30,9 @@ private slots:
     void on_pushButton_end_clicked();
     void getcurrentPaperTime(int);
 private:
-     QTimer *counttimer;
-     QTimer *datetimer;
-     QTime counttime;
+    QTimer *counttimer;
+    QTimer *datetimer;
+    QTime counttime;
 
 };
 

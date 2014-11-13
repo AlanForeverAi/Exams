@@ -87,15 +87,11 @@ private:
 };
 
 class ObQuestions : public Questions {
-  /*
-   * 暂时还没考虑具体子类的结构。。。。
-   */
+  // 暂时还没考虑具体子类的结构。。。。
 };
 
 class SubQuestions : public Questions {
-  /*
-   * 暂时还没考虑具体子类的结构。。。。
-   */
+  // 暂时还没考虑具体子类的结构。。。。
 };
 
 //客观题
@@ -143,35 +139,35 @@ private:
 //答案基类
 class Answers{
 public:
-  Answers();
-  ~Answers();
-  void setanswerId(int id);
-  void setpaperId(int);
-  void setstudentId(int);
-  int getanswerId();
-  int getpaperId();
-  QString getstrudentId();
+    Answers();
+    ~Answers();
+    void setanswerId(int id);
+    void setpaperId(int);
+    void setstudentId(int);
+    int getanswerId();
+    int getpaperId();
+    QString getstrudentId();
 
 private:
-  int AnswerId;
-  int PaperId;
-  QString StudentId;
+    int AnswerId;
+    int PaperId;
+    QString StudentId;
 };
 
 class SubAnswers : public Answers{
 public:
-  void setsubAnswerslist(QVector<QString>);
-  QVector<QString>getsubAnswerslist();
+    void setsubAnswerslist(QVector<QString>);
+    QVector<QString>getsubAnswerslist();
 private:
-  QVector<QString> SubAnswerslist;
+    QVector<QString> SubAnswerslist;
 };
 
 class ObAnswers : public Answers{
 public:
-  void setobAnswer(QString);
-  QString getobAnswer();
+    void setobAnswer(QString);
+    QString getobAnswer();
 private:
-  QString ObAnswer;
+    QString ObAnswer;
 };
 
 //主观题答案。。。。
@@ -273,37 +269,37 @@ class All_answers
 {
     friend QDataStream &operator <<(QDataStream &,const All_answers &);
     friend QDataStream &operator >>(QDataStream &,All_answers &);
-    public:
-        All_answers();
-        //下面的东西又又做死了。。。。
-        void setObanswer(Ob_answers);
-        void setSubanswer(Sub_answers);
+public:
+    All_answers();
+    //下面的东西又又做死了。。。。
+    void setObanswer(Ob_answers);
+    void setSubanswer(Sub_answers);
 
-        /*
-         void setAnswer(Answers *); //设置答案
-         */
-        void setPaperid(int);
-        void setUserid(QString);
+    /*
+        void setAnswer(Answers *); //设置答案
+    */
+    void setPaperid(int);
+    void setUserid(QString);
 
-        //下面的东西又又写死了
-        Ob_answers getObanswer();
-        Sub_answers getSubanswer();
+    //下面的东西又又写死了
+    Ob_answers getObanswer();
+    Sub_answers getSubanswer();
 
-        /*
-          Answers* getAnswer(); //获取答案
-        */
-        int getPaperid();
-        QString getUserid();
-    private:
-        //改进。。。。
-        Ob_answers obanswer;
-        Sub_answers subanswer;
+    /*
+         Answers* getAnswer(); //获取答案
+    */
+    int getPaperid();
+    QString getUserid();
+private:
+    //改进。。。。
+    Ob_answers obanswer;
+    Sub_answers subanswer;
 
-        /*
-          Answers * answer; //答案。。。
-        */
-        int paperid;
-        QString userid;
+     /*
+         Answers * answer; //答案。。。
+     */
+    int paperid;
+    QString userid;
 };
 Q_DECLARE_METATYPE(All_answers)
 

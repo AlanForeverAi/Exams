@@ -14,7 +14,7 @@ Server::Server(QObject *parent, int port): QTcpServer(parent)
         qDebug("server start fail!");
         exit(2);
     }
-        qDebug("server start!");
+    qDebug("server start!");
 }
 
 /*新连接进入处理函数*/
@@ -40,29 +40,29 @@ void Server::incomingConnection(int socketDescriptor)
 /*接收到线程发出的连接断开信号后，在线程数组中查找该线程并移除*/
 void Server::clientDisconnect(int descriptor)
 {
-    for (int i=0;i<threadList.count();i++)
+    for (int i=0; i<threadList.count(); i++)
+    {
+        if(threadList.at(i)->Descriptor()==descriptor)
         {
-            if(threadList.at(i)->Descriptor()==descriptor)
-            {
-                threadList.at(i)->exit();
-                threadList.removeAt(i);
-                emit removeUser(descriptor);
-                return;
-            }
+            threadList.at(i)->exit();
+            threadList.removeAt(i);
+            emit removeUser(descriptor);
+            return;
         }
+    }
 }
 
 /*ServerThread构造函数*/
- ServerThread::ServerThread(int descriptor, QObject *parent):QThread(parent)
+ServerThread::ServerThread(int descriptor, QObject *parent):QThread(parent)
 {
     m_descriptor=descriptor;
 }
 
 /*告诉server套接字为m_descriptor的连接已经断开*/
- void ServerThread::threadFinished()
- {
-     emit this->disconnect(m_descriptor);
- }
+void ServerThread::threadFinished()
+{
+    emit this->disconnect(m_descriptor);
+}
 
 /*返回套接字描述符*/
 int ServerThread::Descriptor()
@@ -76,11 +76,11 @@ void ServerThread::run()
     socket=new ClientSocket;
     /*用ServerThread保存的套接字描述符初始化套接字*/
     if(!socket->setSocketDescriptor(m_descriptor))
-        {
-            qDebug("socket create fail!");
-            this->finished();
-            return;
-        }
+    {
+        qDebug("socket create fail!");
+        this->finished();
+        return;
+    }
     /*连接消息发送信号*/
     connect(this,SIGNAL(sendData(int,qint32,QVariant)),
             socket,SLOT(sendData(int,qint32,QVariant)));
@@ -112,13 +112,13 @@ void ClientSocket::readData()
     Student u;
     /*如果还没有块大小信息则尝试去读取*/
     if(totalBytes==0)
-       {
-           /*如果缓存区中可读数据的大小小于块大小信息的大小则返回*/
-           if(this->bytesAvailable()<sizeof(qint32))
+    {
+        /*如果缓存区中可读数据的大小小于块大小信息的大小则返回*/
+        if(this->bytesAvailable()<sizeof(qint32))
             return;
-           /*写入块大小信息*/
+        /*写入块大小信息*/
         in>>totalBytes;
-       }
+    }
     /*如果缓存区可读信息的大小小于块大小则返回*/
     if(this->bytesAvailable()<totalBytes)
         return;
@@ -146,9 +146,9 @@ void ClientSocket::readData()
         v.setValue(allans);
         break;
     case MSG_ANSWERSINGLE:
-            in>>allans;
-            v.setValue(allans);
-            break;
+        in>>allans;
+        v.setValue(allans);
+        break;
     }
     /*将块大小信息重置为0，准备接收下一个数据块*/
     totalBytes=0;

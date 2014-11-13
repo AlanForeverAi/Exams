@@ -6,7 +6,7 @@ class IOManager:public QObject
     Q_OBJECT
 public:
     IOManager();
-   ~IOManager();
+    ~IOManager();
 
     void outputUser(QList<Student*>);
     QList<Student*> inputUser(QString);
