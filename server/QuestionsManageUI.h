@@ -13,10 +13,10 @@ public:
 
 
 signals:
-    void addOb_Questoins(Ob_questions*);
-    void addSub_Questoins(Sub_questions*);
-    void modifyOb_Questoins(Ob_questions*);
-    void modifySub_Questoins(Sub_questions*);
+    void addOb_Questoins(ObQuestions*);
+    void addSub_Questoins(SubQuestions*);
+    void modifyOb_Questoins(ObQuestions*);
+    void modifySub_Questoins(SubQuestions*);
     void deleteOb_Questoins(int);
     void deleteSub_Questoins(int);
 
@@ -30,7 +30,7 @@ private slots:
     void on_Button_addtype_clicked();
     void showCurrentQue(QTableWidgetItem*);
     void textClear();
-    void showQuestions(QList<Ob_questions*>,QList<Sub_questions*>);
+    void showQuestions(QList<ObQuestions*>,QList<SubQuestions*>);
 private:
     QStringList typelist;
     int mode;

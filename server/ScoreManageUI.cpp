@@ -28,7 +28,7 @@ void ScoreManageUI::showPapers(QList<Paper *> pList)
     for(int i=0;i<pList.count();i++)
     {
 
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaper_id()));
+        QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaperId()));
         QTableWidgetItem *description=new QTableWidgetItem(pList.at(i)->getDescription());
         tableWidget_paper->setItem(i,0,id);
         tableWidget_paper->setItem(i,1,description);
@@ -53,13 +53,13 @@ void ScoreManageUI::showCombo(QList<Combo *> combolist)
     for(int i=0;i<combolist.count();++i)
     {
 
-        QTableWidgetItem *u_id=new QTableWidgetItem(combolist.at(i)->getUser_id());
+        QTableWidgetItem *u_id=new QTableWidgetItem(combolist.at(i)->getUserId());
         QTableWidgetItem *u_name=new QTableWidgetItem(combolist.at(i)->getName());
         QTableWidgetItem *u_grade=new QTableWidgetItem(QString::number(combolist.at(i)->getGrade()));
         QTableWidgetItem *u_class=new QTableWidgetItem(QString::number(combolist.at(i)->getClass()));
 
-        QTableWidgetItem *paper_id=new QTableWidgetItem(QString::number(combolist.at(i)->getPaper_id()));
-        QTableWidgetItem *paper_mark=new QTableWidgetItem(QString::number(combolist.at(i)->getPaper_mark()));
+        QTableWidgetItem *paper_id=new QTableWidgetItem(QString::number(combolist.at(i)->getPaperId()));
+        QTableWidgetItem *paper_mark=new QTableWidgetItem(QString::number(combolist.at(i)->getPaperMark()));
         QTableWidgetItem *obmark=new QTableWidgetItem(QString::number(combolist.at(i)->getObmark()));
         QTableWidgetItem *submark=new QTableWidgetItem(QString::number(combolist.at(i)->getSubMark()));
         QTableWidgetItem *papername=new QTableWidgetItem(combolist.at(i)->getPaperName());

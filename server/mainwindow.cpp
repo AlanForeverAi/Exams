@@ -32,11 +32,11 @@ void MainWindow::do_QuestionsManager()
 {
 
     QuestionsManageUI *queManager = new QuestionsManageUI();
-    connect(this,SIGNAL(showQuestions(QList<Ob_questions*>,QList<Sub_questions*>)),queManager,SLOT(showQuestions(QList<Ob_questions*>,QList<Sub_questions*>)));
-    connect(queManager,SIGNAL(addOb_Questoins(Ob_questions*)),this,SIGNAL(addOb_Questoins(Ob_questions*)));
-    connect(queManager,SIGNAL(addSub_Questoins(Sub_questions*)),this,SIGNAL(addSub_Questoins(Sub_questions*)));
-    connect(queManager,SIGNAL(modifyOb_Questoins(Ob_questions*)),this,SIGNAL(modifyOb_Questoins(Ob_questions*)));
-    connect(queManager,SIGNAL(modifySub_Questoins(Sub_questions*)),this,SIGNAL(modifySub_Questoins(Sub_questions*)));
+    connect(this,SIGNAL(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)),queManager,SLOT(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)));
+    connect(queManager,SIGNAL(addOb_Questoins(ObQuestions*)),this,SIGNAL(addOb_Questoins(ObQuestions*)));
+    connect(queManager,SIGNAL(addSub_Questoins(SubQuestions*)),this,SIGNAL(addSub_Questoins(SubQuestions*)));
+    connect(queManager,SIGNAL(modifyOb_Questoins(ObQuestions*)),this,SIGNAL(modifyOb_Questoins(ObQuestions*)));
+    connect(queManager,SIGNAL(modifySub_Questoins(SubQuestions*)),this,SIGNAL(modifySub_Questoins(SubQuestions*)));
     connect(queManager->Button_Save,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
     connect(queManager->Button_delete,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
     connect(queManager,SIGNAL(deleteOb_Questoins(int)),this,SIGNAL(deleteOb_Questoins(int)));
@@ -54,7 +54,7 @@ void MainWindow::do_QuestionsManager()
 void MainWindow::do_makepaper()
 {
     PaperManageUI *make_paper = new PaperManageUI();
-    connect(this,SIGNAL(showQuestions(QList<Ob_questions*>,QList<Sub_questions*>)),make_paper,SLOT(showQuestions(QList<Ob_questions*>,QList<Sub_questions*>)));
+    connect(this,SIGNAL(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)),make_paper,SLOT(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)));
     connect(make_paper,SIGNAL(addPaper(Paper)),this,SIGNAL(addPaper(Paper)));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
     connect(make_paper->pushButton_AddorMoidfy,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));

@@ -140,13 +140,13 @@ void IOManager::outputPaper(QList<Paper*> paperlist)
     for(int i=0; i<paperlist.count(); ++i)
     {
         out<<QString("试卷ID ");
-        out<<paperlist.at(i)->getPaper_id()<<"\n";
+        out<<paperlist.at(i)->getPaperId()<<"\n";
         out<<QString("客观题ID ");
-        out<<paperlist.at(i)->getOb_qu_ids()<<"\n";
+        out<<paperlist.at(i)->getObQuIds()<<"\n";
         out<<QString("主观题ID ");
-        out<<paperlist.at(i)->getSub_qu_ids()<<"\n";
+        out<<paperlist.at(i)->getSubQuIds()<<"\n";
         out<<QString("总分 ");
-        out<<paperlist.at(i)->getTotal_mark()<<"\n";
+        out<<paperlist.at(i)->getTotalMark()<<"\n";
         out<<QString("客观题分数比例 ");
         out<<paperlist.at(i)->getPercent()<<"\n";
         out<<QString("试卷名称 ");
@@ -211,7 +211,7 @@ QList<Paper*> IOManager::inputPaper(QString path)
 
 
 //以下为obquestions表写入文件
-void IOManager::outputOb(QList<Ob_questions*> obquestionlist)
+void IOManager::outputOb(QList<ObQuestions*> obquestionlist)
 {
     QString filename;
     filename.append(QString("data/客观题信息_"));
@@ -224,7 +224,7 @@ void IOManager::outputOb(QList<Ob_questions*> obquestionlist)
     for(int i=0; i<obquestionlist.count(); ++i)
     {
         out<<"obid ";
-        out<<obquestionlist.at(i)->getOb_id()<<"\n";
+        out<<obquestionlist.at(i)->getObId()<<"\n";
         out<<"title ";
         out<<obquestionlist.at(i)->getTitle()<<"\n";
         out<<"answer ";
@@ -238,9 +238,9 @@ void IOManager::outputOb(QList<Ob_questions*> obquestionlist)
 
 
 //以下为obquestions表读取文件
-QList<Ob_questions*> IOManager::inputOb(QString path)
+QList<ObQuestions*> IOManager::inputOb(QString path)
 {
-    QList<Ob_questions*> oblist;
+    QList<ObQuestions*> oblist;
 
     QFile inouput(path);
     if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
@@ -250,10 +250,10 @@ QList<Ob_questions*> IOManager::inputOb(QString path)
 
     while(!in.atEnd())
     {
-        Ob_questions* obquestions=new Ob_questions;
+        ObQuestions* obquestions=new ObQuestions;
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        obquestions->setOb_id(temp.toInt());
+        obquestions->setObId(temp.toInt());
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
@@ -272,7 +272,7 @@ QList<Ob_questions*> IOManager::inputOb(QString path)
 //以上为obquestions表读取文件
 
 //以下为subquestions表写入文件
-void IOManager::outputSub(QList<Sub_questions*> subquestionlist)
+void IOManager::outputSub(QList<SubQuestions*> subquestionlist)
 {
     QString filename;
     filename.append(QString("data/主观题信息_"));
@@ -285,7 +285,7 @@ void IOManager::outputSub(QList<Sub_questions*> subquestionlist)
     for(int i=0; i<subquestionlist.count(); ++i)
     {
         out<<"subid ";
-        out<<subquestionlist.at(i)->getSub_id()<<"\n";
+        out<<subquestionlist.at(i)->getsubId()<<"\n";
         out<<"title ";
         out<<subquestionlist.at(i)->getTitle()<<"\n";
 
@@ -295,9 +295,9 @@ void IOManager::outputSub(QList<Sub_questions*> subquestionlist)
 //以上为subquestions表写入文件
 
 //以下为subquestions表读取文件
-QList<Sub_questions*> IOManager::inputSub(QString path)
+QList<SubQuestions*> IOManager::inputSub(QString path)
 {
-    QList<Sub_questions*> sublist;
+    QList<SubQuestions*> sublist;
 
     QFile inouput(path);
     if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
@@ -307,10 +307,10 @@ QList<Sub_questions*> IOManager::inputSub(QString path)
 
     while(!in.atEnd())
     {
-        Sub_questions* subquestions=new Sub_questions;
+        SubQuestions* subquestions=new SubQuestions;
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        subquestions->setSub_id(temp.toInt());
+        subquestions->setSubId(temp.toInt());
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);

@@ -6,164 +6,176 @@ Student::Student()
 }
 void Student::setID(QString id)
 {
-    ID=id;
+    _id=id;
 }
 void Student::setName(QString n)
 {
-    Name=n;
+    _name=n;
 }
 void Student::setGrade(int c)
 {
-    Grade=c;
+    _grade=c;
 }
 void Student::setClass(int c)
 {
-    Class=c;
+    _class=c;
 }
 void Student::setPassword(QString c)
 {
-    Password=c;
+    _password=c;
 }
 void Student::setState(QString s)
 {
-    state=s;
+    _state=s;
 }
 void Student::setHostname(QString host)
 {
-    hostname=host;
+    _hostname=host;
 }
 void Student::setSockDescriptor(int descriptor)
 {
 
-    socketDescriptor=descriptor;
+    _socketDescriptor=descriptor;
 }
 QString Student::getID()
 {
-    return ID;
+    return _id;
 }
 QString Student::getName()
 {
-    return Name;
+    return _name;
 }
 int Student::getGrade()
 {
-    return Grade;
+    return _grade;
 }
 int Student::getClass()
 {
-    return Class;
+    return _class;
 }
 QString Student::getPassword()
 {
-    return Password;
+    return _password;
 }
 QString Student::getState()
 {
-    return state;
+    return _state;
 }
 QString Student::getHostname()
 {
-    return hostname;
+    return _hostname;
 }
 int Student::getSockDescriptor()
 {
-    return socketDescriptor;
+    return _socketDescriptor;
 }
+/*
+int Student::getSocketDescriptor() const
+{
+    return _socketDescriptor;
+}
+
+void Student::setSocketDescriptor(int value)
+{
+    _socketDescriptor = value;
+}
+*/
+
 QDataStream &operator >>(QDataStream &in,Student &user)
 {
-    in>>user.ID>>user.Name>>user.Class>>user.Grade>>user.Password>>user.hostname;
+    in>>user._id>>user._name>>user._class>>user._grade>>user._password>>user._hostname;
     return in;
 }
 QDataStream &operator <<(QDataStream &out,const Student &user)
 {
-    out<<user.ID<<user.Name<<user.Class<<user.Grade<<user.Password<<user.hostname;
+    out<<user._id<<user._name<<user._class<<user._grade<<user._password<<user._hostname;
     return out;
 }
 
-Sub_questions::Sub_questions()
+SubQuestions::SubQuestions()
 {
-    qRegisterMetaTypeStreamOperators<Sub_questions>("Sub_questions");
+    qRegisterMetaTypeStreamOperators<SubQuestions>("Sub_questions");
 }
-QDataStream &operator >>(QDataStream &in,Sub_questions &sub)
+QDataStream &operator >>(QDataStream &in,SubQuestions &sub)
 {
-    in>>sub.Sub_id>>sub.Title>>sub.Type;
+    in>>sub._subId>>sub._title>>sub._type;
     return in;
 }
-QDataStream &operator <<(QDataStream &out,const Sub_questions &sub)
+QDataStream &operator <<(QDataStream &out,const SubQuestions &sub)
 {
-    out<<sub.Sub_id<<sub.Title<<sub.Type;
+    out<<sub._subId<<sub._title<<sub._type;
     return out;
 }
-void Sub_questions::setSub_id(int id)
+void SubQuestions::setSubId(int id)
 {
-    Sub_id=id;
+    _subId=id;
 }
-void Sub_questions::setType(QString t)
+void SubQuestions::setType(QString t)
 {
-    Type=t;
+    _type=t;
 }
-void Sub_questions::setTitle(QString title)
+void SubQuestions::setTitle(QString title)
 {
-    Title=title;
+    _title=title;
 }
-int Sub_questions::getSub_id()
+int SubQuestions::getsubId()
 {
-    return Sub_id;
+    return _subId;
 }
-QString Sub_questions::getType()
+QString SubQuestions::getType()
 {
-    return Type;
+    return _type;
 }
-QString Sub_questions::getTitle()
+QString SubQuestions::getTitle()
 {
-    return Title;
+    return _title;
 }
 
-Sub_answers::Sub_answers()
+SubAnswers::SubAnswers()
 {
-    qRegisterMetaTypeStreamOperators<Sub_answers>("Sub_answers");
+    qRegisterMetaTypeStreamOperators<SubAnswers>("Sub_answers");
 }
-void Sub_answers::setSu_an_id(int id)
+void SubAnswers::setSuAnId(int id)
 {
-    Su_an_id=id;
+    _suAnId=id;
 }
-void Sub_answers::setPaper_id(int id)
+void SubAnswers::setPaperId(int id)
 {
-    Paper_id=id;
+    _paperId=id;
 }
-void Sub_answers::setStudent_id(QString id)
+void SubAnswers::setStudentId(QString id)
 {
-    Student_id=id;
+    _studentId=id;
 }
-void Sub_answers::setSubanslist(QVector<QString> ans)
+void SubAnswers::setSubanslist(QVector<QString> ans)
 {
-    subanslist=ans;
+    _subansList=ans;
 }
-int Sub_answers::getSu_an_id()
+int SubAnswers::getSuAnId()
 {
-    return Su_an_id;
+    return _suAnId;
 }
-int Sub_answers::getPaper_id()
+int SubAnswers::getPaperId()
 {
-    return Paper_id;
+    return _paperId;
 }
-QString Sub_answers::getStudent_id()
+QString SubAnswers::getStudentId()
 {
-    return Student_id;
+    return _studentId;
 }
-QVector<QString> Sub_answers::getSubanslist()
+QVector<QString> SubAnswers::getSubanslist()
 {
-    return subanslist;
+    return _subansList;
 }
-QDataStream &operator >>(QDataStream &in,Sub_answers &sub)
+QDataStream &operator >>(QDataStream &in,SubAnswers &sub)
 {
-    in>>sub.Su_an_id>>sub.Paper_id>>sub.Student_id>>sub.subanslist;
+    in>>sub._suAnId>>sub._paperId>>sub._studentId>>sub._subansList;
 
     return in;
 }
-QDataStream &operator <<(QDataStream &out,const Sub_answers &sub)
+QDataStream &operator <<(QDataStream &out,const SubAnswers &sub)
 {
-    out<<sub.Su_an_id<<sub.Paper_id<<sub.Student_id<<sub.subanslist;
+    out<<sub._suAnId<<sub._paperId<<sub._studentId<<sub._subansList;
 
     return out;
 }
@@ -175,218 +187,218 @@ Paper::Paper()
 }
 QDataStream &operator >>(QDataStream &in,Paper &p)
 {
-    in>>p.Paper_id>>p.Description>>p.Ob_qu_ids>>p.Sub_qu_ids>>p.obList>>p.subList>>p.Total_mark>>p.Percent>>p.time;
+    in>>p._paperId>>p._description>>p._obQuIds>>p._subQuIds>>p.obList>>p.subList>>p._totalMark>>p._percent>>p._time;
     return in;
 }
 QDataStream &operator <<(QDataStream &out,const Paper &p)
 {
-    out<<p.Paper_id<<p.Description<<p.Ob_qu_ids<<p.Sub_qu_ids<<p.obList<<p.subList<<p.Total_mark<<p.Percent<<p.time;
+    out<<p._paperId<<p._description<<p._obQuIds<<p._subQuIds<<p.obList<<p.subList<<p._totalMark<<p._percent<<p._time;
     return out;
 }
-int Paper::getPaper_id()
+int Paper::getPaperId()
 {
-    return Paper_id;
+    return _paperId;
 }
-QString Paper::getOb_qu_ids()
+QString Paper::getObQuIds()
 {
-    return Ob_qu_ids;
+    return _obQuIds;
 }
-QString Paper::getSub_qu_ids()
+QString Paper::getSubQuIds()
 {
-    return Sub_qu_ids;
+    return _subQuIds;
 }
 QString Paper::getDescription()
 {
-    return Description;
+    return _description;
 }
-int Paper::getTotal_mark()
+int Paper::getTotalMark()
 {
-    return Total_mark;
+    return _totalMark;
 }
 int Paper::getPercent()
 {
-    return Percent;
+    return _percent;
 }
 int Paper::getTime()
 {
-    return time;
+    return _time;
 }
 QString Paper::getDate()
 {
-    return date;
+    return _date;
 }
 void Paper::setPaper_id(int id )
 {
-    Paper_id=id;
+    _paperId=id;
 }
 void Paper::setOb_qu_ids(QString id )
 {
-    Ob_qu_ids=id;
+    _obQuIds=id;
 }
 void Paper::setSub_qu_ids(QString id )
 {
-    Sub_qu_ids=id;
+    _subQuIds=id;
 }
 void Paper::setDescription(QString description )
 {
-    Description=description;
+    _description=description;
 }
 void Paper::setTotal_mark(int mark )
 {
-    Total_mark=mark;
+    _totalMark=mark;
 }
 void Paper::setPercent(int percent )
 {
-    Percent=percent;
+    _percent=percent;
 }
 void Paper::setTime(int t)
 {
-    time=t;
+    _time=t;
 }
 void Paper::setDate(QString d)
 {
-    date=d;
+    _date=d;
 }
 
-Ob_questions::Ob_questions()
+ObQuestions::ObQuestions()
 {
-    qRegisterMetaTypeStreamOperators<Ob_questions>("Ob_questions");
+    qRegisterMetaTypeStreamOperators<ObQuestions>("Ob_questions");
 }
-QDataStream &operator >>(QDataStream &in,Ob_questions &ob)
+QDataStream &operator >>(QDataStream &in,ObQuestions &ob)
 {
-    in>>ob.Ob_id>>ob.Title>>ob.Answer>>ob.Type;
+    in>>ob._obId>>ob._title>>ob._answer>>ob._type;
     return in;
 }
-QDataStream &operator <<(QDataStream &out,const Ob_questions &ob)
+QDataStream &operator <<(QDataStream &out,const ObQuestions &ob)
 {
-    out<<ob.Ob_id<<ob.Title<<ob.Answer<<ob.Type;
+    out<<ob._obId<<ob._title<<ob._answer<<ob._type;
     return out;
 }
-int Ob_questions::getOb_id()
+int ObQuestions::getObId()
 {
-    return Ob_id;
+    return _obId;
 }
-QString Ob_questions::getType()
+QString ObQuestions::getType()
 {
-    return Type;
+    return _type;
 }
-QString Ob_questions::getTitle()
+QString ObQuestions::getTitle()
 {
-    return Title;
+    return _title;
 }
-QString Ob_questions::getAnswer()
+QString ObQuestions::getAnswer()
 {
-    return Answer;
+    return _answer;
 }
-void Ob_questions::setOb_id(int id)
+void ObQuestions::setObId(int id)
 {
-    Ob_id=id;
+    _obId=id;
 }
-void Ob_questions::setType(QString t)
+void ObQuestions::setType(QString t)
 {
-    Type=t;
+    _type=t;
 }
-void Ob_questions::setTitle(QString title)
+void ObQuestions::setTitle(QString title)
 {
-    Title=title;
+    _title=title;
 }
-void Ob_questions::setAnswer(QString answer)
+void ObQuestions::setAnswer(QString answer)
 {
-    Answer=answer;
+    _answer=answer;
 }
 
-Ob_answers::Ob_answers()
+ObAnswers::ObAnswers()
 {
-    qRegisterMetaTypeStreamOperators<Ob_answers>("Ob_answers");
+    qRegisterMetaTypeStreamOperators<ObAnswers>("Ob_answers");
 }
-int Ob_answers::getOb_an_id()
+int ObAnswers::getObAnId()
 {
-    return Ob_an_id;
+    return _obAnId;
 }
-int Ob_answers::getPaper_id()
+int ObAnswers::getPaperId()
 {
-    return Paper_id;
+    return _paperId;
 }
-QString Ob_answers::getStudent_id()
+QString ObAnswers::getStudentId()
 {
-    return Student_id;
+    return _studentId;
 }
-QString Ob_answers::getAnswers()
+QString ObAnswers::getAnswers()
 {
-    return Answers;
+    return _answers;
 }
-void Ob_answers::setOb_an_id(int id)
+void ObAnswers::setObAnId(int id)
 {
-    Ob_an_id=id;
+    _obAnId=id;
 }
-void Ob_answers::setPaper_id(int id)
+void ObAnswers::setPaperId(int id)
 {
-    Paper_id=id;
+    _paperId=id;
 }
-void Ob_answers::setStudent_id(QString id)
+void ObAnswers::setStudent_id(QString id)
 {
-    Student_id=id;
+    _studentId=id;
 }
-void Ob_answers::setAnswers(QString answers)
+void ObAnswers::setAnswers(QString answers)
 {
-    Answers=answers;
+    _answers=answers;
 }
-QDataStream &operator >>(QDataStream &in,Ob_answers &ob)
+QDataStream &operator >>(QDataStream &in,ObAnswers &ob)
 {
-    in>>ob.Ob_an_id>>ob.Paper_id>>ob.Student_id>>ob.Answers;
+    in>>ob._obAnId>>ob._paperId>>ob._studentId>>ob._answers;
     return in;
 }
-QDataStream &operator <<(QDataStream &out,const Ob_answers &ob)
+QDataStream &operator <<(QDataStream &out,const ObAnswers &ob)
 {
-    out<<ob.Ob_an_id<<ob.Paper_id<<ob.Student_id<<ob.Answers;
+    out<<ob._obAnId<<ob._paperId<<ob._studentId<<ob._answers;
     return out;
 }
 
 
-All_answers::All_answers()
+AllAnswers::AllAnswers()
 {
-    qRegisterMetaTypeStreamOperators<All_answers>("All_answers");
+    qRegisterMetaTypeStreamOperators<AllAnswers>("All_answers");
 }
-void All_answers::setObanswer(Ob_answers ob)
+void AllAnswers::setObanswer(ObAnswers ob)
 {
-    obanswer=ob;
+    _obanswer=ob;
 }
-void All_answers::setSubanswer(Sub_answers sub)
+void AllAnswers::setSubanswer(SubAnswers sub)
 {
-    subanswer=sub;
+    _subanswer=sub;
 }
-void All_answers::setPaperid(int id)
+void AllAnswers::setPaperid(int id)
 {
-    paperid=id;
+    _paperid=id;
 }
-void All_answers::setUserid(QString id)
+void AllAnswers::setUserid(QString id)
 {
-    userid=id;
+    _userid=id;
 }
-Ob_answers All_answers::getObanswer()
+ObAnswers AllAnswers::getObanswer()
 {
-    return obanswer;
+    return _obanswer;
 }
-Sub_answers All_answers::getSubanswer()
+SubAnswers AllAnswers::getSubanswer()
 {
-    return subanswer;
+    return _subanswer;
 }
-int All_answers::getPaperid()
+int AllAnswers::getPaperid()
 {
-    return paperid;
+    return _paperid;
 }
-QString All_answers::getUserid()
+QString AllAnswers::getUserid()
 {
-    return userid;
+    return _userid;
 }
-QDataStream &operator >>(QDataStream &in,All_answers &all)
+QDataStream &operator >>(QDataStream &in,AllAnswers &all)
 {
-    in>>all.paperid>>all.userid>>all.obanswer>>all.subanswer;
+    in>>all._paperid>>all._userid>>all._obanswer>>all._subanswer;
     return in;
 }
-QDataStream &operator <<(QDataStream &out,const All_answers &all)
+QDataStream &operator <<(QDataStream &out,const AllAnswers &all)
 {
-    out<<all.paperid<<all.userid<<all.obanswer<<all.subanswer;
+    out<<all._paperid<<all._userid<<all._obanswer<<all._subanswer;
     return out;
 }
 
@@ -395,99 +407,99 @@ Combo::Combo()
     qRegisterMetaTypeStreamOperators<Combo>("Combo");
 }
 
-void Combo::setUser_id(QString a)
+void Combo::setUserId(QString a)
 {
-    User_id = a;
+    _userId = a;
 }
 void Combo::setName(QString s)
 {
-    Name = s;
+    _name = s;
 }
 void Combo::setGrade(int a)
 {
-    Grade = a;
+    _grade = a;
 }
 void Combo::setClass(int b)
 {
-    Class = b;
+    _class = b;
 }
 void Combo::setTime(int t)
 {
-    Time = t;
+    _time = t;
 }
-void Combo::setPaper_id(int d)
+void Combo::setPaperId(int d)
 {
-    Paper_id = d;
+    _paperId = d;
 }
-void Combo::setPaper_mark(int m)
+void Combo::setPaperMark(int m)
 {
-    Paper_mark = m;
+    _paperMark = m;
 }
 void Combo::setObmark(int m)
 {
-    obmark=m;
+    _obmark=m;
 }
 void Combo::setSubmark(int m)
 {
-    submark=m;
+    _submark=m;
 }
 void Combo::setPaperName(QString n)
 {
-    paperName=n;
+    _paperName=n;
 }
 
-QString Combo::getUser_id()
+QString Combo::getUserId()
 {
-    return User_id;
+    return _userId;
 }
 QString Combo::getName()
 {
-    return Name;
+    return _name;
 }
 int Combo::getGrade()
 {
-    return Grade;
+    return _grade;
 }
 int Combo::getClass()
 {
-    return Class;
+    return _class;
 }
 int Combo::getTime()
 {
-    return Time;
+    return _time;
 }
-int Combo::getPaper_id()
+int Combo::getPaperId()
 {
-    return Paper_id;
+    return _paperId;
 }
-int Combo::getPaper_mark()
+int Combo::getPaperMark()
 {
-    return Paper_mark;
+    return _paperMark;
 }
 int Combo::getObmark()
 {
-    return obmark;
+    return _obmark;
 }
 int Combo::getSubMark()
 {
-    return submark;
+    return _submark;
 }
 QString Combo::getPaperName()
 {
-    return paperName;
+    return _paperName;
 }
 QDataStream &operator >>(QDataStream &in,Combo &c)
 {
-    in>>c.paperName>>c.obmark>>c.submark>>c.Paper_mark;
+    in>>c._paperName>>c._obmark>>c._submark>>c._paperMark;
     return in;
 }
 QDataStream &operator <<(QDataStream &out,const Combo &c)
 {
-    out<<c.paperName<<c.obmark<<c.submark<<c.Paper_mark;
+    out<<c._paperName<<c._obmark<<c._submark<<c._paperMark;
     return out;
 }
 
-
+/*
 Answers::Answers()
 {
 
@@ -547,6 +559,7 @@ QString ObAnswers::getobAnswer()
 {
     return ObAnswer;
 }
+*/
 
 USER::USER()
 {
@@ -555,42 +568,42 @@ USER::USER()
 
 void USER::setId(int id)
 {
-    Id = id;
+    _id = id;
 }
 
 void USER::setName(QString name)
 {
-    Name = name;
+    _name = name;
 }
 
 void USER::setPassword(QString password)
 {
-    Password = password;
+    _password = password;
 }
 
 void USER::setType(int type)
 {
-    Type = type;
+    _type = type;
 }
 
 int USER::getType()
 {
-    return Type;
+    return _type;
 }
 
 int USER::getId()
 {
-    return Id;
+    return _id;
 }
 
 QString USER::getName()
 {
-    return Name;
+    return _name;
 }
 
 QString USER::getPassword()
 {
-    return Password;
+    return _password;
 }
 
 USER &USER::GetInstance()

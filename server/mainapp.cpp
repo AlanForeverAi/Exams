@@ -60,11 +60,11 @@ void MainApp::iniMainWindow()
 {
     //与题库管理界面连接的信号和槽
     connect(&w,SIGNAL(getQuestions()),this,SLOT(getQuestions()));
-    connect(this,SIGNAL(showQuestions(QList<Ob_questions*>,QList<Sub_questions*>)),&w,SIGNAL(showQuestions(QList<Ob_questions*>,QList<Sub_questions*>)));
-    connect(&w,SIGNAL(addOb_Questoins(Ob_questions*)),this,SLOT(addOb_Questions(Ob_questions*)));
-    connect(&w,SIGNAL(addSub_Questoins(Sub_questions*)),this,SLOT(addSub_Questions(Sub_questions*)));
-    connect(&w,SIGNAL(modifyOb_Questoins(Ob_questions*)),this,SLOT(modifyOb_Questoins(Ob_questions*)));
-    connect(&w,SIGNAL(modifySub_Questoins(Sub_questions*)),this,SLOT(modifySub_Questoins(Sub_questions*)));
+    connect(this,SIGNAL(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)),&w,SIGNAL(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)));
+    connect(&w,SIGNAL(addOb_Questoins(ObQuestions*)),this,SLOT(addOb_Questions(ObQuestions*)));
+    connect(&w,SIGNAL(addSub_Questoins(SubQuestions*)),this,SLOT(addSub_Questions(SubQuestions*)));
+    connect(&w,SIGNAL(modifyOb_Questoins(ObQuestions*)),this,SLOT(modifyOb_Questoins(ObQuestions*)));
+    connect(&w,SIGNAL(modifySub_Questoins(SubQuestions*)),this,SLOT(modifySub_Questoins(SubQuestions*)));
     connect(&w,SIGNAL(deleteOb_Questoins(int)),this,SLOT(deleteOb_Questoins(int)));
     connect(&w,SIGNAL(deleteSub_Questoins(int)),this,SLOT(deleteSub_Questoins(int)));
     //与试卷管理界面连接的信号和槽
@@ -127,7 +127,7 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 {
     QMessageBox msg;
     Student u;
-    All_answers allans;
+    AllAnswers allans;
     switch(m)
     {
     case MSG_NEWCONNECT:
@@ -176,7 +176,7 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
         break;
 
     case MSG_ANSWER:
-        allans=v.value<All_answers>();
+        allans=v.value<AllAnswers>();
         this->userStateChange(descriptor,QString("已经交卷"));
         this->updateUserTable(userList);
         this->dealObAnswers(allans.getObanswer());
@@ -184,7 +184,7 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
         break;
 
     case MSG_ANSWERSINGLE:
-        allans=v.value<All_answers>();
+        allans=v.value<AllAnswers>();
         this->updateUserTable(userList);
         this->dealObAnswers(allans.getObanswer());
         this->dealSubAnswers(allans.getSubanswer());
@@ -195,15 +195,15 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 
 void MainApp::getQuestions()
 {
-    QList<Ob_questions*> obList;
-    QList<Sub_questions*> subList;
+    QList<ObQuestions*> obList;
+    QList<SubQuestions*> subList;
     QSqlQuery query;
     query=DBM->SelectobQuestions();
 
     while(query.next())
     {
-        Ob_questions *ob_que=new Ob_questions;
-        ob_que->setOb_id(query.value(0).toInt());
+        ObQuestions *ob_que=new ObQuestions;
+        ob_que->setObId(query.value(0).toInt());
         ob_que->setTitle(query.value(1).toString());
         ob_que->setAnswer(query.value(2).toString());
         ob_que->setType(query.value(3).toString());
@@ -214,8 +214,8 @@ void MainApp::getQuestions()
     query=DBM->SelectsubQuestions();
     while(query.next())
     {
-        Sub_questions *sub_que=new Sub_questions;
-        sub_que->setSub_id(query.value(0).toInt());
+        SubQuestions *sub_que=new SubQuestions;
+        sub_que->setSubId(query.value(0).toInt());
         sub_que->setTitle(query.value(1).toString());
         sub_que->setType(query.value(2).toString());
         subList.append(sub_que);
@@ -224,24 +224,24 @@ void MainApp::getQuestions()
 
 }
 
-void MainApp::addOb_Questions(Ob_questions *o_que)
+void MainApp::addOb_Questions(ObQuestions *o_que)
 {
     DBM->InserOb(NULL,o_que->getType(),o_que->getTitle(),o_que->getAnswer());
 }
 
-void MainApp::addSub_Questions(Sub_questions *s_que)
+void MainApp::addSub_Questions(SubQuestions *s_que)
 {
     DBM->InserSub(NULL,s_que->getType(),s_que->getTitle());
 }
 
-void MainApp::modifyOb_Questoins(Ob_questions *o_que)
+void MainApp::modifyOb_Questoins(ObQuestions *o_que)
 {
-    DBM->AlterobQuestions(o_que->getOb_id(),o_que->getType(),o_que->getTitle(),o_que->getAnswer());
+    DBM->AlterobQuestions(o_que->getObId(),o_que->getType(),o_que->getTitle(),o_que->getAnswer());
 }
 
-void MainApp::modifySub_Questoins(Sub_questions *s_que)
+void MainApp::modifySub_Questoins(SubQuestions *s_que)
 {
-    DBM->AltersubQuestions(s_que->getSub_id(),s_que->getType(),s_que->getTitle());
+    DBM->AltersubQuestions(s_que->getsubId(),s_que->getType(),s_que->getTitle());
 }
 
 void MainApp::deleteOb_Questoins(int id)
@@ -257,9 +257,9 @@ void MainApp::deleteSub_Questoins(int id)
 void MainApp::addPaper(Paper paper)
 {
     DBM->InserPaper(
-        paper.getOb_qu_ids(),
-        paper.getSub_qu_ids(),
-        paper.getTotal_mark(),
+        paper.getObQuIds(),
+        paper.getSubQuIds(),
+        paper.getTotalMark(),
         paper.getPercent(),
         paper.getDescription(),
         paper.getTime());
@@ -314,10 +314,10 @@ void MainApp::getPaperById(int id)
 
 void MainApp::modifyPaper(Paper p)
 {
-    DBM->AlterPaper(p.getPaper_id(),
-                    p.getOb_qu_ids(),
-                    p.getSub_qu_ids(),
-                    p.getTotal_mark(),
+    DBM->AlterPaper(p.getPaperId(),
+                    p.getObQuIds(),
+                    p.getSubQuIds(),
+                    p.getTotalMark(),
                     p.getPercent(),
                     p.getDescription(),
                     p.getTime());
@@ -346,10 +346,10 @@ Paper MainApp::preparePaper(int id)
     query=DBM->SelectobQuestions();
     while(query.next())
     {
-        if(paper.getOb_qu_ids().indexOf(query.value(0).toString())>=0)
+        if(paper.getObQuIds().indexOf(query.value(0).toString())>=0)
         {
-            Ob_questions *ob_que=new Ob_questions;
-            ob_que->setOb_id(query.value(0).toInt());
+            ObQuestions *ob_que=new ObQuestions;
+            ob_que->setObId(query.value(0).toInt());
             ob_que->setTitle(query.value(1).toString());
             ob_que->setAnswer(query.value(2).toString());
             ob_que->setType(query.value(3).toString());
@@ -363,10 +363,10 @@ Paper MainApp::preparePaper(int id)
     query=DBM->SelectsubQuestions();
     while(query.next())
     {
-        if(paper.getSub_qu_ids().indexOf(query.value(0).toString())>=0)
+        if(paper.getSubQuIds().indexOf(query.value(0).toString())>=0)
         {
-            Sub_questions *sub_que=new Sub_questions;
-            sub_que->setSub_id(query.value(0).toInt());
+            SubQuestions *sub_que=new SubQuestions;
+            sub_que->setSubId(query.value(0).toInt());
             sub_que->setTitle(query.value(1).toString());
             sub_que->setType(query.value(2).toString());
             paper.subList.append(*sub_que);
@@ -558,9 +558,9 @@ void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 
 }
 
-void MainApp::dealObAnswers(Ob_answers obans)
+void MainApp::dealObAnswers(ObAnswers obans)
 {
-    DBM->UpdateobAnswers(obans.getPaper_id(),obans.getStudent_id(),obans.getAnswers());
+    DBM->UpdateobAnswers(obans.getPaperId(),obans.getStudentId(),obans.getAnswers());
 
     QString ans_string=obans.getAnswers();
     QStringList ansList;
@@ -572,7 +572,7 @@ void MainApp::dealObAnswers(Ob_answers obans)
     }
     QString eachObmark;
     QString obMarkString;
-    eachObmark=QString::number(mainPaper.getTotal_mark()*mainPaper.getPercent()/100/mainPaper.obList.count());
+    eachObmark=QString::number(mainPaper.getTotalMark()*mainPaper.getPercent()/100/mainPaper.obList.count());
     for(int i=0; i<ansList.count(); i++)
     {
         QString correctAns=mainPaper.obList.value(i).getAnswer();
@@ -586,17 +586,17 @@ void MainApp::dealObAnswers(Ob_answers obans)
 
         obMarkString.append(",");
     }
-    DBM->UpdatepaperMarkObmark(obMarkString,obans.getPaper_id(),obans.getStudent_id());
+    DBM->UpdatepaperMarkObmark(obMarkString,obans.getPaperId(),obans.getStudentId());
 }
 
-void MainApp::dealSubAnswers(Sub_answers subans)
+void MainApp::dealSubAnswers(SubAnswers subans)
 {
 
     for(int i=0; i<subans.getSubanslist().count(); i++)
     {
-        DBM->UpdatesubAnswers(subans.getPaper_id(),subans.getStudent_id(),i+1,subans.getSubanslist().at(i));
+        DBM->UpdatesubAnswers(subans.getPaperId(),subans.getStudentId(),i+1,subans.getSubanslist().at(i));
     }
-    DBM->UpdatepapermarkDone(QDate::currentDate().toString(),subans.getPaper_id(),subans.getStudent_id());
+    DBM->UpdatepapermarkDone(QDate::currentDate().toString(),subans.getPaperId(),subans.getStudentId());
 }
 
 void MainApp::submitSubMark(QStringList submark)
@@ -698,7 +698,7 @@ void MainApp::getCombo_id(QString a)
             Combo *b = new Combo;
 
             //from user
-            b->setUser_id(a);
+            b->setUserId(a);
             b->setName(temp);
             b->setGrade(s.value(2).toInt());
             b->setClass(s.value(3).toInt());
@@ -721,13 +721,13 @@ void MainApp::getCombo_id(QString a)
             b->setObmark(obmark);
             b->setSubmark(submark);
             //from paper
-            b->setPaper_id(query.value(3).toInt());
+            b->setPaperId(query.value(3).toInt());
             QSqlQuery h = DBM->SelectPaperById(query.value(3).toInt());
             if(h.next())
                 b->setPaperName(h.value(5).toString());
 
             //from self (paper mark)
-            b->setPaper_mark(query.value(2).toInt());
+            b->setPaperMark(query.value(2).toInt());
             comboList.append(b);
         }
     }
@@ -752,7 +752,7 @@ void MainApp::getCombo_paperid(int id)
         if(query.value(6).toString()==QString("已批改"))
         {
             Combo *b = new Combo;
-            b->setPaper_id(id);
+            b->setPaperId(id);
             b->setPaperName(temp);
             int obmark=0;
             int submark=0;
@@ -773,17 +773,17 @@ void MainApp::getCombo_paperid(int id)
             b->setObmark(obmark);
             b->setSubmark(submark);
             //from paper
-            b->setPaper_id(query.value(3).toInt());
+            b->setPaperId(query.value(3).toInt());
             QSqlQuery h = DBM->SelectUserId(query.value(4).toString());
             if(h.next())
             {
-                b->setUser_id(h.value(0).toString());
+                b->setUserId(h.value(0).toString());
                 b->setName(h.value(1).toString());
                 b->setGrade(h.value(2).toInt());
                 b->setClass(h.value(3).toInt());
             }
             //from self (paper mark)
-            b->setPaper_mark(query.value(2).toInt());
+            b->setPaperMark(query.value(2).toInt());
             comboList.append(b);
         }
     }
@@ -885,13 +885,13 @@ void MainApp::outputUser()
 
 void MainApp::outputOb()
 {
-    QList<Ob_questions*> obList;
+    QList<ObQuestions*> obList;
     QSqlQuery query;
     query=DBM->SelectobQuestions();
     while(query.next())
     {
-        Ob_questions *ob_que=new Ob_questions;
-        ob_que->setOb_id(query.value(0).toInt());
+        ObQuestions *ob_que=new ObQuestions;
+        ob_que->setObId(query.value(0).toInt());
         ob_que->setTitle(query.value(1).toString());
         ob_que->setAnswer(query.value(2).toString());
         ob_que->setType(query.value(3).toString());
@@ -905,12 +905,12 @@ void MainApp::outputOb()
 
 void MainApp::outputSub()
 {
-    QList<Sub_questions*> subList;
+    QList<SubQuestions*> subList;
     QSqlQuery query=DBM->SelectsubQuestions();
     while(query.next())
     {
-        Sub_questions *sub_que=new Sub_questions;
-        sub_que->setSub_id(query.value(0).toInt());
+        SubQuestions *sub_que=new SubQuestions;
+        sub_que->setSubId(query.value(0).toInt());
         sub_que->setTitle(query.value(1).toString());
         sub_que->setType(query.value(2).toString());
         subList.append(sub_que);
@@ -969,11 +969,11 @@ void MainApp::inputUser(QString path)
 
 void MainApp::inputOb(QString path)
 {
-    QList<Ob_questions*> oblist;
+    QList<ObQuestions*> oblist;
     oblist=IOM->inputOb(path);
     for(int i=0; i<oblist.count(); i++)
     {
-        DBM->InserOb(oblist.at(i)->getOb_id(),oblist.at(i)->getType(),oblist.at(i)->getTitle(),oblist.at(i)->getAnswer());
+        DBM->InserOb(oblist.at(i)->getObId(),oblist.at(i)->getType(),oblist.at(i)->getTitle(),oblist.at(i)->getAnswer());
     }
     QMessageBox msg;
     msg.setText(QString("导入成功。"));
@@ -982,11 +982,11 @@ void MainApp::inputOb(QString path)
 
 void MainApp::inputSub(QString path)
 {
-    QList<Sub_questions*> sublist;
+    QList<SubQuestions*> sublist;
     sublist=IOM->inputSub(path);
     for(int i=0; i<sublist.count(); i++)
     {
-        DBM->InserSub(sublist.at(i)->getSub_id(),sublist.at(i)->getType(),sublist.at(i)->getTitle());
+        DBM->InserSub(sublist.at(i)->getsubId(),sublist.at(i)->getType(),sublist.at(i)->getTitle());
     }
     QMessageBox msg;
     msg.setText(QString("导入成功。"));
@@ -1000,9 +1000,9 @@ void MainApp::inputPaper(QString path)
     for(int i=0; i<plist.count(); i++)
     {
         DBM->InserPaper(
-            plist.at(i)->getOb_qu_ids(),
-            plist.at(i)->getSub_qu_ids(),
-            plist.at(i)->getTotal_mark(),
+            plist.at(i)->getObQuIds(),
+            plist.at(i)->getSubQuIds(),
+            plist.at(i)->getTotalMark(),
             plist.at(i)->getPercent(),
             plist.at(i)->getDescription(),
             plist.at(i)->getTime());

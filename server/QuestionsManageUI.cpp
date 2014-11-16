@@ -21,7 +21,7 @@ void QuestionsManageUI::add()
 {
     if(tabWidget->currentIndex()==0)
     {
-        Ob_questions *o_que=new Ob_questions;
+        ObQuestions *o_que=new ObQuestions;
 
         QString title;
         title.append(textEdit->toPlainText());
@@ -50,7 +50,7 @@ void QuestionsManageUI::add()
     }
     else if(tabWidget->currentIndex()==1)
     {
-        Sub_questions *s_que=new Sub_questions;
+        SubQuestions *s_que=new SubQuestions;
         s_que->setTitle(textEdit2_Content->toPlainText());
         s_que->setType(comboBox_type->currentText());
         qDebug()<<s_que->getTitle();
@@ -101,8 +101,8 @@ void QuestionsManageUI::modify()
     {
         if(tabWidget->currentIndex()==0)
         {
-            Ob_questions *o_que=new Ob_questions;
-            o_que->setOb_id(obTable->item(obTable->currentRow(),0)->text().toInt());
+            ObQuestions *o_que=new ObQuestions;
+            o_que->setObId(obTable->item(obTable->currentRow(),0)->text().toInt());
             QString title;
             title.append(textEdit->toPlainText());
             title.append("@a");
@@ -129,8 +129,8 @@ void QuestionsManageUI::modify()
         }
         else if(tabWidget->currentIndex()==1)
         {
-            Sub_questions *s_que=new Sub_questions;
-            s_que->setSub_id(subTable->item(subTable->currentRow(),0)->text().toInt());
+            SubQuestions *s_que=new SubQuestions;
+            s_que->setSubId(subTable->item(subTable->currentRow(),0)->text().toInt());
             s_que->setTitle(textEdit2_Content->toPlainText());
             s_que->setType(comboBox_type->currentText());
 
@@ -142,7 +142,7 @@ void QuestionsManageUI::modify()
 
 }
 
-void QuestionsManageUI::showQuestions(QList<Ob_questions *> obList, QList<Sub_questions *> subList)
+void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQuestions *> subList)
 {
     //显示客观题
     typelist.clear();
@@ -170,7 +170,7 @@ void QuestionsManageUI::showQuestions(QList<Ob_questions *> obList, QList<Sub_qu
         QTableWidgetItem *ansD=new QTableWidgetItem(s_ansD);
         QTableWidgetItem *correctAns=new QTableWidgetItem(obList.at(i)->getAnswer());
         QTableWidgetItem *type=new QTableWidgetItem(obList.at(i)->getType());
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(obList.at(i)->getOb_id()));
+        QTableWidgetItem *id=new QTableWidgetItem(QString::number(obList.at(i)->getObId()));
         maintitle->setToolTip(maintitle->text());
         obTable->setItem(i,0,id);
         obTable->setItem(i,1,type);
@@ -193,7 +193,7 @@ void QuestionsManageUI::showQuestions(QList<Ob_questions *> obList, QList<Sub_qu
     subTable->setRowCount(subList.count());
     for(int i=0; i<subList.count(); i++)
     {
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(subList.at(i)->getSub_id()));
+        QTableWidgetItem *id=new QTableWidgetItem(QString::number(subList.at(i)->getsubId()));
         QTableWidgetItem *title=new QTableWidgetItem(subList.at(i)->getTitle());
         QTableWidgetItem *type=new QTableWidgetItem(subList.at(i)->getType());
         subTable->setItem(i,0,id);

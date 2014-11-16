@@ -28,7 +28,7 @@ void SubMarkUI::showPapers(QList<Paper *> pList)
     for(int i=0; i<pList.count(); i++)
     {
 
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaper_id()));
+        QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaperId()));
         QTableWidgetItem *description=new QTableWidgetItem(pList.at(i)->getDescription());
 
         tableWidget_paper->setItem(i,0,id);
@@ -45,13 +45,13 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 
     for(int i=0; i<paperList.count(); i++)
     {
-        if(paperList.at(i)->getPaper_id()==currentPaperid.toInt())
+        if(paperList.at(i)->getPaperId()==currentPaperid.toInt())
         {
 
-            int obnumber=paperList.at(i)->getOb_qu_ids().count(",");
-            int subnumber=paperList.at(i)->getSub_qu_ids().count(",");
+            int obnumber=paperList.at(i)->getObQuIds().count(",");
+            int subnumber=paperList.at(i)->getSubQuIds().count(",");
 
-            QTableWidgetItem* id=new QTableWidgetItem(QString::number(paperList.at(i)->getPaper_id()));
+            QTableWidgetItem* id=new QTableWidgetItem(QString::number(paperList.at(i)->getPaperId()));
             QTableWidgetItem* description=new QTableWidgetItem(paperList.at(i)->getDescription());
             QTableWidgetItem* obn=new QTableWidgetItem(QString::number(obnumber));
             QTableWidgetItem* subn=new QTableWidgetItem(QString::number(subnumber));
@@ -63,7 +63,7 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 
             int mark=0;
             if(subnumber)
-                mark=paperList.at(i)->getTotal_mark()*(100-paperList.at(i)->getPercent())/100/subnumber;
+                mark=paperList.at(i)->getTotalMark()*(100-paperList.at(i)->getPercent())/100/subnumber;
             lineEdit_mark->setText(QString::number(mark));
 
             QIntValidator *validator = new QIntValidator(0,mark,this);//0-mark值之间的整数验证器

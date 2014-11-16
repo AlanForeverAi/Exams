@@ -32,7 +32,7 @@ void ExamCtrlUI::showPapers(QList<Paper*> pList)
     for(int i=0; i<pList.count(); i++)
     {
 
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaper_id()));
+        QTableWidgetItem *id=new QTableWidgetItem(QString::number(pList.at(i)->getPaperId()));
         QTableWidgetItem *description=new QTableWidgetItem(pList.at(i)->getDescription());
         QTableWidgetItem *time=new QTableWidgetItem(QString::number(pList.at(i)->getTime()/60));
         tableWidget_paper->setItem(i,0,id);

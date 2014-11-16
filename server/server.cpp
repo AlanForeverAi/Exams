@@ -108,7 +108,7 @@ void ClientSocket::readData()
     in.setVersion(QDataStream::Qt_4_7);
 
     QVariant v;
-    All_answers allans;
+    AllAnswers allans;
     Student u;
     /*如果还没有块大小信息则尝试去读取*/
     if(totalBytes==0)
