@@ -27,7 +27,7 @@ ConfigUI::ConfigUI(QWidget *parent) :
     Config.close();
 }
 
-void ConfigUI::on_pushButton_save_clicked()
+void ConfigUI::onPushbuttonSaveClicked()
 {
     QFile configFile("config.ini");
     if(!configFile.open(QIODevice::WriteOnly|QIODevice::Text))

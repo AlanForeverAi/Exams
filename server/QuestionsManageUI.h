@@ -32,8 +32,8 @@ private slots:
     void textClear();
     void showQuestions(QList<ObQuestions*>,QList<SubQuestions*>);
 private:
-    QStringList typelist;
-    int mode;
+    QStringList _typeList;
+    int _mode;
 };
 
 #endif // QuestionsManageUI_H

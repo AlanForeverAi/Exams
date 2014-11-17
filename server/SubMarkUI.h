@@ -28,12 +28,12 @@ private slots:
 private:
     void showCurrentAnswer(int);
 private:
-    QList<Paper*> paperList;
-    int subNo;
-    QVector<QString> submark;
-    QVector<QString> sub;
-    QString currentPaperid;
-    QString currentUserid;
+    QList<Paper *> _paperList;
+    int _subNo;
+    QVector<QString> _subMark;
+    QVector<QString> _sub;
+    QString _currentPaperId;
+    QString _currentUserId;
 };
 
 #endif // SUBMARKUI_H

@@ -23,7 +23,7 @@ void IOManager::outputUser(QList<Student*> userlist)
 {
 
     QString filename;
-    filename.append(QString("data/用户信息_"));
+    filename.append(QStringLiteral("data/用户信息_"));
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);
@@ -130,7 +130,7 @@ void IOManager::outputPaper(QList<Paper*> paperlist)
 {
 
     QString filename;
-    filename.append(QString("data/试卷信息_"));
+    filename.append(QStringLiteral("data/试卷信息_"));
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);
@@ -214,7 +214,7 @@ QList<Paper*> IOManager::inputPaper(QString path)
 void IOManager::outputOb(QList<ObQuestions*> obquestionlist)
 {
     QString filename;
-    filename.append(QString("data/客观题信息_"));
+    filename.append(QStringLiteral("data/客观题信息_"));
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);
@@ -275,7 +275,7 @@ QList<ObQuestions*> IOManager::inputOb(QString path)
 void IOManager::outputSub(QList<SubQuestions*> subquestionlist)
 {
     QString filename;
-    filename.append(QString("data/主观题信息_"));
+    filename.append(QStringLiteral("data/主观题信息_"));
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);

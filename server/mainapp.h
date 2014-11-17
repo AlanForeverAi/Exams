@@ -86,18 +86,18 @@ public slots:
     //发送考试信息
     void sendInfo(QStringList);
 private:
-    DBManager* DBM;
-    MainWindow w;
-    Server* server;
-    Paper mainPaper;
-    QList<Student*> userList;
-    QString DBname;
-    QString DBuser;
-    QString DBpassword;
-    int port;
-    int serverState;
-    IOManager *IOM;
-    QString infolist;
+    DBManager *_DBM;
+    MainWindow _window;
+    Server *_server;
+    Paper _mainPaper;
+    QList<Student *> _userList;
+    QString _dbName;
+    QString _dbUser;
+    QString _dbPassword;
+    int _port;
+    int _serverState;
+    IOManager *_IOM;
+    QString _infoList;
 
 };
 #endif // MAINAPP_H

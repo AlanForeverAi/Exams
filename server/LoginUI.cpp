@@ -15,3 +15,4 @@ void LoginUI::on_pushButton_login_clicked()
     USER::GetInstance().setPassword(lineEdit_PW->text());
     emit this->loginSignal(USER::GetInstance());
 }
+

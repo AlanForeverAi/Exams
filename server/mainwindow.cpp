@@ -2,21 +2,21 @@
 #include <QMessageBox>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    _ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
 
-    ui->action_mainmenu->setEnabled(false);//按钮置灰
-    ui->action_makepaper->setEnabled(false);
-    ui->action_QuestionsManager->setEnabled(false);
-    ui->action_memmanager->setEnabled(false);
-    ui->action_examctrl->setEnabled(false);
-    ui->action_subscore->setEnabled(false);
-    ui->action_scomanage->setEnabled(false);
-    ui->action_config->setEnabled(false);
-    ui->action_inoutput->setEnabled(false);
+    _ui->action_mainmenu->setEnabled(false);//按钮置灰
+    _ui->action_makepaper->setEnabled(false);
+    _ui->action_QuestionsManager->setEnabled(false);
+    _ui->action_memmanager->setEnabled(false);
+    _ui->action_examctrl->setEnabled(false);
+    _ui->action_subscore->setEnabled(false);
+    _ui->action_scomanage->setEnabled(false);
+    _ui->action_config->setEnabled(false);
+    _ui->action_inoutput->setEnabled(false);
 
-    statusbar=statusBar();
+    _statusBar=statusBar();
 //    setWindowOpacity(0.85);//设置窗口透明
     this->on_action_login_triggered();
 
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    delete _ui;
 
 }
 
@@ -45,7 +45,7 @@ void MainWindow::do_QuestionsManager()
     this->setCentralWidget(queManager);
     emit this->getQuestions();
     //queManager->setEnabled(false);
-    statusbar->showMessage(QString("题库管理"));
+    _statusBar->showMessage(QString("题库管理"));
     //pushButton_question->setEnabled(false);
     //this->setEnabled(false);
     //statusbar->setEnabled(false);
@@ -73,7 +73,7 @@ void MainWindow::do_makepaper()
     emit this->getAllPaper();
     emit this->getQuestions();
     emit this->getUser();
-    statusbar->showMessage(QString("试卷管理"));
+    _statusBar->showMessage(QString("试卷管理"));
 }
 
 void MainWindow::do_examctrl()
@@ -93,7 +93,7 @@ void MainWindow::do_examctrl()
     this->setCentralWidget(examctrl);
     emit this->getAllPaper();
     emit this->getUserList();
-    statusbar->showMessage(QString("考试控制"));
+    _statusBar->showMessage(QString("考试控制"));
 
 }
 
@@ -109,7 +109,7 @@ void MainWindow::do_subscore()
     connect(sub_score->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     emit this->getAllPaper();
     this->setCentralWidget(sub_score);
-    statusbar->showMessage(QString("在线评卷"));
+    _statusBar->showMessage(QString("在线评卷"));
 
 }
 
@@ -128,7 +128,7 @@ void MainWindow::do_memmanage()
     connect(mem_Manage->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(mem_Manage);
     emit this->getUser();
-    statusbar->showMessage(QString("用户管理"));
+    _statusBar->showMessage(QString("用户管理"));
 }
 
 void MainWindow::do_login()
@@ -136,7 +136,7 @@ void MainWindow::do_login()
     LoginUI *loginPage=new LoginUI;
     connect(loginPage,SIGNAL(loginSignal(USER)),this,SIGNAL(loginSignal(USER)));
     this->setCentralWidget(loginPage);
-    statusbar->showMessage(QString("登录"));
+    _statusBar->showMessage(QString("登录"));
 }
 
 void MainWindow::do_mainmenu()
@@ -158,7 +158,7 @@ void MainWindow::do_config()
     ConfigUI *config=new ConfigUI;
     connect(config->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(config);
-    statusbar->showMessage(QString("设置"));
+    _statusBar->showMessage(QString("设置"));
 }
 
 void MainWindow::do_scomanage()
@@ -174,7 +174,7 @@ void MainWindow::do_scomanage()
     emit this->getAllPaper();
     this->setCentralWidget(score_manage);
 
-    statusbar->showMessage(QString("成绩管理"));
+    _statusBar->showMessage(QString("成绩管理"));
 }
 
 void MainWindow::do_inoutput()
@@ -190,7 +190,7 @@ void MainWindow::do_inoutput()
     connect(io,SIGNAL(outputPaper()),this,SIGNAL(outputPaper()));
     connect(io->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(io);
-    statusbar->showMessage(QString("导入导出"));
+    _statusBar->showMessage(QString("导入导出"));
 }
 
 void MainWindow::on_action_QuestionsManager_triggered()
@@ -246,30 +246,30 @@ void MainWindow::on_action_inoutput_triggered()
 
 void MainWindow::examMode()
 {
-    ui->action_makepaper->setEnabled(false);
-    ui->action_QuestionsManager->setEnabled(false);
-    ui->action_examctrl->setEnabled(false);
-    ui->action_config->setEnabled(false);
-    ui->action_login->setEnabled(false);
-    ui->action_mainmenu->setEnabled(false);
-    ui->action_memmanager->setEnabled(false);
-    ui->action_subscore->setEnabled(false);
-    ui->action_scomanage->setEnabled(false);
-    ui->action_inoutput->setEnabled(false);
+    _ui->action_makepaper->setEnabled(false);
+    _ui->action_QuestionsManager->setEnabled(false);
+    _ui->action_examctrl->setEnabled(false);
+    _ui->action_config->setEnabled(false);
+    _ui->action_login->setEnabled(false);
+    _ui->action_mainmenu->setEnabled(false);
+    _ui->action_memmanager->setEnabled(false);
+    _ui->action_subscore->setEnabled(false);
+    _ui->action_scomanage->setEnabled(false);
+    _ui->action_inoutput->setEnabled(false);
 }
 
 void MainWindow::endExamMode()
 {
-    ui->action_makepaper->setEnabled(true);
-    ui->action_QuestionsManager->setEnabled(true);
-    ui->action_examctrl->setEnabled(true);
-    ui->action_config->setEnabled(true);
-    ui->action_login->setEnabled(true);
-    ui->action_mainmenu->setEnabled(true);
-    ui->action_memmanager->setEnabled(true);
-    ui->action_subscore->setEnabled(true);
-    ui->action_scomanage->setEnabled(true);
-    ui->action_inoutput->setEnabled(true);
+    _ui->action_makepaper->setEnabled(true);
+    _ui->action_QuestionsManager->setEnabled(true);
+    _ui->action_examctrl->setEnabled(true);
+    _ui->action_config->setEnabled(true);
+    _ui->action_login->setEnabled(true);
+    _ui->action_mainmenu->setEnabled(true);
+    _ui->action_memmanager->setEnabled(true);
+    _ui->action_subscore->setEnabled(true);
+    _ui->action_scomanage->setEnabled(true);
+    _ui->action_inoutput->setEnabled(true);
 }
 
 //设置菜单栏的按钮是否活动
@@ -288,18 +288,18 @@ void MainWindow::LoginOK()
     */
     if(USER::GetInstance().getType() == 1)
     {
-        ui->action_memmanager->setEnabled(true);
-        ui->action_config->setEnabled(true);
+        _ui->action_memmanager->setEnabled(true);
+        _ui->action_config->setEnabled(true);
 
     }
     else
     {
-        ui->action_examctrl->setEnabled(true);
-        ui->action_makepaper->setEnabled(true);
-        ui->action_scomanage->setEnabled(true);
-        ui->action_subscore->setEnabled(true);
+        _ui->action_examctrl->setEnabled(true);
+        _ui->action_makepaper->setEnabled(true);
+        _ui->action_scomanage->setEnabled(true);
+        _ui->action_subscore->setEnabled(true);
     }
-    ui->action_inoutput->setEnabled(true);
+    _ui->action_inoutput->setEnabled(true);
     this->on_action_mainmenu_triggered();
 }
 

@@ -145,7 +145,7 @@ void QuestionsManageUI::modify()
 void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQuestions *> subList)
 {
     //显示客观题
-    typelist.clear();
+    _typeList.clear();
     comboBox_type->clear();
     obTable->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     obTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
@@ -181,9 +181,9 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
         obTable->setItem(i,6,ansD);
         obTable->setItem(i,7,correctAns);
 
-        if(!typelist.contains(obList.at(i)->getType()))
+        if(!_typeList.contains(obList.at(i)->getType()))
         {
-            typelist<<obList.at(i)->getType();
+            _typeList<<obList.at(i)->getType();
         }
 
     }
@@ -200,13 +200,13 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
         subTable->setItem(i,1,type);
         subTable->setItem(i,2,title);
 
-        if(!typelist.contains(subList.at(i)->getType()))
+        if(!_typeList.contains(subList.at(i)->getType()))
         {
-            typelist<<subList.at(i)->getType();
+            _typeList<<subList.at(i)->getType();
         }
     }
 
-    comboBox_type->addItems(typelist);
+    comboBox_type->addItems(_typeList);
 }
 
 void QuestionsManageUI::textClear()
@@ -224,7 +224,7 @@ void QuestionsManageUI::textClear()
 }
 void QuestionsManageUI::on_Button_addtype_clicked()
 {
-    if(typelist.indexOf(lineEdit_type->text())==-1)
+    if(_typeList.indexOf(lineEdit_type->text())==-1)
     {
         comboBox_type->addItem(lineEdit_type->text());
         QMessageBox::about(this,QString("信息"),QString("添加成功！"));
@@ -237,7 +237,7 @@ void QuestionsManageUI::on_Button_addtype_clicked()
 void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
 {
     textClear();
-    mode=1;
+    _mode=1;
     if(tabWidget_2->currentIndex()==0&&item->row()>=0)
     {
         tabWidget->setCurrentIndex(0);
@@ -279,11 +279,11 @@ void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
 
 void QuestionsManageUI::on_Button_Save_clicked()
 {
-    if(mode==1)
+    if(_mode==1)
     {
         this->modify();
     }
-    if(mode==0)
+    if(_mode==0)
     {
         this->add();
     }
@@ -291,7 +291,7 @@ void QuestionsManageUI::on_Button_Save_clicked()
 
 void QuestionsManageUI::on_Button_new_clicked()
 {
-    mode=0;
+    _mode=0;
     textClear();
     textEdit->setText(QString("请输入新题目的内容"));
     textEdit2_Content->setText(QString("请输入新题目的内容"));

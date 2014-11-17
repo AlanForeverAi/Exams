@@ -34,18 +34,18 @@ void Server::incomingConnection(int socketDescriptor)
     connect(thread, SIGNAL(disconnect(int)),
             this, SLOT(clientDisconnect(int)),Qt::QueuedConnection);
     thread->start();//线程启动
-    threadList.append(thread);
+    _threadList.append(thread);
 }
 
 /*接收到线程发出的连接断开信号后，在线程数组中查找该线程并移除*/
 void Server::clientDisconnect(int descriptor)
 {
-    for (int i=0; i<threadList.count(); i++)
+    for (int i=0; i<_threadList.count(); i++)
     {
-        if(threadList.at(i)->Descriptor()==descriptor)
+        if(_threadList.at(i)->getDescriptor()==descriptor)
         {
-            threadList.at(i)->exit();
-            threadList.removeAt(i);
+            _threadList.at(i)->exit();
+            _threadList.removeAt(i);
             emit removeUser(descriptor);
             return;
         }
@@ -55,27 +55,27 @@ void Server::clientDisconnect(int descriptor)
 /*ServerThread构造函数*/
 ServerThread::ServerThread(int descriptor, QObject *parent):QThread(parent)
 {
-    m_descriptor=descriptor;
+    _descriptor=descriptor;
 }
 
 /*告诉server套接字为m_descriptor的连接已经断开*/
 void ServerThread::threadFinished()
 {
-    emit this->disconnect(m_descriptor);
+    emit this->disconnect(_descriptor);
 }
 
 /*返回套接字描述符*/
-int ServerThread::Descriptor()
+int ServerThread::getDescriptor()
 {
-    return m_descriptor;
+    return _descriptor;
 }
 
 /*线程启动时调用的函数*/
 void ServerThread::run()
 {
-    socket=new ClientSocket;
+    _socket=new ClientSocket;
     /*用ServerThread保存的套接字描述符初始化套接字*/
-    if(!socket->setSocketDescriptor(m_descriptor))
+    if(!_socket->setSocketDescriptor(_descriptor))
     {
         qDebug("socket create fail!");
         this->finished();
@@ -83,21 +83,21 @@ void ServerThread::run()
     }
     /*连接消息发送信号*/
     connect(this,SIGNAL(sendData(int,qint32,QVariant)),
-            socket,SLOT(sendData(int,qint32,QVariant)));
+            _socket,SLOT(sendData(int,qint32,QVariant)));
     /*连接消息到达信号*/
-    connect(socket,SIGNAL(messageArrive(int,qint32,QVariant)),
+    connect(_socket,SIGNAL(messageArrive(int,qint32,QVariant)),
             this,SIGNAL(messageArrive(int,qint32,QVariant)));
     /*连接客户端断开信号*/
-    connect(socket,SIGNAL(disconnected()),this,SLOT(threadFinished()));
+    connect(_socket,SIGNAL(disconnected()),this,SLOT(threadFinished()));
     /*连接数据到达信号*/
-    connect(socket,SIGNAL(readyRead()),socket,SLOT(readData()));
+    connect(_socket,SIGNAL(readyRead()),_socket,SLOT(readData()));
     exec();
 }
 
 /*CientSocket构造函数*/
 ClientSocket::ClientSocket()
 {
-    totalBytes=0;
+    _totalBytes=0;
 }
 
 /*数据读取函数*/
@@ -111,22 +111,22 @@ void ClientSocket::readData()
     AllAnswers allans;
     Student u;
     /*如果还没有块大小信息则尝试去读取*/
-    if(totalBytes==0)
+    if(_totalBytes==0)
     {
         /*如果缓存区中可读数据的大小小于块大小信息的大小则返回*/
         if(this->bytesAvailable()<sizeof(qint32))
             return;
         /*写入块大小信息*/
-        in>>totalBytes;
+        in>>_totalBytes;
     }
     /*如果缓存区可读信息的大小小于块大小则返回*/
-    if(this->bytesAvailable()<totalBytes)
+    if(this->bytesAvailable()<_totalBytes)
         return;
     /*反之则说明完整的数据块已经到达缓存区，可以开始读取*/
     /*写入信息类型*/
-    in>>messageType;
+    in>>_messageType;
     /*根据信息类型写入信息内容*/
-    switch(messageType)
+    switch(_messageType)
     {
     case MSG_NEWCONNECT:
         in>>u;
@@ -151,9 +151,9 @@ void ClientSocket::readData()
         break;
     }
     /*将块大小信息重置为0，准备接收下一个数据块*/
-    totalBytes=0;
+    _totalBytes=0;
     /*发送信息到达信号*/
-    emit this->messageArrive(this->socketDescriptor(),messageType,v);
+    emit this->messageArrive(this->socketDescriptor(),_messageType,v);
 }
 
 /*数据发送预处理函数*/
@@ -161,10 +161,10 @@ void ClientSocket::sendData(int descriptor,qint32 m, QVariant v)
 {
     if(this->socketDescriptor()==descriptor||descriptor==-1)
     {
-        messageType=m;
-        data=v;
+        _messageType=m;
+        _data=v;
         this->send();
-        data.clear();
+        _data.clear();
     }
 }
 
@@ -177,27 +177,27 @@ void ClientSocket::send()
     /*预留一位用于填写数据大小*/
     out<<(qint32)0;
     /*写入信息类型*/
-    out<<messageType;
+    out<<_messageType;
     Paper p;
     Student u;
     QString s;
     /*根据信息类型将信息还原成原来的数据类型并写入*/
-    switch(messageType)
+    switch(_messageType)
     {
     case MSG_NEWCONNECT:
-        s=data.value<QString>();
+        s=_data.value<QString>();
         out<<s;
         break;
     case MSG_LOGIN:
-        u=data.value<Student>();
+        u=_data.value<Student>();
         out<<u;
         break;
     case MSG_GETPAPER:
-        p=data.value<Paper>();
+        p=_data.value<Paper>();
         out<<p;
         break;
     case MSG_ERROR:
-        s=data.value<QString>();
+        s=_data.value<QString>();
         out<<s;
         break;
     case MSG_BEGINEXAM:

@@ -10,10 +10,10 @@ public:
     explicit ConfigUI(QWidget *parent = 0);
 
 signals:
-    void reDB();
-    void reServer();
+    void readDB();
+    void readServer();
 public slots:
-    void on_pushButton_save_clicked();
+    void onPushbuttonSaveClicked();
 
 };
 

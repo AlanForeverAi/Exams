@@ -21,7 +21,7 @@ SubMarkUI::~SubMarkUI()
 
 void SubMarkUI::showPapers(QList<Paper *> pList)
 {
-    paperList=pList;
+    _paperList=pList;
     tableWidget_paper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_paper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_paper->setRowCount(pList.count());
@@ -41,18 +41,18 @@ void SubMarkUI::showPapers(QList<Paper *> pList)
 void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 {
 
-    currentPaperid=tableWidget_paper->item(item->row(),0)->text();
+    _currentPaperId=tableWidget_paper->item(item->row(),0)->text();
 
-    for(int i=0; i<paperList.count(); i++)
+    for(int i=0; i<_paperList.count(); i++)
     {
-        if(paperList.at(i)->getPaperId()==currentPaperid.toInt())
+        if(_paperList.at(i)->getPaperId()==_currentPaperId.toInt())
         {
 
-            int obnumber=paperList.at(i)->getObQuIds().count(",");
-            int subnumber=paperList.at(i)->getSubQuIds().count(",");
+            int obnumber=_paperList.at(i)->getObQuIds().count(",");
+            int subnumber=_paperList.at(i)->getSubQuIds().count(",");
 
-            QTableWidgetItem* id=new QTableWidgetItem(QString::number(paperList.at(i)->getPaperId()));
-            QTableWidgetItem* description=new QTableWidgetItem(paperList.at(i)->getDescription());
+            QTableWidgetItem* id=new QTableWidgetItem(QString::number(_paperList.at(i)->getPaperId()));
+            QTableWidgetItem* description=new QTableWidgetItem(_paperList.at(i)->getDescription());
             QTableWidgetItem* obn=new QTableWidgetItem(QString::number(obnumber));
             QTableWidgetItem* subn=new QTableWidgetItem(QString::number(subnumber));
 
@@ -63,7 +63,7 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 
             int mark=0;
             if(subnumber)
-                mark=paperList.at(i)->getTotalMark()*(100-paperList.at(i)->getPercent())/100/subnumber;
+                mark=_paperList.at(i)->getTotalMark()*(100-_paperList.at(i)->getPercent())/100/subnumber;
             lineEdit_mark->setText(QString::number(mark));
 
             QIntValidator *validator = new QIntValidator(0,mark,this);//0-mark值之间的整数验证器
@@ -74,7 +74,7 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
     }
     pushButton_Pre->setEnabled(false);
     pushButton_Next->setEnabled(false);
-    emit this->getUserByPaperId(currentPaperid.toInt(),QString("已完成"));
+    emit this->getUserByPaperId(_currentPaperId.toInt(),QString("已完成"));
 }
 
 void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
@@ -105,59 +105,59 @@ void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
 void SubMarkUI::userTableChange(QTableWidgetItem *item)
 {
 
-    currentUserid=tableWidget_userInfo->item(item->row(),0)->text();
+    _currentUserId=tableWidget_userInfo->item(item->row(),0)->text();
 
-    emit this->getSubAnswer(currentPaperid.toInt(),currentUserid);
+    emit this->getSubAnswer(_currentPaperId.toInt(),_currentUserId);
 }
 
 void SubMarkUI::showSubAnswer(QVector<QString> s)
 {
-    sub=s;
-    subNo=0;
-    submark.resize(sub.size()/2);
+    _sub=s;
+    _subNo=0;
+    _subMark.resize(_sub.size()/2);
 
 
-    submark.fill("0");
+    _subMark.fill("0");
 
     pushButton_Pre->setEnabled(true);
     pushButton_Next->setEnabled(true);
     pushButton_submit->setEnabled(true);
-    this->showCurrentAnswer(subNo);
+    this->showCurrentAnswer(_subNo);
 }
 
 void SubMarkUI::on_pushButton_Pre_clicked()
 {
-    submark.replace(subNo,lineEdit_GotMark->text());
-    if(subNo-1>=0)
+    _subMark.replace(_subNo,lineEdit_GotMark->text());
+    if(_subNo-1>=0)
     {
-        subNo--;
-        this->showCurrentAnswer(subNo);
+        _subNo--;
+        this->showCurrentAnswer(_subNo);
     }
 }
 
 void SubMarkUI::on_pushButton_Next_clicked()
 {
-    submark.replace(subNo,lineEdit_GotMark->text());
-    if(subNo+1<sub.size()/2)
+    _subMark.replace(_subNo,lineEdit_GotMark->text());
+    if(_subNo+1<_sub.size()/2)
     {
-        subNo++;
-        this->showCurrentAnswer(subNo);
+        _subNo++;
+        this->showCurrentAnswer(_subNo);
     }
 }
 
 void SubMarkUI::showCurrentAnswer(int n)
 {
 
-    lineEdit_GotMark->setText(submark.at(n));
-    textBrowser_answser->setText(sub.at(n));
-    textBrowser_title->setText(sub.at(sub.size()/2+n));
+    lineEdit_GotMark->setText(_subMark.at(n));
+    textBrowser_answser->setText(_sub.at(n));
+    textBrowser_title->setText(_sub.at(_sub.size()/2+n));
 
 
 
-    if(n>0&&n<sub.size()/2)
+    if(n>0&&n<_sub.size()/2)
         pushButton_Pre->setEnabled(true);
     pushButton_Next->setEnabled(true);
-    if(n+1==sub.size()/2)
+    if(n+1==_sub.size()/2)
         pushButton_Next->setEnabled(false);
     if(n==0)
         pushButton_Pre->setEnabled(false);
@@ -165,21 +165,21 @@ void SubMarkUI::showCurrentAnswer(int n)
 
 void SubMarkUI::on_pushButton_submit_clicked()
 {
-    submark.replace(subNo,lineEdit_GotMark->text());
+    _subMark.replace(_subNo,lineEdit_GotMark->text());
     pushButton_Pre->setEnabled(false);
     pushButton_Next->setEnabled(false);
     pushButton_submit->setEnabled(false);
 
 
     QString mark;
-    for(int i=0; i<submark.size(); i++)
+    for(int i=0; i<_subMark.size(); i++)
     {
-        mark.append(submark.at(i));
+        mark.append(_subMark.at(i));
         mark.append(",");
     }
     QStringList list;
-    list.append(currentPaperid);
-    list.append(currentUserid);
+    list.append(_currentPaperId);
+    list.append(_currentUserId);
     list.append(mark);
     emit this->submitSubMark(list);
     QMessageBox::about(this,QString("信息"),QString("你的批改已经保存。"));

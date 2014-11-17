@@ -3,13 +3,13 @@
 //构造函数，连接数据库
 DBManager::DBManager(QString name, QString user, QString pw)
 {
-    db=QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");    //主机名
-    db.setDatabaseName("qtdb");     //数据库名
-    db.setUserName("root");             //用户名
-    db.setPassword("allen");                 //密码
+    _db=QSqlDatabase::addDatabase("QMYSQL");
+    _db.setHostName("localhost");    //主机名
+    _db.setDatabaseName("qtdb");     //数据库名
+    _db.setUserName("root");             //用户名
+    _db.setPassword("allen");                 //密码
 
-    if(!db.open())
+    if(!_db.open())
     {
         QMessageBox msg;
         msg.setText(QString("连接数据库失败！"));
@@ -23,7 +23,7 @@ DBManager::~DBManager()
 
 //////////////////////////////////////////////////////////////////
 //查询user表的所有数据
-QSqlQuery DBManager::SelectUser()
+QSqlQuery DBManager::selectUser()
 {
 
     QSqlQuery query;
@@ -36,7 +36,7 @@ QSqlQuery DBManager::SelectUser()
     }
 }
 
-QSqlQuery DBManager::SelectUserId(QString a)
+QSqlQuery DBManager::selectUserId(QString a)
 {
     QSqlQuery query;
     query.prepare("SELECT * FROM user WHERE userid = (?)");
@@ -48,7 +48,7 @@ QSqlQuery DBManager::SelectUserId(QString a)
 
 }
 
-QSqlQuery DBManager::SelectUserGc(int a, int b)
+QSqlQuery DBManager::selectUserGc(int a, int b)
 {
     QSqlQuery query;
     query.prepare("SELECT * FROM user WHERE grade = (?) AND class = (?)");
@@ -61,7 +61,7 @@ QSqlQuery DBManager::SelectUserGc(int a, int b)
 }
 
 //插入用户
-void DBManager::InsertUser(QString a, QString b, int c, int d, QString e)
+void DBManager::insertUser(QString a, QString b, int c, int d, QString e)
 {
     QSqlQuery query;
 
@@ -76,7 +76,7 @@ void DBManager::InsertUser(QString a, QString b, int c, int d, QString e)
     qDebug()<<query.lastError();
 }
 
-void DBManager::ModifyUser(QString id, QString name, int grade, int clas, QString PW)
+void DBManager::modifyUser(QString id, QString name, int grade, int clas, QString PW)
 {
     QSqlQuery query;
     QString s="UPDATE user set name='%1',grade=%2,class=%3,password='%4' WHERE userid='%5'";
@@ -87,7 +87,7 @@ void DBManager::ModifyUser(QString id, QString name, int grade, int clas, QStrin
 }
 
 //根据id删除用户
-void DBManager::DeleteUserId(QString a)
+void DBManager::deleteUserId(QString a)
 {
     QSqlQuery query;
     query.prepare("DELETE FROM user WHERE userid = (?)");
@@ -97,7 +97,7 @@ void DBManager::DeleteUserId(QString a)
         query.exec();
 }
 //根据name删除用户
-void DBManager::DeleteUserName(QString a)
+void DBManager::deleteUserName(QString a)
 {
     QSqlQuery query;
     query.prepare("DELETE FROM user WHERE name = (?)");
@@ -110,7 +110,7 @@ void DBManager::DeleteUserName(QString a)
 /*
  *改用serveruser数据库。。。
  */
-QSqlQuery DBManager::SelectManager()
+QSqlQuery DBManager::selectManager()
 {
     QSqlQuery query;
     if( query.exec("SELECT userid,name,password,type FROM serveruser"))
@@ -118,7 +118,7 @@ QSqlQuery DBManager::SelectManager()
     else
         return query;
 }
-void DBManager::InsertManager(int a,QString b,QString c)
+void DBManager::insertManager(int a,QString b,QString c)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO serveruser (userid, name,password) "
@@ -145,7 +145,7 @@ void DBManager::InsertManager(int a,QString b,QString c, int d)
 }
 */
 
-void DBManager::DeleteManagerId(int a)
+void DBManager::deleteManagerId(int a)
 {
     QSqlQuery query;
     query.prepare("DELETE FROM serveruser WHERE userid = (?)");
@@ -155,7 +155,7 @@ void DBManager::DeleteManagerId(int a)
         query.exec();
 }
 
-void DBManager::DeleteManagerName(QString a)
+void DBManager::deleteManagerName(QString a)
 {
     QSqlQuery query;
     query.prepare("DELETE FROM serveruser WHERE name = (?)");
@@ -211,7 +211,7 @@ void DBManager::DeleteManagerName(QString a)
 */
 
 //插入客观题到数据库
-void DBManager::InserOb(int id,QString type,QString title,QString answer)
+void DBManager::insertOb(int id,QString type,QString title,QString answer)
 {
     QSqlQuery query;
 
@@ -228,7 +228,7 @@ void DBManager::InserOb(int id,QString type,QString title,QString answer)
 }
 
 //插入主观题到数据库
-void DBManager::InserSub(int id,QString type,QString title)
+void DBManager::insertSub(int id,QString type,QString title)
 {
 
     QSqlQuery query;
@@ -246,7 +246,7 @@ void DBManager::InserSub(int id,QString type,QString title)
 }
 
 //查询客观题表的所有数据
-QSqlQuery DBManager::SelectobQuestions()
+QSqlQuery DBManager::selectObQuestions()
 {
     QSqlQuery query;
     if( query.exec("SELECT * FROM obquestions"))
@@ -258,7 +258,7 @@ QSqlQuery DBManager::SelectobQuestions()
 
 
 //查询主观题表的所有数据
-QSqlQuery DBManager::SelectsubQuestions()
+QSqlQuery DBManager::selectSubQuestions()
 {
     QSqlQuery query;
     if( query.exec("SELECT * FROM subquestions"))
@@ -268,7 +268,7 @@ QSqlQuery DBManager::SelectsubQuestions()
     ;
 }
 //按ID找到记录把在问题表和答案表内的该记录一并删除（客观题）
-void DBManager::DeleteobQuestions(int id)
+void DBManager::deleteObQuestions(int id)
 {
 
     QSqlQuery query;
@@ -281,7 +281,7 @@ void DBManager::DeleteobQuestions(int id)
 }
 
 //按ID找到记录把在问题表和答案表内的该记录一并删除（主观题）
-void DBManager::DeletesubQuestions(int id)
+void DBManager::deleteSubQuestions(int id)
 {
 
     QSqlQuery query;
@@ -295,7 +295,7 @@ void DBManager::DeletesubQuestions(int id)
 }
 
 //按ID修改客观题问题表
-void DBManager::AlterobQuestions(int id ,QString type,QString title ,QString answer)
+void DBManager::alterObQuestions(int id ,QString type,QString title ,QString answer)
 {
 
     QSqlQuery query;
@@ -307,7 +307,7 @@ void DBManager::AlterobQuestions(int id ,QString type,QString title ,QString ans
 
 
 //按ID修改主观题问题表
-void DBManager::AltersubQuestions(int id ,QString type ,QString title)
+void DBManager::alterSubQuestions(int id ,QString type ,QString title)
 {
 
     QSqlQuery query;
@@ -316,7 +316,7 @@ void DBManager::AltersubQuestions(int id ,QString type ,QString title)
     qDebug()<<query.lastError();
 }
 
-void DBManager::InserPaper( QString obids, QString subids, int total, int percent, QString description,int time)
+void DBManager::insertPaper( QString obids, QString subids, int total, int percent, QString description,int time)
 {
     QSqlQuery query;
 
@@ -334,7 +334,7 @@ void DBManager::InserPaper( QString obids, QString subids, int total, int percen
     qDebug()<<query.lastError();
 }
 
-QSqlQuery DBManager::SelectPaperById(int id)
+QSqlQuery DBManager::selectPaperById(int id)
 {
     QSqlQuery query;
     QString s="SELECT * FROM paper WHERE paperid=%1";
@@ -351,7 +351,7 @@ QSqlQuery DBManager::SelectPaperById(int id)
     }
 }
 
-QSqlQuery DBManager::SelectPaper()
+QSqlQuery DBManager::selectPaper()
 {
 
     QSqlQuery query;
@@ -363,7 +363,7 @@ QSqlQuery DBManager::SelectPaper()
 
 }
 
-void DBManager::DeletePaperById(int id)
+void DBManager::deletePaperById(int id)
 {
     QSqlQuery query;
 
@@ -373,7 +373,7 @@ void DBManager::DeletePaperById(int id)
     qDebug()<<query.lastError();
 }
 
-void DBManager::AlterPaper(int id,QString obids, QString subids, int total, int percent, QString description,int time)
+void DBManager::alterPaper(int id,QString obids, QString subids, int total, int percent, QString description,int time)
 {
     QSqlQuery query;
     QString s="UPDATE paper set obquids='%1',subquids='%2',totalmark=%3,percent=%4,description='%5',time='%6' WHERE paperid=%7";
@@ -385,7 +385,7 @@ void DBManager::AlterPaper(int id,QString obids, QString subids, int total, int 
 
 
 //把学生客观题答案插入客观题答案表
-void DBManager::InserobAnswers(int fpaperid,QString studentid,QString answers)
+void DBManager::insertObAnswers(int fpaperid,QString studentid,QString answers)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO obanswers (fpaperid,studentid,answers) " "VALUES (?,?,?)");
@@ -397,7 +397,7 @@ void DBManager::InserobAnswers(int fpaperid,QString studentid,QString answers)
     qDebug()<<query.lastError();
 }
 
-void DBManager::UpdateobAnswers(int pid, QString uid, QString ans)
+void DBManager::updateObAnswers(int pid, QString uid, QString ans)
 {
     QString s="UPDATE obanswers set answers='%1' WHERE fpaperid=%2 and studentid=%3";
     QSqlQuery query;
@@ -408,7 +408,7 @@ void DBManager::UpdateobAnswers(int pid, QString uid, QString ans)
 }
 
 //把学生主观题答案插入主观题答案表
-void DBManager::InsersubAnswers(int fpaperid,QString studentid)
+void DBManager::insertSubAnswers(int fpaperid,QString studentid)
 {
 
     QSqlQuery query;
@@ -421,7 +421,7 @@ void DBManager::InsersubAnswers(int fpaperid,QString studentid)
     qDebug()<<query.lastError();
 
 }
-void DBManager::UpdatesubAnswers(int pid, QString uid, int index, QString answer)
+void DBManager::updateSubAnswers(int pid, QString uid, int index, QString answer)
 {
     QString s="UPDATE subanswers set answer%1='%2' WHERE fpaperid=%3 and studentid=%4";
     QSqlQuery query;
@@ -431,7 +431,7 @@ void DBManager::UpdatesubAnswers(int pid, QString uid, int index, QString answer
 }
 
 //把学生某张试卷的成绩插入试卷成绩表
-bool DBManager::InserpaperMark(QString obqumark,QString subqumark,int totalmark,int fpaperid,QString fuserid)
+bool DBManager::insertPaperMark(QString obqumark,QString subqumark,int totalmark,int fpaperid,QString fuserid)
 {
     QSqlQuery query;
 
@@ -459,7 +459,7 @@ bool DBManager::InserpaperMark(QString obqumark,QString subqumark,int totalmark,
 }
 
 
-bool DBManager::DeletePapermark(int pid)
+bool DBManager::deletePaperMark(int pid)
 {
     QSqlQuery query;
 
@@ -476,7 +476,7 @@ bool DBManager::DeletePapermark(int pid)
     qDebug()<<query.lastError();
 }
 
-QSqlQuery DBManager::SearchpaperMark(int pid, QString uid)
+QSqlQuery DBManager::searchPaperMark(int pid, QString uid)
 {
     QSqlQuery query;
     QString s="SELECT * FROM papermark WHERE fpaperid=%1 and fuserid=%2 ";
@@ -494,7 +494,7 @@ QSqlQuery DBManager::SearchpaperMark(int pid, QString uid)
     }
 }
 //按试卷ID在papermark表中查询
-QSqlQuery DBManager::QueryPapermark1(int id)
+QSqlQuery DBManager::queryPaperMark1(int id)
 {
     QSqlQuery query;
     QString s="SELECT * FROM papermark inner join user on user.userid=papermark.fuserid WHERE fpaperid=%1";
@@ -514,7 +514,7 @@ QSqlQuery DBManager::QueryPapermark1(int id)
 }
 
 //按学生ID在papermark表中查询
-QSqlQuery DBManager::QueryPapermark2(QString id)
+QSqlQuery DBManager::queryPaperMark2(QString id)
 {
     QSqlQuery query;
     QString s="SELECT * FROM papermark WHERE fuserid=%1";
@@ -532,7 +532,7 @@ QSqlQuery DBManager::QueryPapermark2(QString id)
 }
 
 //按试卷ID和学生ID在subanswers表中查询
-QSqlQuery DBManager::QuerysubAnswers(int fpaperid,QString studentid)
+QSqlQuery DBManager::querySubAnswers(int fpaperid,QString studentid)
 {
 
     QSqlQuery query;
@@ -547,7 +547,7 @@ QSqlQuery DBManager::QuerysubAnswers(int fpaperid,QString studentid)
 }
 
 //登录功能，账号密码正确返回true 否则返回false
-QSqlQuery DBManager::Login(QString id ,QString password)
+QSqlQuery DBManager::login(QString id ,QString password)
 {
     QSqlQuery query;
     QString s="SELECT * FROM user WHERE userid=%1 and password='%2' ";
@@ -567,7 +567,7 @@ QSqlQuery DBManager::Login(QString id ,QString password)
 
 //serveruser登录
 //转成serveruser数据库。。。验证成功的时候顺便把用户的设置用户的type。。。方便以后可以获得当前用户的信息。
-QSqlQuery DBManager::ManagerLogin(int id ,QString password)
+QSqlQuery DBManager::managerLogin(int id ,QString password)
 {
     QSqlQuery query;
     QString s="SELECT userid, name, type FROM serveruser WHERE userid=%1 and password=\'%2\' ";
@@ -586,7 +586,7 @@ QSqlQuery DBManager::ManagerLogin(int id ,QString password)
 
 }
 
-void DBManager::UpdatepaperMarkObmark(QString obmark,int pid,QString uid)
+void DBManager::updatePaperMarkObmark(QString obmark,int pid,QString uid)
 {
     QSqlQuery query;
     QString s="UPDATE papermark set obqumark='%1' WHERE fpaperid=%2 and fuserid=%3";
@@ -596,7 +596,7 @@ void DBManager::UpdatepaperMarkObmark(QString obmark,int pid,QString uid)
     qDebug()<<query.lastError();
 }
 
-void DBManager::UpdatepaperMarkSubmark(QString submark,int pid,QString uid)
+void DBManager::updatePaperMarkSubmark(QString submark,int pid,QString uid)
 {
     QSqlQuery query;
     QString s="UPDATE papermark set subqumark='%1' WHERE fpaperid=%2 and fuserid=%3";
@@ -606,7 +606,7 @@ void DBManager::UpdatepaperMarkSubmark(QString submark,int pid,QString uid)
     qDebug()<<query.lastError();
 }
 
-void DBManager::UpdatepaperMarkTotalmark(int totalmark,int pid,QString uid)
+void DBManager::updatePaperMarkTotalmark(int totalmark,int pid,QString uid)
 {
     QSqlQuery query;
     QString s="UPDATE papermark set totalmark='%1',finish='%2' WHERE fpaperid=%3 and fuserid=%4";
@@ -618,7 +618,7 @@ void DBManager::UpdatepaperMarkTotalmark(int totalmark,int pid,QString uid)
 
 
 
-void DBManager::UpdatepapermarkDone(QString date,int pid,QString uid)
+void DBManager::updatePaperMarkDone(QString date,int pid,QString uid)
 {
     QSqlQuery query;
     QString s="UPDATE papermark set date='%1',done='%2',finish='%3' WHERE fpaperid=%4 and fuserid=%5";
@@ -632,7 +632,7 @@ void DBManager::UpdatepapermarkDone(QString date,int pid,QString uid)
 
 
 
-int DBManager::DeleteScore(int pid,qlonglong uid)
+int DBManager::deleteScore(int pid,qlonglong uid)
 {
     QSqlQuery query;
     int rowsaffected=0;

@@ -95,7 +95,6 @@ private slots:
     void backToMenu();
     void closeEvent(QCloseEvent *);
 private:
-    Ui::MainWindow *ui;
     void do_QuestionsManager();
     void do_makepaper();
     void do_examctrl();
@@ -106,7 +105,8 @@ private:
     void do_config();
     void do_scomanage();
     void do_inoutput();
-    QStatusBar *statusbar;
+    Ui::MainWindow *_ui;
+    QStatusBar *_statusBar;
 
 
 };

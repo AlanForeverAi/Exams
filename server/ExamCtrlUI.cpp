@@ -10,11 +10,11 @@ ExamCtrlUI::ExamCtrlUI(QWidget *parent) :
     pushButton_begin->setEnabled(false);
     tableWidget_user->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
 
-    counttimer=new QTimer(this);
-    connect(counttimer,SIGNAL(timeout()),this,SLOT(counttimeUpdate()));
-    datetimer=new QTimer(this);
-    connect(datetimer,SIGNAL(timeout()),this,SLOT(datetimeUpdate()));
-    datetimer->start(1000);
+    _countTimer=new QTimer(this);
+    connect(_countTimer,SIGNAL(timeout()),this,SLOT(counttimeUpdate()));
+    _dateTimer=new QTimer(this);
+    connect(_dateTimer,SIGNAL(timeout()),this,SLOT(datetimeUpdate()));
+    _dateTimer->start(1000);
 
     label_state->setText(QString("没有设置考试"));
 
@@ -53,7 +53,7 @@ void ExamCtrlUI::on_pushButton_begin_clicked()
     pushButton_end->setEnabled(true);
     pushButton_send->setEnabled(false);
     tableWidget_paper->setEnabled(false);
-    counttimer->start(1000);
+    _countTimer->start(1000);
 
     label_state->setText(QString("考试进行中"));
 
@@ -71,7 +71,7 @@ void ExamCtrlUI::on_pushButton_end_clicked()
         pushButton_end->setEnabled(false);
         pushButton_back->setEnabled(true);
         tableWidget_paper->setEnabled(true);
-        counttimer->stop();
+        _countTimer->stop();
         emit this->endExam();
         label_state->setText(QString("考试已经结束"));
     }
@@ -83,16 +83,16 @@ void ExamCtrlUI::on_pushButton_end_clicked()
 
 void ExamCtrlUI::counttimeUpdate()
 {
-    counttime=counttime.addSecs(-1);
-    timeEdit_papertime->setTime(counttime);
-    if(counttime.secsTo(QTime(0,0,0))==0)
+    _countTime=_countTime.addSecs(-1);
+    timeEdit_papertime->setTime(_countTime);
+    if(_countTime.secsTo(QTime(0,0,0))==0)
     {
         pushButton_send->setEnabled(true);
         pushButton_begin->setEnabled(true);
         pushButton_end->setEnabled(false);
         pushButton_back->setEnabled(true);
         tableWidget_paper->setEnabled(true);
-        counttimer->stop();
+        _countTimer->stop();
 
         emit this->endExam();
         label_state->setText(QString("考试已经结束"));
@@ -152,8 +152,8 @@ void ExamCtrlUI::on_pushButton_send_clicked()
     {
         label_name->setText(tableWidget_paper->item(tableWidget_paper->currentRow(),1)->text());
         int time=tableWidget_paper->item(tableWidget_paper->currentRow(),2)->text().toInt();
-        counttime.setHMS(time/60,time%60,0);
-        timeEdit_papertime->setTime(counttime);
+        _countTime.setHMS(time/60,time%60,0);
+        timeEdit_papertime->setTime(_countTime);
         int paperid= tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
         emit this->sendPaper(paperid);
     }
@@ -176,6 +176,6 @@ void ExamCtrlUI::on_pushButton_send_clicked()
 
 void ExamCtrlUI::getcurrentPaperTime(int descriptor)
 {
-    int time=counttime.hour()*3600+counttime.minute()*60+counttime.second();
+    int time=_countTime.hour()*3600+_countTime.minute()*60+_countTime.second();
     emit this->sendPaperTime(descriptor,time);
 }

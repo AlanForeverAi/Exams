@@ -56,21 +56,21 @@ private slots:
     void on_comboBoxselect_currentIndexChanged(const QString &arg1);
 
 private:
-    int currentPaperId;
+    int _currentPaperId;
     //又又见到坑爹的东西。。。。。。。
-    QList<ObQuestions*> all_Ob;
-    QList<ObQuestions*> select_Ob;
-    QList<SubQuestions*> all_Sub;
-    QList<SubQuestions*> select_Sub;
-    QList<ObQuestions*> temp_Ob;
-    QList<SubQuestions*> temp_Sub;
-    QString  ob_que_ids;
-    QString sub_que_ids;
-    QList<Paper*> paperList;
-    QList<Student*> userlist;
-    QList<Student*> selectuserlist;
-    QList<Student*> searchlist;
-    QStringList typelist;
+    QList<ObQuestions *> _allOb;
+    QList<ObQuestions *> _selectOb;
+    QList<SubQuestions *> _allSub;
+    QList<SubQuestions *> _selectSub;
+    QList<ObQuestions *> _tempOb;
+    QList<SubQuestions *> _tempSub;
+    QString  _obQueIds;
+    QString _subQueIds;
+    QList<Paper *> _paperList;
+    QList<Student *> userList;
+    QList<Student *> _selectUserList;
+    QList<Student *> _searchList;
+    QStringList _typeList;
 
 };
 

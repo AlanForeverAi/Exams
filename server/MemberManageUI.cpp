@@ -12,10 +12,10 @@ MemberManageUI::~MemberManageUI()
 
 void MemberManageUI::showUser(QList<Student *> userList,QList<USER *> managerList)
 {
-    if(userlist.isEmpty())
-        userlist=userList;
-    if(managerlist.isEmpty())
-        managerlist=managerList;
+    if(userList.isEmpty())
+        userList=userList;
+    if(managerList.isEmpty())
+        managerList=managerList;
 
     tableWidget_Student->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_Student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
@@ -112,42 +112,42 @@ void MemberManageUI::on_pushButton_search_clicked()
 {
     if(tabWidget->currentIndex()==0)
     {
-        usearchlist.clear();
+        usearchList.clear();
         QString s_tosearch;
         s_tosearch=lineEdit_search->text();
-        for(int i=0; i<userlist.count(); i++)
+        for(int i=0; i<userList.count(); i++)
         {
-            if(userlist.at(i)->getID()==s_tosearch||
-                    userlist.at(i)->getName()==s_tosearch||
-                    userlist.at(i)->getGrade()==s_tosearch.toInt()||
-                    userlist.at(i)->getClass()==s_tosearch.toInt())
+            if(userList.at(i)->getID()==s_tosearch||
+                    userList.at(i)->getName()==s_tosearch||
+                    userList.at(i)->getGrade()==s_tosearch.toInt()||
+                    userList.at(i)->getClass()==s_tosearch.toInt())
             {
-                usearchlist.append(userlist.at(i));
+                usearchList.append(userList.at(i));
             }
         }
-        this->showUser(usearchlist,managerlist);
+        this->showUser(usearchList,managerList);
     }
     else if(tabWidget->currentIndex()==1)
     {
-        msearchlist.clear();
+        msearchList.clear();
         QString s_tosearch;
         s_tosearch=lineEdit_search->text();
-        for(int i=0; i<managerlist.count(); i++)
+        for(int i=0; i<managerList.count(); i++)
         {
-            if(managerlist.at(i)->getId()==s_tosearch.toInt()||
-                    managerlist.at(i)->getName()==s_tosearch
+            if(managerList.at(i)->getId()==s_tosearch.toInt()||
+                    managerList.at(i)->getName()==s_tosearch
               )
             {
-                msearchlist.append(managerlist.at(i));
+                msearchList.append(managerList.at(i));
             }
         }
-        this->showUser(userlist,msearchlist);
+        this->showUser(userList,msearchList);
     }
 }
 
 void MemberManageUI::on_pushButton_all_clicked()
 {
-    this->showUser(userlist,managerlist);
+    this->showUser(userList,managerList);
 }
 
 void MemberManageUI::textClear()

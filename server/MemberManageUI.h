@@ -27,10 +27,10 @@ private slots:
     void showUser(QList<Student*>, QList<USER *> );
     void textClear();
 private:
-    QList<Student*> userlist;
-    QList<USER*> managerlist;
-    QList<Student*> usearchlist;
-    QList<USER*> msearchlist;
+    QList<Student *> userList;
+    QList<USER *> managerList;
+    QList<Student *> usearchList;
+    QList<USER *> msearchList;
 
 };
 
