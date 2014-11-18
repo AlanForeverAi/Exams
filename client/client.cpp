@@ -39,36 +39,36 @@ void Client::send()
     /*写入信息类型*/
     out << messageType;
 
-    User u;
-    All_answers allans;
+    Student u;
+    AllAnswers allans;
     /*根据信息类型将信息还原成原来的数据类型并写入*/
     switch(messageType)
     {
-        case MSG_NEWCONNECT:
-            break;
-        case MSG_LOGIN:
-            u=data.value<User>();
-            u.setHostname(QHostInfo::localHostName());
-            out<<u;
-            break;
-        case MSG_GETPAPER:
-            u=data.value<User>();
-            out<<u;
-            break;
-        case MSG_ANSWER:
-            allans=data.value<All_answers>();
-            out<<allans;
-            break;
-        case MSG_ANSWERSINGLE:
-             allans=data.value<All_answers>();
-                out<<allans;
-               break;
+    case MSG_NEWCONNECT:
+        break;
+    case MSG_LOGIN:
+        u=data.value<User>();
+        u.setHostname(QHostInfo::localHostName());
+        out<<u;
+        break;
+    case MSG_GETPAPER:
+        u=data.value<User>();
+        out<<u;
+        break;
+    case MSG_ANSWER:
+        allans=data.value<All_answers>();
+        out<<allans;
+        break;
+    case MSG_ANSWERSINGLE:
+        allans=data.value<All_answers>();
+        out<<allans;
+        break;
     }
 
-     /*返回第一位并将数据大小写入*/
+    /*返回第一位并将数据大小写入*/
     out.device()->seek(0);
     out << (qint32)(block.size() - sizeof(qint32));
-     /*将数据块写入TCP发送缓存区*/
+    /*将数据块写入TCP发送缓存区*/
     this->write(block,block.size());
 
 }
@@ -81,16 +81,16 @@ void Client::readData()
     in.setVersion(QDataStream::Qt_4_7);
     Paper p;
     QString s;
-    User u;
+    Student u;
     /*如果还没有块大小信息则尝试去读取*/
     if(totalBytes==0)
-       {
-           /*如果缓存区中可读数据的大小小于块大小信息的大小则返回*/
-           if(this->bytesAvailable()<sizeof(qint32))
+    {
+        /*如果缓存区中可读数据的大小小于块大小信息的大小则返回*/
+        if(this->bytesAvailable()<sizeof(qint32))
             return;
-           /*写入块大小信息*/
+        /*写入块大小信息*/
         in>>totalBytes;
-       }
+    }
     /*如果缓存区可读信息的大小小于块大小则返回*/
     if(this->bytesAvailable()<totalBytes)
         return;
@@ -124,8 +124,8 @@ void Client::readData()
     /*将块大小信息重置为0，准备接收下一个数据块*/
     totalBytes=0;
     /*发送信息到达信号*/
-     emit this->messageArrive(messageType,data);
-     this->flush();
+    emit this->messageArrive(messageType,data);
+    this->flush();
 }
 
 /*显示套接字返回的错误信息*/
@@ -133,15 +133,15 @@ void Client::displayError(QAbstractSocket::SocketError socketError)
 {
     QMessageBox msgBox;
     switch (socketError)
-        {
-        case QAbstractSocket::ConnectionRefusedError:
-            this->abort();
-            msgBox.setText(QString("连接服务器失败"));
-            msgBox.exec();
-            break;
-        default:
-            QString s="The following error occurred: %1";
-            qDebug()<<s.arg(socketError);
+    {
+    case QAbstractSocket::ConnectionRefusedError:
+        this->abort();
+        msgBox.setText(QString("连接服务器失败"));
+        msgBox.exec();
+        break;
+    default:
+        QString s="The following error occurred: %1";
+        qDebug()<<s.arg(socketError);
     }
 }
 

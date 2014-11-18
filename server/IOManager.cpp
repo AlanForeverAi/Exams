@@ -177,15 +177,15 @@ QList<Paper*> IOManager::inputPaper(QString path)
         temp=in.readLine();
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        paper->setOb_qu_ids(temp);
+        paper->setObQuIds(temp);
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        paper->setSub_qu_ids(temp);
+        paper->setSubQuIds(temp);
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        paper->setTotal_mark(temp.toInt());
+        paper->setTotalMark(temp.toInt());
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);

@@ -18,14 +18,14 @@ void MainApp::readConfig()
 {
     QFile Config("config.ini");
     if(!Config.open(QIODevice::ReadOnly|QIODevice::Text))
-        {
-            QMessageBox msg;
-            msg.setText(QString("读取配置文件失败！将使用默认配置"));
-            msg.exec();
-            IP="localhost";
-            port=3312;
-            return;
-        }
+    {
+        QMessageBox msg;
+        msg.setText(QString("读取配置文件失败！将使用默认配置"));
+        msg.exec();
+        IP="localhost";
+        port=3312;
+        return;
+    }
 
     QTextStream in(&Config);
     QString temp;
@@ -56,22 +56,22 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(paperReady(Paper)),&w,SIGNAL(paperReady(Paper)));
     connect(this,SIGNAL(showPaper()),&w,SIGNAL(showPaper()));
     connect(&w,SIGNAL(getPaper()),this,SLOT(getPaper()));
-    connect(&w,SIGNAL(sendAnswers(All_answers)),this,SLOT(sendAnswers(All_answers)));
+    connect(&w,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(sendAnswers(AllAnswers)));
     connect(this,SIGNAL(endExam()),&w,SIGNAL(endExam()));
-    connect(&w,SIGNAL(loginSignal(User)),this,SLOT(Login(User)));
-    connect(&w,SIGNAL(sendAnswersSingle(All_answers)),this,SLOT(sendAnswersSingle(All_answers)));
+    connect(&w,SIGNAL(loginSignal(Student)),this,SLOT(Login(Student)));
+    connect(&w,SIGNAL(sendAnswersSingle(AllAnswers)),this,SLOT(sendAnswersSingle(AllAnswers)));
     connect(this,SIGNAL(LoginOK()),&w,SLOT(LoginOK()));
     connect(&w,SIGNAL(getUserInfo()),this,SLOT(getUserInfo()));
-    connect(this,SIGNAL(showUserInfo(User)),&w,SIGNAL(showUserInfo(User)));
+    connect(this,SIGNAL(showUserInfo(Student)),&w,SIGNAL(showUserInfo(Student)));
     connect(this,SIGNAL(updateInfo(QString)),&w,SLOT(updateInfo(QString)));
     connect(this,SIGNAL(showMessage(QString)),&w,SIGNAL(showMessage(QString)));
     w.show();
 
 }
 
-void MainApp::sendAnswersSingle(All_answers allans)
+void MainApp::sendAnswersSingle(AllAnswers allans)
 {
-    allans.setUserid(currentUser.getID());
+    allans.setUserId(currentUser.getID());
     QVariant v;
     v.setValue(allans);
     client->sendData(MSG_ANSWERSINGLE,v);
@@ -95,7 +95,7 @@ void::MainApp::getPaper()
 void MainApp::messageArrive(qint32 m, QVariant v)
 {
     QMessageBox msg;
-  //  QList<Combo> list;
+    //  QList<Combo> list;
     switch(m)
     {
     case MSG_NEWCONNECT:
@@ -103,28 +103,28 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         serverState=infolist.left(1).toInt();
         this->updateInfo(infolist);
         if(serverState==STATE_PAPERREADY||serverState==STATE_EXAMING)
-            {
-                client->sendData(MSG_GETPAPER,0);
-            }
+        {
+            client->sendData(MSG_GETPAPER,0);
+        }
         break;
     case MSG_LOGIN:
         currentUser=v.value<User>();
         emit this->LoginOK();
         emit this->showUserInfo(currentUser);
         if(serverState==STATE_EXAMING)
-            {
-                emit this->showMessage(QString("你目前处于锁定状态，\n请等待服务器审批你的考试要求"));
+        {
+            emit this->showMessage(QString("你目前处于锁定状态，\n请等待服务器审批你的考试要求"));
 
-            }
-       break;
+        }
+        break;
     case MSG_GETPAPER:
-       currentpaper=v.value<Paper>();
-       emit this->paperReady(currentpaper);
-       if(serverState==STATE_EXAMING)
-           {
-               //emit this->showPaper();
-           }
-       break;
+        currentpaper=v.value<Paper>();
+        emit this->paperReady(currentpaper);
+        if(serverState==STATE_EXAMING)
+        {
+            //emit this->showPaper();
+        }
+        break;
     case MSG_BEGINEXAM:
         emit  this->showPaper();
         break;
@@ -141,16 +141,16 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         break;
     }
 }
-void MainApp::sendAnswers(All_answers allans)
+void MainApp::sendAnswers(AllAnswers allans)
 {
-    allans.setUserid(currentUser.getID());
+    allans.setUserId(currentUser.getID());
     QVariant v;
     v.setValue(allans);
     client->sendData(MSG_ANSWER,v);
 }
 
 //登录函数
-void MainApp::Login(User u)
+void MainApp::Login(Student u)
 {
     QVariant v;
     v.setValue(u);

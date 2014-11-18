@@ -9,8 +9,9 @@
 #include "MainFrameUI.h"
 #include<QMessageBox>
 #include<QCloseEvent>
-namespace Ui {
-    class MainWindow;
+namespace Ui
+{
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -25,21 +26,21 @@ signals:
     void paperReady(Paper);
     void showPaper();
     void getPaper();
-    void sendAnswers(All_answers);
+    void sendAnswers(AllAnswers);
     void endExam();
-    void loginSignal(User);
+    void loginSignal(Student);
     void getUserInfo();
-    void showUserInfo(User);
+    void showUserInfo(Student);
     void showMessage(QString);
-    void sendAnswersSingle(All_answers);
+    void sendAnswersSingle(AllAnswers);
 private slots:
 
 
-     void do_login();
-     void do_mainframe();
-     void LoginOK();
-     void updateInfo(QString);
-     void closeEvent(QCloseEvent *);
+    void do_login();
+    void do_mainframe();
+    void LoginOK();
+    void updateInfo(QString);
+    void closeEvent(QCloseEvent *);
 
 private:
     Ui::MainWindow *ui;

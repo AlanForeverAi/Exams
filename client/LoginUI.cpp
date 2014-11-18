@@ -10,9 +10,9 @@ LoginUI::LoginUI(QWidget *parent) :
 
 void LoginUI::on_pushButton_login_clicked()
 {
-            User u;
-            u.setID(lineEdit_ID->text());
-            u.setPassword(lineEdit_PW->text());
-            emit this->loginSignal(u);
+    Student u;
+    u.setID(lineEdit_ID->text());
+    u.setPassword(lineEdit_PW->text());
+    emit this->loginSignal(u);
 
 }

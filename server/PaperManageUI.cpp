@@ -348,9 +348,9 @@ void PaperManageUI::on_pushButton_AddorMoidfy_clicked()
 {
     Paper currentpaper;
     currentpaper.setDescription(lineEdit_Papername->text());
-    currentpaper.setOb_qu_ids(_obQueIds);
-    currentpaper.setSub_qu_ids(_subQueIds);
-    currentpaper.setTotal_mark(lineEdit_totalmark->text().toInt());
+    currentpaper.setObQuIds(_obQueIds);
+    currentpaper.setSubQuIds(_subQueIds);
+    currentpaper.setTotalMark(lineEdit_totalmark->text().toInt());
     currentpaper.setPercent(spinBox_Percentage_Ob->value());
     currentpaper.setTime(spinBox_time->value()*60);
     QString state=pushButton_AddorMoidfy->text();
@@ -369,7 +369,7 @@ void PaperManageUI::on_pushButton_AddorMoidfy_clicked()
             pushButton_tomodify->setEnabled(true);
 
 
-            currentpaper.setPaper_id(_currentPaperId);
+            currentpaper.setPaperId(_currentPaperId);
             emit this->modifyPaper(currentpaper);
             _obQueIds.clear();//清记录
             _subQueIds.clear();//

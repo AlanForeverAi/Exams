@@ -1,16 +1,16 @@
-#ifndef DATA_H
+﻿#ifndef DATA_H
 #define DATA_H
 #include<QString>
 #include<QDataStream>
 #include<QMetaType>
 #include<QVector>
-class User
+class Student
 {
     //这个两个运算符重载，是给C/S通讯用的，可以不理
-    friend QDataStream &operator <<(QDataStream &,const User &);
-    friend QDataStream &operator >>(QDataStream &,User &);
+    friend QDataStream &operator <<(QDataStream &,const Student &);
+    friend QDataStream &operator >>(QDataStream &,Student &);
 public:
-    User();
+    Student();
     void setID(QString);
     void setName(QString);
     void setGrade(int);
@@ -28,18 +28,19 @@ public:
     QString getHostname();
     int getSockDescriptor();
 private:
-    QString ID;
-    QString Name;
-    int Grade;
-    int Class;
-    QString Password;
-    QString state;
-    QString hostname;
-    int socketDescriptor;
+    QString _id;
+    QString _name;
+    int _grade;
+    int _class;
+    QString _password;
+    QString _state;
+    QString _hostname;
+    int _socketDescriptor;
 
 };
 Q_DECLARE_METATYPE(User)
 
+/*
 class Manager
 {
 public:
@@ -57,88 +58,89 @@ private:
     QString Password;
 
 };
+*/
 
-class Ob_questions
+class ObQuestions
 {
-    friend QDataStream &operator <<(QDataStream &,const Ob_questions &);
-    friend QDataStream &operator >>(QDataStream &,Ob_questions &);
+    friend QDataStream &operator <<(QDataStream &,const ObQuestions &);
+    friend QDataStream &operator >>(QDataStream &,ObQuestions &);
 public:
-    Ob_questions();
-    void setOb_id(int);
+    ObQuestions();
+    void setObId(int);
     void setType(QString);
     void setTitle(QString);
     void setAnswer(QString);
-    int getOb_id();
+    int getObId();
     QString getType();
     QString getTitle();
     QString getAnswer();
 private:
-    int Ob_id;
-    QString Type;
-    QString Title;
-    QString Answer;
+    int _obId;
+    QString _type;
+    QString _title;
+    QString _answer;
 
 };
 
-class Sub_questions
+class SubQuestions
 {
-    friend QDataStream &operator <<(QDataStream &,const Sub_questions &);
-    friend QDataStream &operator >>(QDataStream &,Sub_questions &);
+    friend QDataStream &operator <<(QDataStream &,const SubQuestions &);
+    friend QDataStream &operator >>(QDataStream &,SubQuestions &);
 public:
-    Sub_questions();
-    void setSub_id(int);
+    SubQuestions();
+    void setSubId(int);
     void setType(QString);
     void setTitle(QString);
-    int getSub_id();
+    int getSubId();
     QString getType();
     QString getTitle();
 private:
-    int Sub_id;
-    QString Type;
-    QString Title;
+    int _subId;
+    QString _type;
+    QString _title;
 };
 
-class Sub_answers
+class SubAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const Sub_answers &);
-    friend QDataStream &operator >>(QDataStream &,Sub_answers &);
+    friend QDataStream &operator <<(QDataStream &,const SubAnswers &);
+    friend QDataStream &operator >>(QDataStream &,SubAnswers &);
 public:
-    Sub_answers();
-    void setSu_an_id(int);
-    void setPaper_id(int);
-    void setStudent_id(QString);
-    void setSubanslist(QVector<QString>);
-    int getSu_an_id();
-    int getPaper_id();
-    QString getStudent_id();
-    QVector<QString>getSubanslist();
+    SubAnswers();
+    void setSuAnId(int);
+    void setPaperId(int);
+    void setStudentId(QString);
+    void setSubansList(QVector<QString>);
+    int getSuAnId();
+    int getPaperId();
+    QString getStudentId();
+    QVector<QString> getSubansList();
 private:
-    int Su_an_id;
-    int Paper_id;
-    QString Student_id;
-   QVector<QString> subanslist;
+    int _suAnId;
+    int _paperId;
+    QString _studentId;
+    QVector<QString> _subansList;
 
 };
 
-class Ob_answers
+class ObAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const Ob_answers &);
-    friend QDataStream &operator >>(QDataStream &,Ob_answers &);
+    friend QDataStream &operator <<(QDataStream &,const ObAnswers &);
+    friend QDataStream &operator >>(QDataStream &,ObAnswers &);
 public:
-    Ob_answers();
-    void setOb_an_id(int);
-    void setPaper_id(int);
-    void setStudent_id(QString);
+    ObAnswers();
+    void setObAnId(int);
+    void setPaperId(int);
+    void setStudentId(QString);
     void setAnswers(QString);
-    int getOb_an_id();
-    int getPaper_id();
-    QString getStudent_id();
+    int getObAnId();
+    int getPaperId();
+    QString getStudentId();
     QString getAnswers();
 private:
-    int Ob_an_id;
-    int Paper_id;
-    QString Student_id;
-    QString Answers;
+    int _obAnId;
+    int _paperId;
+    QString _studentId;
+    QString _answers;
 
 };
 
@@ -148,59 +150,59 @@ class Paper
     friend QDataStream &operator >>(QDataStream &,Paper &);
 public:
     Paper();
-    void setPaper_id(int);
-    void setOb_qu_ids(QString);
-    void setSub_qu_ids(QString);
-    void setTotal_mark(int);
+    void setPaperId(int);
+    void setObQuIds(QString);
+    void setSubQuIds(QString);
+    void setTotalMark(int);
     void setPercent(int);
     void setDescription(QString);
     void setTime(int);
     void setDate(QString);
-    int getPaper_id();
-    QString getOb_qu_ids();
-    QString getSub_qu_ids();
+    int getPaperId();
+    QString getObQuIds();
+    QString getSubQuIds();
     QString getDescription();
-    int     getTotal_mark();
+    int     getTotalMark();
     int     getPercent();
     int     getTime();
     QString getDate();
-    QList<Ob_questions> obList;
-    QList<Sub_questions> subList;
+    QList<ObQuestions> obList;
+    QList<SubQuestions> subList;
 private:
-    int Paper_id;
-    QString Ob_qu_ids;
-    QString Sub_qu_ids;
-    QString Description;
-    int     Total_mark;
-    int     Percent;
-    int     time;
-    QString date;
+    int _paperId;
+    QString _obQuIds;
+    QString _subQuIds;
+    QString _description;
+    int     _totalMark;
+    int     _percent;
+    int     _time;
+    QString _date;
 
 
 };
 Q_DECLARE_METATYPE(Paper)
 
-class All_answers
+class AllAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const All_answers &);
-    friend QDataStream &operator >>(QDataStream &,All_answers &);
-    public:
-        All_answers();
-        void setObanswer(Ob_answers);
-        void setSubanswer(Sub_answers);
-        void setPaperid(int);
-        void setUserid(QString);
-        Ob_answers getObanswer();
-        Sub_answers getSubanswer();
-        int getPaperid();
-        QString getUserid();
-    private:
-        Ob_answers obanswer;
-        Sub_answers subanswer;
-        int paperid;
-        QString userid;
+    friend QDataStream &operator <<(QDataStream &,const AllAnswers &);
+    friend QDataStream &operator >>(QDataStream &,AllAnswers &);
+public:
+    AllAnswers();
+    void setObAnswer(ObAnswers);
+    void setSubAnswer(SubAnswers);
+    void setPaperId(int);
+    void setUserId(QString);
+    ObAnswers getObAnswer();
+    SubAnswers getSubAnswer();
+    int getPaperId();
+    QString getUserId();
+private:
+    ObAnswers _obAnswer;
+    SubAnswers _subAnswer;
+    int _paperId;
+    QString _userId;
 };
-Q_DECLARE_METATYPE(All_answers)
+Q_DECLARE_METATYPE(AllAnswers)
 
 class Combo ///用于成绩管理 包括了user paper papermark全部或者部分属性
 {
@@ -208,38 +210,38 @@ class Combo ///用于成绩管理 包括了user paper papermark全部或者部�
     friend QDataStream &operator >>(QDataStream &,Combo &);
 public:
     Combo();
-    void setUser_id(QString);
+    void setUserId(QString);
     void setName(QString);
     void setGrade(int);
     void setClass(int);
     void setTime(int);
-    void setPaper_id(int);
-    void setPaper_mark(int);
+    void setPaperId(int);
+    void setPaperMark(int);
     void setObmark(int);
     void setSubmark(int);
     void setPaperName(QString);
 
-    QString getUser_id();
+    QString getUserId();
     QString getName();
     int getGrade();
     int getClass();
     int getTime();
-    int getPaper_id();
-    int getPaper_mark();
+    int getPaperId();
+    int getPaperMark();
     int getObmark();
     int getSubMark();
     QString getPaperName();
 private:
-    QString User_id;
-    QString Name;
-    int Grade;
-    int Class;
-    int Time;
-    int Paper_id;
-    int obmark;
-    int submark;
-    QString paperName;
-    int Paper_mark;
+    QString _userId;
+    QString _name;
+    int _grade;
+    int _class;
+    int _time;
+    int _paperId;
+    int _obmark;
+    int _submark;
+    QString _paperName;
+    int _paperMark;
 };
 Q_DECLARE_METATYPE(Combo)
 Q_DECLARE_METATYPE(QList <Combo>)

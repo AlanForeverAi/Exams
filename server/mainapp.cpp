@@ -274,10 +274,10 @@ void MainApp::getAllPaper()
     {
 
         Paper *p=new Paper;
-        p->setPaper_id(query.value(0).toInt());
-        p->setOb_qu_ids(query.value(1).toString());
-        p->setSub_qu_ids(query.value(2).toString());
-        p->setTotal_mark(query.value(3).toInt());
+        p->setPaperId(query.value(0).toInt());
+        p->setObQuIds(query.value(1).toString());
+        p->setSubQuIds(query.value(2).toString());
+        p->setTotalMark(query.value(3).toInt());
         p->setPercent(query.value(4).toInt());
         p->setDescription(query.value(5).toString());
         p->setTime(query.value(6).toInt());
@@ -302,10 +302,10 @@ void MainApp::getPaperById(int id)
         return;
     }
     Paper paper;
-    paper.setPaper_id(query.value(0).toInt());
-    paper.setOb_qu_ids(query.value(1).toString());
-    paper.setSub_qu_ids(query.value(2).toString());
-    paper.setTotal_mark(query.value(3).toInt());
+    paper.setPaperId(query.value(0).toInt());
+    paper.setObQuIds(query.value(1).toString());
+    paper.setSubQuIds(query.value(2).toString());
+    paper.setTotalMark(query.value(3).toInt());
     paper.setPercent(query.value(4).toInt());
     paper.setDescription(query.value(5).toString());
     paper.setTime(query.value(6).toInt());
@@ -334,10 +334,10 @@ Paper MainApp::preparePaper(int id)
 
     }
     Paper paper;
-    paper.setPaper_id(query.value(0).toInt());
-    paper.setOb_qu_ids(query.value(1).toString());
-    paper.setSub_qu_ids(query.value(2).toString());
-    paper.setTotal_mark(query.value(3).toInt());
+    paper.setPaperId(query.value(0).toInt());
+    paper.setObQuIds(query.value(1).toString());
+    paper.setSubQuIds(query.value(2).toString());
+    paper.setTotalMark(query.value(3).toInt());
     paper.setPercent(query.value(4).toInt());
     paper.setDescription(query.value(5).toString());
     paper.setTime(query.value(6).toInt());
@@ -592,9 +592,9 @@ void MainApp::dealObAnswers(ObAnswers obans)
 void MainApp::dealSubAnswers(SubAnswers subans)
 {
 
-    for(int i=0; i<subans.getSubanslist().count(); i++)
+    for(int i=0; i<subans.getSubansList().count(); i++)
     {
-        _DBM->updateSubAnswers(subans.getPaperId(),subans.getStudentId(),i+1,subans.getSubanslist().at(i));
+        _DBM->updateSubAnswers(subans.getPaperId(),subans.getStudentId(),i+1,subans.getSubansList().at(i));
     }
     _DBM->updatePaperMarkDone(QDate::currentDate().toString(),subans.getPaperId(),subans.getStudentId());
 }
@@ -929,10 +929,10 @@ void MainApp::outputPaper()
     while(query.next())
     {
         Paper *p=new Paper;
-        p->setPaper_id(query.value(0).toInt());
-        p->setOb_qu_ids(query.value(1).toString());
-        p->setSub_qu_ids(query.value(2).toString());
-        p->setTotal_mark(query.value(3).toInt());
+        p->setPaperId(query.value(0).toInt());
+        p->setObQuIds(query.value(1).toString());
+        p->setSubQuIds(query.value(2).toString());
+        p->setTotalMark(query.value(3).toInt());
         p->setPercent(query.value(4).toInt());
         p->setDescription(query.value(5).toString());
         p->setTime(query.value(6).toInt());

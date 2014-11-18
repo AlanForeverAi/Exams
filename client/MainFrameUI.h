@@ -12,16 +12,16 @@ public:
     explicit MainFrameUI(QWidget *parent = 0);
 
 signals:
-    void sendAnswers(All_answers);
+    void sendAnswers(AllAnswers);
     void endExam();
-     void sendAnswersSingle(All_answers);
+    void sendAnswersSingle(AllAnswers);
 public slots:
     void paperReady(Paper);
-    void showUserInfo(User);
+    void showUserInfo(Student);
     void showMessage(QString);
     void showPaper();
     void endExamslot();
-     void sendExamslot();
+    void sendExamslot();
 private:
     ExamUI *exam;
 };

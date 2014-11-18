@@ -163,7 +163,7 @@ QString SubAnswers::getStudentId()
 {
     return _studentId;
 }
-QVector<QString> SubAnswers::getSubanslist()
+QVector<QString> SubAnswers::getSubansList()
 {
     return _subansList;
 }
@@ -227,15 +227,15 @@ QString Paper::getDate()
 {
     return _date;
 }
-void Paper::setPaper_id(int id )
+void Paper::setPaperId(int id )
 {
     _paperId=id;
 }
-void Paper::setOb_qu_ids(QString id )
+void Paper::setObQuIds(QString id )
 {
     _obQuIds=id;
 }
-void Paper::setSub_qu_ids(QString id )
+void Paper::setSubQuIds(QString id )
 {
     _subQuIds=id;
 }
@@ -243,7 +243,7 @@ void Paper::setDescription(QString description )
 {
     _description=description;
 }
-void Paper::setTotal_mark(int mark )
+void Paper::setTotalMark(int mark )
 {
     _totalMark=mark;
 }
@@ -361,44 +361,44 @@ AllAnswers::AllAnswers()
 }
 void AllAnswers::setObanswer(ObAnswers ob)
 {
-    _obanswer=ob;
+    _obAnswer=ob;
 }
 void AllAnswers::setSubanswer(SubAnswers sub)
 {
-    _subanswer=sub;
+    _subAnswer=sub;
 }
 void AllAnswers::setPaperid(int id)
 {
-    _paperid=id;
+    _paperId=id;
 }
 void AllAnswers::setUserid(QString id)
 {
-    _userid=id;
+    _userId=id;
 }
 ObAnswers AllAnswers::getObanswer()
 {
-    return _obanswer;
+    return _obAnswer;
 }
 SubAnswers AllAnswers::getSubanswer()
 {
-    return _subanswer;
+    return _subAnswer;
 }
 int AllAnswers::getPaperid()
 {
-    return _paperid;
+    return _paperId;
 }
 QString AllAnswers::getUserid()
 {
-    return _userid;
+    return _userId;
 }
 QDataStream &operator >>(QDataStream &in,AllAnswers &all)
 {
-    in>>all._paperid>>all._userid>>all._obanswer>>all._subanswer;
+    in>>all._paperId>>all._userId>>all._obAnswer>>all._subAnswer;
     return in;
 }
 QDataStream &operator <<(QDataStream &out,const AllAnswers &all)
 {
-    out<<all._paperid<<all._userid<<all._obanswer<<all._subanswer;
+    out<<all._paperId<<all._userId<<all._obAnswer<<all._subAnswer;
     return out;
 }
 

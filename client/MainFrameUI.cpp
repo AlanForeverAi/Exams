@@ -5,10 +5,10 @@ MainFrameUI::MainFrameUI(QWidget *parent) :
 {
     setupUi(this);
     exam=new ExamUI;
-    connect(exam,SIGNAL(sendAnswersingle(All_answers)),this,SIGNAL(sendAnswersSingle(All_answers)));
-        connect(exam,SIGNAL(sendAnswersingle(All_answers)),this,SLOT(sendExamslot()));
-    connect(exam,SIGNAL(sendAnswers(All_answers)),this,SIGNAL(sendAnswers(All_answers)));
-    connect(exam,SIGNAL(sendAnswers(All_answers)),this,SLOT(endExamslot()));
+    connect(exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
+    connect(exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SLOT(sendExamslot()));
+    connect(exam,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
+    connect(exam,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(endExamslot()));
     connect(this,SIGNAL(endExam()),exam,SLOT(submitAnswers()));
     connect(this,SIGNAL(endExam()),this,SLOT(endExamslot()));
     stackedWidget_main->addWidget(exam);
@@ -23,7 +23,7 @@ void MainFrameUI::sendExamslot()
 
 }
 
-void MainFrameUI::showUserInfo(User u)
+void MainFrameUI::showUserInfo(Student u)
 {
     QString info=QString("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");
 

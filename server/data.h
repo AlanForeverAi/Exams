@@ -69,21 +69,22 @@ class Questions{
 public:
     Questions();
     void setId(int);
-    void setType(QString);
+    void setSubject(QString);
     void setTitle(QString);
     void setAnswer(QString);
+    void setMark(int);
     int getId();
-    QString getType();
+    int getMark();
+    QString getSubject();
     QString getTitle();
     QString getAnswer();
+
 private:
     int _id;
     QString _subject; //科目
-
-    int _type;  //结合老师的类型（科目）来判断题目类型（科目）。。。
-
     QString _title;
     QString _answer;
+    int _mark;
 };
 
 class ObQuestions : public Questions {
@@ -188,7 +189,7 @@ public:
     int getSuAnId();
     int getPaperId();
     QString getStudentId();
-    QVector<QString> getSubanslist();
+    QVector<QString> getSubansList();
 private:
     int _suAnId;
     int _paperId;
@@ -228,10 +229,10 @@ class Paper
     friend QDataStream &operator >>(QDataStream &,Paper &);
 public:
     Paper();
-    void setPaper_id(int);
-    void setOb_qu_ids(QString);
-    void setSub_qu_ids(QString);
-    void setTotal_mark(int);
+    void setPaperId(int);
+    void setObQuIds(QString);
+    void setSubQuIds(QString);
+    void setTotalMark(int);
     void setPercent(int);
     void setDescription(QString);
     void setTime(int);
@@ -296,14 +297,14 @@ public:
     QString getUserid();
 private:
     //改进。。。。
-    ObAnswers _obanswer;
-    SubAnswers _subanswer;
+    ObAnswers _obAnswer;
+    SubAnswers _subAnswer;
 
      /*
          Answers * answer; //答案。。。
      */
-    int _paperid;
-    QString _userid;
+    int _paperId;
+    QString _userId;
 };
 Q_DECLARE_METATYPE(AllAnswers)
 

@@ -17,8 +17,8 @@ public:
     void resetRadioGroup();
     QTimer *timer;
 signals:
-    void sendAnswers(All_answers);
-      void sendAnswersingle(All_answers);
+    void sendAnswers(AllAnswers);
+    void sendAnswersingle(AllAnswers);
 public slots:
     void showPaper(Paper);
     void on_Button_prev_clicked();

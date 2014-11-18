@@ -29,19 +29,19 @@ enum MessageType
 class Client : public  QTcpSocket
 {
     Q_OBJECT
-    public:
-        Client(QObject* parent);
-    signals:
-        void messageArrive(qint32,QVariant);//信息到达信号
-    public slots:
-        void displayError(QAbstractSocket::SocketError);//显示错误信息
-        void connectToServer(const QString,qint32);//与服务器连接
-        void sendData(qint32,QVariant);//发送预处理
-        void readData();//读取数据
-    private:
-        qint32 messageType;//信息类型
-        QVariant data;//信息内容
-        qint32 totalBytes;//块大小
-        void send();//发送数据
+public:
+    Client(QObject* parent);
+signals:
+    void messageArrive(qint32,QVariant);//信息到达信号
+public slots:
+    void displayError(QAbstractSocket::SocketError);//显示错误信息
+    void connectToServer(const QString,qint32);//与服务器连接
+    void sendData(qint32,QVariant);//发送预处理
+    void readData();//读取数据
+private:
+    qint32 messageType;//信息类型
+    QVariant data;//信息内容
+    qint32 totalBytes;//块大小
+    void send();//发送数据
 };
 #endif // CLIENT_H

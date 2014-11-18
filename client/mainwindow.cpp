@@ -8,17 +8,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     m=new MainFrameUI;
-    connect(m,SIGNAL(sendAnswers(All_answers)),this,SIGNAL(sendAnswers(All_answers)));
+    connect(m,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
     connect(this,SIGNAL(endExam()),m,SIGNAL(endExam()));
-    connect(this,SIGNAL(showUserInfo(User)),m,SLOT(showUserInfo(User)));
+    connect(this,SIGNAL(showUserInfo(Student)),m,SLOT(showUserInfo(Student)));
     connect(this,SIGNAL(paperReady(Paper)),m,SLOT(paperReady(Paper)));
     connect(this,SIGNAL(showPaper()),m,SLOT(showPaper()));
     connect(this,SIGNAL(showMessage(QString)),m,SLOT(showMessage(QString)));
-    connect(m,SIGNAL(sendAnswersSingle(All_answers)),this,SIGNAL(sendAnswersSingle(All_answers)));
+    connect(m,SIGNAL(sendAnswersSingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
 
 
     loginPage=new LoginUI;
-    connect(loginPage,SIGNAL(loginSignal(User)),this,SIGNAL(loginSignal(User)));
+    connect(loginPage,SIGNAL(loginSignal(Student)),this,SIGNAL(loginSignal(Student)));
 
     this->do_login();
     statusbar=statusBar();
@@ -67,9 +67,9 @@ void MainWindow::updateInfo(QString info)
     QStringList list;
     list=info.split(",");
     if(info.length()<=2)
-        {
-            return;
-        }
+    {
+        return;
+    }
     this->setWindowTitle(list.at(1));
     this->loginPage->label_welcome->setText(list.at(2));
     this->m->label_NO->setText(list.at(3));
