@@ -1,4 +1,4 @@
-#ifndef EXAMUI_H
+﻿#ifndef EXAMUI_H
 #define EXAMUI_H
 
 #include <QWidget>
@@ -33,15 +33,15 @@ public slots:
     void showQuestion(int);
     void yiditijiao();
 private:
-    Paper currentPaper;
-    int currentQue;
-    int totalque;
-    QVector<QString> obanslist;
-    QVector<QString> subanslist;
-    QMessageBox msg;
-    QButtonGroup radionGroup;
-    QButtonGroup *btngroup;
-    QTime examTime;
+    Paper _currentPaper;
+    int _currentQue;
+    int _totalque;
+    QVector<QString> _obansList;
+    QVector<QString> _subansList;
+    QMessageBox _msg;
+    QButtonGroup _radionGroup;
+    QButtonGroup *_btnGroup;
+    QTime _examTime;
 
 };
 

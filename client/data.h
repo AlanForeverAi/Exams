@@ -38,7 +38,7 @@ private:
     int _socketDescriptor;
 
 };
-Q_DECLARE_METATYPE(User)
+Q_DECLARE_METATYPE(Student)
 
 /*
 class Manager

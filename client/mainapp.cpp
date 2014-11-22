@@ -10,7 +10,7 @@ MainApp::MainApp()
 MainApp::~MainApp()
 {
 
-    delete(client);
+    delete(_client);
 
 }
 
@@ -22,8 +22,8 @@ void MainApp::readConfig()
         QMessageBox msg;
         msg.setText(QString("读取配置文件失败！将使用默认配置"));
         msg.exec();
-        IP="localhost";
-        port=3312;
+        _ip="localhost";
+        _port=3312;
         return;
     }
 
@@ -31,21 +31,21 @@ void MainApp::readConfig()
     QString temp;
     temp=in.readLine();
     temp=temp.mid(temp.indexOf(" ")+1);
-    IP=temp;
+    _ip=temp;
     temp=in.readLine();
     temp=temp.mid(temp.indexOf(" ")+1);
-    port=temp.toInt();
+    _port=temp.toInt();
     Config.close();
 }
 
 void MainApp::iniClient()
 {
 
-    w.statusbar->showMessage(QString("未连接"));
-    client=new Client(this);
-    connect(client,SIGNAL(connected()),this,SLOT(connected()));
-    connect(client,SIGNAL(messageArrive(qint32,QVariant)),this,SLOT(messageArrive(qint32,QVariant)),Qt::DirectConnection);
-    client->connectToServer(IP,port);
+    _window.statusbar->showMessage(QString("未连接"));
+    _client=new Client(this);
+    connect(_client,SIGNAL(connected()),this,SLOT(connected()));
+    connect(_client,SIGNAL(messageArrive(qint32,QVariant)),this,SLOT(messageArrive(qint32,QVariant)),Qt::DirectConnection);
+    _client->connectToServer(_ip,_port);
 
 
 
@@ -53,42 +53,42 @@ void MainApp::iniClient()
 
 void MainApp::iniMainWindow()
 {
-    connect(this,SIGNAL(paperReady(Paper)),&w,SIGNAL(paperReady(Paper)));
-    connect(this,SIGNAL(showPaper()),&w,SIGNAL(showPaper()));
-    connect(&w,SIGNAL(getPaper()),this,SLOT(getPaper()));
-    connect(&w,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(sendAnswers(AllAnswers)));
-    connect(this,SIGNAL(endExam()),&w,SIGNAL(endExam()));
-    connect(&w,SIGNAL(loginSignal(Student)),this,SLOT(Login(Student)));
-    connect(&w,SIGNAL(sendAnswersSingle(AllAnswers)),this,SLOT(sendAnswersSingle(AllAnswers)));
-    connect(this,SIGNAL(LoginOK()),&w,SLOT(LoginOK()));
-    connect(&w,SIGNAL(getUserInfo()),this,SLOT(getUserInfo()));
-    connect(this,SIGNAL(showUserInfo(Student)),&w,SIGNAL(showUserInfo(Student)));
-    connect(this,SIGNAL(updateInfo(QString)),&w,SLOT(updateInfo(QString)));
-    connect(this,SIGNAL(showMessage(QString)),&w,SIGNAL(showMessage(QString)));
-    w.show();
+    connect(this,SIGNAL(paperReady(Paper)),&_window,SIGNAL(paperReady(Paper)));
+    connect(this,SIGNAL(showPaper()),&_window,SIGNAL(showPaper()));
+    connect(&_window,SIGNAL(getPaper()),this,SLOT(getPaper()));
+    connect(&_window,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(sendAnswers(AllAnswers)));
+    connect(this,SIGNAL(endExam()),&_window,SIGNAL(endExam()));
+    connect(&_window,SIGNAL(loginSignal(Student)),this,SLOT(Login(Student)));
+    connect(&_window,SIGNAL(sendAnswersSingle(AllAnswers)),this,SLOT(sendAnswersSingle(AllAnswers)));
+    connect(this,SIGNAL(LoginOK()),&_window,SLOT(LoginOK()));
+    connect(&_window,SIGNAL(getUserInfo()),this,SLOT(getUserInfo()));
+    connect(this,SIGNAL(showUserInfo(Student)),&_window,SIGNAL(showUserInfo(Student)));
+    connect(this,SIGNAL(updateInfo(QString)),&_window,SLOT(updateInfo(QString)));
+    connect(this,SIGNAL(showMessage(QString)),&_window,SIGNAL(showMessage(QString)));
+    _window.show();
 
 }
 
 void MainApp::sendAnswersSingle(AllAnswers allans)
 {
-    allans.setUserId(currentUser.getID());
+    allans.setUserId(_currentUser.getID());
     QVariant v;
     v.setValue(allans);
-    client->sendData(MSG_ANSWERSINGLE,v);
+    _client->sendData(MSG_ANSWERSINGLE,v);
 }
 
 void MainApp::connected()
 {
-    client->sendData(MSG_NEWCONNECT,0);
-    w.statusbar->showMessage(QString("已连接"));
+    _client->sendData(MSG_NEWCONNECT,0);
+    _window.statusbar->showMessage(QString("已连接"));
 
 }
 
 void::MainApp::getPaper()
 {
     QVariant v;
-    v.setValue(currentUser);
-    client->sendData(MSG_GETPAPER,v);
+    v.setValue(_currentUser);
+    _client->sendData(MSG_GETPAPER,v);
 }
 
 
@@ -99,28 +99,28 @@ void MainApp::messageArrive(qint32 m, QVariant v)
     switch(m)
     {
     case MSG_NEWCONNECT:
-        infolist=v.value<QString>();
-        serverState=infolist.left(1).toInt();
-        this->updateInfo(infolist);
-        if(serverState==STATE_PAPERREADY||serverState==STATE_EXAMING)
+        _infolist=v.value<QString>();
+        _serverState=_infolist.left(1).toInt();
+        this->updateInfo(_infolist);
+        if(_serverState==STATE_PAPERREADY||_serverState==STATE_EXAMING)
         {
-            client->sendData(MSG_GETPAPER,0);
+            _client->sendData(MSG_GETPAPER,0);
         }
         break;
     case MSG_LOGIN:
-        currentUser=v.value<User>();
+        _currentUser=v.value<Student>();
         emit this->LoginOK();
-        emit this->showUserInfo(currentUser);
-        if(serverState==STATE_EXAMING)
+        emit this->showUserInfo(_currentUser);
+        if(_serverState==STATE_EXAMING)
         {
             emit this->showMessage(QString("你目前处于锁定状态，\n请等待服务器审批你的考试要求"));
 
         }
         break;
     case MSG_GETPAPER:
-        currentpaper=v.value<Paper>();
-        emit this->paperReady(currentpaper);
-        if(serverState==STATE_EXAMING)
+        _currentpaper=v.value<Paper>();
+        emit this->paperReady(_currentpaper);
+        if(_serverState==STATE_EXAMING)
         {
             //emit this->showPaper();
         }
@@ -143,10 +143,10 @@ void MainApp::messageArrive(qint32 m, QVariant v)
 }
 void MainApp::sendAnswers(AllAnswers allans)
 {
-    allans.setUserId(currentUser.getID());
+    allans.setUserId(_currentUser.getID());
     QVariant v;
     v.setValue(allans);
-    client->sendData(MSG_ANSWER,v);
+    _client->sendData(MSG_ANSWER,v);
 }
 
 //登录函数
@@ -154,10 +154,10 @@ void MainApp::Login(Student u)
 {
     QVariant v;
     v.setValue(u);
-    client->sendData(MSG_LOGIN,v);
+    _client->sendData(MSG_LOGIN,v);
 }
 
 void MainApp::getUserInfo()
 {
-    emit this->showUserInfo(currentUser);
+    emit this->showUserInfo(_currentUser);
 }

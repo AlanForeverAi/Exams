@@ -1,4 +1,4 @@
-#ifndef MAINFRAMEUI_H
+﻿#ifndef MAINFRAMEUI_H
 #define MAINFRAMEUI_H
 
 #include <QWidget>
@@ -23,7 +23,7 @@ public slots:
     void endExamslot();
     void sendExamslot();
 private:
-    ExamUI *exam;
+    ExamUI *_exam;
 };
 
 #endif // MAINFRAMEUI_H

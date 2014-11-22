@@ -1,4 +1,4 @@
-#ifndef MAINWINDOW_H
+﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
 #include <QMainWindow>
@@ -34,8 +34,6 @@ signals:
     void showMessage(QString);
     void sendAnswersSingle(AllAnswers);
 private slots:
-
-
     void do_login();
     void do_mainframe();
     void LoginOK();
@@ -43,9 +41,9 @@ private slots:
     void closeEvent(QCloseEvent *);
 
 private:
-    Ui::MainWindow *ui;
-    MainFrameUI *m;
-    LoginUI *loginPage;
+    Ui::MainWindow *_ui;
+    MainFrameUI *_mainFrame;
+    LoginUI *_loginPage;
 
 
 

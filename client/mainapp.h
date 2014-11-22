@@ -1,4 +1,4 @@
-#ifndef MAINAPP_H
+﻿#ifndef MAINAPP_H
 #define MAINAPP_H
 #include"mainwindow.h"
 #include"client.h"
@@ -40,14 +40,14 @@ public slots:
     void getUserInfo();             //取得当前用户信息
 private:
 
-    MainWindow w;
-    Client* client;
-    Student currentUser;
-    Paper currentpaper;
-    QString IP;
-    int port;
-    int serverState;
-    QString infolist;
+    MainWindow _window;
+    Client *_client;
+    Student _currentUser;
+    Paper _currentpaper;
+    QString _ip;
+    int _port;
+    int _serverState;
+    QString _infolist;
 
 
 };

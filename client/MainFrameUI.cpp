@@ -4,14 +4,14 @@ MainFrameUI::MainFrameUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-    exam=new ExamUI;
-    connect(exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
-    connect(exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SLOT(sendExamslot()));
-    connect(exam,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
-    connect(exam,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(endExamslot()));
-    connect(this,SIGNAL(endExam()),exam,SLOT(submitAnswers()));
+    _exam=new ExamUI;
+    connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
+    connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SLOT(sendExamslot()));
+    connect(_exam,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
+    connect(_exam,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(endExamslot()));
+    connect(this,SIGNAL(endExam()),_exam,SLOT(submitAnswers()));
     connect(this,SIGNAL(endExam()),this,SLOT(endExamslot()));
-    stackedWidget_main->addWidget(exam);
+    stackedWidget_main->addWidget(_exam);
     stackedWidget_main->setCurrentIndex(0);
     label_date->setText(QDate::currentDate().toString());
     //this->showFullScreen();
@@ -38,12 +38,12 @@ void MainFrameUI::showMessage(QString message)
 void MainFrameUI::paperReady(Paper p)
 {
     label_papername->setText(p.getDescription());
-    exam->showPaper(p);
+    _exam->showPaper(p);
 }
 
 void MainFrameUI::showPaper()
 {
-    exam->timer->start(1000);
+    _exam->timer->start(1000);
     stackedWidget_main->setCurrentIndex(1);
 
 }

@@ -2,23 +2,23 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    _ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
 
 
-    m=new MainFrameUI;
-    connect(m,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
-    connect(this,SIGNAL(endExam()),m,SIGNAL(endExam()));
-    connect(this,SIGNAL(showUserInfo(Student)),m,SLOT(showUserInfo(Student)));
-    connect(this,SIGNAL(paperReady(Paper)),m,SLOT(paperReady(Paper)));
-    connect(this,SIGNAL(showPaper()),m,SLOT(showPaper()));
-    connect(this,SIGNAL(showMessage(QString)),m,SLOT(showMessage(QString)));
-    connect(m,SIGNAL(sendAnswersSingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
+    _mainFrame=new MainFrameUI;
+    connect(_mainFrame,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
+    connect(this,SIGNAL(endExam()),_mainFrame,SIGNAL(endExam()));
+    connect(this,SIGNAL(showUserInfo(Student)),_mainFrame,SLOT(showUserInfo(Student)));
+    connect(this,SIGNAL(paperReady(Paper)),_mainFrame,SLOT(paperReady(Paper)));
+    connect(this,SIGNAL(showPaper()),_mainFrame,SLOT(showPaper()));
+    connect(this,SIGNAL(showMessage(QString)),_mainFrame,SLOT(showMessage(QString)));
+    connect(_mainFrame,SIGNAL(sendAnswersSingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
 
 
-    loginPage=new LoginUI;
-    connect(loginPage,SIGNAL(loginSignal(Student)),this,SIGNAL(loginSignal(Student)));
+    _loginPage=new LoginUI;
+    connect(_loginPage,SIGNAL(loginSignal(Student)),this,SIGNAL(loginSignal(Student)));
 
     this->do_login();
     statusbar=statusBar();
@@ -27,19 +27,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    delete _ui;
 
 }
 
 void MainWindow::do_login()
 {
-    this->setCentralWidget(loginPage);
+    this->setCentralWidget(_loginPage);
 }
 
 void MainWindow::do_mainframe()
 {
 
-    this->setCentralWidget(m);
+    this->setCentralWidget(_mainFrame);
 }
 
 void MainWindow::LoginOK()
@@ -71,10 +71,10 @@ void MainWindow::updateInfo(QString info)
         return;
     }
     this->setWindowTitle(list.at(1));
-    this->loginPage->label_welcome->setText(list.at(2));
-    this->m->label_NO->setText(list.at(3));
-    this->m->label_pici->setText(list.at(4));
-    this->m->label_message->setText(list.at(5));
+    this->_loginPage->label_welcome->setText(list.at(2));
+    this->_mainFrame->label_NO->setText(list.at(3));
+    this->_mainFrame->label_pici->setText(list.at(4));
+    this->_mainFrame->label_message->setText(list.at(5));
 //    this->m->label_message->adjustSize();
 //    this->m->label_message->setGeometry();
 //    this->m->label_message->setWordWrap(true);

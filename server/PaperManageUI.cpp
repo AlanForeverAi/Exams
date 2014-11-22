@@ -174,7 +174,7 @@ void PaperManageUI::on_pushButton_Add_Ob_clicked()
 {
     if(tableWidget_All_Ob->currentRow()<0)
     {
-        QMessageBox::about(this,"msg",QString("请选择题目"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
         return;
     }
 
@@ -196,7 +196,7 @@ void PaperManageUI::on_pushButton_Add_Ob_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("此题目已存在"));
+        QMessageBox::about(this,"msg",QStringLiteral("此题目已存在"));
     }
 
 }
@@ -205,7 +205,7 @@ void PaperManageUI::on_pushButton_Add_Sub_clicked()
 {
     if(tableWidget_All_Sub->currentRow()<0)
     {
-        QMessageBox::about(this,"msg",QString("请选择题目"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
         return;
     }
 
@@ -229,7 +229,7 @@ void PaperManageUI::on_pushButton_Add_Sub_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("此题目已存在"));
+        QMessageBox::about(this,"msg",QStringLiteral("此题目已存在"));
     }
 }
 
@@ -271,7 +271,7 @@ void PaperManageUI::on_pushButton_Delete_Ob_clicked()
 {
     if(tableWidget_Select_Ob->currentRow()<0)
     {
-        QMessageBox::about(this,"msg",QString("请选择题目"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
         return;
     }
     else
@@ -297,7 +297,7 @@ void PaperManageUI::on_pushButton_Delete_Sub_clicked()
 {
     if(tableWidget_Select_Sub->currentRow()<0)
     {
-        QMessageBox::about(this,"msg",QString("请选择题目"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
         return;
     }
     else
@@ -324,7 +324,7 @@ void PaperManageUI::on_pushButton_delete_clicked()
 {
 
     QMessageBox msg;
-    msg.setText(QString("确定要删除吗？"));
+    msg.setText(QStringLiteral("确定要删除吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
     if(table_allpaper->currentRow()>=0)
     {
@@ -340,7 +340,7 @@ void PaperManageUI::on_pushButton_delete_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一个试卷"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
     }
 }
 
@@ -387,7 +387,7 @@ void PaperManageUI::on_pushButton_tomodify_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一个试卷"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
     }
 }
 
@@ -645,7 +645,7 @@ void PaperManageUI::on_pushButton_saveuser_clicked()
    }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一份试卷"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一份试卷"));
     }
 }
 
@@ -682,11 +682,11 @@ void PaperManageUI::on_pushButton_print_clicked()
             temp.clear();
         }
         print.close();
-        QMessageBox::about(this,"msg",QString("导出成功，文档保存在程序所在data目录下"));
+        QMessageBox::about(this,"msg",QStringLiteral("导出成功，文档保存在程序所在data目录下"));
     }
 else
     {
-        QMessageBox::about(this,"msg",QString("请选择一个试卷"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
     }
 }
 void PaperManageUI::on_pushButton_random_clicked()
@@ -694,7 +694,7 @@ void PaperManageUI::on_pushButton_random_clicked()
     if(spinBox_subnum->value()==0&&spinBox_obnum->value()==0)
     {
 
-    QMessageBox::about(this,"msg",QString("客观题和主观题题数不可同时为0"));
+    QMessageBox::about(this,"msg",QStringLiteral("客观题和主观题题数不可同时为0"));
 
     }
     else
@@ -727,7 +727,7 @@ void PaperManageUI::on_pushButton_random_clicked()
 
         this->updateSelectTable();
         this->averageChange();
-        QMessageBox::about(this,"msg",QString("生成题目成功"));
+        QMessageBox::about(this,"msg",QStringLiteral("生成题目成功"));
 
     }
 
