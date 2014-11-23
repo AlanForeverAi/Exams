@@ -87,7 +87,7 @@ void ExamUI::yiditijiao()
     }
     SubAnswers subanswers;
     subanswers.setPaperId(_currentPaper.getPaperId());
-    subanswers.setSubansList(_subansList);
+    subanswers.setAnswerList(_subansList);
 
 
     ObAnswers obanswers;
@@ -137,7 +137,7 @@ void ExamUI::showQuestion(int queNO)
 
         ObQuestions obque=_currentPaper.obList.at(queNO);
 
-        QString title=obque.getTitle();
+        QString title=obque.getQuestionTitle();
         QString s_maintitle=title.mid(0,title.indexOf("@a"));
         QString s_ansA=title.mid(title.indexOf("@a")+2,title.indexOf("@b")-title.indexOf("@a")-2);
         QString s_ansB=title.mid(title.indexOf("@b")+2,title.indexOf("@c")-title.indexOf("@b")-2);
@@ -171,7 +171,7 @@ void ExamUI::showQuestion(int queNO)
         textEdit_subans->clear();
         stackedWidget->setCurrentIndex(1);
         SubQuestions subque=_currentPaper.subList.at(queNO-_obansList.size());
-        textEdit_subtitle->setText(subque.getTitle());
+        textEdit_subtitle->setText(subque.getQuestionTitle());
         if(!_subansList.at(queNO-_obansList.size()).isEmpty())
         {
             textEdit_subans->setText(_subansList.at(queNO-_obansList.size()));
@@ -335,7 +335,7 @@ void ExamUI::submitAnswers()
 
     SubAnswers subanswers;
     subanswers.setPaperId(_currentPaper.getPaperId());
-    subanswers.setSubansList(_subansList);
+    subanswers.setAnswerList(_subansList);
 
 
     ObAnswers obanswers;

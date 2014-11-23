@@ -224,9 +224,9 @@ void IOManager::outputOb(QList<ObQuestions*> obquestionlist)
     for(int i=0; i<obquestionlist.count(); ++i)
     {
         out<<"obid ";
-        out<<obquestionlist.at(i)->getObId()<<"\n";
+        out<<obquestionlist.at(i)->getQuestionId()<<"\n";
         out<<"title ";
-        out<<obquestionlist.at(i)->getTitle()<<"\n";
+        out<<obquestionlist.at(i)->getQuestionTitle()<<"\n";
         out<<"answer ";
         out<<obquestionlist.at(i)->getAnswer()<<"\n";
 
@@ -253,11 +253,11 @@ QList<ObQuestions*> IOManager::inputOb(QString path)
         ObQuestions* obquestions=new ObQuestions;
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        obquestions->setObId(temp.toInt());
+        obquestions->setQuestionId(temp.toInt());
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        obquestions->setTitle(temp);
+        obquestions->setQuestionTitle(temp);
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
@@ -285,9 +285,9 @@ void IOManager::outputSub(QList<SubQuestions*> subquestionlist)
     for(int i=0; i<subquestionlist.count(); ++i)
     {
         out<<"subid ";
-        out<<subquestionlist.at(i)->getsubId()<<"\n";
+        out<<subquestionlist.at(i)->getQuestionId()<<"\n";
         out<<"title ";
-        out<<subquestionlist.at(i)->getTitle()<<"\n";
+        out<<subquestionlist.at(i)->getQuestionTitle()<<"\n";
 
     }
     inouput.close();
@@ -310,11 +310,11 @@ QList<SubQuestions*> IOManager::inputSub(QString path)
         SubQuestions* subquestions=new SubQuestions;
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        subquestions->setSubId(temp.toInt());
+        subquestions->setQuestionId(temp.toInt());
 
         temp=in.readLine();
         temp=temp.mid(temp.indexOf(" ")+1);
-        subquestions->setTitle(temp);
+        subquestions->setQuestionTitle(temp);
         sublist.append(subquestions);
     }
     inouput.close();

@@ -98,17 +98,17 @@ SubQuestions::SubQuestions()
 }
 QDataStream &operator >>(QDataStream &in,SubQuestions &sub)
 {
-    in>>sub._subId>>sub._title>>sub._type;
+    in>>sub._id>>sub._title>>sub._type;
     return in;
 }
 QDataStream &operator <<(QDataStream &out,const SubQuestions &sub)
 {
-    out<<sub._subId<<sub._title<<sub._type;
+    out<<sub._id<<sub._title<<sub._type;
     return out;
 }
-void SubQuestions::setSubId(int id)
+void SubQuestions::setId(int id)
 {
-    _subId=id;
+    _id=id;
 }
 void SubQuestions::setType(QString t)
 {
@@ -118,9 +118,9 @@ void SubQuestions::setTitle(QString title)
 {
     _title=title;
 }
-int SubQuestions::getsubId()
+int SubQuestions::getId()
 {
-    return _subId;
+    return _id;
 }
 QString SubQuestions::getType()
 {
@@ -266,17 +266,17 @@ ObQuestions::ObQuestions()
 }
 QDataStream &operator >>(QDataStream &in,ObQuestions &ob)
 {
-    in>>ob._obId>>ob._title>>ob._answer>>ob._type;
+    in>>ob._id>>ob._title>>ob._answer>>ob._type;
     return in;
 }
 QDataStream &operator <<(QDataStream &out,const ObQuestions &ob)
 {
-    out<<ob._obId<<ob._title<<ob._answer<<ob._type;
+    out<<ob._id<<ob._title<<ob._answer<<ob._type;
     return out;
 }
-int ObQuestions::getObId()
+int ObQuestions::getId()
 {
-    return _obId;
+    return _id;
 }
 QString ObQuestions::getType()
 {
@@ -290,9 +290,9 @@ QString ObQuestions::getAnswer()
 {
     return _answer;
 }
-void ObQuestions::setObId(int id)
+void ObQuestions::setId(int id)
 {
-    _obId=id;
+    _id=id;
 }
 void ObQuestions::setType(QString t)
 {

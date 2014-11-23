@@ -203,10 +203,10 @@ void MainApp::getQuestions()
     while(query.next())
     {
         ObQuestions *ob_que=new ObQuestions;
-        ob_que->setObId(query.value(0).toInt());
-        ob_que->setTitle(query.value(1).toString());
+        ob_que->setQuestionId(query.value(0).toInt());
+        ob_que->setQuestionTitle(query.value(1).toString());
         ob_que->setAnswer(query.value(2).toString());
-        ob_que->setType(query.value(3).toString());
+        ob_que->setQuestionType(query.value(3).toString());
         obList.append(ob_que);
     }
 
@@ -215,9 +215,9 @@ void MainApp::getQuestions()
     while(query.next())
     {
         SubQuestions *sub_que=new SubQuestions;
-        sub_que->setSubId(query.value(0).toInt());
-        sub_que->setTitle(query.value(1).toString());
-        sub_que->setType(query.value(2).toString());
+        sub_que->setQuestionId(query.value(0).toInt());
+        sub_que->setQuestionTitle(query.value(1).toString());
+        sub_que->setQuestionType(query.value(2).toString());
         subList.append(sub_que);
     }
     emit this->showQuestions(obList,subList);
@@ -226,22 +226,22 @@ void MainApp::getQuestions()
 
 void MainApp::addOb_Questions(ObQuestions *o_que)
 {
-    _DBM->insertOb(NULL,o_que->getType(),o_que->getTitle(),o_que->getAnswer());
+    _DBM->insertOb(NULL,o_que->getQuestionType(),o_que->getQuestionTitle(),o_que->getAnswer());
 }
 
 void MainApp::addSub_Questions(SubQuestions *s_que)
 {
-    _DBM->insertSub(NULL,s_que->getType(),s_que->getTitle());
+    _DBM->insertSub(NULL,s_que->getQuestionType(),s_que->getQuestionTitle());
 }
 
 void MainApp::modifyOb_Questoins(ObQuestions *o_que)
 {
-    _DBM->alterObQuestions(o_que->getObId(),o_que->getType(),o_que->getTitle(),o_que->getAnswer());
+    _DBM->alterObQuestions(o_que->getQuestionId(),o_que->getQuestionType(),o_que->getQuestionTitle(),o_que->getAnswer());
 }
 
 void MainApp::modifySub_Questoins(SubQuestions *s_que)
 {
-    _DBM->alterSubQuestions(s_que->getsubId(),s_que->getType(),s_que->getTitle());
+    _DBM->alterSubQuestions(s_que->getQuestionId(),s_que->getQuestionType(),s_que->getQuestionTitle());
 }
 
 void MainApp::deleteOb_Questoins(int id)
@@ -349,10 +349,10 @@ Paper MainApp::preparePaper(int id)
         if(paper.getObQuIds().indexOf(query.value(0).toString())>=0)
         {
             ObQuestions *ob_que=new ObQuestions;
-            ob_que->setObId(query.value(0).toInt());
-            ob_que->setTitle(query.value(1).toString());
+            ob_que->setQuestionId(query.value(0).toInt());
+            ob_que->setQuestionTitle(query.value(1).toString());
             ob_que->setAnswer(query.value(2).toString());
-            ob_que->setType(query.value(3).toString());
+            ob_que->setQuestionType(query.value(3).toString());
 
             paper.obList.append(*ob_que);
         }
@@ -366,9 +366,9 @@ Paper MainApp::preparePaper(int id)
         if(paper.getSubQuIds().indexOf(query.value(0).toString())>=0)
         {
             SubQuestions *sub_que=new SubQuestions;
-            sub_que->setSubId(query.value(0).toInt());
-            sub_que->setTitle(query.value(1).toString());
-            sub_que->setType(query.value(2).toString());
+            sub_que->setQuestionId(query.value(0).toInt());
+            sub_que->setQuestionTitle(query.value(1).toString());
+            sub_que->setQuestionType(query.value(2).toString());
             paper.subList.append(*sub_que);
         }
     }
@@ -592,9 +592,9 @@ void MainApp::dealObAnswers(ObAnswers obans)
 void MainApp::dealSubAnswers(SubAnswers subans)
 {
 
-    for(int i=0; i<subans.getSubansList().count(); i++)
+    for(int i=0; i<subans.getAnswerList().count(); i++)
     {
-        _DBM->updateSubAnswers(subans.getPaperId(),subans.getStudentId(),i+1,subans.getSubansList().at(i));
+        _DBM->updateSubAnswers(subans.getPaperId(),subans.getStudentId(),i+1,subans.getAnswerList().at(i));
     }
     _DBM->updatePaperMarkDone(QDate::currentDate().toString(),subans.getPaperId(),subans.getStudentId());
 }
@@ -891,10 +891,10 @@ void MainApp::outputOb()
     while(query.next())
     {
         ObQuestions *ob_que=new ObQuestions;
-        ob_que->setObId(query.value(0).toInt());
-        ob_que->setTitle(query.value(1).toString());
+        ob_que->setQuestionId(query.value(0).toInt());
+        ob_que->setQuestionTitle(query.value(1).toString());
         ob_que->setAnswer(query.value(2).toString());
-        ob_que->setType(query.value(3).toString());
+        ob_que->setQuestionType(query.value(3).toString());
         obList.append(ob_que);
     }
     _IOM->outputOb(obList);
@@ -910,9 +910,9 @@ void MainApp::outputSub()
     while(query.next())
     {
         SubQuestions *sub_que=new SubQuestions;
-        sub_que->setSubId(query.value(0).toInt());
-        sub_que->setTitle(query.value(1).toString());
-        sub_que->setType(query.value(2).toString());
+        sub_que->setQuestionId(query.value(0).toInt());
+        sub_que->setQuestionTitle(query.value(1).toString());
+        sub_que->setQuestionType(query.value(2).toString());
         subList.append(sub_que);
     }
     _IOM->outputSub(subList);
@@ -973,7 +973,7 @@ void MainApp::inputOb(QString path)
     oblist=_IOM->inputOb(path);
     for(int i=0; i<oblist.count(); i++)
     {
-        _DBM->insertOb(oblist.at(i)->getObId(),oblist.at(i)->getType(),oblist.at(i)->getTitle(),oblist.at(i)->getAnswer());
+        _DBM->insertOb(oblist.at(i)->getQuestionId(),oblist.at(i)->getQuestionType(),oblist.at(i)->getQuestionTitle(),oblist.at(i)->getAnswer());
     }
     QMessageBox msg;
     msg.setText(QString("导入成功。"));
@@ -986,7 +986,7 @@ void MainApp::inputSub(QString path)
     sublist=_IOM->inputSub(path);
     for(int i=0; i<sublist.count(); i++)
     {
-        _DBM->insertSub(sublist.at(i)->getsubId(),sublist.at(i)->getType(),sublist.at(i)->getTitle());
+        _DBM->insertSub(sublist.at(i)->getQuestionId(),sublist.at(i)->getQuestionType(),sublist.at(i)->getQuestionTitle());
     }
     QMessageBox msg;
     msg.setText(QString("导入成功。"));

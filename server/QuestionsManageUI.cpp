@@ -33,7 +33,7 @@ void QuestionsManageUI::add()
         title.append(textEdit_C->toPlainText());
         title.append("@d");
         title.append(textEdit_D->toPlainText());
-        o_que->setTitle(title);
+        o_que->setQuestionTitle(title);
 
         QString answer;
         if(radio_A->isChecked()) answer.append("A-");
@@ -42,7 +42,7 @@ void QuestionsManageUI::add()
         if(radio_D->isChecked()) answer.append("D-");
         o_que->setAnswer(answer);
 
-        o_que->setType(comboBox_type->currentText());
+        o_que->setQuestionType(comboBox_type->currentText());
 
         emit this->addOb_Questoins(o_que);
         QMessageBox::about(this,QString("信息"),QString("添加成功！"));
@@ -51,9 +51,9 @@ void QuestionsManageUI::add()
     else if(tabWidget->currentIndex()==1)
     {
         SubQuestions *s_que=new SubQuestions;
-        s_que->setTitle(textEdit2_Content->toPlainText());
-        s_que->setType(comboBox_type->currentText());
-        qDebug()<<s_que->getTitle();
+        s_que->setQuestionTitle(textEdit2_Content->toPlainText());
+        s_que->setQuestionType(comboBox_type->currentText());
+        qDebug()<<s_que->getQuestionTitle();
         emit this->addSub_Questoins(s_que);
         delete(s_que);
     }
@@ -102,7 +102,7 @@ void QuestionsManageUI::modify()
         if(tabWidget->currentIndex()==0)
         {
             ObQuestions *o_que=new ObQuestions;
-            o_que->setObId(obTable->item(obTable->currentRow(),0)->text().toInt());
+            o_que->setQuestionId(obTable->item(obTable->currentRow(),0)->text().toInt());
             QString title;
             title.append(textEdit->toPlainText());
             title.append("@a");
@@ -113,7 +113,7 @@ void QuestionsManageUI::modify()
             title.append(textEdit_C->toPlainText());
             title.append("@d");
             title.append(textEdit_D->toPlainText());
-            o_que->setTitle(title);
+            o_que->setQuestionTitle(title);
 
             QString answer;
             if(radio_A->isChecked()) answer.append("A-");
@@ -122,7 +122,7 @@ void QuestionsManageUI::modify()
             if(radio_D->isChecked()) answer.append("D-");
             o_que->setAnswer(answer);
 
-            o_que->setType(comboBox_type->currentText());
+            o_que->setQuestionType(comboBox_type->currentText());
 
             emit this->modifyOb_Questoins(o_que);
             delete(o_que);
@@ -130,9 +130,9 @@ void QuestionsManageUI::modify()
         else if(tabWidget->currentIndex()==1)
         {
             SubQuestions *s_que=new SubQuestions;
-            s_que->setSubId(subTable->item(subTable->currentRow(),0)->text().toInt());
-            s_que->setTitle(textEdit2_Content->toPlainText());
-            s_que->setType(comboBox_type->currentText());
+            s_que->setQuestionId(subTable->item(subTable->currentRow(),0)->text().toInt());
+            s_que->setQuestionTitle(textEdit2_Content->toPlainText());
+            s_que->setQuestionType(comboBox_type->currentText());
 
             emit this->modifySub_Questoins(s_que);
             delete(s_que);
@@ -156,7 +156,7 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
 
 
 
-        QString title=obList.at(i)->getTitle();
+        QString title=obList.at(i)->getQuestionTitle();
         QString s_maintitle=title.mid(0,title.indexOf("@a"));
         QString s_ansA=title.mid(title.indexOf("@a")+2,title.indexOf("@b")-title.indexOf("@a")-2);
         QString s_ansB=title.mid(title.indexOf("@b")+2,title.indexOf("@c")-title.indexOf("@b")-2);
@@ -169,8 +169,8 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
         QTableWidgetItem *ansC=new QTableWidgetItem(s_ansC);
         QTableWidgetItem *ansD=new QTableWidgetItem(s_ansD);
         QTableWidgetItem *correctAns=new QTableWidgetItem(obList.at(i)->getAnswer());
-        QTableWidgetItem *type=new QTableWidgetItem(obList.at(i)->getType());
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(obList.at(i)->getObId()));
+        QTableWidgetItem *type=new QTableWidgetItem(obList.at(i)->getQuestionType());
+        QTableWidgetItem *id=new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
         maintitle->setToolTip(maintitle->text());
         obTable->setItem(i,0,id);
         obTable->setItem(i,1,type);
@@ -181,9 +181,9 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
         obTable->setItem(i,6,ansD);
         obTable->setItem(i,7,correctAns);
 
-        if(!_typeList.contains(obList.at(i)->getType()))
+        if(!_typeList.contains(obList.at(i)->getQuestionType()))
         {
-            _typeList<<obList.at(i)->getType();
+            _typeList<<obList.at(i)->getQuestionType();
         }
 
     }
@@ -193,16 +193,16 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
     subTable->setRowCount(subList.count());
     for(int i=0; i<subList.count(); i++)
     {
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(subList.at(i)->getsubId()));
-        QTableWidgetItem *title=new QTableWidgetItem(subList.at(i)->getTitle());
-        QTableWidgetItem *type=new QTableWidgetItem(subList.at(i)->getType());
+        QTableWidgetItem *id=new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
+        QTableWidgetItem *title=new QTableWidgetItem(subList.at(i)->getQuestionTitle());
+        QTableWidgetItem *type=new QTableWidgetItem(subList.at(i)->getQuestionType());
         subTable->setItem(i,0,id);
         subTable->setItem(i,1,type);
         subTable->setItem(i,2,title);
 
-        if(!_typeList.contains(subList.at(i)->getType()))
+        if(!_typeList.contains(subList.at(i)->getQuestionType()))
         {
-            _typeList<<subList.at(i)->getType();
+            _typeList<<subList.at(i)->getQuestionType();
         }
     }
 
