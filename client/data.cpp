@@ -153,7 +153,7 @@ QString SubQuestions::getQuestionTitle()
 
 SubAnswers::SubAnswers()
 {
-    qRegisterMetaTypeStreamOperators<SubAnswers>("Sub_answers");
+    qRegisterMetaTypeStreamOperators<SubAnswers>("SubAnswers");
 }
 void SubAnswers::setAnswerId(int id)
 {
@@ -329,7 +329,7 @@ void ObQuestions::setQuestionAnswer(QString answer)
 
 ObAnswers::ObAnswers()
 {
-    qRegisterMetaTypeStreamOperators<ObAnswers>("Ob_answers");
+    qRegisterMetaTypeStreamOperators<ObAnswers>("ObAnswers");
 }
 int ObAnswers::getAnswerId()
 {

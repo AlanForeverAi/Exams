@@ -275,17 +275,6 @@ void MainWindow::endExamMode()
 //设置菜单栏的按钮是否活动
 void MainWindow::LoginOK()
 {
-    /*
-    ui->action_mainmenu->setEnabled(true);
-    ui->action_makepaper->setEnabled(true);
-    ui->action_QuestionsManager->setEnabled(true);
-    ui->action_memmanager->setEnabled(true);
-    ui->action_examctrl->setEnabled(true);
-    ui->action_subscore->setEnabled(true);
-    ui->action_scomanage->setEnabled(true);
-    ui->action_config->setEnabled(true);
-    ui->action_inoutput->setEnabled(true);
-    */
     if(USER::GetInstance().getType() == 1)
     {
         _ui->action_memmanager->setEnabled(true);

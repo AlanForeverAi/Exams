@@ -17,7 +17,7 @@ public:
     void setClass(int);
     void setPassword(QString);
     void setState(QString);
-    void setHostname(QString);
+    void setHostName(QString);
     void setSockDescriptor(int);
     QString getID();
     QString getName();
@@ -80,8 +80,8 @@ public:
     QString getAnswer();
 
 private:
-    int _id;
-    QString _subject; //科目
+    int _questionId;
+    //QString _subject; //科目
     QString _title;
     QString _answer;
     int _mark;
@@ -96,6 +96,42 @@ class SubQuestions : public Questions {
 };
 */
 
+class Questions{
+public:
+    Questions();
+
+    int getQuestionId() const;
+    void setQuestionId(int getQuestionId);
+
+    QString getQuestionType() const;
+    void setQuestionType(const QString &getQuestionType);
+
+    QString getQuestionTitle() const;
+    void setQuestionTitle(const QString &getQuestionTitle);
+
+private:
+    int _questionId;
+    QString _questionType;
+    QString _questionTitle;
+};
+
+
+class ObQuestionsTest : public Questions {
+    friend QDataStream &operator <<(QDataStream &,const ObQuestionsTest &);
+    friend QDataStream &operator >>(QDataStream &,ObQuestionsTest &);
+public:
+
+    QString getAnswer() const;
+    void setAnswer(const QString &getAnswer);
+
+private:
+    QString _answer;
+};
+
+class SubQuestionsTest : public Questions {
+    friend QDataStream &operator <<(QDataStream &,const SubQuestionsTest &);
+    friend QDataStream &operator >>(QDataStream &,SubQuestionsTest &);
+};
 
 //客观题
 class ObQuestions
@@ -218,7 +254,6 @@ private:
     int _paperId;
     QString _studentId;
     QString _answers;
-
 };
 
 //试卷。。。。坑爹的通过主观题id和客观题id来决定试卷内容。。。以后需要添加新的题型又需要修改。。。。

@@ -87,6 +87,8 @@ void PaperManageUI::averageChange()
         textEdit_Show_Average_Sub->setText(QString::number(average_sub));
     }
 }
+
+//这个函数是重点，显示题目
 void PaperManageUI::showQuestions(QList<ObQuestions*> obList, QList<SubQuestions*> subList)
 {
 

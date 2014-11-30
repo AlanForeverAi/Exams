@@ -444,7 +444,7 @@ bool MainApp::userLogin(Student u)
                 }
 
                 isIn=1;
-                _userList.at(i)->setHostname(u.getHostname());
+                _userList.at(i)->setHostName(u.getHostname());
                 _userList.at(i)->setSockDescriptor(u.getSockDescriptor());
 
                 this->userStateChange(_userList.at(i)->getSockDescriptor(),QStringLiteral("等待"));
@@ -522,7 +522,7 @@ void MainApp::removeUser(int descriptor)
         {
             if(_userList.at(i)->getState()!=QString("已经交卷"))
             {
-                _userList.at(i)->setHostname("");
+                _userList.at(i)->setHostName("");
                 this->userStateChange(descriptor,QString("未登录"));
             }
         }

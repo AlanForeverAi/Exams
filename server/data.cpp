@@ -28,7 +28,7 @@ void Student::setState(QString s)
 {
     _state=s;
 }
-void Student::setHostname(QString host)
+void Student::setHostName(QString host)
 {
     _hostname=host;
 }
@@ -69,17 +69,6 @@ int Student::getSockDescriptor()
 {
     return _socketDescriptor;
 }
-/*
-int Student::getSocketDescriptor() const
-{
-    return _socketDescriptor;
-}
-
-void Student::setSocketDescriptor(int value)
-{
-    _socketDescriptor = value;
-}
-*/
 
 QDataStream &operator >>(QDataStream &in,Student &user)
 {
@@ -610,4 +599,44 @@ USER &USER::GetInstance()
 {
     static USER user;
     return user;
+}
+
+int Questions::getQuestionId() const
+{
+    return _questionId;
+}
+
+void Questions::setQuestionId(int questionId)
+{
+    _questionId = questionId;
+}
+QString Questions::getQuestionType() const
+{
+    return _questionType;
+}
+
+void Questions::setQuestionType(const QString &questionType)
+{
+    _questionType = questionType;
+}
+QString Questions::getQuestionTitle() const
+{
+    return _questionTitle;
+}
+
+void Questions::setQuestionTitle(const QString &questionTitle)
+{
+    _questionTitle = questionTitle;
+}
+
+
+
+QString ObQuestionsTest::getAnswer() const
+{
+    return _answer;
+}
+
+void ObQuestionsTest::setAnswer(const QString &answer)
+{
+    _answer = answer;
 }

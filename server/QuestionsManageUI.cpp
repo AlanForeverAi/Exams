@@ -17,6 +17,7 @@ void QuestionsManageUI::return_clicked()
     this->close();
 }
 
+//添加题目 工厂模式？
 void QuestionsManageUI::add()
 {
     if(tabWidget->currentIndex()==0)
