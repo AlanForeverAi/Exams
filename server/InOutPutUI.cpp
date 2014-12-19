@@ -8,28 +8,28 @@ InOutPutUI::InOutPutUI(QWidget *parent) :
 
 void InOutPutUI::on_pushButton_inuser_clicked()
 {
-    QString filename= QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
+    QString filename = QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
     if(!filename.isEmpty())
         emit this->inputUser(filename);
 }
 
 void InOutPutUI::on_pushButton_inob_clicked()
 {
-    QString filename= QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
+    QString filename = QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
     if(!filename.isEmpty())
         emit this->inputOb(filename);
 }
 
 void InOutPutUI::on_pushButton_insub_clicked()
 {
-    QString filename= QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
+    QString filename = QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
     if(!filename.isEmpty())
         emit this->inputSub(filename);
 }
 
 void InOutPutUI::on_pushButton_inpaper_clicked()
 {
-    QString filename= QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
+    QString filename = QFileDialog::getOpenFileName(this,QString("选择文件"),"/",QString("txt Files (*.txt)"));
     if(!filename.isEmpty())
         emit this->inputPaper(filename);
 }

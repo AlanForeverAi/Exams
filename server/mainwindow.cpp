@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _ui->action_config->setEnabled(false);
     _ui->action_inoutput->setEnabled(false);
 
-    _statusBar=statusBar();
+    _statusBar = statusBar();
 //    setWindowOpacity(0.85);//设置窗口透明
     this->on_action_login_triggered();
 
@@ -31,12 +31,12 @@ MainWindow::~MainWindow()
 void MainWindow::do_QuestionsManager()
 {
 
-    QuestionsManageUI *queManager = new QuestionsManageUI();
-    connect(this,SIGNAL(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)),queManager,SLOT(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)));
-    connect(queManager,SIGNAL(addOb_Questoins(ObQuestions*)),this,SIGNAL(addOb_Questoins(ObQuestions*)));
-    connect(queManager,SIGNAL(addSub_Questoins(SubQuestions*)),this,SIGNAL(addSub_Questoins(SubQuestions*)));
-    connect(queManager,SIGNAL(modifyOb_Questoins(ObQuestions*)),this,SIGNAL(modifyOb_Questoins(ObQuestions*)));
-    connect(queManager,SIGNAL(modifySub_Questoins(SubQuestions*)),this,SIGNAL(modifySub_Questoins(SubQuestions*)));
+    QuestionsManageUI *queManager  =  new QuestionsManageUI();
+    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),queManager,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
+    connect(queManager,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SIGNAL(addOb_Questoins(ChoiceQuestions*)));
+    connect(queManager,SIGNAL(addSub_Questoins(EssayQuestions*)),this,SIGNAL(addSub_Questoins(EssayQuestions*)));
+    connect(queManager,SIGNAL(modifyOb_Questoins(ChoiceQuestions*)),this,SIGNAL(modifyOb_Questoins(ChoiceQuestions*)));
+    connect(queManager,SIGNAL(modifySub_Questoins(EssayQuestions*)),this,SIGNAL(modifySub_Questoins(EssayQuestions*)));
     connect(queManager->Button_Save,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
     connect(queManager->Button_delete,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
     connect(queManager,SIGNAL(deleteOb_Questoins(int)),this,SIGNAL(deleteOb_Questoins(int)));
@@ -44,17 +44,13 @@ void MainWindow::do_QuestionsManager()
     connect(queManager->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(queManager);
     emit this->getQuestions();
-    //queManager->setEnabled(false);
     _statusBar->showMessage(QString("题库管理"));
-    //pushButton_question->setEnabled(false);
-    //this->setEnabled(false);
-    //statusbar->setEnabled(false);
 }
 
 void MainWindow::do_makepaper()
 {
-    PaperManageUI *make_paper = new PaperManageUI();
-    connect(this,SIGNAL(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)),make_paper,SLOT(showQuestions(QList<ObQuestions*>,QList<SubQuestions*>)));
+    PaperManageUI *make_paper  =  new PaperManageUI();
+    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),make_paper,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(make_paper,SIGNAL(addPaper(Paper)),this,SIGNAL(addPaper(Paper)));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
     connect(make_paper->pushButton_AddorMoidfy,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
@@ -78,7 +74,7 @@ void MainWindow::do_makepaper()
 
 void MainWindow::do_examctrl()
 {
-    ExamCtrlUI *examctrl=new ExamCtrlUI();
+    ExamCtrlUI *examctrl = new ExamCtrlUI();
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examctrl,SLOT(showPapers(QList<Paper*>)));
     connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
     connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SLOT(examMode()));
@@ -99,7 +95,7 @@ void MainWindow::do_examctrl()
 
 void MainWindow::do_subscore()
 {
-    SubMarkUI *sub_score=new SubMarkUI;
+    SubMarkUI *sub_score = new SubMarkUI;
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),sub_score,SLOT(showPapers(QList<Paper*>)));
     connect(sub_score,SIGNAL(getUserByPaperId(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
     connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),sub_score,SLOT(showUserByPaperId(QList<Student*>)));
@@ -133,7 +129,7 @@ void MainWindow::do_memmanage()
 
 void MainWindow::do_login()
 {
-    LoginUI *loginPage=new LoginUI;
+    LoginUI *loginPage = new LoginUI;
     connect(loginPage,SIGNAL(loginSignal(USER)),this,SIGNAL(loginSignal(USER)));
     this->setCentralWidget(loginPage);
     _statusBar->showMessage(QString("登录"));
@@ -141,7 +137,7 @@ void MainWindow::do_login()
 
 void MainWindow::do_mainmenu()
 {
-    MainMenuUI *mainmenu=new MainMenuUI;
+    MainMenuUI *mainmenu = new MainMenuUI;
     connect(mainmenu,SIGNAL(action_QuestionsManager()),this,SLOT(on_action_QuestionsManager_triggered()));
     connect(mainmenu,SIGNAL(action_makepaper()),this,SLOT(on_action_makepaper_triggered()));
     connect(mainmenu,SIGNAL(action_memmanager()),this,SLOT(on_action_memmanager_triggered()));
@@ -155,7 +151,7 @@ void MainWindow::do_mainmenu()
 }
 void MainWindow::do_config()
 {
-    ConfigUI *config=new ConfigUI;
+    ConfigUI *config = new ConfigUI;
     connect(config->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(config);
     _statusBar->showMessage(QString("设置"));
@@ -163,7 +159,7 @@ void MainWindow::do_config()
 
 void MainWindow::do_scomanage()
 {
-    ScoreManageUI *score_manage = new ScoreManageUI();
+    ScoreManageUI *score_manage  =  new ScoreManageUI();
 
     connect(this,SIGNAL(showCombo(QList<Combo*>)),score_manage,SLOT(showCombo(QList<Combo*>)));
     connect(score_manage,SIGNAL(getCombo_id(QString)),this,SIGNAL(getCombo_id(QString)));
@@ -179,7 +175,7 @@ void MainWindow::do_scomanage()
 
 void MainWindow::do_inoutput()
 {
-    InOutPutUI *io=new InOutPutUI;
+    InOutPutUI *io = new InOutPutUI;
     connect(io,SIGNAL(inputUser(QString)),this,SIGNAL(inputUser(QString)));
     connect(io,SIGNAL(inputOb(QString)),this,SIGNAL(inputOb(QString)));
     connect(io,SIGNAL(inputSub(QString)),this,SIGNAL(inputSub(QString)));
@@ -275,7 +271,7 @@ void MainWindow::endExamMode()
 //设置菜单栏的按钮是否活动
 void MainWindow::LoginOK()
 {
-    if(USER::GetInstance().getType() == 1)
+    if(USER::GetInstance().getType()  ==  1)
     {
         _ui->action_memmanager->setEnabled(true);
         _ui->action_config->setEnabled(true);
@@ -307,8 +303,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QMessageBox msg;
     msg.setText(QStringLiteral("确定离开吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-    int ret=msg.exec();
-    if(ret==QMessageBox::Ok)
+    int ret = msg.exec();
+    if(ret == QMessageBox::Ok)
         event->accept();
     else
         event->ignore();

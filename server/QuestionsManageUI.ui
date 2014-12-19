@@ -154,8 +154,8 @@
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>1235</width>
-         <height>246</height>
+         <width>1245</width>
+         <height>247</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -180,7 +180,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
@@ -485,7 +485,7 @@
               <enum>Qt::LeftToRight</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab">
               <property name="minimumSize">

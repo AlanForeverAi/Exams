@@ -30,27 +30,27 @@ void IOManager::outputUser(QList<Student*> userlist)
     if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
         return;
     QTextStream out(&inouput);
-    out<<"userid "<<"\t"<<"\t"<<"name "<<"\t"<<"grade "<<"\t"<<"class"<<"\t"<<"password "<<"\n";
-    for(int i=0; i<userlist.count(); ++i)
+    out << "userid " << "\t" << "\t" << "name " << "\t" << "grade " << "\t" << "class" << "\t" << "password " << "\n";
+    for(int i = 0; i<userlist.count(); ++i)
     {
-        out<<userlist.at(i)->getID()<<"\t";
-        out<<userlist.at(i)->getName()<<"\t";
-        out<<userlist.at(i)->getGrade()<<"\t";
-        out<<userlist.at(i)->getClass()<<"\t";
-        out<<userlist.at(i)->getPassword()<<"\n";
+        out << userlist.at(i)->getID() << "\t";
+        out << userlist.at(i)->getName() << "\t";
+        out << userlist.at(i)->getGrade() << "\t";
+        out << userlist.at(i)->getClass() << "\t";
+        out << userlist.at(i)->getPassword() << "\n";
     }
-    /* for(int i=0;i<userlist.count();++i)
+    /* for(int i = 0;i<userlist.count();++i)
       {
-         out<<"userid ";
-         out<<userlist.at(i)->getID()<<"\n";
-         out<<"name ";
-         out<<userlist.at(i)->getName()<<"\n";
-         out<<"grade ";
-         out<<userlist.at(i)->getGrade()<<"\n";
-         out<<"class ";
-         out<<userlist.at(i)->getClass()<<"\n";
-         out<<"password ";
-         out<<userlist.at(i)->getPassword()<<"\n";
+         out << "userid ";
+         out << userlist.at(i)->getID() << "\n";
+         out << "name ";
+         out << userlist.at(i)->getName() << "\n";
+         out << "grade ";
+         out << userlist.at(i)->getGrade() << "\n";
+         out << "class ";
+         out << userlist.at(i)->getClass() << "\n";
+         out << "password ";
+         out << userlist.at(i)->getPassword() << "\n";
     }*/
 
     inouput.close();
@@ -70,50 +70,50 @@ QList<Student*> IOManager::inputUser(QString path)
     QTextStream in(&inouput);
     QString temp;
     QString remp;
-    temp=in.readLine();
-    qDebug()<<"this is title:"<<temp<<"\n";
+    temp = in.readLine();
+    qDebug() << "this is title:" << temp << "\n";
     while(!in.atEnd())
     {
-        Student* user=new Student;
-        temp=in.readLine();
+        Student* user = new Student;
+        temp = in.readLine();
 
 
-        remp=temp.left(temp.indexOf("\t"));
+        remp = temp.left(temp.indexOf("\t"));
         user->setID(remp);
-        temp=temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length()+1);
 
 
-        remp=temp.left(temp.indexOf("\t"));
+        remp = temp.left(temp.indexOf("\t"));
         user->setName(remp);
-        temp=temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length()+1);
 
 
-        remp=temp.left(temp.indexOf("\t"));
+        remp = temp.left(temp.indexOf("\t"));
         user->setGrade(remp.toInt());
-        temp=temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length()+1);
 
 
-        remp=temp.left(temp.indexOf("\t"));
+        remp = temp.left(temp.indexOf("\t"));
         user->setClass(remp.toInt());
-        temp=temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length()+1);
 
 
 
         user->setPassword(temp);
-        /*temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        /*temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         user->setID(temp);
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         user->setName(temp);
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         user->setGrade(temp.toInt());
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         user->setClass(temp.toInt());
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         user->setPassword(temp);*/
         userlist.append(user);
     }
@@ -137,22 +137,22 @@ void IOManager::outputPaper(QList<Paper*> paperlist)
     if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
         return;
     QTextStream out(&inouput);
-    for(int i=0; i<paperlist.count(); ++i)
+    for(int i = 0; i<paperlist.count(); ++i)
     {
-        out<<QString("试卷ID ");
-        out<<paperlist.at(i)->getPaperId()<<"\n";
-        out<<QString("客观题ID ");
-        out<<paperlist.at(i)->getObQuIds()<<"\n";
-        out<<QString("主观题ID ");
-        out<<paperlist.at(i)->getSubQuIds()<<"\n";
-        out<<QString("总分 ");
-        out<<paperlist.at(i)->getTotalMark()<<"\n";
-        out<<QString("客观题分数比例 ");
-        out<<paperlist.at(i)->getPercent()<<"\n";
-        out<<QString("试卷名称 ");
-        out<<paperlist.at(i)->getDescription()<<"\n";
-        out<<QString("考试时间 ");
-        out<<paperlist.at(i)->getTime()<<"\n";
+        out << QString("试卷ID ");
+        out << paperlist.at(i)->getPaperId() << "\n";
+        out << QString("客观题ID ");
+        out << paperlist.at(i)->getObQuIds() << "\n";
+        out << QString("主观题ID ");
+        out << paperlist.at(i)->getSubQuIds() << "\n";
+        out << QString("总分 ");
+        out << paperlist.at(i)->getTotalMark() << "\n";
+        out << QString("客观题分数比例 ");
+        out << paperlist.at(i)->getPercent() << "\n";
+        out << QString("试卷名称 ");
+        out << paperlist.at(i)->getDescription() << "\n";
+        out << QString("考试时间 ");
+        out << paperlist.at(i)->getTime() << "\n";
     }
 
     inouput.close();
@@ -173,32 +173,32 @@ QList<Paper*> IOManager::inputPaper(QString path)
 
     while(!in.atEnd())
     {
-        Paper* paper=new Paper;
-        temp=in.readLine();
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        Paper* paper = new Paper;
+        temp = in.readLine();
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         paper->setObQuIds(temp);
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         paper->setSubQuIds(temp);
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         paper->setTotalMark(temp.toInt());
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         paper->setPercent(temp.toInt());
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         paper->setDescription(temp);
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         paper->setTime(temp.toInt());
-        temp=in.readLine();
+        temp = in.readLine();
 
         paperlist.append(paper);
     }
@@ -211,7 +211,7 @@ QList<Paper*> IOManager::inputPaper(QString path)
 
 
 //以下为obquestions表写入文件
-void IOManager::outputOb(QList<ObQuestions*> obquestionlist)
+void IOManager::outputOb(QList<ChoiceQuestions*> obquestionlist)
 {
     QString filename;
     filename.append(QStringLiteral("data/客观题信息_"));
@@ -221,14 +221,14 @@ void IOManager::outputOb(QList<ObQuestions*> obquestionlist)
     if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
         return;
     QTextStream out(&inouput);
-    for(int i=0; i<obquestionlist.count(); ++i)
+    for(int i = 0; i<obquestionlist.count(); ++i)
     {
-        out<<"obid ";
-        out<<obquestionlist.at(i)->getQuestionId()<<"\n";
-        out<<"title ";
-        out<<obquestionlist.at(i)->getQuestionTitle()<<"\n";
-        out<<"answer ";
-        out<<obquestionlist.at(i)->getAnswer()<<"\n";
+        out << "obid ";
+        out << obquestionlist.at(i)->getQuestionId() << "\n";
+        out << "title ";
+        out << obquestionlist.at(i)->getQuestionTitle() << "\n";
+        out << "answer ";
+        out << obquestionlist.at(i)->getAnswer() << "\n";
 
     }
 
@@ -238,9 +238,9 @@ void IOManager::outputOb(QList<ObQuestions*> obquestionlist)
 
 
 //以下为obquestions表读取文件
-QList<ObQuestions*> IOManager::inputOb(QString path)
+QList<ChoiceQuestions*> IOManager::inputOb(QString path)
 {
-    QList<ObQuestions*> oblist;
+    QList<ChoiceQuestions*> oblist;
 
     QFile inouput(path);
     if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
@@ -250,17 +250,17 @@ QList<ObQuestions*> IOManager::inputOb(QString path)
 
     while(!in.atEnd())
     {
-        ObQuestions* obquestions=new ObQuestions;
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        ChoiceQuestions* obquestions = new ChoiceQuestions;
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         obquestions->setQuestionId(temp.toInt());
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         obquestions->setQuestionTitle(temp);
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         obquestions->setAnswer(temp);
         oblist.append(obquestions);
     }
@@ -272,7 +272,7 @@ QList<ObQuestions*> IOManager::inputOb(QString path)
 //以上为obquestions表读取文件
 
 //以下为subquestions表写入文件
-void IOManager::outputSub(QList<SubQuestions*> subquestionlist)
+void IOManager::outputSub(QList<EssayQuestions*> subquestionlist)
 {
     QString filename;
     filename.append(QStringLiteral("data/主观题信息_"));
@@ -282,12 +282,12 @@ void IOManager::outputSub(QList<SubQuestions*> subquestionlist)
     if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
         return ;
     QTextStream out(&inouput);
-    for(int i=0; i<subquestionlist.count(); ++i)
+    for(int i = 0; i<subquestionlist.count(); ++i)
     {
-        out<<"subid ";
-        out<<subquestionlist.at(i)->getQuestionId()<<"\n";
-        out<<"title ";
-        out<<subquestionlist.at(i)->getQuestionTitle()<<"\n";
+        out << "subid ";
+        out << subquestionlist.at(i)->getQuestionId() << "\n";
+        out << "title ";
+        out << subquestionlist.at(i)->getQuestionTitle() << "\n";
 
     }
     inouput.close();
@@ -295,9 +295,9 @@ void IOManager::outputSub(QList<SubQuestions*> subquestionlist)
 //以上为subquestions表写入文件
 
 //以下为subquestions表读取文件
-QList<SubQuestions*> IOManager::inputSub(QString path)
+QList<EssayQuestions*> IOManager::inputSub(QString path)
 {
-    QList<SubQuestions*> sublist;
+    QList<EssayQuestions*> sublist;
 
     QFile inouput(path);
     if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
@@ -307,13 +307,13 @@ QList<SubQuestions*> IOManager::inputSub(QString path)
 
     while(!in.atEnd())
     {
-        SubQuestions* subquestions=new SubQuestions;
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        EssayQuestions* subquestions = new EssayQuestions;
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         subquestions->setQuestionId(temp.toInt());
 
-        temp=in.readLine();
-        temp=temp.mid(temp.indexOf(" ")+1);
+        temp = in.readLine();
+        temp = temp.mid(temp.indexOf(" ")+1);
         subquestions->setQuestionTitle(temp);
         sublist.append(subquestions);
     }

@@ -52,48 +52,49 @@ void PaperManageUI::on_spinBox_Percentage_Ob_valueChanged(int value)
 
 void PaperManageUI::averageChange()
 {
-    if(_selectOb.count()==0||_selectSub.count()==0)
+    if(_selectOb.count() == 0||_selectSub.count() == 0)
     {
-        if(_selectOb.count()==0&&_selectSub.count()==0)//题数(OB,SUB)=(0,0)
+        if(_selectOb.count() == 0&&_selectSub.count() == 0)//题数(OB,SUB) = (0,0)
         {
-            double average_ob=0;
+            double average_ob = 0;
             textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-            double average_sub=0;
+            double average_sub = 0;
             textEdit_Show_Average_Sub->setText(QString::number(average_sub));
         }
-        else//题数(OB,SUB)=(n,0)
+        else//题数(OB,SUB) = (n,0)
         {
-            if(_selectOb.count()!=0)
+            if(_selectOb.count() != 0)
             {
-                double average_ob=(double)lineEdit_totalmark->text().toInt()/_selectOb.count();
+                double average_ob = (double)lineEdit_totalmark->text().toInt()/_selectOb.count();
                 textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-                double average_sub=0;
+                double average_sub = 0;
                 textEdit_Show_Average_Sub->setText(QString::number(average_sub));
             }
-            else//题数(OB,SUB)=(0,n)
+            else//题数(OB,SUB) = (0,n)
             {
-                double average_ob=0;
+                double average_ob = 0;
                 textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-                double average_sub=(double)lineEdit_totalmark->text().toInt()/_selectSub.count();
+                double average_sub = (double)lineEdit_totalmark->text().toInt()/_selectSub.count();
                 textEdit_Show_Average_Sub->setText(QString::number(average_sub));
             }
         }
     }
-    else//题数(OB,SUB)=(n,n)
+    else//题数(OB,SUB) = (n,n)
     {
-        double average_ob=(double)lineEdit_totalmark->text().toInt()*spinBox_Percentage_Ob->value()/100/_selectOb.count();
+        double average_ob = (double)lineEdit_totalmark->text().toInt()*spinBox_Percentage_Ob->value()/100/_selectOb.count();
         textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-        double average_sub=(double)lineEdit_totalmark->text().toInt()*spinBox_Percentage_Sub->value()/100/_selectSub.count();
+        double average_sub = (double)lineEdit_totalmark->text().toInt()*spinBox_Percentage_Sub->value()/100/_selectSub.count();
         textEdit_Show_Average_Sub->setText(QString::number(average_sub));
     }
 }
 
 //这个函数是重点，显示题目
-void PaperManageUI::showQuestions(QList<ObQuestions*> obList, QList<SubQuestions*> subList)
+//Question
+void PaperManageUI::showQuestions(QList<ChoiceQuestions*> obList, QList<EssayQuestions*> subList)
 {
 
-    _allOb=obList;
-    _allSub=subList;
+    _allOb = obList;
+    _allSub = subList;
 
     spinBox_obnum->setMaximum(obList.count());
     spinBox_subnum->setMaximum(subList.count());
@@ -102,15 +103,15 @@ void PaperManageUI::showQuestions(QList<ObQuestions*> obList, QList<SubQuestions
     tableWidget_All_Ob->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_All_Ob->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_All_Ob->setRowCount(obList.count());
-    for(int i=0;i<obList.count();++i)
+    for(int i = 0;i<obList.count();++i)
     {
-        QString title=obList.at(i)->getQuestionTitle();
-        QString s_maintitle=title.mid(0,title.indexOf("@a"));
+        QString title = obList.at(i)->getQuestionTitle();
+        QString s_maintitle = title.mid(0,title.indexOf("@a"));
 
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
-        QTableWidgetItem *maintitle=new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type=new QTableWidgetItem(obList.at(i)->getQuestionType());
-        //QTableWidgetItem *mark=new QTableWidgetItem(QString(obList.at(i)->getMark()));
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
+        QTableWidgetItem *maintitle = new QTableWidgetItem(s_maintitle);
+        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getQuestionType());
+        //QTableWidgetItem *mark = new QTableWidgetItem(QString(obList.at(i)->getMark()));
         tableWidget_All_Ob->setItem(i,0,id);
         tableWidget_All_Ob->setItem(i,1,type);
         tableWidget_All_Ob->setItem(i,2,maintitle);
@@ -125,11 +126,11 @@ void PaperManageUI::showQuestions(QList<ObQuestions*> obList, QList<SubQuestions
     tableWidget_All_Sub->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_All_Sub->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_All_Sub->setRowCount(subList.count());
-    for(int i=0;i<subList.count();++i)
+    for(int i = 0;i<subList.count();++i)
     {
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
-        QTableWidgetItem *title=new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type=new QTableWidgetItem(subList.at(i)->getQuestionType());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
+        QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
+        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getQuestionType());
         tableWidget_All_Sub->setItem(i,0,id);
         tableWidget_All_Sub->setItem(i,1,type);
         tableWidget_All_Sub->setItem(i,2,title);
@@ -148,24 +149,24 @@ void PaperManageUI::showQuestions(QList<ObQuestions*> obList, QList<SubQuestions
 
 void PaperManageUI::showAllPaper(QList<Paper *> pList)
 {
-    _paperList=pList;
+    _paperList = pList;
 
     table_allpaper->setRowCount(_paperList.count());
     tableWidget_allpaper->setRowCount(_paperList.count());
-    for(int i=0;i<_paperList.count();i++)
+    for(int i = 0;i<_paperList.count();i++)
     {
 
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(_paperList.at(i)->getPaperId()));
-        QTableWidgetItem *description=new QTableWidgetItem(_paperList.at(i)->getDescription());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(_paperList.at(i)->getPaperId()));
+        QTableWidgetItem *description = new QTableWidgetItem(_paperList.at(i)->getDescription());
         table_allpaper->setItem(i,0,id);
         table_allpaper->setItem(i,1,description);
     }
 
-    for(int i=0;i<_paperList.count();i++)
+    for(int i = 0;i<_paperList.count();i++)
     {
 
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(_paperList.at(i)->getPaperId()));
-        QTableWidgetItem *description=new QTableWidgetItem(_paperList.at(i)->getDescription());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(_paperList.at(i)->getPaperId()));
+        QTableWidgetItem *description = new QTableWidgetItem(_paperList.at(i)->getDescription());
         tableWidget_allpaper->setItem(i,0,id);
         tableWidget_allpaper->setItem(i,1,description);
     }
@@ -181,12 +182,12 @@ void PaperManageUI::on_pushButton_Add_Ob_clicked()
     }
 
 
-    QString id_string=tableWidget_All_Ob->item(tableWidget_All_Ob->currentRow(),0)->text();
-    if(-1==_obQueIds.indexOf(id_string))
+    QString id_string = tableWidget_All_Ob->item(tableWidget_All_Ob->currentRow(),0)->text();
+    if(-1 == _obQueIds.indexOf(id_string))
     {
-        for(int i=0;i<_allOb.count();i++)
+        for(int i = 0;i<_allOb.count();i++)
         {
-            if(_allOb.at(i)->getQuestionId()==id_string.toInt())
+            if(_allOb.at(i)->getQuestionId() == id_string.toInt())
             {
                 _selectOb.append(_allOb.at(i));
             }
@@ -212,14 +213,14 @@ void PaperManageUI::on_pushButton_Add_Sub_clicked()
     }
 
 
-    QString id_string=tableWidget_All_Sub->item(tableWidget_All_Sub->currentRow(),0)->text();
+    QString id_string = tableWidget_All_Sub->item(tableWidget_All_Sub->currentRow(),0)->text();
 
-    if(-1==_subQueIds.indexOf(id_string))
+    if(-1 == _subQueIds.indexOf(id_string))
     {
 
-        for(int i=0;i<_allSub.count();i++)
+        for(int i = 0;i<_allSub.count();i++)
         {
-            if(_allSub.at(i)->getQuestionId()==id_string.toInt())
+            if(_allSub.at(i)->getQuestionId() == id_string.toInt())
             {
                 _selectSub.append(_allSub.at(i));
             }
@@ -240,13 +241,13 @@ void PaperManageUI::updateSelectTable()
     tableWidget_Select_Ob->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_Select_Ob->horizontalHeader()->setStretchLastSection(true);
     tableWidget_Select_Ob->setRowCount(_selectOb.count());
-    for(int i=0;i<_selectOb.count();i++)
+    for(int i = 0;i<_selectOb.count();i++)
     {
-        QString t=_selectOb.at(i)->getQuestionTitle();
-        QString s_maintitle=t.mid(0,t.indexOf("@a"));
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(_selectOb.at(i)->getQuestionId()));
-        QTableWidgetItem *title=new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type=new QTableWidgetItem(_selectOb.at(i)->getQuestionType());
+        QString t = _selectOb.at(i)->getQuestionTitle();
+        QString s_maintitle = t.mid(0,t.indexOf("@a"));
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(_selectOb.at(i)->getQuestionId()));
+        QTableWidgetItem *title = new QTableWidgetItem(s_maintitle);
+        QTableWidgetItem *type = new QTableWidgetItem(_selectOb.at(i)->getQuestionType());
         tableWidget_Select_Ob->setItem(i,0,id);
         tableWidget_Select_Ob->setItem(i,1,type);
         tableWidget_Select_Ob->setItem(i,2,title);
@@ -255,11 +256,11 @@ void PaperManageUI::updateSelectTable()
     tableWidget_Select_Sub->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_Select_Sub->horizontalHeader()->setStretchLastSection(true);
     tableWidget_Select_Sub->setRowCount(_selectSub.count());
-    for(int i=0;i<_selectSub.count();i++)
+    for(int i = 0;i<_selectSub.count();i++)
     {
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(_selectSub.at(i)->getQuestionId()));
-        QTableWidgetItem *title=new QTableWidgetItem(_selectSub.at(i)->getQuestionTitle());
-        QTableWidgetItem *type=new QTableWidgetItem(_selectSub.at(i)->getQuestionType());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(_selectSub.at(i)->getQuestionId()));
+        QTableWidgetItem *title = new QTableWidgetItem(_selectSub.at(i)->getQuestionTitle());
+        QTableWidgetItem *type = new QTableWidgetItem(_selectSub.at(i)->getQuestionType());
         tableWidget_Select_Sub->setItem(i,0,id);
         tableWidget_Select_Sub->setItem(i,1,type);
         tableWidget_Select_Sub->setItem(i,2,title);
@@ -278,11 +279,11 @@ void PaperManageUI::on_pushButton_Delete_Ob_clicked()
     }
     else
     {
-        QString id_string=tableWidget_Select_Ob->item(tableWidget_Select_Ob->currentRow(),0)->text();
+        QString id_string = tableWidget_Select_Ob->item(tableWidget_Select_Ob->currentRow(),0)->text();
         _obQueIds.remove(_obQueIds.indexOf(id_string),id_string.length()+1);
-        for(int i=0;i<_selectOb.count();i++)
+        for(int i = 0;i<_selectOb.count();i++)
         {
-            if(_selectOb.at(i)->getQuestionId()==id_string.toInt())
+            if(_selectOb.at(i)->getQuestionId() == id_string.toInt())
             {
                 _selectOb.removeAt(i);
             }
@@ -304,11 +305,11 @@ void PaperManageUI::on_pushButton_Delete_Sub_clicked()
     }
     else
     {
-        QString id_string=tableWidget_Select_Sub->item(tableWidget_Select_Sub->currentRow(),0)->text();
+        QString id_string = tableWidget_Select_Sub->item(tableWidget_Select_Sub->currentRow(),0)->text();
         _subQueIds.remove(_subQueIds.indexOf(id_string),id_string.length()+1);
-        for(int i=0;i<_selectSub.count();i++)
+        for(int i = 0;i<_selectSub.count();i++)
         {
-            if(_selectSub.at(i)->getQuestionId()==id_string.toInt())
+            if(_selectSub.at(i)->getQuestionId() == id_string.toInt())
             {
                 _selectSub.removeAt(i);
             }
@@ -328,13 +329,13 @@ void PaperManageUI::on_pushButton_delete_clicked()
     QMessageBox msg;
     msg.setText(QStringLiteral("确定要删除吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-    if(table_allpaper->currentRow()>=0)
+    if(table_allpaper->currentRow() >= 0)
     {
-        int ret=msg.exec();
-        if(ret==QMessageBox::Ok)
+        int ret = msg.exec();
+        if(ret == QMessageBox::Ok)
         {
             int id;
-            id=table_allpaper->item(table_allpaper->currentRow(),0)->text().toInt();
+            id = table_allpaper->item(table_allpaper->currentRow(),0)->text().toInt();
             emit this->deletePaper(id);
         }
         else
@@ -355,8 +356,8 @@ void PaperManageUI::on_pushButton_AddorMoidfy_clicked()
     currentpaper.setTotalMark(lineEdit_totalmark->text().toInt());
     currentpaper.setPercent(spinBox_Percentage_Ob->value());
     currentpaper.setTime(spinBox_time->value()*60);
-    QString state=pushButton_AddorMoidfy->text();
-    if(state==QString("创建试卷"))
+    QString state = pushButton_AddorMoidfy->text();
+    if(state == QString("创建试卷"))
     {
 
         emit this->addPaper(currentpaper);
@@ -364,7 +365,7 @@ void PaperManageUI::on_pushButton_AddorMoidfy_clicked()
         _subQueIds.clear();//
     }
     else
-        if(state==QString("确认修改"))
+        if(state == QString("确认修改"))
         {
             pushButton_AddorMoidfy->setText(QString("创建试卷"));
             pushButton_unmodify->setEnabled(false);
@@ -381,10 +382,10 @@ void PaperManageUI::on_pushButton_AddorMoidfy_clicked()
 
 void PaperManageUI::on_pushButton_tomodify_clicked()
 {
-    if(table_allpaper->currentRow()>=0)
+    if(table_allpaper->currentRow() >= 0)
     {
         int id;
-        id=table_allpaper->item(table_allpaper->currentRow(),0)->text().toInt();
+        id = table_allpaper->item(table_allpaper->currentRow(),0)->text().toInt();
         emit this->getPaperById(id);
     }
     else
@@ -414,14 +415,14 @@ void PaperManageUI::showCurrentPaper(Paper p)
     pushButton_unmodify->setEnabled(true);
 
 
-    _currentPaperId=p.getPaperId();
+    _currentPaperId = p.getPaperId();
 
 
-    _obQueIds=p.getObQuIds();
+    _obQueIds = p.getObQuIds();
     _selectOb.clear();
-    for(int i=0;i<_allOb.count();i++)
+    for(int i = 0;i<_allOb.count();i++)
     {
-        if(0<=_obQueIds.indexOf(QString::number(_allOb.at(i)->getQuestionId())))
+        if(0 <= _obQueIds.indexOf(QString::number(_allOb.at(i)->getQuestionId())))
         {
             _selectOb.append(_allOb.at(i));
 
@@ -433,11 +434,11 @@ void PaperManageUI::showCurrentPaper(Paper p)
 
 
 
-    _subQueIds=p.getSubQuIds();
+    _subQueIds = p.getSubQuIds();
     _selectSub.clear();
-    for(int i=0;i<_allSub.count();i++)
+    for(int i = 0;i<_allSub.count();i++)
     {
-        if(0<=_subQueIds.indexOf(QString::number(_allSub.at(i)->getQuestionId())))
+        if(0 <= _subQueIds.indexOf(QString::number(_allSub.at(i)->getQuestionId())))
         {
             _selectSub.append(_allSub.at(i));
         }
@@ -446,8 +447,8 @@ void PaperManageUI::showCurrentPaper(Paper p)
     tableWidget_Select_Sub->setRowCount(_selectSub.count());
     this->updateSelectTable();
 
-    _obQueIds=p.getObQuIds();
-    _subQueIds=p.getSubQuIds();
+    _obQueIds = p.getObQuIds();
+    _subQueIds = p.getSubQuIds();
     lineEdit_totalmark->setText(QString::number(p.getTotalMark()));
     spinBox_Percentage_Ob->setValue(p.getPercent());
     lineEdit_Papername->setText(p.getDescription());
@@ -476,16 +477,16 @@ void PaperManageUI::showAllUser(QList<Student *> ulist, QList<USER *> m)
 {
     if(userList.isEmpty())
         {
-        userList=ulist;
+        userList = ulist;
         }
     tableWidget_alluser->setRowCount(ulist.count());
-    for(int i=0;i<ulist.count();++i)
+    for(int i = 0;i<ulist.count();++i)
     {
 
-        QTableWidgetItem *u_id=new QTableWidgetItem(ulist.at(i)->getID());
-        QTableWidgetItem *u_name=new QTableWidgetItem(ulist.at(i)->getName());
-        QTableWidgetItem *u_grade=new QTableWidgetItem(QString::number(ulist.at(i)->getGrade()));
-        QTableWidgetItem *u_class=new QTableWidgetItem(QString::number(ulist.at(i)->getClass()));
+        QTableWidgetItem *u_id = new QTableWidgetItem(ulist.at(i)->getID());
+        QTableWidgetItem *u_name = new QTableWidgetItem(ulist.at(i)->getName());
+        QTableWidgetItem *u_grade = new QTableWidgetItem(QString::number(ulist.at(i)->getGrade()));
+        QTableWidgetItem *u_class = new QTableWidgetItem(QString::number(ulist.at(i)->getClass()));
 
        tableWidget_alluser->setItem(i,0,u_id);
        tableWidget_alluser->setItem(i,1,u_name);
@@ -499,16 +500,16 @@ void PaperManageUI::showSelectUser(QList<Student *> ulist)
 {
     if(_selectUserList.isEmpty())
         {
-        _selectUserList=ulist;
+        _selectUserList = ulist;
         }
     tableWidget_selectuser->setRowCount(ulist.count());
-    for(int i=0;i<ulist.count();++i)
+    for(int i = 0;i<ulist.count();++i)
     {
 
-        QTableWidgetItem *u_id=new QTableWidgetItem(ulist.at(i)->getID());
-        QTableWidgetItem *u_name=new QTableWidgetItem(ulist.at(i)->getName());
-        QTableWidgetItem *u_grade=new QTableWidgetItem(QString::number(ulist.at(i)->getGrade()));
-        QTableWidgetItem *u_class=new QTableWidgetItem(QString::number(ulist.at(i)->getClass()));
+        QTableWidgetItem *u_id = new QTableWidgetItem(ulist.at(i)->getID());
+        QTableWidgetItem *u_name = new QTableWidgetItem(ulist.at(i)->getName());
+        QTableWidgetItem *u_grade = new QTableWidgetItem(QString::number(ulist.at(i)->getGrade()));
+        QTableWidgetItem *u_class = new QTableWidgetItem(QString::number(ulist.at(i)->getClass()));
 
        tableWidget_selectuser->setItem(i,0,u_id);
        tableWidget_selectuser->setItem(i,1,u_name);
@@ -523,13 +524,13 @@ void PaperManageUI::on_pushButton_searchall_clicked()
 
     _searchList.clear();
     QString s_tosearch;
-    s_tosearch=lineEdit_searchall->text();
-    for(int i=0;i<userList.count();i++)
+    s_tosearch = lineEdit_searchall->text();
+    for(int i = 0;i<userList.count();i++)
         {
-                    if(userList.at(i)->getID()==s_tosearch||
-                        userList.at(i)->getName()==s_tosearch||
-                        userList.at(i)->getGrade()==s_tosearch.toInt()||
-                        userList.at(i)->getClass()==s_tosearch.toInt())
+                    if(userList.at(i)->getID() == s_tosearch||
+                        userList.at(i)->getName() == s_tosearch||
+                        userList.at(i)->getGrade() == s_tosearch.toInt()||
+                        userList.at(i)->getClass() == s_tosearch.toInt())
                         {
                                 _searchList.append(userList.at(i));
                         }
@@ -543,13 +544,13 @@ void PaperManageUI::on_pushButton_searchselect_clicked()
 
     _searchList.clear();
     QString s_tosearch;
-    s_tosearch=lineEdit_searchselect->text();
-    for(int i=0;i<_selectUserList.count();i++)
+    s_tosearch = lineEdit_searchselect->text();
+    for(int i = 0;i<_selectUserList.count();i++)
         {
-                    if(_selectUserList.at(i)->getID()==s_tosearch||
-                        _selectUserList.at(i)->getName()==s_tosearch||
-                        _selectUserList.at(i)->getGrade()==s_tosearch.toInt()||
-                        _selectUserList.at(i)->getClass()==s_tosearch.toInt())
+                    if(_selectUserList.at(i)->getID() == s_tosearch||
+                        _selectUserList.at(i)->getName() == s_tosearch||
+                        _selectUserList.at(i)->getGrade() == s_tosearch.toInt()||
+                        _selectUserList.at(i)->getClass() == s_tosearch.toInt())
                         {
                                 _searchList.append(_selectUserList.at(i));
                         }
@@ -576,24 +577,24 @@ void PaperManageUI::on_pushButton_adduser_clicked()
         return;
     }
 
-    for(int j=0;j<tableWidget_alluser->selectedItems().count();j++)
+    for(int j = 0;j<tableWidget_alluser->selectedItems().count();j++)
         {
-            QString id_string=tableWidget_alluser->selectedItems().at(j)->text();
+            QString id_string = tableWidget_alluser->selectedItems().at(j)->text();
 
-            for(int i=0;i<userList.count();i++)
+            for(int i = 0;i<userList.count();i++)
                 {
-                    int isIn=0;
-                    if(userList.at(i)->getID()==id_string)
+                    int isIn = 0;
+                    if(userList.at(i)->getID() == id_string)
                         {
-                            for(int n=0;n<_selectUserList.count();n++)
+                            for(int n = 0;n<_selectUserList.count();n++)
                                 {
-                                    if(_selectUserList.at(n)->getID()==id_string)
+                                    if(_selectUserList.at(n)->getID() == id_string)
                                         {
-                                            isIn=1;
+                                            isIn = 1;
                                             break;
                                         }
                                 }
-                            if(isIn==0)
+                            if(isIn == 0)
                                 {
                                     _selectUserList.append(userList.at(i));
                                 }
@@ -612,12 +613,12 @@ void PaperManageUI::on_pushButton_deleteuser_clicked()
         return;
     }
 
-    for(int j=0;j<tableWidget_selectuser->selectedItems().count();j++)
+    for(int j = 0;j<tableWidget_selectuser->selectedItems().count();j++)
         {
-            QString id_string=tableWidget_selectuser->selectedItems().at(j)->text();
-            for(int i=0;i<_selectUserList.count();i++)
+            QString id_string = tableWidget_selectuser->selectedItems().at(j)->text();
+            for(int i = 0;i<_selectUserList.count();i++)
                 {
-                    if(_selectUserList.at(i)->getID()==id_string)
+                    if(_selectUserList.at(i)->getID() == id_string)
                         {
                             _selectUserList.removeAt(i);
                         }
@@ -631,7 +632,7 @@ void PaperManageUI::on_pushButton_deleteuser_clicked()
 void PaperManageUI::paperChange(QTableWidgetItem *item)
 {
     _selectUserList.clear();
-    int pid=tableWidget_allpaper->item(item->row(),0)->text().toInt();
+    int pid = tableWidget_allpaper->item(item->row(),0)->text().toInt();
 
     emit this->queryPaperMark(pid,(this->comboBoxselect->currentText()));
 }
@@ -639,9 +640,9 @@ void PaperManageUI::paperChange(QTableWidgetItem *item)
 void PaperManageUI::on_pushButton_saveuser_clicked()
 {
 
-    if(tableWidget_allpaper->currentRow()>=0)
+    if(tableWidget_allpaper->currentRow() >= 0)
     {
-        int pid=tableWidget_allpaper->item(tableWidget_allpaper->currentRow(),0)->text().toInt();
+        int pid = tableWidget_allpaper->item(tableWidget_allpaper->currentRow(),0)->text().toInt();
         emit this->saveUsertoPaperMark(pid,_selectUserList);
 
    }
@@ -653,7 +654,7 @@ void PaperManageUI::on_pushButton_saveuser_clicked()
 
 void PaperManageUI::on_pushButton_print_clicked()
 {
-    if(tableWidget_allpaper->currentRow()>=0)
+    if(tableWidget_allpaper->currentRow() >= 0)
     {
         QString filename;
         filename.append(QString("data/考试名单_"));
@@ -665,7 +666,7 @@ void PaperManageUI::on_pushButton_print_clicked()
         QTextStream out(&print);
         out<<tableWidget_allpaper->item(tableWidget_allpaper->currentRow(),1)->text()<<"\n";
         QString temp;
-        for(int i=0;i<tableWidget_selectuser->columnCount();i++)
+        for(int i = 0;i<tableWidget_selectuser->columnCount();i++)
         {
             temp.append(tableWidget_selectuser->horizontalHeaderItem(i)->text());
             temp.append("\t");
@@ -673,9 +674,9 @@ void PaperManageUI::on_pushButton_print_clicked()
         out<<temp<<"\n";
         temp.clear();
 
-        for(int i=0;i<tableWidget_selectuser->rowCount();i++)
+        for(int i = 0;i<tableWidget_selectuser->rowCount();i++)
         {
-            for(int j=0;j<tableWidget_selectuser->columnCount();j++)
+            for(int j = 0;j<tableWidget_selectuser->columnCount();j++)
             {
                 temp.append(tableWidget_selectuser->item(i,j)->text());
                 temp.append("\t");
@@ -691,9 +692,11 @@ else
         QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
     }
 }
+
+//Question
 void PaperManageUI::on_pushButton_random_clicked()
 {
-    if(spinBox_subnum->value()==0&&spinBox_obnum->value()==0)
+    if(spinBox_subnum->value() == 0&&spinBox_obnum->value() == 0)
     {
 
     QMessageBox::about(this,"msg",QStringLiteral("客观题和主观题题数不可同时为0"));
@@ -705,22 +708,22 @@ void PaperManageUI::on_pushButton_random_clicked()
         _selectSub.clear();
         _obQueIds.clear();
         _subQueIds.clear();
-        QList<ObQuestions*> oblist;
-        QList<SubQuestions*> sublist;
-        oblist=_tempOb;
+        QList<ChoiceQuestions*> oblist;
+        QList<EssayQuestions*> sublist;
+        oblist = _tempOb;
         qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-        for(int i=0;i<spinBox_obnum->value();i++)
+        for(int i = 0;i<spinBox_obnum->value();i++)
             {
-                int j=qrand()%oblist.count();
+                int j = qrand()%oblist.count();
                 _selectOb.append(oblist.at(j));
                 _obQueIds.append(QString::number(oblist.at(j)->getQuestionId()));
                 _obQueIds.append(",");
                 oblist.removeAt(j);
             }
-        sublist=_tempSub;
-        for(int i=0;i<spinBox_subnum->value();i++)
+        sublist = _tempSub;
+        for(int i = 0;i<spinBox_subnum->value();i++)
             {
-                int j=qrand()%sublist.count();
+                int j = qrand()%sublist.count();
                 _selectSub.append(sublist.at(j));
                 _subQueIds.append(QString::number(sublist.at(j)->getQuestionId()));
                 _subQueIds.append(",");
@@ -738,40 +741,41 @@ void PaperManageUI::typeChange(QString t)
 {
     _tempOb.clear();
     _tempSub.clear();
-    if(t==QString("全部"))
+    if(t == QString("全部"))
         {
-            _tempOb=_allOb;
-            _tempSub=_allSub;
+            _tempOb = _allOb;
+            _tempSub = _allSub;
         }
 
-    for(int i=0;i<_allOb.count();i++)
+    for(int i = 0;i<_allOb.count();i++)
         {
-            if(_allOb.at(i)->getQuestionType()==t)
+            if(_allOb.at(i)->getQuestionType() == t)
                 _tempOb.append(_allOb.at(i));
         }
-    for(int i=0;i<_allSub.count();i++)
+    for(int i = 0;i<_allSub.count();i++)
         {
-            if(_allSub.at(i)->getQuestionType()==t)
+            if(_allSub.at(i)->getQuestionType() == t)
                 _tempSub.append(_allSub.at(i));
         }
     this->showCurrentType(_tempOb,_tempSub);
 }
 
-void PaperManageUI::showCurrentType(QList<ObQuestions *> obList, QList<SubQuestions *> subList)
+//Question
+void PaperManageUI::showCurrentType(QList<ChoiceQuestions *> obList, QList<EssayQuestions *> subList)
 {
     spinBox_obnum->setMaximum(obList.count());
     spinBox_subnum->setMaximum(subList.count());
 
     tableWidget_All_Ob->setRowCount(obList.count());
-    for(int i=0;i<obList.count();++i)
+    for(int i = 0; i < obList.count(); ++i)
     {
-        QString title=obList.at(i)->getQuestionTitle();
-        QString s_maintitle=title.mid(0,title.indexOf("@a"));
+        QString title = obList.at(i)->getQuestionTitle();
+        QString s_maintitle = title.mid(0,title.indexOf("@a"));
 
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
-        QTableWidgetItem *maintitle=new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type=new QTableWidgetItem(obList.at(i)->getQuestionType());
-        //QTableWidgetItem *mark=new QTableWidgetItem(QString(obList.at(i)->getMark()));
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
+        QTableWidgetItem *maintitle = new QTableWidgetItem(s_maintitle);
+        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getQuestionType());
+        //QTableWidgetItem *mark = new QTableWidgetItem(QString(obList.at(i)->getMark()));
         tableWidget_All_Ob->setItem(i,0,id);
         tableWidget_All_Ob->setItem(i,1,type);
         tableWidget_All_Ob->setItem(i,2,maintitle);
@@ -781,11 +785,11 @@ void PaperManageUI::showCurrentType(QList<ObQuestions *> obList, QList<SubQuesti
     //显示主观题
 
     tableWidget_All_Sub->setRowCount(subList.count());
-    for(int i=0;i<subList.count();++i)
+    for(int i = 0; i < subList.count(); ++i)
     {
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
-        QTableWidgetItem *title=new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type=new QTableWidgetItem(subList.at(i)->getQuestionType());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
+        QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
+        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getQuestionType());
         tableWidget_All_Sub->setItem(i,0,id);
         tableWidget_All_Sub->setItem(i,1,type);
         tableWidget_All_Sub->setItem(i,2,title);
@@ -796,10 +800,10 @@ void PaperManageUI::showCurrentType(QList<ObQuestions *> obList, QList<SubQuesti
 void PaperManageUI::on_comboBoxselect_currentIndexChanged(const QString &arg1)
 {
     _selectUserList.clear();
-    QTableWidgetItem *item=tableWidget_allpaper->currentItem();
-    int pid=tableWidget_allpaper->item(item->row(),0)->text().toInt();
+    QTableWidgetItem *item = tableWidget_allpaper->currentItem();
+    int pid = tableWidget_allpaper->item(item->row(),0)->text().toInt();
 
     emit this->queryPaperMark(pid,(this->comboBoxselect->currentText()));
-    if((comboBoxselect->currentText())==QString("已完成")){pushButton_adduser->setEnabled(false);pushButton_deleteuser->setEnabled(false);pushButton_saveuser->setEnabled(false);}
+    if((comboBoxselect->currentText()) == QString("已完成")){pushButton_adduser->setEnabled(false);pushButton_deleteuser->setEnabled(false);pushButton_saveuser->setEnabled(false);}
     else{pushButton_adduser->setEnabled(true);pushButton_deleteuser->setEnabled(true);pushButton_saveuser->setEnabled(true);}
 }

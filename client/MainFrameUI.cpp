@@ -4,7 +4,7 @@ MainFrameUI::MainFrameUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-    _exam=new ExamUI;
+    _exam = new ExamUI;
     connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
     connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SLOT(sendExamslot()));
     connect(_exam,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
@@ -25,7 +25,7 @@ void MainFrameUI::sendExamslot()
 
 void MainFrameUI::showUserInfo(Student u)
 {
-    QString info=QString("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");
+    QString info = QString("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");
 
     label_userinfo->setText(info.arg(u.getName()).arg(u.getID()).arg(QString::number(u.getGrade())).arg(QString::number(u.getClass())));
 }
@@ -45,7 +45,6 @@ void MainFrameUI::showPaper()
 {
     _exam->timer->start(1000);
     stackedWidget_main->setCurrentIndex(1);
-
 }
 
 void MainFrameUI::endExamslot()

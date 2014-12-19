@@ -24,12 +24,12 @@ public:
 
     Paper preparePaper(int);//准备试卷
     void userStateChange(int,QString);//考生状态改变
-    void dealObAnswers(ObAnswers);//接收到答案时处理客观题
-    void dealSubAnswers(SubAnswers);//接收到答案时处理客观题
+    void dealObAnswers(EssayAnswers);//接收到答案时处理客观题
+    void dealSubAnswers(ChoiceAnswers);//接收到答案时处理客观题
 
 signals:
     void sendData(int,qint32,QVariant);//发送数据
-    void showQuestions(QList<ObQuestions*>,QList<SubQuestions*>);//显示题目
+    void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);//显示题目
     void showAllPaper(QList<Paper*>);//显示所以试卷
     void showCurrentPaper(Paper);//显示某一张试卷
     void updateUserTable(QList<Student*>);//更新考试控制界面的考生表
@@ -43,12 +43,12 @@ public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
     void removeUser(int);//将考生状态重置为未连接
     void getQuestions();//获取题目
-    void addOb_Questions(ObQuestions*);//添加客观题
-    void addSub_Questions(SubQuestions*);//添加主观题
+    void addOb_Questions(ChoiceQuestions*);//添加客观题
+    void addSub_Questions(EssayQuestions*);//添加主观题
     void deleteOb_Questoins(int);//删除客观题
     void deleteSub_Questoins(int);//删除主观题
-    void modifyOb_Questoins(ObQuestions*);//修改客观题
-    void modifySub_Questoins(SubQuestions*);//修改主观题
+    void modifyOb_Questoins(ChoiceQuestions*);//修改客观题
+    void modifySub_Questoins(EssayQuestions*);//修改主观题
     void addPaper(Paper);//添加试卷
     void getAllPaper();//获取试卷
     void getPaperById(int);//按ID获取试卷

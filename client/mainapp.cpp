@@ -1,4 +1,5 @@
 ﻿#include"mainapp.h"
+#include <iostream>
 
 MainApp::MainApp()
 {
@@ -22,19 +23,19 @@ void MainApp::readConfig()
         QMessageBox msg;
         msg.setText(QString("读取配置文件失败！将使用默认配置"));
         msg.exec();
-        _ip="localhost";
-        _port=3312;
+        _ip = "localhost";
+        _port = 3312;
         return;
     }
 
     QTextStream in(&Config);
     QString temp;
-    temp=in.readLine();
-    temp=temp.mid(temp.indexOf(" ")+1);
-    _ip=temp;
-    temp=in.readLine();
-    temp=temp.mid(temp.indexOf(" ")+1);
-    _port=temp.toInt();
+    temp = in.readLine();
+    temp = temp.mid(temp.indexOf(" ")+1);
+    _ip = temp;
+    temp = in.readLine();
+    temp = temp.mid(temp.indexOf(" ")+1);
+    _port = temp.toInt();
     Config.close();
 }
 
@@ -42,7 +43,7 @@ void MainApp::iniClient()
 {
 
     _window.statusbar->showMessage(QString("未连接"));
-    _client=new Client(this);
+    _client = new Client(this);
     connect(_client,SIGNAL(connected()),this,SLOT(connected()));
     connect(_client,SIGNAL(messageArrive(qint32,QVariant)),this,SLOT(messageArrive(qint32,QVariant)),Qt::DirectConnection);
     _client->connectToServer(_ip,_port);
@@ -79,6 +80,7 @@ void MainApp::sendAnswersSingle(AllAnswers allans)
 
 void MainApp::connected()
 {
+    //std::cout << "!!!!" << std::endl;
     _client->sendData(MSG_NEWCONNECT,0);
     _window.statusbar->showMessage(QString("已连接"));
 
@@ -99,28 +101,28 @@ void MainApp::messageArrive(qint32 m, QVariant v)
     switch(m)
     {
     case MSG_NEWCONNECT:
-        _infolist=v.value<QString>();
-        _serverState=_infolist.left(1).toInt();
+        _infolist = v.value<QString>();
+        _serverState = _infolist.left(1).toInt();
         this->updateInfo(_infolist);
-        if(_serverState==STATE_PAPERREADY||_serverState==STATE_EXAMING)
+        if(_serverState == STATE_PAPERREADY || _serverState == STATE_EXAMING)
         {
             _client->sendData(MSG_GETPAPER,0);
         }
         break;
     case MSG_LOGIN:
-        _currentUser=v.value<Student>();
+        _currentUser = v.value<Student>();
         emit this->LoginOK();
         emit this->showUserInfo(_currentUser);
-        if(_serverState==STATE_EXAMING)
+        if(_serverState == STATE_EXAMING)
         {
             emit this->showMessage(QString("你目前处于锁定状态，\n请等待服务器审批你的考试要求"));
 
         }
         break;
     case MSG_GETPAPER:
-        _currentpaper=v.value<Paper>();
+        _currentpaper = v.value<Paper>();
         emit this->paperReady(_currentpaper);
-        if(_serverState==STATE_EXAMING)
+        if(_serverState == STATE_EXAMING)
         {
             //emit this->showPaper();
         }
@@ -135,7 +137,7 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         break;
     case MSG_ERROR:
         QString errorstring;
-        errorstring=v.value<QString>();
+        errorstring = v.value<QString>();
         msg.setText(errorstring);
         msg.exec();
         break;
@@ -152,9 +154,11 @@ void MainApp::sendAnswers(AllAnswers allans)
 //登录函数
 void MainApp::Login(Student u)
 {
+    //std::cout << "!!!!!!" << std::endl;
     QVariant v;
     v.setValue(u);
     _client->sendData(MSG_LOGIN,v);
+    std::cout << "!!!!!!" << std::endl;
 }
 
 void MainApp::getUserInfo()

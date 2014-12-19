@@ -13,10 +13,10 @@ public:
     void outputPaper(QList<Paper*>);
     QList<Paper*> inputPaper(QString);
     //下面又写死了。。。。
-    void outputOb(QList<ObQuestions*>);
-    QList<ObQuestions*> inputOb(QString);
-    void outputSub(QList<SubQuestions*>);
-    QList<SubQuestions*> inputSub(QString);
+    void outputOb(QList<ChoiceQuestions*>);
+    QList<ChoiceQuestions*> inputOb(QString);
+    void outputSub(QList<EssayQuestions*>);
+    QList<EssayQuestions*> inputSub(QString);
 
 };
 

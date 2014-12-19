@@ -63,83 +63,109 @@ private:
 /*
  * 参考设计模式，修改？设置问题基类，方便以后添加新的题型。。。。。但是如何解决判断题目的类型。。。设计模式。。。
   */
-/*
-//问题基类。。。。
-class Questions{
-public:
-    Questions();
-    void setId(int);
-    void setSubject(QString);
-    void setTitle(QString);
-    void setAnswer(QString);
-    void setMark(int);
-    int getId();
-    int getMark();
-    QString getSubject();
-    QString getTitle();
-    QString getAnswer();
+////问题基类。。。。
+//class Questions{
+//public:
+//    Questions();
+//    void setId(int);
+//    void setSubject(QString);
+//    void setTitle(QString);
+//    void setAnswer(QString);
+//    void setMark(int);
+//    int getId();
+//    int getMark();
+//    QString getSubject();
+//    QString getTitle();
+//    QString getAnswer();
 
-private:
-    int _questionId;
-    //QString _subject; //科目
-    QString _title;
-    QString _answer;
-    int _mark;
-};
+//private:
+//    int _questionId;
+//    //QString _subject; //科目
+//    QString _title;
+//    QString _answer;
+//    int _mark;
+//};
 
-class ObQuestions : public Questions {
-  // 暂时还没考虑具体子类的结构。。。。
-};
+//class ObQuestions : public Questions {
+//  // 暂时还没考虑具体子类的结构。。。。
+//};
 
-class SubQuestions : public Questions {
-  // 暂时还没考虑具体子类的结构。。。。
-};
-*/
-
-class Questions{
-public:
-    Questions();
-
-    int getQuestionId() const;
-    void setQuestionId(int getQuestionId);
-
-    QString getQuestionType() const;
-    void setQuestionType(const QString &getQuestionType);
-
-    QString getQuestionTitle() const;
-    void setQuestionTitle(const QString &getQuestionTitle);
-
-private:
-    int _questionId;
-    QString _questionType;
-    QString _questionTitle;
-};
+//class SubQuestions : public Questions {
+//  // 暂时还没考虑具体子类的结构。。。。
+//};
 
 
-class ObQuestionsTest : public Questions {
-    friend QDataStream &operator <<(QDataStream &,const ObQuestionsTest &);
-    friend QDataStream &operator >>(QDataStream &,ObQuestionsTest &);
-public:
+//class showAnswerBehavior {
+//public:
+//    showAnswerBehavior();
+//    virtual QString getAnswer() = 0;
+//    virtual void setAnswer(QString) = 0;
 
-    QString getAnswer() const;
-    void setAnswer(const QString &getAnswer);
+//protected:
+//    QString _answer;
+//};
 
-private:
-    QString _answer;
-};
+//class showNoAnswer : public showAnswerBehavior {
+//public:
+//    virtual QString getAnswer();
+//    virtual void setAnswer(QString);
+//};
 
-class SubQuestionsTest : public Questions {
-    friend QDataStream &operator <<(QDataStream &,const SubQuestionsTest &);
-    friend QDataStream &operator >>(QDataStream &,SubQuestionsTest &);
-};
+//class showWithAnswer : public showAnswerBehavior {
+//public:
+//    virtual QString getAnswer();
+//    virtual void setAnswer(QString);
+//};
+
+
+//class Questions{
+//public:
+//    Questions();
+
+//    int getQuestionId() const;
+//    void setQuestionId(int getQuestionId);
+
+//    QString getQuestionType() const;
+//    void setQuestionType(const QString &getQuestionType);
+
+//    QString getQuestionTitle() const;
+//    void setQuestionTitle(const QString &getQuestionTitle);
+
+//private:
+//    int _questionId;
+//    QString _questionType;
+//    QString _questionTitle;
+
+//protected:
+//    showAnswerBehavior *showAnswer;
+//};
+
+
+//class ObQuestionsTest : public Questions {
+//    friend QDataStream &operator <<(QDataStream &,const ObQuestionsTest &);
+//    friend QDataStream &operator >>(QDataStream &,ObQuestionsTest &);
+
+//public:
+//    ObQuestionsTest();
+//};
+
+
+
+//class SubQuestionsTest : public Questions {
+//    friend QDataStream &operator <<(QDataStream &,const SubQuestionsTest &);
+//    friend QDataStream &operator >>(QDataStream &,SubQuestionsTest &);
+
+//public:
+//    SubQuestionsTest();
+//};
 
 //客观题
-class ObQuestions
+class ChoiceQuestions
 {
-    friend QDataStream &operator <<(QDataStream &,const ObQuestions &);
-    friend QDataStream &operator >>(QDataStream &,ObQuestions &);
+    friend QDataStream &operator <<(QDataStream &,const ChoiceQuestions &);
+    friend QDataStream &operator >>(QDataStream &,ChoiceQuestions &);
 public:
-    ObQuestions();
+    ChoiceQuestions();
     void setQuestionId(int);
     void setQuestionType(QString);
     void setQuestionTitle(QString);
@@ -157,12 +183,12 @@ private:
 };
 
 //主观题，添加参考答案？
-class SubQuestions
+class EssayQuestions
 {
-    friend QDataStream &operator <<(QDataStream &,const SubQuestions &);
-    friend QDataStream &operator >>(QDataStream &,SubQuestions &);
+    friend QDataStream &operator <<(QDataStream &,const EssayQuestions &);
+    friend QDataStream &operator >>(QDataStream &,EssayQuestions &);
 public:
-    SubQuestions();
+    EssayQuestions();
     void setQuestionId(int);
     void setQuestionType(QString);
     void setQuestionTitle(QString);
@@ -175,53 +201,53 @@ private:
     QString _questionTitle;
 };
 
-/*
-//答案基类
-class Answers{
-public:
-    Answers();
-    ~Answers();
-    void setanswerId(int id);
-    void setpaperId(int);
-    void setstudentId(int);
-    int getanswerId();
-    int getpaperId();
-    QString getstrudentId();
 
-private:
-    int AnswerId;
-    int PaperId;
-    QString StudentId;
-};
+////答案基类
+//class Answers{
+//public:
+//    Answers();
+//    ~Answers();
+//    void setanswerId(int id);
+//    void setpaperId(int);
+//    void setstudentId(int);
+//    int getanswerId();
+//    int getpaperId();
+//    QString getstrudentId();
 
-class SubAnswers : public Answers{
-public:
-    void setsubAnswerslist(QVector<QString>);
-    QVector<QString>getsubAnswerslist();
-private:
-    QVector<QString> SubAnswerslist;
-};
+//private:
+//    int AnswerId;
+//    int PaperId;
+//    QString StudentId;
+//};
 
-class ObAnswers : public Answers{
-public:
-    void setobAnswer(QString);
-    QString getobAnswer();
-private:
-    QString ObAnswer;
-};
-*/
+//class SubAnswers : public Answers{
+//public:
+//    void setsubAnswerslist(QVector<QString>);
+//    QVector<QString>getsubAnswerslist();
+//private:
+//    QVector<QString> SubAnswerslist;
+//};
+
+//class ObAnswers : public Answers{
+//public:
+//    void setobAnswer(QString);
+//    QString getobAnswer();
+//private:
+//    QString ObAnswer;
+//};
+
 
 //主观题答案。。。。
-class SubAnswers
+class ChoiceAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const SubAnswers &);
-    friend QDataStream &operator >>(QDataStream &,SubAnswers &);
+    friend QDataStream &operator <<(QDataStream &,const ChoiceAnswers &);
+    friend QDataStream &operator >>(QDataStream &,ChoiceAnswers &);
 public:
-    SubAnswers();
+    ChoiceAnswers();
     void setAnswerId(int);
     void setPaperId(int);
     void setStudentId(QString);
-    void setAnswerList(QVector<QString>);
+    void setAnswerList(QVector<QString> answer);
     int getAnswerId();
     int getPaperId();
     QString getStudentId();
@@ -230,17 +256,17 @@ private:
     int _answerId;
     int _paperId;
     QString _studentId;
-    QVector<QString> _AnswerList;
+    QVector<QString> _answerList;
 
 };
 
 //客观题答案
-class ObAnswers   //作答的答案
+class EssayAnswers   //作答的答案
 {
-    friend QDataStream &operator <<(QDataStream &,const ObAnswers &);
-    friend QDataStream &operator >>(QDataStream &,ObAnswers &);
+    friend QDataStream &operator <<(QDataStream &,const EssayAnswers &);
+    friend QDataStream &operator >>(QDataStream &,EssayAnswers &);
 public:
-    ObAnswers();
+    EssayAnswers();
     void setAnswerId(int);
     void setPaperId(int);
     void setStudentId(QString);
@@ -281,8 +307,8 @@ public:
     int     getTime();
     QString getDate();
     //一下两个list看着好不顺眼。。。。
-    QList<ObQuestions> obList;
-    QList<SubQuestions> subList;
+    QList<ChoiceQuestions> choiceQuestionList;
+    QList<EssayQuestions> essayQuestionbList;
 
     /*
      QList<Questions *> questionList; //试卷的题目列表。。。。
@@ -312,8 +338,8 @@ class AllAnswers
 public:
     AllAnswers();
     //下面的东西又又做死了。。。。
-    void setObanswer(ObAnswers);
-    void setSubanswer(SubAnswers);
+    void setObanswer(EssayAnswers);
+    void setSubanswer(ChoiceAnswers);
 
     /*
         void setAnswer(Answers *); //设置答案
@@ -322,8 +348,8 @@ public:
     void setUserid(QString);
 
     //下面的东西又又写死了
-    ObAnswers getObanswer();
-    SubAnswers getSubanswer();
+    EssayAnswers getObanswer();
+    ChoiceAnswers getSubanswer();
 
     /*
          Answers* getAnswer(); //获取答案
@@ -332,8 +358,8 @@ public:
     QString getUserid();
 private:
     //改进。。。。
-    ObAnswers _obAnswer;
-    SubAnswers _subAnswer;
+    EssayAnswers _obAnswer;
+    ChoiceAnswers _subAnswer;
 
      /*
          Answers * answer; //答案。。。

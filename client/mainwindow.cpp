@@ -6,8 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     _ui->setupUi(this);
 
-
-    _mainFrame=new MainFrameUI;
+    _mainFrame = new MainFrameUI;
     connect(_mainFrame,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
     connect(this,SIGNAL(endExam()),_mainFrame,SIGNAL(endExam()));
     connect(this,SIGNAL(showUserInfo(Student)),_mainFrame,SLOT(showUserInfo(Student)));
@@ -16,19 +15,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this,SIGNAL(showMessage(QString)),_mainFrame,SLOT(showMessage(QString)));
     connect(_mainFrame,SIGNAL(sendAnswersSingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
 
-
-    _loginPage=new LoginUI;
+    _loginPage = new LoginUI;
     connect(_loginPage,SIGNAL(loginSignal(Student)),this,SIGNAL(loginSignal(Student)));
 
     this->do_login();
-    statusbar=statusBar();
+    statusbar = statusBar();
     statusbar->showMessage(QString("hello"));
 }
 
 MainWindow::~MainWindow()
 {
     delete _ui;
-
 }
 
 void MainWindow::do_login()
@@ -45,8 +42,6 @@ void MainWindow::do_mainframe()
 void MainWindow::LoginOK()
 {
     this->do_mainframe();
-
-
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -54,8 +49,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     QMessageBox msg;
     msg.setText(QString("确定要退出吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-    int ret=msg.exec();
-    if(ret==QMessageBox::Ok)
+    int ret = msg.exec();
+    if(ret == QMessageBox::Ok)
         event->accept();
     else
         event->ignore();
@@ -65,8 +60,8 @@ void MainWindow::updateInfo(QString info)
 {
     //QMessageBox::about(this,"msg",info);
     QStringList list;
-    list=info.split(",");
-    if(info.length()<=2)
+    list = info.split(",");
+    if(info.length() <= 2)
     {
         return;
     }

@@ -45,25 +45,25 @@ private slots:
     void on_pushButton_saveuser_clicked();
     void on_pushButton_print_clicked();
     void on_pushButton_random_clicked();
-    void showQuestions(QList<ObQuestions*>,QList<SubQuestions*>);
+    void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void showAllPaper(QList<Paper*>);
     void showCurrentPaper(Paper);
     void showAllUser(QList<Student*>,QList<USER*>);
     void showSelectUser(QList<Student*>);
     void paperChange(QTableWidgetItem*);
     void typeChange(QString);
-    void showCurrentType(QList<ObQuestions*>,QList<SubQuestions*>);
+    void showCurrentType(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void on_comboBoxselect_currentIndexChanged(const QString &arg1);
 
 private:
     int _currentPaperId;
     //又又见到坑爹的东西。。。。。。。
-    QList<ObQuestions *> _allOb;
-    QList<ObQuestions *> _selectOb;
-    QList<SubQuestions *> _allSub;
-    QList<SubQuestions *> _selectSub;
-    QList<ObQuestions *> _tempOb;
-    QList<SubQuestions *> _tempSub;
+    QList<ChoiceQuestions *> _allOb;
+    QList<ChoiceQuestions *> _selectOb;
+    QList<EssayQuestions *> _allSub;
+    QList<EssayQuestions *> _selectSub;
+    QList<ChoiceQuestions *> _tempOb;
+    QList<EssayQuestions *> _tempSub;
     QString  _obQueIds;
     QString _subQueIds;
     QList<Paper *> _paperList;

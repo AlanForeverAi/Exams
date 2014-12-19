@@ -18,11 +18,12 @@ void QuestionsManageUI::return_clicked()
 }
 
 //添加题目 工厂模式？
+//Question
 void QuestionsManageUI::add()
 {
-    if(tabWidget->currentIndex()==0)
+    if(tabWidget->currentIndex() == 0)
     {
-        ObQuestions *o_que=new ObQuestions;
+        ChoiceQuestions *choiceQuestions = new ChoiceQuestions;
 
         QString title;
         title.append(textEdit->toPlainText());
@@ -34,29 +35,29 @@ void QuestionsManageUI::add()
         title.append(textEdit_C->toPlainText());
         title.append("@d");
         title.append(textEdit_D->toPlainText());
-        o_que->setQuestionTitle(title);
+        choiceQuestions->setQuestionTitle(title);
 
         QString answer;
         if(radio_A->isChecked()) answer.append("A-");
         if(radio_B->isChecked()) answer.append("B-");
         if(radio_C->isChecked()) answer.append("C-");
         if(radio_D->isChecked()) answer.append("D-");
-        o_que->setAnswer(answer);
+        choiceQuestions->setAnswer(answer);
 
-        o_que->setQuestionType(comboBox_type->currentText());
+        choiceQuestions->setQuestionType(comboBox_type->currentText());
 
-        emit this->addOb_Questoins(o_que);
+        emit this->addOb_Questoins(choiceQuestions);
         QMessageBox::about(this,QString("信息"),QString("添加成功！"));
-        delete(o_que);
+        delete(choiceQuestions);
     }
-    else if(tabWidget->currentIndex()==1)
+    else if(tabWidget->currentIndex() == 1)
     {
-        SubQuestions *s_que=new SubQuestions;
-        s_que->setQuestionTitle(textEdit2_Content->toPlainText());
-        s_que->setQuestionType(comboBox_type->currentText());
-        qDebug()<<s_que->getQuestionTitle();
-        emit this->addSub_Questoins(s_que);
-        delete(s_que);
+        EssayQuestions *essayQuestions = new EssayQuestions;
+        essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
+        essayQuestions->setQuestionType(comboBox_type->currentText());
+        qDebug()<<essayQuestions->getQuestionTitle();
+        emit this->addSub_Questoins(essayQuestions);
+        delete(essayQuestions);
     }
 
     this->textClear();
@@ -68,19 +69,19 @@ void QuestionsManageUI::on_Button_delete_clicked()
     QMessageBox msg;
     msg.setText(QString("确定要删除吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-    if(tabWidget_2->currentIndex()==0&&obTable->currentRow()>=0)
+    if(tabWidget_2->currentIndex() == 0 && obTable->currentRow() >= 0)
     {
         int ret = msg.exec();
-        if(ret==QMessageBox::Ok)
+        if(ret == QMessageBox::Ok)
             emit this->deleteOb_Questoins(obTable->item(obTable->currentRow(),0)->text().toInt());
         else
             return;
 
     }
-    else if(tabWidget_2->currentIndex()==1&&subTable->currentRow()>=0)
+    else if(tabWidget_2->currentIndex() == 1 && subTable->currentRow() >= 0)
     {
-        int ret = msg.exec();
-        if(ret==QMessageBox::Ok)
+        int ret  =  msg.exec();
+        if(ret == QMessageBox::Ok)
             emit this->deleteSub_Questoins(subTable->item(subTable->currentRow(),0)->text().toInt());
         else
             return;
@@ -91,19 +92,19 @@ void QuestionsManageUI::on_Button_delete_clicked()
     }
 }
 
-
+//Question
 void QuestionsManageUI::modify()
 {
     QMessageBox msg;
     msg.setText(QString("确定要修改吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-    int ret=msg.exec();
-    if(ret==QMessageBox::Ok)
+    int ret = msg.exec();
+    if(ret == QMessageBox::Ok)
     {
-        if(tabWidget->currentIndex()==0)
+        if(tabWidget->currentIndex() == 0)
         {
-            ObQuestions *o_que=new ObQuestions;
-            o_que->setQuestionId(obTable->item(obTable->currentRow(),0)->text().toInt());
+            ChoiceQuestions *choiceQuestions = new ChoiceQuestions;
+            choiceQuestions->setQuestionId(obTable->item(obTable->currentRow(),0)->text().toInt());
             QString title;
             title.append(textEdit->toPlainText());
             title.append("@a");
@@ -114,36 +115,36 @@ void QuestionsManageUI::modify()
             title.append(textEdit_C->toPlainText());
             title.append("@d");
             title.append(textEdit_D->toPlainText());
-            o_que->setQuestionTitle(title);
+            choiceQuestions->setQuestionTitle(title);
 
             QString answer;
             if(radio_A->isChecked()) answer.append("A-");
             if(radio_B->isChecked()) answer.append("B-");
             if(radio_C->isChecked()) answer.append("C-");
             if(radio_D->isChecked()) answer.append("D-");
-            o_que->setAnswer(answer);
+            choiceQuestions->setAnswer(answer);
 
-            o_que->setQuestionType(comboBox_type->currentText());
+            choiceQuestions->setQuestionType(comboBox_type->currentText());
 
-            emit this->modifyOb_Questoins(o_que);
-            delete(o_que);
+            emit this->modifyOb_Questoins(choiceQuestions);
+            delete(choiceQuestions);
         }
-        else if(tabWidget->currentIndex()==1)
+        else if(tabWidget->currentIndex() == 1)
         {
-            SubQuestions *s_que=new SubQuestions;
-            s_que->setQuestionId(subTable->item(subTable->currentRow(),0)->text().toInt());
-            s_que->setQuestionTitle(textEdit2_Content->toPlainText());
-            s_que->setQuestionType(comboBox_type->currentText());
+            EssayQuestions *essayQuestions = new EssayQuestions;
+            essayQuestions->setQuestionId(subTable->item(subTable->currentRow(),0)->text().toInt());
+            essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
+            essayQuestions->setQuestionType(comboBox_type->currentText());
 
-            emit this->modifySub_Questoins(s_que);
-            delete(s_que);
+            emit this->modifySub_Questoins(essayQuestions);
+            delete(essayQuestions);
         }
     }
 
 
 }
 
-void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQuestions *> subList)
+void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<EssayQuestions *> subList)
 {
     //显示客观题
     _typeList.clear();
@@ -152,26 +153,23 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
     obTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
 
     obTable->setRowCount(obList.count());
-    for(int i=0; i<obList.count(); i++)
+    for(int i = 0; i < obList.count(); i++)
     {
+        QString title = obList.at(i)->getQuestionTitle();
+        QString s_maintitle = title.mid(0,title.indexOf("@a"));
+        QString s_ansA = title.mid(title.indexOf("@a")+2,title.indexOf("@b")-title.indexOf("@a")-2);
+        QString s_ansB = title.mid(title.indexOf("@b")+2,title.indexOf("@c")-title.indexOf("@b")-2);
+        QString s_ansC = title.mid(title.indexOf("@c")+2,title.indexOf("@d")-title.indexOf("@c")-2);
+        QString s_ansD = title.mid(title.indexOf("@d")+2,title.length()-title.indexOf("@d")-2);
 
-
-
-        QString title=obList.at(i)->getQuestionTitle();
-        QString s_maintitle=title.mid(0,title.indexOf("@a"));
-        QString s_ansA=title.mid(title.indexOf("@a")+2,title.indexOf("@b")-title.indexOf("@a")-2);
-        QString s_ansB=title.mid(title.indexOf("@b")+2,title.indexOf("@c")-title.indexOf("@b")-2);
-        QString s_ansC=title.mid(title.indexOf("@c")+2,title.indexOf("@d")-title.indexOf("@c")-2);
-        QString s_ansD=title.mid(title.indexOf("@d")+2,title.length()-title.indexOf("@d")-2);
-
-        QTableWidgetItem *maintitle=new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *ansA=new QTableWidgetItem(s_ansA);
-        QTableWidgetItem *ansB=new QTableWidgetItem(s_ansB);
-        QTableWidgetItem *ansC=new QTableWidgetItem(s_ansC);
-        QTableWidgetItem *ansD=new QTableWidgetItem(s_ansD);
-        QTableWidgetItem *correctAns=new QTableWidgetItem(obList.at(i)->getAnswer());
-        QTableWidgetItem *type=new QTableWidgetItem(obList.at(i)->getQuestionType());
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
+        QTableWidgetItem *maintitle = new QTableWidgetItem(s_maintitle);
+        QTableWidgetItem *ansA = new QTableWidgetItem(s_ansA);
+        QTableWidgetItem *ansB = new QTableWidgetItem(s_ansB);
+        QTableWidgetItem *ansC = new QTableWidgetItem(s_ansC);
+        QTableWidgetItem *ansD = new QTableWidgetItem(s_ansD);
+        QTableWidgetItem *correctAns = new QTableWidgetItem(obList.at(i)->getAnswer());
+        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getQuestionType());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
         maintitle->setToolTip(maintitle->text());
         obTable->setItem(i,0,id);
         obTable->setItem(i,1,type);
@@ -192,11 +190,11 @@ void QuestionsManageUI::showQuestions(QList<ObQuestions *> obList, QList<SubQues
     subTable->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     subTable->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     subTable->setRowCount(subList.count());
-    for(int i=0; i<subList.count(); i++)
+    for(int i = 0; i<subList.count(); i++)
     {
-        QTableWidgetItem *id=new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
-        QTableWidgetItem *title=new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type=new QTableWidgetItem(subList.at(i)->getQuestionType());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
+        QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
+        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getQuestionType());
         subTable->setItem(i,0,id);
         subTable->setItem(i,1,type);
         subTable->setItem(i,2,title);
@@ -225,7 +223,7 @@ void QuestionsManageUI::textClear()
 }
 void QuestionsManageUI::on_Button_addtype_clicked()
 {
-    if(_typeList.indexOf(lineEdit_type->text())==-1)
+    if(_typeList.indexOf(lineEdit_type->text()) == -1)
     {
         comboBox_type->addItem(lineEdit_type->text());
         QMessageBox::about(this,QString("信息"),QString("添加成功！"));
@@ -238,8 +236,8 @@ void QuestionsManageUI::on_Button_addtype_clicked()
 void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
 {
     textClear();
-    _mode=1;
-    if(tabWidget_2->currentIndex()==0&&item->row()>=0)
+    _mode = 1;
+    if(tabWidget_2->currentIndex() == 0 && item->row() >= 0)
     {
         tabWidget->setCurrentIndex(0);
 
@@ -248,28 +246,28 @@ void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
         textEdit_B->setText(obTable->item(item->row(),4)->text());
         textEdit_C->setText(obTable->item(item->row(),5)->text());
         textEdit_D->setText(obTable->item(item->row(),6)->text());
-        QStringList list=obTable->item(item->row(),7)->text().split("-");
-        for(int i=0; i<list.count(); i++)
+        QStringList list = obTable->item(item->row(),7)->text().split("-");
+        for(int i = 0; i<list.count(); i++)
         {
-            if(list.at(i)=="A") radio_A->setChecked(true);
-            if(list.at(i)=="B") radio_B->setChecked(true);
-            if(list.at(i)=="C") radio_C->setChecked(true);
-            if(list.at(i)=="D") radio_D->setChecked(true);
+            if(list.at(i) == "A") radio_A->setChecked(true);
+            if(list.at(i) == "B") radio_B->setChecked(true);
+            if(list.at(i) == "C") radio_C->setChecked(true);
+            if(list.at(i) == "D") radio_D->setChecked(true);
         }
-        for(int i=0; i<comboBox_type->count(); i++)
+        for(int i = 0; i<comboBox_type->count(); i++)
         {
-            if(comboBox_type->itemText(i)==obTable->item(item->row(),1)->text())
+            if(comboBox_type->itemText(i) == obTable->item(item->row(),1)->text())
                 comboBox_type->setCurrentIndex(i);
         }
     }
-    else if(tabWidget_2->currentIndex()==1&&subTable->currentRow()>=0)
+    else if(tabWidget_2->currentIndex() == 1 && subTable->currentRow() >= 0)
     {
         tabWidget->setCurrentIndex(1);
         textEdit2_Content->setText(subTable->item(subTable->currentRow(),2)->text());
         qDebug()<<textEdit2_Content->toPlainText();
-        for(int i=0; i<comboBox_type->count(); i++)
+        for(int i = 0; i<comboBox_type->count(); i++)
         {
-            if(comboBox_type->itemText(i)==subTable->item(item->row(),1)->text())
+            if(comboBox_type->itemText(i) == subTable->item(item->row(),1)->text())
                 comboBox_type->setCurrentIndex(i);
         }
     }
@@ -280,11 +278,11 @@ void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
 
 void QuestionsManageUI::on_Button_Save_clicked()
 {
-    if(_mode==1)
+    if(_mode == 1)
     {
         this->modify();
     }
-    if(_mode==0)
+    if(_mode == 0)
     {
         this->add();
     }
@@ -292,7 +290,7 @@ void QuestionsManageUI::on_Button_Save_clicked()
 
 void QuestionsManageUI::on_Button_new_clicked()
 {
-    _mode=0;
+    _mode = 0;
     textClear();
     textEdit->setText(QString("请输入新题目的内容"));
     textEdit2_Content->setText(QString("请输入新题目的内容"));

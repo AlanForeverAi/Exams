@@ -17,7 +17,7 @@ public:
     void setClass(int);
     void setPassword(QString);
     void setState(QString);
-    void setHostname(QString);
+    void setHostName(QString);
     void setSockDescriptor(int);
     QString getID();
     QString getName();
@@ -40,32 +40,12 @@ private:
 };
 Q_DECLARE_METATYPE(Student)
 
-/*
-class Manager
+class ChoiceQuestions
 {
+    friend QDataStream &operator <<(QDataStream &,const ChoiceQuestions &);
+    friend QDataStream &operator >>(QDataStream &,ChoiceQuestions &);
 public:
-    Manager();
-    void setId(int);
-    void setName(QString);
-    void setPassword(QString);
-
-    int getId();
-    QString getName();
-    QString getPassword();
-private:
-    int Id;
-    QString Name;
-    QString Password;
-
-};
-*/
-
-class ObQuestions
-{
-    friend QDataStream &operator <<(QDataStream &,const ObQuestions &);
-    friend QDataStream &operator >>(QDataStream &,ObQuestions &);
-public:
-    ObQuestions();
+    ChoiceQuestions();
     void setQuestionId(int);
     void setQuestionType(QString);
     void setQuestionTitle(QString);
@@ -74,6 +54,7 @@ public:
     QString getQuestionType();
     QString getQuestionTitle();
     QString getAnswer();
+    void setAnswer(QString answer);
 private:
     int _questionId;
     QString _questionType;
@@ -82,12 +63,12 @@ private:
 
 };
 
-class SubQuestions
+class EssayQuestions
 {
-    friend QDataStream &operator <<(QDataStream &,const SubQuestions &);
-    friend QDataStream &operator >>(QDataStream &,SubQuestions &);
+    friend QDataStream &operator <<(QDataStream &,const EssayQuestions &);
+    friend QDataStream &operator >>(QDataStream &,EssayQuestions &);
 public:
-    SubQuestions();
+    EssayQuestions();
     void setQuestionId(int);
     void setQuestionType(QString);
     void setQuestionTitle(QString);
@@ -100,12 +81,12 @@ private:
     QString _questionTitle;
 };
 
-class SubAnswers
+class ChoiceAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const SubAnswers &);
-    friend QDataStream &operator >>(QDataStream &,SubAnswers &);
+    friend QDataStream &operator <<(QDataStream &,const ChoiceAnswers &);
+    friend QDataStream &operator >>(QDataStream &,ChoiceAnswers &);
 public:
-    SubAnswers();
+    ChoiceAnswers();
     void setAnswerId(int);
     void setPaperId(int);
     void setStudentId(QString);
@@ -122,12 +103,12 @@ private:
 
 };
 
-class ObAnswers
+class EssayAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const ObAnswers &);
-    friend QDataStream &operator >>(QDataStream &,ObAnswers &);
+    friend QDataStream &operator <<(QDataStream &,const EssayAnswers &);
+    friend QDataStream &operator >>(QDataStream &,EssayAnswers &);
 public:
-    ObAnswers();
+    EssayAnswers();
     void setAnswerId(int);
     void setPaperId(int);
     void setStudentId(QString);
@@ -137,7 +118,7 @@ public:
     QString getStudentId();
     QString getAnswers();
 private:
-    int _answerd;
+    int _answerId;
     int _paperId;
     QString _studentId;
     QString _answers;
@@ -166,8 +147,8 @@ public:
     int     getPercent();
     int     getTime();
     QString getDate();
-    QList<ObQuestions> obList;
-    QList<SubQuestions> subList;
+    QList<ChoiceQuestions> obList;
+    QList<EssayQuestions> subList;
 private:
     int _paperId;
     QString _obQuIds;
@@ -188,17 +169,17 @@ class AllAnswers
     friend QDataStream &operator >>(QDataStream &,AllAnswers &);
 public:
     AllAnswers();
-    void setObAnswer(ObAnswers);
-    void setSubAnswer(SubAnswers);
+    void setObanswer(EssayAnswers);
+    void setSubanswer(ChoiceAnswers);
     void setPaperId(int);
     void setUserId(QString);
-    ObAnswers getObAnswer();
-    SubAnswers getSubAnswer();
+    EssayAnswers getObanswer();
+    ChoiceAnswers getSubanswer();
     int getPaperId();
     QString getUserId();
 private:
-    ObAnswers _obAnswer;
-    SubAnswers _subAnswer;
+    EssayAnswers _obAnswer;
+    ChoiceAnswers _subAnswer;
     int _paperId;
     QString _userId;
 };

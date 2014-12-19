@@ -1,5 +1,6 @@
 #include "LoginUI.h"
 #include <QMessageBox>
+#include <iostream>
 LoginUI::LoginUI(QWidget *parent) :
     QWidget(parent)
 {
@@ -10,9 +11,9 @@ LoginUI::LoginUI(QWidget *parent) :
 
 void LoginUI::on_pushButton_login_clicked()
 {
-    Student u;
-    u.setID(lineEdit_ID->text());
-    u.setPassword(lineEdit_PW->text());
-    emit this->loginSignal(u);
-
+    //std::cout << "!!!!!!" << std::endl;
+    Student student;
+    student.setID(lineEdit_ID->text());
+    student.setPassword(lineEdit_PW->text());
+    emit this->loginSignal(student);
 }
