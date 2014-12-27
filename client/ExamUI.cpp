@@ -30,7 +30,7 @@ void ExamUI::showPaper(Paper paper)
     _obansList.fill("");
     _subansList.fill("");
     _totalque = _currentPaper.obList.count()+_currentPaper.subList.count();
-    label_totalque->setText(QString("共%1题").arg(_totalque));
+    label_totalque->setText(QStringLiteral("共%1题").arg(_totalque));
 
     _currentQue = 0;
 
@@ -122,14 +122,14 @@ void ExamUI::showQuestion(int questionNumber)
 {
     if(_btnGroup->button(questionNumber)->text().contains("*"))
     {
-        this->Button_mark->setText(QString("取消标记"));
+        this->Button_mark->setText(QStringLiteral("取消标记"));
     }
     else
     {
-        this->Button_mark->setText(QString("标记该题"));
+        this->Button_mark->setText(QStringLiteral("标记该题"));
     }
     _currentQue = questionNumber;
-    label_queNO->setText(QString("第%1题").arg(questionNumber+1));
+    label_queNO->setText(QStringLiteral("第%1题").arg(questionNumber+1));
 
     if(questionNumber < _currentPaper.obList.count())
     {
@@ -267,13 +267,13 @@ void ExamUI::on_Button_mark_clicked()
 {
     if(_btnGroup->button(_currentQue)->text().contains("*"))
     {
-        this->Button_mark->setText(QString("标记该题"));
-        _btnGroup->button(_currentQue)->setText(QString("%1").arg(_currentQue+1));
+        this->Button_mark->setText(QStringLiteral("标记该题"));
+        _btnGroup->button(_currentQue)->setText(QStringLiteral("%1").arg(_currentQue+1));
     }
     else
     {
-        this->Button_mark->setText(QString("取消标记"));
-        _btnGroup->button(_currentQue)->setText(QString("*%1").arg(_currentQue+1));
+        this->Button_mark->setText(QStringLiteral("取消标记"));
+        _btnGroup->button(_currentQue)->setText(QStringLiteral("*%1").arg(_currentQue+1));
     }
 }
 
@@ -287,7 +287,7 @@ void ExamUI::iniQueInfo()
     for(int i = 0; i < _totalque; i++)
     {
         QPushButton *btn = new QPushButton;
-        btn->setText(QString("%1").arg(i+1));
+        btn->setText(QStringLiteral("%1").arg(i+1));
 
         btn->setMaximumSize(30,30);
         _btnGroup->addButton(btn,i);
@@ -305,7 +305,7 @@ void ExamUI::on_pushButton_submit_clicked()
 
 
     QMessageBox msg;
-    msg.setText(QString("确定要提交吗？"));
+    msg.setText(QStringLiteral("确定要提交吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
     int ret = msg.exec();
     if(ret == QMessageBox::Ok)
@@ -371,7 +371,7 @@ void ExamUI::timeUpdate()
     {
         this->submitAnswers();
         timer->stop();
-        QMessageBox::about(this,"msg",QString("考试时间已到，你的答案已自动提交！"));
+        QMessageBox::about(this,"msg",QStringLiteral("考试时间已到，你的答案已自动提交！"));
     }
 
 }

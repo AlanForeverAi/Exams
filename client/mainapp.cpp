@@ -17,11 +17,11 @@ MainApp::~MainApp()
 
 void MainApp::readConfig()
 {
-    QFile Config("config.ini");
+    QFile Config("./config.ini");
     if(!Config.open(QIODevice::ReadOnly|QIODevice::Text))
     {
         QMessageBox msg;
-        msg.setText(QString("读取配置文件失败！将使用默认配置"));
+        msg.setText(QStringLiteral("读取配置文件失败！将使用默认配置"));
         msg.exec();
         _ip = "localhost";
         _port = 3312;
@@ -42,7 +42,7 @@ void MainApp::readConfig()
 void MainApp::iniClient()
 {
 
-    _window.statusbar->showMessage(QString("未连接"));
+    _window.statusbar->showMessage(QStringLiteral("未连接"));
     _client = new Client(this);
     connect(_client,SIGNAL(connected()),this,SLOT(connected()));
     connect(_client,SIGNAL(messageArrive(qint32,QVariant)),this,SLOT(messageArrive(qint32,QVariant)),Qt::DirectConnection);
@@ -82,7 +82,7 @@ void MainApp::connected()
 {
     //std::cout << "!!!!" << std::endl;
     _client->sendData(MSG_NEWCONNECT,0);
-    _window.statusbar->showMessage(QString("已连接"));
+    _window.statusbar->showMessage(QStringLiteral("已连接"));
 
 }
 
@@ -115,7 +115,7 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         emit this->showUserInfo(_currentUser);
         if(_serverState == STATE_EXAMING)
         {
-            emit this->showMessage(QString("你目前处于锁定状态，\n请等待服务器审批你的考试要求"));
+            emit this->showMessage(QStringLiteral("你目前处于锁定状态，\n请等待服务器审批你的考试要求"));
 
         }
         break;
@@ -132,7 +132,7 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         break;
     case MSG_ENDEXAM:
         emit this->endExam();
-        msg.setText(QString("服务器已经结束考试，你的答案已自动提交"));
+        msg.setText(QStringLiteral("服务器已经结束考试，你的答案已自动提交"));
         msg.exec();
         break;
     case MSG_ERROR:
@@ -158,7 +158,7 @@ void MainApp::Login(Student u)
     QVariant v;
     v.setValue(u);
     _client->sendData(MSG_LOGIN,v);
-    std::cout << "!!!!!!" << std::endl;
+    //std::cout << "!!!!!!" << std::endl;
 }
 
 void MainApp::getUserInfo()

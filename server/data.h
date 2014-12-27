@@ -53,6 +53,8 @@ public:
     QString getName();
     QString getPassword();
     static USER& GetInstance();
+//protected:
+//    USER();
 private:
     int _id;
     QString _name;

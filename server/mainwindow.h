@@ -1,6 +1,9 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#pragma execution_character_set("utf-8")
+#pragma warning(disable: 4819)
+
 #include <QMainWindow>
 #include <QCloseEvent>
 #include "data.h"

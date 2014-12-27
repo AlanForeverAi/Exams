@@ -24,8 +24,12 @@ MainApp::~MainApp()
 void MainApp::readConfig()
 {
     QFile Config("./config.ini");
-    if(!Config.open(QIODevice::ReadOnly|QIODevice::Text))
+    if(!Config.open(QIODevice::ReadOnly|QIODevice::Text)){
+        QMessageBox msg;
+        msg.setText(QStringLiteral("读取配置文件失败！将使用默认配置"));
+        msg.exec();
         return;
+    }
     QTextStream in(&Config);
     QString temp;
     temp = in.readLine();
@@ -196,19 +200,19 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 
 void MainApp::getQuestions()
 {
-    QList<ChoiceQuestions*> obList;
-    QList<EssayQuestions*> subList;
+    QList<ChoiceQuestions*> choiceList;
+    QList<EssayQuestions*> essayList;
     QSqlQuery query;
     query = _DBM->selectObQuestions();
 
     while(query.next())
     {
-        ChoiceQuestions *ob_que = new ChoiceQuestions;
-        ob_que->setQuestionId(query.value(0).toInt());
-        ob_que->setQuestionTitle(query.value(1).toString());
-        ob_que->setAnswer(query.value(2).toString());
-        ob_que->setQuestionType(query.value(3).toString());
-        obList.append(ob_que);
+        ChoiceQuestions *choicequestion = new ChoiceQuestions;
+        choicequestion->setQuestionId(query.value(0).toInt());
+        choicequestion->setQuestionTitle(query.value(1).toString());
+        choicequestion->setAnswer(query.value(2).toString());
+        choicequestion->setQuestionType(query.value(3).toString());
+        choiceList.append(choicequestion);
     }
 
     query.clear();
@@ -219,9 +223,9 @@ void MainApp::getQuestions()
         sub_que->setQuestionId(query.value(0).toInt());
         sub_que->setQuestionTitle(query.value(1).toString());
         sub_que->setQuestionType(query.value(2).toString());
-        subList.append(sub_que);
+        essayList.append(sub_que);
     }
-    emit this->showQuestions(obList,subList);
+    emit this->showQuestions(choiceList,essayList);         //传递题目列表。。。。。
 
 }
 

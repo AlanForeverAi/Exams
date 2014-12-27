@@ -138,12 +138,14 @@ void Client::displayError(QAbstractSocket::SocketError socketError)
     {
     case QAbstractSocket::ConnectionRefusedError:
         this->abort();
-        msgBox.setText(QString("连接服务器失败"));
+        msgBox.setText(QStringLiteral("连接服务器失败"));
         msgBox.exec();
         break;
     default:
         QString s = "The following error occurred: %1";
-        qDebug() << s.arg(socketError);
+        //std::cout << socketError << std::endl;
+        qDebug() << "displayError] " << s.arg(socketError);
+        break;
     }
 }
 

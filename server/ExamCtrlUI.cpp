@@ -16,7 +16,7 @@ ExamCtrlUI::ExamCtrlUI(QWidget *parent) :
     connect(_dateTimer,SIGNAL(timeout()),this,SLOT(datetimeUpdate()));
     _dateTimer->start(1000);
 
-    label_state->setText(QString("没有设置考试"));
+    label_state->setText(QStringLiteral("没有设置考试"));
 
 }
 ExamCtrlUI::~ExamCtrlUI()
@@ -55,7 +55,7 @@ void ExamCtrlUI::on_pushButton_begin_clicked()
     tableWidget_paper->setEnabled(false);
     _countTimer->start(1000);
 
-    label_state->setText(QString("考试进行中"));
+    label_state->setText(QStringLiteral("考试进行中"));
 
 }
 
@@ -73,7 +73,7 @@ void ExamCtrlUI::on_pushButton_end_clicked()
         tableWidget_paper->setEnabled(true);
         _countTimer->stop();
         emit this->endExam();
-        label_state->setText(QString("考试已经结束"));
+        label_state->setText(QStringLiteral("考试已经结束"));
     }
     else
     {
@@ -95,7 +95,7 @@ void ExamCtrlUI::counttimeUpdate()
         _countTimer->stop();
 
         emit this->endExam();
-        label_state->setText(QString("考试已经结束"));
+        label_state->setText(QStringLiteral("考试已经结束"));
     }
 
 }
@@ -140,7 +140,7 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
         if(userlist.at(i)->getState() == QString("已经交卷"))
             numbersubmit++;
     }
-    label_usercount->setText(QString("共有%1名学生    已登录%2人  已交卷%3人")
+    label_usercount->setText(QStringLiteral("共有%1名学生    已登录%2人  已交卷%3人")
                              .arg(userlist.count())
                              .arg(numberlogin)
                              .arg(numbersubmit));
@@ -162,7 +162,7 @@ void ExamCtrlUI::on_pushButton_send_clicked()
         QMessageBox::about(this,"msg",QString("请选择一个试卷"));
     }
     pushButton_begin->setEnabled(true);
-    label_state->setText(QString("考试还没开始"));
+    label_state->setText(QStringLiteral("考试还没开始"));
 
     QStringList info;
     info.append(lineEdit_windowtitle->text());

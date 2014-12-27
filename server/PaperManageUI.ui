@@ -148,7 +148,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;为考试安排考生名单&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -908,11 +908,11 @@ p, li { white-space: pre-wrap; }
             </font>
            </property>
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="tab">
             <attribute name="title">
-             <string>客观题</string>
+             <string>选择题</string>
             </attribute>
             <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
@@ -935,19 +935,9 @@ p, li { white-space: pre-wrap; }
                    </size>
                   </property>
                   <property name="text">
-                   <string>客观题题库：</string>
+                   <string>选择题题库：</string>
                   </property>
                  </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_10">
-                  <property name="text">
-                   <string>题目类型：</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="comboBox_ob"/>
                 </item>
                 <item>
                  <spacer name="horizontalSpacer_4">
@@ -1165,7 +1155,7 @@ p, li { white-space: pre-wrap; }
            </widget>
            <widget class="QWidget" name="tab_2">
             <attribute name="title">
-             <string>主观题</string>
+             <string>问答题</string>
             </attribute>
             <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
@@ -1182,19 +1172,9 @@ p, li { white-space: pre-wrap; }
                 <item>
                  <widget class="QLabel" name="label_Sub">
                   <property name="text">
-                   <string>主观题题库：</string>
+                   <string>问答题题库：</string>
                   </property>
                  </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>题目类型：</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="comboBox_sub"/>
                 </item>
                 <item>
                  <spacer name="horizontalSpacer">

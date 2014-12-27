@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->do_login();
     statusbar = statusBar();
-    statusbar->showMessage(QString("hello"));
+    statusbar->showMessage(QStringLiteral("hello"));
 }
 
 MainWindow::~MainWindow()
@@ -47,7 +47,7 @@ void MainWindow::LoginOK()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     QMessageBox msg;
-    msg.setText(QString("确定要退出吗？"));
+    msg.setText(QStringLiteral("确定要退出吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
     int ret = msg.exec();
     if(ret == QMessageBox::Ok)
