@@ -27,7 +27,7 @@ void IOManager::outputUser(QList<Student*> userlist)
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);
-    if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&inouput);
     out << "userid " << "\t" << "\t" << "name " << "\t" << "grade " << "\t" << "class" << "\t" << "password " << "\n";
@@ -39,20 +39,6 @@ void IOManager::outputUser(QList<Student*> userlist)
         out << userlist.at(i)->getClass() << "\t";
         out << userlist.at(i)->getPassword() << "\n";
     }
-    /* for(int i = 0;i<userlist.count();++i)
-      {
-         out << "userid ";
-         out << userlist.at(i)->getID() << "\n";
-         out << "name ";
-         out << userlist.at(i)->getName() << "\n";
-         out << "grade ";
-         out << userlist.at(i)->getGrade() << "\n";
-         out << "class ";
-         out << userlist.at(i)->getClass() << "\n";
-         out << "password ";
-         out << userlist.at(i)->getPassword() << "\n";
-    }*/
-
     inouput.close();
 }
 
@@ -76,45 +62,19 @@ QList<Student*> IOManager::inputUser(QString path)
     {
         Student* user = new Student;
         temp = in.readLine();
-
-
         remp = temp.left(temp.indexOf("\t"));
         user->setID(remp);
         temp = temp.remove(0,remp.length()+1);
-
-
         remp = temp.left(temp.indexOf("\t"));
         user->setName(remp);
         temp = temp.remove(0,remp.length()+1);
-
-
         remp = temp.left(temp.indexOf("\t"));
         user->setGrade(remp.toInt());
         temp = temp.remove(0,remp.length()+1);
-
-
         remp = temp.left(temp.indexOf("\t"));
         user->setClass(remp.toInt());
         temp = temp.remove(0,remp.length()+1);
-
-
-
         user->setPassword(temp);
-        /*temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
-        user->setID(temp);
-        temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
-        user->setName(temp);
-        temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
-        user->setGrade(temp.toInt());
-        temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
-        user->setClass(temp.toInt());
-        temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
-        user->setPassword(temp);*/
         userlist.append(user);
     }
     inouput.close();
@@ -321,22 +281,3 @@ QList<EssayQuestions*> IOManager::inputSub(QString path)
     return sublist;
 }
 //以上为subquestions表读取文件
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

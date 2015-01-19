@@ -1,4 +1,4 @@
-#ifndef QuestionsManageUI_H
+﻿#ifndef QuestionsManageUI_H
 #define QuestionsManageUI_H
 
 #include<QWidget>
@@ -27,7 +27,7 @@ private slots:
     void modify();
     void on_Button_Save_clicked();
     void on_Button_new_clicked();
-    void on_Button_addtype_clicked();
+    //void on_Button_addtype_clicked();
     void showCurrentQue(QTableWidgetItem*);
     void textClear();
     void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);

@@ -60,7 +60,7 @@ void ExamUI::on_Button_next_clicked()
     {
 
         this->showQueInfo(0);
-        yiditijiao();
+        remoteSubmit();
         _currentQue++;
 
         this->showQuestion(_currentQue);
@@ -69,7 +69,7 @@ void ExamUI::on_Button_next_clicked()
 
 }
 
-void ExamUI::yiditijiao()
+void ExamUI::remoteSubmit()
 {
     if(_currentQue < _currentPaper.obList.count())
     {
@@ -117,7 +117,7 @@ void ExamUI::on_pushButton_jump_clicked()
     }
 }
 
-//Question
+//显示题目！！！！
 void ExamUI::showQuestion(int questionNumber)
 {
     if(_btnGroup->button(questionNumber)->text().contains("*"))
@@ -191,12 +191,6 @@ void ExamUI::showQuestion(int questionNumber)
 
 void ExamUI::resetRadioGroup()
 {
-//    radionGroup.setExclusive(false);
-//    for(int i = 0;i<radionGroup.buttons().count();i++)
-//    {
-//        radionGroup.buttons().at(i)->setChecked(false);
-//    }
-//    radionGroup.setExclusive(true);
     radio_A->setChecked(false);
     radio_B->setChecked(false);
     radio_C->setChecked(false);
@@ -208,8 +202,6 @@ void ExamUI::showQueInfo(int )
 
     if(_currentQue < _currentPaper.obList.count())
     {
-//           if(radionGroup.checkedButton())
-//                obanslist.replace(currentQue,radionGroup.checkedButton()->text());
         QString answer;
         if(radio_A->isChecked()) answer.append("A-");
         if(radio_B->isChecked()) answer.append("B-");
@@ -234,14 +226,11 @@ void ExamUI::showQueInfo(int )
             {
                 pal.setColor(QPalette::ButtonText,QColor("red"));
                 _btnGroup->button(i)->setPalette(pal);
-                //btngroup->button(i)->setText(QString("%1").arg(i+1));
-
             }
             else
             {
                 pal.setColor(QPalette::ButtonText,QColor("green"));
                 _btnGroup->button(i)->setPalette(pal);
-                //btngroup->button(i)->setText(QString("%1").arg(i+1));
             }
         }
 
@@ -252,13 +241,11 @@ void ExamUI::showQueInfo(int )
             {
                 pal.setColor(QPalette::ButtonText,QColor("red"));
                 _btnGroup->button(i)->setPalette(pal);
-                // btngroup->button(i)->setText(QString("%1").arg(i+1));
             }
             else
             {
                 pal.setColor(QPalette::ButtonText,QColor("green"));
                 _btnGroup->button(i)->setPalette(pal);
-                //btngroup->button(i)->setText(QString("%1").arg(i+1));
             }
         }
     }
@@ -279,8 +266,6 @@ void ExamUI::on_Button_mark_clicked()
 
 void ExamUI::iniQueInfo()
 {
-
-    //QWidget *queInfo = new QWidget;
     _btnGroup = new QButtonGroup;
     QGridLayout *mainlayout = new QGridLayout(widget_info);
     widget_info->setLayout(mainlayout);
@@ -356,9 +341,6 @@ void ExamUI::submitAnswers()
     emit this->sendAnswers(allanswers);
 
     timer->stop();
-
-
-
 }
 
 void ExamUI::timeUpdate()

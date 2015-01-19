@@ -46,7 +46,7 @@ void ExamCtrlUI::showPapers(QList<Paper*> pList)
 void ExamCtrlUI::on_pushButton_begin_clicked()
 {
 
-    QMessageBox::about(this,"msg",QString("考试已经开始，请不要关闭程序，在结束之前都不能切换到其他页面。"));
+    QMessageBox::about(this,"msg",QStringLiteral("考试已经开始，请不要关闭程序，在结束之前都不能切换到其他页面。"));
 
     pushButton_begin->setEnabled(false);
     pushButton_back->setEnabled(false);
@@ -62,7 +62,7 @@ void ExamCtrlUI::on_pushButton_begin_clicked()
 void ExamCtrlUI::on_pushButton_end_clicked()
 {
     QMessageBox msg;
-    msg.setText(QString("将要结束考试，并强制所有学生提交答案\n是否继续？"));
+    msg.setText(QStringLiteral("将要结束考试，并强制所有学生提交答案\n是否继续？"));
     int ret = msg.exec();
     if(ret == QMessageBox::Ok)
     {
@@ -119,7 +119,7 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
         QTableWidgetItem *grade = new QTableWidgetItem(QString::number(userlist.at(i)->getGrade()));
         QTableWidgetItem *_class = new QTableWidgetItem(QString::number(userlist.at(i)->getClass()));
         QTableWidgetItem *state = new QTableWidgetItem(userlist.at(i)->getState());
-        if(state->text() == QString("未登录"))
+        if(state->text() == QStringLiteral("未登录"))
         {
             state->setTextColor(QColor("red"));
         }
@@ -135,9 +135,9 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
     int numbersubmit = 0;
     for(int i = 0; i < userlist.count(); i++)
     {
-        if(userlist.at(i)->getState() != QString("未登录"))
+        if(userlist.at(i)->getState() != QStringLiteral("未登录"))
             numberlogin++;
-        if(userlist.at(i)->getState() == QString("已经交卷"))
+        if(userlist.at(i)->getState() == QStringLiteral("已经交卷"))
             numbersubmit++;
     }
     label_usercount->setText(QStringLiteral("共有%1名学生    已登录%2人  已交卷%3人")
@@ -152,14 +152,14 @@ void ExamCtrlUI::on_pushButton_send_clicked()
     {
         label_name->setText(tableWidget_paper->item(tableWidget_paper->currentRow(),1)->text());
         int time = tableWidget_paper->item(tableWidget_paper->currentRow(),2)->text().toInt();
-        _countTime.setHMS(time/60,time%60,0);
+        _countTime.setHMS(time / 60,time % 60,0);
         timeEdit_papertime->setTime(_countTime);
         int paperid = tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
         emit this->sendPaper(paperid);
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一个试卷"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
     }
     pushButton_begin->setEnabled(true);
     label_state->setText(QStringLiteral("考试还没开始"));

@@ -123,16 +123,11 @@ void MainApp::iniMainWindow()
     _window.show();
 }
 
-/*
- * PS：不应该每位学生都需要老师判断是否能进行考试，这样太不符合真实情况
- * 应该通过数据库来判断吧。。。。。。
- */
 void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 {
-    std::cout << "!!!!!!" << std::endl;
     QMessageBox msg;
-    Student u;
-    AllAnswers allans;
+    Student student;
+    AllAnswers answers;
     switch(m)
     {
     case MSG_NEWCONNECT:
@@ -141,15 +136,15 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
         emit this->sendData(descriptor,MSG_NEWCONNECT,v);
         break;
     case MSG_LOGIN:
-        u = v.value<Student>();
-        if(this->userLogin(u))
+        student = v.value<Student>();
+        if(this->userLogin(student))
         {
             if(_serverState == STATE_EXAMING)
             {
 
                 QPushButton *agree = new QPushButton(QString("批准"));
                 QPushButton *reject = new QPushButton(QString("拒绝"));
-                msg.setText(QString("考生 %1 请求考试，\n是否批准？").arg(u.getID()));
+                msg.setText(QString("考生 %1 请求考试，\n是否批准？").arg(student.getID()));
                 msg.addButton(agree,QMessageBox::AcceptRole);
                 msg.addButton(reject,QMessageBox::RejectRole);
                 int ret = msg.exec();
@@ -162,7 +157,7 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
                 {
                     QString errorstring = QString("考试要求被拒绝\n请联系工作人员");
                     v.setValue(errorstring);
-                    emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
+                    emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
                 }
             }
         }
@@ -181,18 +176,18 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
         break;
 
     case MSG_ANSWER:
-        allans = v.value<AllAnswers>();
+        answers = v.value<AllAnswers>();
         this->userStateChange(descriptor,QString("已经交卷"));
         this->updateUserTable(_userList);
-        this->dealObAnswers(allans.getObanswer());
-        this->dealSubAnswers(allans.getSubanswer());
+        this->dealObAnswers(answers.getObanswer());
+        this->dealSubAnswers(answers.getSubanswer());
         break;
 
     case MSG_ANSWERSINGLE:
-        allans = v.value<AllAnswers>();
+        answers = v.value<AllAnswers>();
         this->updateUserTable(_userList);
-        this->dealObAnswers(allans.getObanswer());
-        this->dealSubAnswers(allans.getSubanswer());
+        this->dealObAnswers(answers.getObanswer());
+        this->dealSubAnswers(answers.getSubanswer());
         break;
     }
 
@@ -277,7 +272,6 @@ void MainApp::getAllPaper()
     query = _DBM->selectPaper();
     while(query.next())
     {
-
         Paper *p = new Paper;
         p->setPaperId(query.value(0).toInt());
         p->setObQuIds(query.value(1).toString());
@@ -422,36 +416,35 @@ void MainApp::endExam()
     _userList.clear();
 }
 
-bool MainApp::userLogin(Student u)
+bool MainApp::userLogin(Student student)
 {
     int isIn = 0;
     QVariant v;
-    //std::cout << "!!!!!!" << std::endl;
-    QSqlQuery query = _DBM->login(u.getID(),u.getPassword());
+    QSqlQuery query = _DBM->login(student.getID(),student.getPassword());
     if(query.size() > 0)
     {
         for(int i = 0; i < _userList.count(); i++)
         {
-            if(_userList.at(i)->getID() == u.getID())
+            if(_userList.at(i)->getID() == student.getID())
             {
                 if(_userList.at(i)->getState() == QStringLiteral("已经交卷"))
                 {
                     QString errorstring = QStringLiteral("你已经交卷了");
                     v.setValue(errorstring);
-                    emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
+                    emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
                     return false;
                 }
                 if(_userList.at(i)->getState() != QStringLiteral("未登录"))
                 {
                     QString errorstring = QStringLiteral("你已经登录了");
                     v.setValue(errorstring);
-                    emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
+                    emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
                     return false;
                 }
 
                 isIn = 1;
-                _userList.at(i)->setHostName(u.getHostname());
-                _userList.at(i)->setSockDescriptor(u.getSockDescriptor());
+                _userList.at(i)->setHostName(student.getHostname());
+                _userList.at(i)->setSockDescriptor(student.getSockDescriptor());
 
                 this->userStateChange(_userList.at(i)->getSockDescriptor(),QStringLiteral("等待"));
                 v.setValue(*_userList.at(i));
@@ -460,14 +453,14 @@ bool MainApp::userLogin(Student u)
         }
         if(isIn == 1)
         {
-            this->sendData(u.getSockDescriptor(),MSG_LOGIN,v);
+            this->sendData(student.getSockDescriptor(),MSG_LOGIN,v);
             return true;
         }
         else
         {
             QString errorstring = QStringLiteral("你不能参加这个考试");
             v.setValue(errorstring);
-            emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
+            emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
             return false;
         }
 
@@ -476,7 +469,7 @@ bool MainApp::userLogin(Student u)
     {
         QString errorstring = QStringLiteral("用户名或密码错误");
         v.setValue(errorstring);
-        emit this->sendData(u.getSockDescriptor(),MSG_ERROR,v);
+        emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
         return false;
     }
 }
@@ -489,11 +482,11 @@ void MainApp::sendPaperTime(int descriptor,int time)
     emit this->sendData(descriptor,MSG_GETPAPER,v);
 }
 
-//登录验证。。。
+//登录serveruser验证。。。
 bool MainApp::managerLogin(USER m)
 {
     QSqlQuery query = _DBM->managerLogin(m.getId(),m.getPassword());
-    if(query.size()>0)
+    if(query.size() > 0)
     {
         emit this->LoginOK();
         return true;
@@ -558,10 +551,6 @@ void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
     }
     msg.setText(QString("操作完成"));
     msg.exec();
-    // QMessageBox msg;
-    // msg.setText(QString("已完成该次考试的学生不能再次添加"));
-    // msg.exec();};
-
 }
 
 void MainApp::dealObAnswers(EssayAnswers obans)
@@ -571,7 +560,7 @@ void MainApp::dealObAnswers(EssayAnswers obans)
     QString ans_string = obans.getAnswers();
     QStringList ansList;
     int temp = 0;
-    while(temp<ans_string.length())
+    while(temp < ans_string.length())
     {
         ansList.append(ans_string.mid(temp,ans_string.indexOf(",")));
         temp = ans_string.indexOf(",",temp)+1;
@@ -614,7 +603,7 @@ void MainApp::submitSubMark(QStringList submark)
     QString ob = query.value(0).toString();
     QString sub = query.value(1).toString();
     int temp = 0;
-    while(temp<ob.length())
+    while(temp < ob.length())
     {
         totalmark += ob.mid(temp,ob.indexOf(",",temp)-temp).toInt();
         temp = ob.indexOf(",",temp)+1;
@@ -659,8 +648,6 @@ void MainApp::getSubAnswer(int pid,QString uid)
     QSqlQuery query = _DBM->selectPaperById(pid);
     query.next();
     QString sub_ids = query.value(2).toString();
-    // sub.resize(2*sub_ids.count(","));
-
     query.clear();
     query = _DBM->selectSubQuestions();
     while(query.next())
@@ -825,13 +812,6 @@ void MainApp::getUser()
         managerptr->setPassword(query.value(2).toString());
         managerList.append(managerptr);
     }
-    /*      QSqlTableModel *ob_model = new QSqlTableModel(this,DBM->db);
-            ob_model->setTable("user");
-            ob_model->select();
-            QTableView *view = new QTableView;
-            view->setModel(ob_model);
-            view->show();
-    */
     emit this->showUser(userList,managerList);
 }
 
@@ -956,11 +936,6 @@ void MainApp::inputUser(QString path)
     userlist = _IOM->inputUser(path);
     for(int i = 0; i < userlist.count(); i++)
     {
-        /*qDebug()<< userlist.at(i)->getID()<<
-                userlist.at(i)->getName()<<
-                userlist.at(i)->getGrade()<<
-                userlist.at(i)->getClass()<<
-                userlist.at(i)->getPassword()<<"\n";*/
         _DBM->insertStudent(
             userlist.at(i)->getID(),
             userlist.at(i)->getName(),

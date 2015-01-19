@@ -37,35 +37,35 @@ void Student::setSockDescriptor(int descriptor)
 
     _socketDescriptor = descriptor;
 }
-QString Student::getID()
+QString Student::getID() const
 {
     return _id;
 }
-QString Student::getName()
+QString Student::getName() const
 {
     return _name;
 }
-int Student::getGrade()
+int Student::getGrade() const
 {
     return _grade;
 }
-int Student::getClass()
+int Student::getClass() const
 {
     return _class;
 }
-QString Student::getPassword()
+QString Student::getPassword() const
 {
     return _password;
 }
-QString Student::getState()
+QString Student::getState() const
 {
     return _state;
 }
-QString Student::getHostname()
+QString Student::getHostname() const
 {
     return _hostname;
 }
-int Student::getSockDescriptor()
+int Student::getSockDescriptor() const
 {
     return _socketDescriptor;
 }
@@ -140,19 +140,19 @@ void ChoiceAnswers::setAnswerList(QVector<QString> answer)
 {
     _answerList = answer;
 }
-int ChoiceAnswers::getAnswerId()
+int ChoiceAnswers::getAnswerId() const
 {
     return _answerId;
 }
-int ChoiceAnswers::getPaperId()
+int ChoiceAnswers::getPaperId() const
 {
     return _paperId;
 }
-QString ChoiceAnswers::getStudentId()
+QString ChoiceAnswers::getStudentId() const
 {
     return _studentId;
 }
-QVector<QString> ChoiceAnswers::getAnswerList()
+QVector<QString> ChoiceAnswers::getAnswerList() const
 {
     return _answerList;
 }
@@ -300,19 +300,19 @@ EssayAnswers::EssayAnswers()
 {
     qRegisterMetaTypeStreamOperators<EssayAnswers>("Ob_answers");
 }
-int EssayAnswers::getAnswerId()
+int EssayAnswers::getAnswerId() const
 {
     return _answerId;
 }
-int EssayAnswers::getPaperId()
+int EssayAnswers::getPaperId() const
 {
     return _paperId;
 }
-QString EssayAnswers::getStudentId()
+QString EssayAnswers::getStudentId() const
 {
     return _studentId;
 }
-QString EssayAnswers::getAnswers()
+QString EssayAnswers::getAnswers() const
 {
     return _answers;
 }

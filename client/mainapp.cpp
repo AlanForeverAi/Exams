@@ -41,15 +41,11 @@ void MainApp::readConfig()
 
 void MainApp::iniClient()
 {
-
     _window.statusbar->showMessage(QStringLiteral("未连接"));
     _client = new Client(this);
     connect(_client,SIGNAL(connected()),this,SLOT(connected()));
     connect(_client,SIGNAL(messageArrive(qint32,QVariant)),this,SLOT(messageArrive(qint32,QVariant)),Qt::DirectConnection);
     _client->connectToServer(_ip,_port);
-
-
-
 }
 
 void MainApp::iniMainWindow()
@@ -80,7 +76,6 @@ void MainApp::sendAnswersSingle(AllAnswers allans)
 
 void MainApp::connected()
 {
-    //std::cout << "!!!!" << std::endl;
     _client->sendData(MSG_NEWCONNECT,0);
     _window.statusbar->showMessage(QStringLiteral("已连接"));
 
@@ -97,7 +92,6 @@ void::MainApp::getPaper()
 void MainApp::messageArrive(qint32 m, QVariant v)
 {
     QMessageBox msg;
-    //  QList<Combo> list;
     switch(m)
     {
     case MSG_NEWCONNECT:
@@ -154,11 +148,9 @@ void MainApp::sendAnswers(AllAnswers allans)
 //登录函数
 void MainApp::Login(Student u)
 {
-    //std::cout << "!!!!!!" << std::endl;
     QVariant v;
     v.setValue(u);
     _client->sendData(MSG_LOGIN,v);
-    //std::cout << "!!!!!!" << std::endl;
 }
 
 void MainApp::getUserInfo()

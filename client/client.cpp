@@ -26,7 +26,6 @@ void Client::sendData(qint32 m, QVariant v)
     _messageType = m;
     _data.setValue(v);
     this->send();
-    //std::cout << "!!!!!!" << std::endl;
     _data.clear();
 }
 
@@ -42,7 +41,7 @@ void Client::send()
     out << _messageType;
 
     Student student;
-    AllAnswers allans;
+    AllAnswers answers;
     /*根据信息类型将信息还原成原来的数据类型并写入*/
     switch(_messageType)
     {
@@ -58,12 +57,12 @@ void Client::send()
         out << student;
         break;
     case MSG_ANSWER:
-        allans = _data.value<AllAnswers>();
-        out << allans;
+        answers = _data.value<AllAnswers>();
+        out << answers;
         break;
     case MSG_ANSWERSINGLE:
-        allans = _data.value<AllAnswers>();
-        out << allans;
+        answers = _data.value<AllAnswers>();
+        out << answers;
         break;
     }
 
@@ -143,7 +142,6 @@ void Client::displayError(QAbstractSocket::SocketError socketError)
         break;
     default:
         QString s = "The following error occurred: %1";
-        //std::cout << socketError << std::endl;
         qDebug() << "displayError] " << s.arg(socketError);
         break;
     }

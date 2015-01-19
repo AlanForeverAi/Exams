@@ -19,14 +19,14 @@ public:
     void setState(QString);
     void setHostName(QString);
     void setSockDescriptor(int);
-    QString getID();
-    QString getName();
-    int getGrade();
-    int getClass();
-    QString getPassword();
-    QString getState();
-    QString getHostname();
-    int getSockDescriptor();
+    QString getID() const;
+    QString getName() const;
+    int getGrade() const;
+    int getClass() const;
+    QString getPassword() const;
+    QString getState() const;
+    QString getHostname() const;
+    int getSockDescriptor() const;
 private:
     QString _id;
     QString _name;
@@ -48,13 +48,11 @@ public:
     void setName(QString);
     void setPassword(QString);
     void setType(int);
-    int getType();
-    int getId();
-    QString getName();
-    QString getPassword();
+    int getType() const;
+    int getId() const;
+    QString getName() const;
+    QString getPassword() const;
     static USER& GetInstance();
-//protected:
-//    USER();
 private:
     int _id;
     QString _name;
@@ -161,7 +159,39 @@ private:
 //    SubQuestionsTest();
 //};
 
-//客观题
+//question基类
+//class Questions{
+//public:
+//    Questions();
+//    ~Questions();
+//    int getQuestionId() const;
+//    void setQuestionId(int questionId);
+
+//    int getSubjectId() const;
+//    void setSubjectId(int subjectId);
+
+//    int getQuestionType() const;
+//    void setQuestionType(int questionType);
+
+//    int getMark() const;
+//    void setMark(int mark);
+
+//    QString getQuestionTitle() const;
+//    void setQuestionTitle(const QString &questionTitle);
+
+//    QString getAnswer() const;
+//    void setAnswer(const QString &getAnswer);
+
+//private:
+//    int _questionId;
+//    int _subjectId;
+//    int _questionType;
+//    int _mark;
+//    QString _questionTitle;
+//    QString _answer;
+//};
+
+//选择题
 class ChoiceQuestions
 {
     friend QDataStream &operator <<(QDataStream &,const ChoiceQuestions &);
@@ -172,10 +202,10 @@ public:
     void setQuestionType(QString);
     void setQuestionTitle(QString);
     void setAnswer(QString);
-    int getQuestionId();
-    QString getQuestionType();
-    QString getQuestionTitle();
-    QString getAnswer();
+    int getQuestionId() const;
+    QString getQuestionType() const;
+    QString getQuestionTitle() const;
+    QString getAnswer() const;
 private:
     int _questionId;
     QString _questionType;
@@ -184,7 +214,7 @@ private:
 
 };
 
-//主观题，添加参考答案？
+//问答题
 class EssayQuestions
 {
     friend QDataStream &operator <<(QDataStream &,const EssayQuestions &);
@@ -194,9 +224,9 @@ public:
     void setQuestionId(int);
     void setQuestionType(QString);
     void setQuestionTitle(QString);
-    int getQuestionId();
-    QString getQuestionType();
-    QString getQuestionTitle();
+    int getQuestionId() const;
+    QString getQuestionType() const;
+    QString getQuestionTitle() const;
 private:
     int _questionId;
     QString _questionType;
@@ -239,7 +269,7 @@ private:
 //};
 
 
-//主观题答案。。。。
+//选择题答案。。。。
 class ChoiceAnswers
 {
     friend QDataStream &operator <<(QDataStream &,const ChoiceAnswers &);
@@ -262,7 +292,7 @@ private:
 
 };
 
-//客观题答案
+//问答题答案
 class EssayAnswers   //作答的答案
 {
     friend QDataStream &operator <<(QDataStream &,const EssayAnswers &);

@@ -19,6 +19,7 @@ SubMarkUI::~SubMarkUI()
 
 }
 
+//显示试卷。。。
 void SubMarkUI::showPapers(QList<Paper *> pList)
 {
     _paperList = pList;
@@ -27,20 +28,16 @@ void SubMarkUI::showPapers(QList<Paper *> pList)
     tableWidget_paper->setRowCount(pList.count());
     for(int i = 0; i < pList.count(); i++)
     {
-
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(pList.at(i)->getPaperId()));
         QTableWidgetItem *description = new QTableWidgetItem(pList.at(i)->getDescription());
 
         tableWidget_paper->setItem(i,0,id);
         tableWidget_paper->setItem(i,1,description);
-
-
     }
 }
 
 void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 {
-
     _currentPaperId = tableWidget_paper->item(item->row(),0)->text();
 
     for(int i = 0; i < _paperList.count(); i++)
@@ -63,7 +60,7 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 
             int mark = 0;
             if(subnumber)
-                mark = _paperList.at(i)->getTotalMark()*(100-_paperList.at(i)->getPercent())/100/subnumber;
+                mark = _paperList.at(i)->getTotalMark() * (100 - _paperList.at(i)->getPercent()) / 100 / subnumber;
             lineEdit_mark->setText(QString::number(mark));
 
             QIntValidator *validator  =  new QIntValidator(0,mark,this);//0-mark值之间的整数验证器
@@ -74,7 +71,7 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
     }
     pushButton_Pre->setEnabled(false);
     pushButton_Next->setEnabled(false);
-    emit this->getUserByPaperId(_currentPaperId.toInt(),QString("已完成"));
+    emit this->getUserByPaperId(_currentPaperId.toInt(),QStringLiteral("已完成"));
 }
 
 void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
@@ -89,7 +86,7 @@ void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
         QTableWidgetItem *grade = new QTableWidgetItem(QString::number(ulist.at(i)->getGrade()));
         QTableWidgetItem *clas = new QTableWidgetItem(QString::number(ulist.at(i)->getClass()));
         QTableWidgetItem *state = new QTableWidgetItem(ulist.at(i)->getState());
-        if(state->text() == QString("未批改"))
+        if(state->text() == QStringLiteral("未批改"))
         {
             state->setTextColor(QColor("red"));
         }
@@ -114,7 +111,7 @@ void SubMarkUI::showSubAnswer(QVector<QString> s)
 {
     _sub = s;
     _subNo = 0;
-    _subMark.resize(_sub.size()/2);
+    _subMark.resize(_sub.size() / 2);
 
 
     _subMark.fill("0");
@@ -128,7 +125,7 @@ void SubMarkUI::showSubAnswer(QVector<QString> s)
 void SubMarkUI::on_pushButton_Pre_clicked()
 {
     _subMark.replace(_subNo,lineEdit_GotMark->text());
-    if(_subNo-1 >= 0)
+    if(_subNo - 1 >= 0)
     {
         _subNo--;
         this->showCurrentAnswer(_subNo);
@@ -138,7 +135,7 @@ void SubMarkUI::on_pushButton_Pre_clicked()
 void SubMarkUI::on_pushButton_Next_clicked()
 {
     _subMark.replace(_subNo,lineEdit_GotMark->text());
-    if(_subNo+1<_sub.size()/2)
+    if(_subNo + 1 < (_sub.size() / 2))
     {
         _subNo++;
         this->showCurrentAnswer(_subNo);
@@ -150,14 +147,11 @@ void SubMarkUI::showCurrentAnswer(int n)
 
     lineEdit_GotMark->setText(_subMark.at(n));
     textBrowser_answser->setText(_sub.at(n));
-    textBrowser_title->setText(_sub.at(_sub.size()/2+n));
-
-
-
-    if(n>0&&n<_sub.size()/2)
+    textBrowser_title->setText(_sub.at(_sub.size() / 2 + n));
+    if(n > 0 && n < _sub.size() / 2)
         pushButton_Pre->setEnabled(true);
     pushButton_Next->setEnabled(true);
-    if(n+1 == _sub.size()/2)
+    if(n + 1 == _sub.size() / 2)
         pushButton_Next->setEnabled(false);
     if(n == 0)
         pushButton_Pre->setEnabled(false);
@@ -182,8 +176,6 @@ void SubMarkUI::on_pushButton_submit_clicked()
     list.append(_currentUserId);
     list.append(mark);
     emit this->submitSubMark(list);
-    QMessageBox::about(this,QString("信息"),QString("你的批改已经保存。"));
-    tableWidget_userInfo->item(tableWidget_userInfo->currentRow(),4)->setText(QString("已批改"));
-
-
+    QMessageBox::about(this,QStringLiteral("信息"),QStringLiteral("你的批改已经保存。"));
+    tableWidget_userInfo->item(tableWidget_userInfo->currentRow(),4)->setText(QStringLiteral("已批改"));
 }

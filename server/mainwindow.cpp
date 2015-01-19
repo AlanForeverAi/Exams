@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _ui->action_inoutput->setEnabled(false);
 
     _statusBar = statusBar();
-//    setWindowOpacity(0.85);//设置窗口透明
     this->on_action_login_triggered();
 
 }

@@ -31,7 +31,7 @@ public slots:
     void timeUpdate();
     void submitAnswers();
     void showQuestion(int);
-    void yiditijiao();
+    void remoteSubmit();
 private:
     Paper _currentPaper;
     int _currentQue;

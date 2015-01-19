@@ -58,7 +58,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::updateInfo(QString info)
 {
-    //QMessageBox::about(this,"msg",info);
     QStringList list;
     list = info.split(",");
     if(info.length() <= 2)
@@ -70,8 +69,4 @@ void MainWindow::updateInfo(QString info)
     this->_mainFrame->label_NO->setText(list.at(3));
     this->_mainFrame->label_pici->setText(list.at(4));
     this->_mainFrame->label_message->setText(list.at(5));
-//    this->m->label_message->adjustSize();
-//    this->m->label_message->setGeometry();
-//    this->m->label_message->setWordWrap(true);
-//    this->m->label_message->setAlignment(Qt::AlignTop);
 }

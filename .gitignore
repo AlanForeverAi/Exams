@@ -70,3 +70,7 @@ build-Examsys-Desktop_Qt_5_3_MSVC2013_32bit-Debug/ui_PaperManageUI.h
 build-Examsys-Desktop_Qt_5_3_MSVC2013_32bit-Debug/ui_QuestionsManageUI.h
 *.user
 client/Client.pro.user
+*.user
+*.user
+*.user
+client/Client.pro.user

@@ -43,18 +43,16 @@ void QuestionsManageUI::add()
         if(radio_C->isChecked()) answer.append("C-");
         if(radio_D->isChecked()) answer.append("D-");
         choiceQuestions->setAnswer(answer);
-
-        choiceQuestions->setQuestionType(comboBox_type->currentText());
-
+        choiceQuestions->setQuestionType(QString(USER::GetInstance().getType()));
         emit this->addOb_Questoins(choiceQuestions);
-        QMessageBox::about(this,QString("信息"),QString("添加成功！"));
+        QMessageBox::about(this,QStringLiteral("信息"),QStringLiteral("添加成功！"));
         delete(choiceQuestions);
     }
     else if(tabWidget->currentIndex() == 1)
     {
         EssayQuestions *essayQuestions = new EssayQuestions;
         essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-        essayQuestions->setQuestionType(comboBox_type->currentText());
+        essayQuestions->setQuestionType(QString(USER::GetInstance().getType()));
         qDebug()<<essayQuestions->getQuestionTitle();
         emit this->addSub_Questoins(essayQuestions);
         delete(essayQuestions);
@@ -67,7 +65,7 @@ void QuestionsManageUI::add()
 void QuestionsManageUI::on_Button_delete_clicked()
 {
     QMessageBox msg;
-    msg.setText(QString("确定要删除吗？"));
+    msg.setText(QStringLiteral("确定要删除吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
     if(tabWidget_2->currentIndex() == 0 && obTable->currentRow() >= 0)
     {
@@ -88,7 +86,7 @@ void QuestionsManageUI::on_Button_delete_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一个题目"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一个题目"));
     }
 }
 
@@ -96,7 +94,7 @@ void QuestionsManageUI::on_Button_delete_clicked()
 void QuestionsManageUI::modify()
 {
     QMessageBox msg;
-    msg.setText(QString("确定要修改吗？"));
+    msg.setText(QStringLiteral("确定要修改吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
     int ret = msg.exec();
     if(ret == QMessageBox::Ok)
@@ -123,9 +121,7 @@ void QuestionsManageUI::modify()
             if(radio_C->isChecked()) answer.append("C-");
             if(radio_D->isChecked()) answer.append("D-");
             choiceQuestions->setAnswer(answer);
-
-            choiceQuestions->setQuestionType(comboBox_type->currentText());
-
+            choiceQuestions->setQuestionType(QString(USER::GetInstance().getType()));
             emit this->modifyOb_Questoins(choiceQuestions);
             delete(choiceQuestions);
         }
@@ -134,8 +130,7 @@ void QuestionsManageUI::modify()
             EssayQuestions *essayQuestions = new EssayQuestions;
             essayQuestions->setQuestionId(subTable->item(subTable->currentRow(),0)->text().toInt());
             essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-            essayQuestions->setQuestionType(comboBox_type->currentText());
-
+            essayQuestions->setQuestionType(QString(USER::GetInstance().getType()));
             emit this->modifySub_Questoins(essayQuestions);
             delete(essayQuestions);
         }
@@ -148,7 +143,6 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
 {
     //显示客观题
     _typeList.clear();
-    comboBox_type->clear();
     obTable->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     obTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
 
@@ -201,11 +195,9 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
 
         if(!_typeList.contains(subList.at(i)->getQuestionType()))
         {
-            _typeList<<subList.at(i)->getQuestionType();
+            _typeList << subList.at(i)->getQuestionType();
         }
     }
-
-    comboBox_type->addItems(_typeList);
 }
 
 void QuestionsManageUI::textClear()
@@ -221,18 +213,7 @@ void QuestionsManageUI::textClear()
     radio_D->setChecked(false);
     textEdit2_Content->clear();
 }
-void QuestionsManageUI::on_Button_addtype_clicked()
-{
-    if(_typeList.indexOf(lineEdit_type->text()) == -1)
-    {
-        comboBox_type->addItem(lineEdit_type->text());
-        QMessageBox::about(this,QString("信息"),QString("添加成功！"));
-    }
-    else
-    {
-        QMessageBox::about(this,QString("信息"),QString("该类型已存在！"));
-    }
-}
+
 void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
 {
     textClear();
@@ -247,33 +228,20 @@ void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
         textEdit_C->setText(obTable->item(item->row(),5)->text());
         textEdit_D->setText(obTable->item(item->row(),6)->text());
         QStringList list = obTable->item(item->row(),7)->text().split("-");
-        for(int i = 0; i<list.count(); i++)
+        for(int i = 0; i< list.count(); i++)
         {
             if(list.at(i) == "A") radio_A->setChecked(true);
             if(list.at(i) == "B") radio_B->setChecked(true);
             if(list.at(i) == "C") radio_C->setChecked(true);
             if(list.at(i) == "D") radio_D->setChecked(true);
         }
-        for(int i = 0; i<comboBox_type->count(); i++)
-        {
-            if(comboBox_type->itemText(i) == obTable->item(item->row(),1)->text())
-                comboBox_type->setCurrentIndex(i);
-        }
     }
     else if(tabWidget_2->currentIndex() == 1 && subTable->currentRow() >= 0)
     {
         tabWidget->setCurrentIndex(1);
         textEdit2_Content->setText(subTable->item(subTable->currentRow(),2)->text());
-        qDebug()<<textEdit2_Content->toPlainText();
-        for(int i = 0; i<comboBox_type->count(); i++)
-        {
-            if(comboBox_type->itemText(i) == subTable->item(item->row(),1)->text())
-                comboBox_type->setCurrentIndex(i);
-        }
+        qDebug() << textEdit2_Content->toPlainText();
     }
-
-
-
 }
 
 void QuestionsManageUI::on_Button_Save_clicked()
@@ -292,7 +260,7 @@ void QuestionsManageUI::on_Button_new_clicked()
 {
     _mode = 0;
     textClear();
-    textEdit->setText(QString("请输入新题目的内容"));
-    textEdit2_Content->setText(QString("请输入新题目的内容"));
+    textEdit->setText(QStringLiteral("请输入新题目的内容"));
+    textEdit2_Content->setText(QStringLiteral("请输入新题目的内容"));
 
 }

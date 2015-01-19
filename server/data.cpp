@@ -37,35 +37,35 @@ void Student::setSockDescriptor(int descriptor)
 
     _socketDescriptor = descriptor;
 }
-QString Student::getID()
+QString Student::getID() const
 {
     return _id;
 }
-QString Student::getName()
+QString Student::getName() const
 {
     return _name;
 }
-int Student::getGrade()
+int Student::getGrade() const
 {
     return _grade;
 }
-int Student::getClass()
+int Student::getClass() const
 {
     return _class;
 }
-QString Student::getPassword()
+QString Student::getPassword() const
 {
     return _password;
 }
-QString Student::getState()
+QString Student::getState() const
 {
     return _state;
 }
-QString Student::getHostname()
+QString Student::getHostname() const
 {
     return _hostname;
 }
-int Student::getSockDescriptor()
+int Student::getSockDescriptor() const
 {
     return _socketDescriptor;
 }
@@ -107,15 +107,15 @@ void EssayQuestions::setQuestionTitle(QString title)
 {
     _questionTitle = title;
 }
-int EssayQuestions::getQuestionId()
+int EssayQuestions::getQuestionId() const
 {
     return _questionId;
 }
-QString EssayQuestions::getQuestionType()
+QString EssayQuestions::getQuestionType() const
 {
     return _questionType;
 }
-QString EssayQuestions::getQuestionTitle()
+QString EssayQuestions::getQuestionTitle() const
 {
     return _questionTitle;
 }
@@ -263,19 +263,19 @@ QDataStream &operator <<(QDataStream &out,const ChoiceQuestions &ob)
     out << ob._questionId << ob._questionTitle << ob._answer << ob._questionType;
     return out;
 }
-int ChoiceQuestions::getQuestionId()
+int ChoiceQuestions::getQuestionId() const
 {
     return _questionId;
 }
-QString ChoiceQuestions::getQuestionType()
+QString ChoiceQuestions::getQuestionType() const
 {
     return _questionType;
 }
-QString ChoiceQuestions::getQuestionTitle()
+QString ChoiceQuestions::getQuestionTitle() const
 {
     return _questionTitle;
 }
-QString ChoiceQuestions::getAnswer()
+QString ChoiceQuestions::getAnswer() const
 {
     return _answer;
 }
@@ -488,65 +488,6 @@ QDataStream &operator <<(QDataStream &out,const Combo &c)
     return out;
 }
 
-//Answers::Answers()
-//{
-
-//}
-
-//Answers::~Answers()
-//{
-
-//}
-
-//void Answers::setanswerId(int id)
-//{
-//    AnswerId = id;
-//}
-
-//void Answers::setpaperId(int id)
-//{
-//    PaperId = id;
-//}
-
-//int Answers::getanswerId()
-//{
-//    return AnswerId;
-//}
-
-//int Answers::getpaperId()
-//{
-//    return PaperId;
-//}
-
-//QString Answers::getstrudentId()
-//{
-//    return StudentId;
-//}
-
-//void Answers::setstudentId(int id)
-//{
-//    AnswerId = id;
-//}
-
-//void SubAnswers::setsubAnswerslist(QVector<QString> answerList)
-//{
-//    SubAnswerslist = answerList;
-//}
-
-//QVector<QString> SubAnswers::getsubAnswerslist()
-//{
-//    return SubAnswerslist;
-//}
-
-//void ObAnswers::setobAnswer(QString answer)
-//{
-//    ObAnswer = answer;
-//}
-
-//QString ObAnswers::getobAnswer()
-//{
-//    return ObAnswer;
-//}
 
 USER::USER()
 {
@@ -573,22 +514,22 @@ void USER::setType(int type)
     _type = type;
 }
 
-int USER::getType()
+int USER::getType() const
 {
     return _type;
 }
 
-int USER::getId()
+int USER::getId() const
 {
     return _id;
 }
 
-QString USER::getName()
+QString USER::getName() const
 {
     return _name;
 }
 
-QString USER::getPassword()
+QString USER::getPassword() const
 {
     return _password;
 }
@@ -599,97 +540,57 @@ USER &USER::GetInstance()
     return user;
 }
 
-////Questions的函数
-//Questions::Questions()
-//{
+int Questions::getQuestionId() const
+{
+    return _questionId;
+}
 
-//}
+void Questions::setQuestionId(int questionId)
+{
+    _questionId = questionId;
+}
+int Questions::getSubjectId() const
+{
+    return _subjectId;
+}
 
-//int Questions::getQuestionId() const
-//{
-//    return _questionId;
-//}
+void Questions::setSubjectId(int subjectId)
+{
+    _subjectId = subjectId;
+}
+int Questions::getQuestionType() const
+{
+    return _questionType;
+}
 
-//void Questions::setQuestionId(int questionId)
-//{
-//    _questionId = questionId;
-//}
-//QString Questions::getQuestionType() const
-//{
-//    return _questionType;
-//}
+void Questions::setQuestionType(int questionType)
+{
+    _questionType = questionType;
+}
+int Questions::getMark() const
+{
+    return _mark;
+}
 
-//void Questions::setQuestionType(const QString &questionType)
-//{
-//    _questionType = questionType;
-//}
+void Questions::setMark(int mark)
+{
+    _mark = mark;
+}
+QString Questions::getQuestionTitle() const
+{
+    return _questionTitle;
+}
 
-//QString Questions::getQuestionTitle() const
-//{
-//    return _questionTitle;
-//}
+void Questions::setQuestionTitle(const QString &questionTitle)
+{
+    _questionTitle = questionTitle;
+}
+QString Questions::getAnswer() const
+{
+    return _answer;
+}
 
-//void Questions::setQuestionTitle(const QString &questionTitle)
-//{
-//    _questionTitle = questionTitle;
-//}
-
-//QDataStream &operator <<(QDataStream &, const ObQuestionsTest &)
-//{
-
-//}
-
-//QDataStream &operator >>(QDataStream &, ObQuestionsTest &)
-//{
-
-//}
-
-//QDataStream &operator <<(QDataStream &, const SubQuestionsTest &)
-//{
-
-//}
-
-//QDataStream &operator >>(QDataStream &, SubQuestionsTest &)
-//{
-
-//}
-
-
-//ObQuestionsTest::ObQuestionsTest()
-//{
-//    showAnswer = new showWithAnswer();
-//}
-
-
-//SubQuestionsTest::SubQuestionsTest()
-//{
-//    showAnswer = new showNoAnswer();
-//}
-
-
-//QString showNoAnswer::getAnswer()
-//{
-//    ;
-//}
-
-//void showNoAnswer::setAnswer(QString answer)
-//{
-//    ;
-//}
-
-
-//QString showWithAnswer::getAnswer()
-//{
-//    return _answer;
-//}
-
-//void showWithAnswer::setAnswer(QString answer)
-//{
-//    _answer = answer;
-//}
-
-
-//showAnswerBehavior::showAnswerBehavior()
-//{
-//    _answer = QString("");
-//}
+void Questions::setAnswer(const QString &answer)
+{
+    _answer = answer;
+}

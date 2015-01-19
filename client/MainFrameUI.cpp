@@ -14,7 +14,6 @@ MainFrameUI::MainFrameUI(QWidget *parent) :
     stackedWidget_main->addWidget(_exam);
     stackedWidget_main->setCurrentIndex(0);
     label_date->setText(QDate::currentDate().toString());
-    //this->showFullScreen();
 }
 
 void MainFrameUI::sendExamslot()

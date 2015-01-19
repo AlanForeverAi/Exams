@@ -59,7 +59,7 @@ public slots:
     void getUserList();//更新考生状态信息
     void beginExam();//考试考试
     void endExam();//结束考试
-    bool userLogin(Student);//考生登录
+    bool userLogin(Student student);//考生登录
     void sendPaperTime(int,int);//发送带有当前剩余时间的试卷
     bool managerLogin(USER);//管理员登录
     QList<Student*> getUserByPaperId(int,QString);//按试卷id查找考生

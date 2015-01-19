@@ -19,14 +19,14 @@ public:
     void setState(QString);
     void setHostName(QString);
     void setSockDescriptor(int);
-    QString getID();
-    QString getName();
-    int getGrade();
-    int getClass();
-    QString getPassword();
-    QString getState();
-    QString getHostname();
-    int getSockDescriptor();
+    QString getID() const;
+    QString getName() const;
+    int getGrade() const;
+    int getClass() const;
+    QString getPassword() const;
+    QString getState() const;
+    QString getHostname() const;
+    int getSockDescriptor() const;
 private:
     QString _id;
     QString _name;
@@ -91,10 +91,10 @@ public:
     void setPaperId(int);
     void setStudentId(QString);
     void setAnswerList(QVector<QString>);
-    int getAnswerId();
-    int getPaperId();
-    QString getStudentId();
-    QVector<QString> getAnswerList();
+    int getAnswerId() const;
+    int getPaperId() const;
+    QString getStudentId() const;
+    QVector<QString> getAnswerList() const;
 private:
     int _answerId;
     int _paperId;
@@ -113,10 +113,10 @@ public:
     void setPaperId(int);
     void setStudentId(QString);
     void setAnswers(QString);
-    int getAnswerId();
-    int getPaperId();
-    QString getStudentId();
-    QString getAnswers();
+    int getAnswerId() const;
+    int getPaperId() const;
+    QString getStudentId() const;
+    QString getAnswers() const;
 private:
     int _answerId;
     int _paperId;
@@ -131,15 +131,15 @@ class Paper
     friend QDataStream &operator >>(QDataStream &,Paper &);
 public:
     Paper();
-    void setPaperId(int);
-    void setObQuIds(QString);
-    void setSubQuIds(QString);
-    void setTotalMark(int);
-    void setPercent(int);
-    void setDescription(QString);
-    void setTime(int);
-    void setDate(QString);
-    int getPaperId();
+    void    setPaperId(int);
+    void    setObQuIds(QString);
+    void    setSubQuIds(QString);
+    void    setTotalMark(int);
+    void    setPercent(int);
+    void    setDescription(QString);
+    void    setTime(int);
+    void    setDate(QString);
+    int     getPaperId();
     QString getObQuIds();
     QString getSubQuIds();
     QString getDescription();
@@ -150,7 +150,7 @@ public:
     QList<ChoiceQuestions> obList;
     QList<EssayQuestions> subList;
 private:
-    int _paperId;
+    int     _paperId;
     QString _obQuIds;
     QString _subQuIds;
     QString _description;

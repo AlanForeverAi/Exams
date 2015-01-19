@@ -1,8 +1,8 @@
 ﻿#include "ScoreManageUI.h"
 #include <QFile>
 #include <QTextStream>
-#include<QMessageBox>
-#include<QDebug>
+#include <QMessageBox>
+#include <QDebug>
 
 ScoreManageUI::ScoreManageUI(QWidget *parent) :
     QWidget(parent)
@@ -83,7 +83,7 @@ void ScoreManageUI::on_pushButton_print_clicked()
     if(tableWidget_paper->currentRow() >= 0)
     {
         QString filename;
-        filename.append(QString("data/考试成绩_"));
+        filename.append(QStringLiteral("data/考试成绩_"));
         filename.append(tableWidget_paper->item(tableWidget_paper->currentRow(),1)->text());
         filename.append(".txt");
         QFile print(filename);
@@ -111,11 +111,11 @@ void ScoreManageUI::on_pushButton_print_clicked()
             temp.clear();
         }
         print.close();
-        QMessageBox::about(this,"msg",QString("导出成功，文档保存在程序所在data目录下"));
+        QMessageBox::about(this,"msg",QStringLiteral("导出成功，文档保存在程序所在data目录下"));
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一场考试"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一场考试"));
     }
 }
 
@@ -133,11 +133,11 @@ void ScoreManageUI::on_pushButton_delete_clicked()
         }
         else
         {
-            QMessageBox::about(this,"msg",QString("请选择一一个考生"));
+            QMessageBox::about(this,"msg",QStringLiteral("请选择一一个考生"));
         }
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一场考试"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一场考试"));
     }
 }
