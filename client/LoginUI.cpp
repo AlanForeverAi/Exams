@@ -1,18 +1,23 @@
-#include "LoginUI.h"
+﻿#include "LoginUI.h"
+#include "data.h"
 #include <QMessageBox>
+#include <iostream>
 LoginUI::LoginUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
     this->setGeometry(0,100,1280,720);
-
+    pushButton_login->setShortcut(QKeySequence::InsertParagraphSeparator);
 }
 
 void LoginUI::on_pushButton_login_clicked()
 {
-    Student u;
-    u.setID(lineEdit_ID->text());
-    u.setPassword(lineEdit_PW->text());
-    emit this->loginSignal(u);
-
+//    Student student;
+    lineEdit_ID->setText("20112100004");
+    lineEdit_PW->setText("123");
+//    student.setID(lineEdit_ID->text());
+//    student.setPassword(lineEdit_PW->text());
+    Student::GetInstance().setID(lineEdit_ID->text());
+    Student::GetInstance().setPassword(lineEdit_PW->text());
+    emit this->loginSignal(Student::GetInstance());
 }

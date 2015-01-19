@@ -4,7 +4,7 @@ MainFrameUI::MainFrameUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-    _exam=new ExamUI;
+    _exam = new ExamUI;
     connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
     connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SLOT(sendExamslot()));
     connect(_exam,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
@@ -14,18 +14,17 @@ MainFrameUI::MainFrameUI(QWidget *parent) :
     stackedWidget_main->addWidget(_exam);
     stackedWidget_main->setCurrentIndex(0);
     label_date->setText(QDate::currentDate().toString());
-    //this->showFullScreen();
 }
 
 void MainFrameUI::sendExamslot()
 {
-    label_m->setText(QString("上一题已经提交"));
+    label_m->setText(QStringLiteral("上一题已经提交"));
 
 }
 
 void MainFrameUI::showUserInfo(Student u)
 {
-    QString info=QString("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");
+    QString info = QStringLiteral("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");
 
     label_userinfo->setText(info.arg(u.getName()).arg(u.getID()).arg(QString::number(u.getGrade())).arg(QString::number(u.getClass())));
 }
@@ -45,11 +44,10 @@ void MainFrameUI::showPaper()
 {
     _exam->timer->start(1000);
     stackedWidget_main->setCurrentIndex(1);
-
 }
 
 void MainFrameUI::endExamslot()
 {
-    label_m->setText(QString("考试已经结束"));
+    label_m->setText(QStringLiteral("考试已经结束"));
     stackedWidget_main->setCurrentIndex(0);
 }

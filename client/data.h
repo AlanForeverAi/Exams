@@ -17,16 +17,19 @@ public:
     void setClass(int);
     void setPassword(QString);
     void setState(QString);
-    void setHostname(QString);
+    void setHostName(QString);
     void setSockDescriptor(int);
-    QString getID();
-    QString getName();
-    int getGrade();
-    int getClass();
-    QString getPassword();
-    QString getState();
-    QString getHostname();
-    int getSockDescriptor();
+    QString getID() const;
+    QString getName() const;
+    int getGrade() const;
+    int getClass() const;
+    QString getPassword() const;
+    QString getState() const;
+    QString getHostname() const;
+    int getSockDescriptor() const;
+
+    static Student& GetInstance();
+
 private:
     QString _id;
     QString _name;
@@ -36,108 +39,88 @@ private:
     QString _state;
     QString _hostname;
     int _socketDescriptor;
-
 };
 Q_DECLARE_METATYPE(Student)
 
-/*
-class Manager
+class ChoiceQuestions
 {
+    friend QDataStream &operator <<(QDataStream &,const ChoiceQuestions &);
+    friend QDataStream &operator >>(QDataStream &,ChoiceQuestions &);
 public:
-    Manager();
-    void setId(int);
-    void setName(QString);
-    void setPassword(QString);
-
-    int getId();
-    QString getName();
-    QString getPassword();
-private:
-    int Id;
-    QString Name;
-    QString Password;
-
-};
-*/
-
-class ObQuestions
-{
-    friend QDataStream &operator <<(QDataStream &,const ObQuestions &);
-    friend QDataStream &operator >>(QDataStream &,ObQuestions &);
-public:
-    ObQuestions();
-    void setObId(int);
-    void setType(QString);
-    void setTitle(QString);
-    void setAnswer(QString);
-    int getObId();
-    QString getType();
-    QString getTitle();
+    ChoiceQuestions();
+    void setQuestionId(int);
+    void setQuestionType(QString);
+    void setQuestionTitle(QString);
+    void setQuestionAnswer(QString);
+    int getQuestionId();
+    QString getQuestionType();
+    QString getQuestionTitle();
     QString getAnswer();
+    void setAnswer(QString answer);
 private:
-    int _obId;
-    QString _type;
-    QString _title;
+    int _questionId;
+    QString _questionType;
+    QString _questionTitle;
     QString _answer;
 
 };
 
-class SubQuestions
+class EssayQuestions
 {
-    friend QDataStream &operator <<(QDataStream &,const SubQuestions &);
-    friend QDataStream &operator >>(QDataStream &,SubQuestions &);
+    friend QDataStream &operator <<(QDataStream &,const EssayQuestions &);
+    friend QDataStream &operator >>(QDataStream &,EssayQuestions &);
 public:
-    SubQuestions();
-    void setSubId(int);
-    void setType(QString);
-    void setTitle(QString);
-    int getSubId();
-    QString getType();
-    QString getTitle();
+    EssayQuestions();
+    void setQuestionId(int);
+    void setQuestionType(QString);
+    void setQuestionTitle(QString);
+    int getQuestionId();
+    QString getQuestionType();
+    QString getQuestionTitle();
 private:
-    int _subId;
-    QString _type;
-    QString _title;
+    int _questionId;
+    QString _questionType;
+    QString _questionTitle;
 };
 
-class SubAnswers
+class ChoiceAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const SubAnswers &);
-    friend QDataStream &operator >>(QDataStream &,SubAnswers &);
+    friend QDataStream &operator <<(QDataStream &,const ChoiceAnswers &);
+    friend QDataStream &operator >>(QDataStream &,ChoiceAnswers &);
 public:
-    SubAnswers();
-    void setSuAnId(int);
+    ChoiceAnswers();
+    void setAnswerId(int);
     void setPaperId(int);
     void setStudentId(QString);
-    void setSubansList(QVector<QString>);
-    int getSuAnId();
-    int getPaperId();
-    QString getStudentId();
-    QVector<QString> getSubansList();
+    void setAnswerList(QVector<QString>);
+    int getAnswerId() const;
+    int getPaperId() const;
+    QString getStudentId() const;
+    QVector<QString> getAnswerList() const;
 private:
-    int _suAnId;
+    int _answerId;
     int _paperId;
     QString _studentId;
-    QVector<QString> _subansList;
+    QVector<QString> _answerList;
 
 };
 
-class ObAnswers
+class EssayAnswers
 {
-    friend QDataStream &operator <<(QDataStream &,const ObAnswers &);
-    friend QDataStream &operator >>(QDataStream &,ObAnswers &);
+    friend QDataStream &operator <<(QDataStream &,const EssayAnswers &);
+    friend QDataStream &operator >>(QDataStream &,EssayAnswers &);
 public:
-    ObAnswers();
-    void setObAnId(int);
+    EssayAnswers();
+    void setAnswerId(int);
     void setPaperId(int);
     void setStudentId(QString);
     void setAnswers(QString);
-    int getObAnId();
-    int getPaperId();
-    QString getStudentId();
-    QString getAnswers();
+    int getAnswerId() const;
+    int getPaperId() const;
+    QString getStudentId() const;
+    QString getAnswers() const;
 private:
-    int _obAnId;
+    int _answerId;
     int _paperId;
     QString _studentId;
     QString _answers;
@@ -150,15 +133,15 @@ class Paper
     friend QDataStream &operator >>(QDataStream &,Paper &);
 public:
     Paper();
-    void setPaperId(int);
-    void setObQuIds(QString);
-    void setSubQuIds(QString);
-    void setTotalMark(int);
-    void setPercent(int);
-    void setDescription(QString);
-    void setTime(int);
-    void setDate(QString);
-    int getPaperId();
+    void    setPaperId(int);
+    void    setObQuIds(QString);
+    void    setSubQuIds(QString);
+    void    setTotalMark(int);
+    void    setPercent(int);
+    void    setDescription(QString);
+    void    setTime(int);
+    void    setDate(QString);
+    int     getPaperId();
     QString getObQuIds();
     QString getSubQuIds();
     QString getDescription();
@@ -166,10 +149,10 @@ public:
     int     getPercent();
     int     getTime();
     QString getDate();
-    QList<ObQuestions> obList;
-    QList<SubQuestions> subList;
+    QList<ChoiceQuestions> obList;
+    QList<EssayQuestions> subList;
 private:
-    int _paperId;
+    int     _paperId;
     QString _obQuIds;
     QString _subQuIds;
     QString _description;
@@ -188,17 +171,17 @@ class AllAnswers
     friend QDataStream &operator >>(QDataStream &,AllAnswers &);
 public:
     AllAnswers();
-    void setObAnswer(ObAnswers);
-    void setSubAnswer(SubAnswers);
+    void setObanswer(EssayAnswers);
+    void setSubanswer(ChoiceAnswers);
     void setPaperId(int);
     void setUserId(QString);
-    ObAnswers getObAnswer();
-    SubAnswers getSubAnswer();
+    EssayAnswers getObanswer();
+    ChoiceAnswers getSubanswer();
     int getPaperId();
     QString getUserId();
 private:
-    ObAnswers _obAnswer;
-    SubAnswers _subAnswer;
+    EssayAnswers _obAnswer;
+    ChoiceAnswers _subAnswer;
     int _paperId;
     QString _userId;
 };

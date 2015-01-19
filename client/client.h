@@ -2,7 +2,6 @@
 #define CLIENT_H
 #include<QtNetwork>
 /*自定义信息类型*/
-/*
 enum MessageType
 {
     MSG_LOGIN,
@@ -14,8 +13,8 @@ enum MessageType
     MSG_ERROR,
     MSG_NEWCONNECT
 };
-*/
 
+/*
 #define MSG_LOGIN 0
 #define MSG_GETPAPER 1
 #define MSG_ANSWER 2
@@ -24,6 +23,7 @@ enum MessageType
 #define MSG_ENDEXAM 5
 #define MSG_ERROR 6
 #define MSG_NEWCONNECT 7
+*/
 
 /*客户端类*/
 class Client : public  QTcpSocket

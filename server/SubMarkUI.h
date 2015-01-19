@@ -1,10 +1,10 @@
-#ifndef SUBMARKUI_H
+﻿#ifndef SUBMARKUI_H
 #define SUBMARKUI_H
 
 #include <QWidget>
-#include  "ui_SubMarkUI.h"
+#include "ui_SubMarkUI.h"
 #include "data.h"
-#include<QTableWidgetItem>
+#include <QTableWidgetItem>
 
 class SubMarkUI : public QWidget,public Ui::SubMarkUI
 {

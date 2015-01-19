@@ -154,8 +154,8 @@
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>1235</width>
-         <height>246</height>
+         <width>1245</width>
+         <height>247</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -180,7 +180,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
@@ -401,49 +401,9 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>题目类型</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBox_type">
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="Line" name="line_2">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEdit_type">
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="Button_addtype">
-               <property name="text">
-                <string>添加新类型</string>
                </property>
               </widget>
              </item>
@@ -485,7 +445,7 @@
               <enum>Qt::LeftToRight</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>0</number>
              </property>
              <widget class="QWidget" name="tab">
               <property name="minimumSize">

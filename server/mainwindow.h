@@ -1,6 +1,9 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#pragma execution_character_set("utf-8")
+#pragma warning(disable: 4819)
+
 #include <QMainWindow>
 #include <QCloseEvent>
 #include "data.h"
@@ -29,13 +32,13 @@ public:
     ~MainWindow();
 signals:
     void getQuestions();
-    void addOb_Questoins(ObQuestions*);
-    void addSub_Questoins(SubQuestions*);
-    void modifyOb_Questoins(ObQuestions*);
-    void modifySub_Questoins(SubQuestions*);
+    void addOb_Questoins(ChoiceQuestions*);
+    void addSub_Questoins(EssayQuestions*);
+    void modifyOb_Questoins(ChoiceQuestions*);
+    void modifySub_Questoins(EssayQuestions*);
     void deleteOb_Questoins(int);
     void deleteSub_Questoins(int);
-    void showQuestions(QList<ObQuestions*>,QList<SubQuestions*>);
+    void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void addPaper(Paper);
     void getAllPaper();
     void showAllPaper(QList<Paper*>);

@@ -12,19 +12,19 @@ public:
     DBManager(QString,QString,QString);
     ~DBManager();
 
-
-    QSqlQuery selectUser();
-    QSqlQuery selectUserId(QString);
-    QSqlQuery selectUserGc(int,int);//根据年级和班别选择user
-    void insertUser(QString,QString,int,int,QString);///////////插入学生
-    void deleteUserId(QString);/////根据id删除学生
-    void deleteUserName(QString);//根据name删除学生
-    void modifyUser(QString,QString,int,int,QString);
-    //manager
-    QSqlQuery selectManager();
-    void insertManager(int,QString,QString);
-    void deleteManagerId(int);
-    void deleteManagerName(QString);
+    //Student
+    QSqlQuery selectStudent();
+    QSqlQuery selectStudentById(QString);
+    QSqlQuery selectStudentByGC(int,int);//根据年级和班别选择user
+    void insertStudent(QString,QString,int,int,QString);///////////插入学生
+    void deleteStudentById(QString);/////根据id删除学生
+    void deleteStudentByName(QString);//根据name删除学生
+    void modifyStudent(QString,QString,int,int,QString);
+    //ServerUser
+    QSqlQuery selectServerUser();
+    void insertServerUser(int,QString,QString);
+    void deleteServerUserID(int);
+    void deleteServerUserName(QString);
 
     void insertOb(int,QString,QString,QString);
     void insertSub(int,QString,QString);

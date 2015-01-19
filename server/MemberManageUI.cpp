@@ -13,21 +13,21 @@ MemberManageUI::~MemberManageUI()
 void MemberManageUI::showUser(QList<Student *> userList,QList<USER *> managerList)
 {
     if(userList.isEmpty())
-        userList=userList;
+        userList = userList;
     if(managerList.isEmpty())
-        managerList=managerList;
+        managerList = managerList;
 
     tableWidget_Student->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_Student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
     tableWidget_Student->setRowCount(userList.count());
-    for(int i=0; i<userList.count(); ++i)
+    for(int i = 0; i < userList.count(); ++i)
     {
 
-        QTableWidgetItem *u_id=new QTableWidgetItem(userList.at(i)->getID());
-        QTableWidgetItem *u_name=new QTableWidgetItem(userList.at(i)->getName());
-        QTableWidgetItem *u_grade=new QTableWidgetItem(QString::number(userList.at(i)->getGrade()));
-        QTableWidgetItem *u_class=new QTableWidgetItem(QString::number(userList.at(i)->getClass()));
-        QTableWidgetItem *u_password=new QTableWidgetItem(userList.at(i)->getPassword());
+        QTableWidgetItem *u_id = new QTableWidgetItem(userList.at(i)->getID());
+        QTableWidgetItem *u_name = new QTableWidgetItem(userList.at(i)->getName());
+        QTableWidgetItem *u_grade = new QTableWidgetItem(QString::number(userList.at(i)->getGrade()));
+        QTableWidgetItem *u_class = new QTableWidgetItem(QString::number(userList.at(i)->getClass()));
+        QTableWidgetItem *u_password = new QTableWidgetItem(userList.at(i)->getPassword());
 
         tableWidget_Student->setItem(i,0,u_id);
         tableWidget_Student->setItem(i,1,u_name);
@@ -39,12 +39,12 @@ void MemberManageUI::showUser(QList<Student *> userList,QList<USER *> managerLis
     tableWidget_Teacher->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_Teacher->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
 
-    for(int i=0; i<managerList.count(); ++i)
+    for(int i = 0; i < managerList.count(); ++i)
     {
         tableWidget_Teacher->setRowCount(managerList.count());
-        QTableWidgetItem *t_id=new QTableWidgetItem(QString::number(managerList.at(i)->getId()));
-        QTableWidgetItem *t_name=new QTableWidgetItem(managerList.at(i)->getName());
-        QTableWidgetItem *t_password=new QTableWidgetItem(managerList.at(i)->getPassword());
+        QTableWidgetItem *t_id = new QTableWidgetItem(QString::number(managerList.at(i)->getId()));
+        QTableWidgetItem *t_name = new QTableWidgetItem(managerList.at(i)->getName());
+        QTableWidgetItem *t_password = new QTableWidgetItem(managerList.at(i)->getPassword());
 
         tableWidget_Teacher->setItem(i,0,t_id);
         tableWidget_Teacher->setItem(i,1,t_name);
@@ -55,7 +55,7 @@ void MemberManageUI::showUser(QList<Student *> userList,QList<USER *> managerLis
 
 void MemberManageUI::on_pushButton_add_user_clicked()
 {
-    if(tabWidget->currentIndex()==0)
+    if(tabWidget->currentIndex() == 0)
     {
         Student * userptr =  new Student;
         userptr->setID(lineEdit_userID->text());
@@ -67,7 +67,7 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         emit this->addUser(userptr);
         delete(userptr);
     }
-    else if(tabWidget->currentIndex()==1)
+    else if(tabWidget->currentIndex() == 1)
     {
         USER *managerptr = new USER;
         managerptr->setId(lineEdit_managerId->text().toInt());
@@ -85,18 +85,18 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     QMessageBox msg;
     msg.setText(QString("确定要删除吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-    if(tabWidget->currentIndex()==0&&tableWidget_Student->currentRow()>=0)
+    if(tabWidget->currentIndex() == 0&&tableWidget_Student->currentRow() >= 0)
     {
         int ret = msg.exec();
-        if(ret==QMessageBox::Ok)
+        if(ret == QMessageBox::Ok)
             emit this->deleteUserId(tableWidget_Student->item(tableWidget_Student->currentRow(),0)->text());
         else
             return;
     }
-    else if(tabWidget->currentIndex()==1&&tableWidget_Teacher->currentRow()>=0)
+    else if(tabWidget->currentIndex() == 1&&tableWidget_Teacher->currentRow() >= 0)
     {
         int ret = msg.exec();
-        if(ret==QMessageBox::Ok)
+        if(ret == QMessageBox::Ok)
             emit this->deleteManagerId(tableWidget_Teacher->item(tableWidget_Teacher->currentRow(),0)->text().toInt());
         else
             return;
@@ -110,32 +110,32 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
 
 void MemberManageUI::on_pushButton_search_clicked()
 {
-    if(tabWidget->currentIndex()==0)
+    if(tabWidget->currentIndex() == 0)
     {
         usearchList.clear();
         QString s_tosearch;
-        s_tosearch=lineEdit_search->text();
-        for(int i=0; i<userList.count(); i++)
+        s_tosearch = lineEdit_search->text();
+        for(int i = 0; i < userList.count(); i++)
         {
-            if(userList.at(i)->getID()==s_tosearch||
-                    userList.at(i)->getName()==s_tosearch||
-                    userList.at(i)->getGrade()==s_tosearch.toInt()||
-                    userList.at(i)->getClass()==s_tosearch.toInt())
+            if(userList.at(i)->getID() == s_tosearch||
+                    userList.at(i)->getName() == s_tosearch||
+                    userList.at(i)->getGrade() == s_tosearch.toInt()||
+                    userList.at(i)->getClass() == s_tosearch.toInt())
             {
                 usearchList.append(userList.at(i));
             }
         }
         this->showUser(usearchList,managerList);
     }
-    else if(tabWidget->currentIndex()==1)
+    else if(tabWidget->currentIndex() == 1)
     {
         msearchList.clear();
         QString s_tosearch;
-        s_tosearch=lineEdit_search->text();
-        for(int i=0; i<managerList.count(); i++)
+        s_tosearch = lineEdit_search->text();
+        for(int i = 0; i < managerList.count(); i++)
         {
-            if(managerList.at(i)->getId()==s_tosearch.toInt()||
-                    managerList.at(i)->getName()==s_tosearch
+            if(managerList.at(i)->getId() == s_tosearch.toInt()||
+                    managerList.at(i)->getName() == s_tosearch
               )
             {
                 msearchList.append(managerList.at(i));
