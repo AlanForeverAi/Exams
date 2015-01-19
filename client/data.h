@@ -27,6 +27,9 @@ public:
     QString getState() const;
     QString getHostname() const;
     int getSockDescriptor() const;
+
+    static Student& GetInstance();
+
 private:
     QString _id;
     QString _name;
@@ -36,7 +39,6 @@ private:
     QString _state;
     QString _hostname;
     int _socketDescriptor;
-
 };
 Q_DECLARE_METATYPE(Student)
 

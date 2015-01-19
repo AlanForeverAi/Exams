@@ -70,6 +70,12 @@ int Student::getSockDescriptor() const
     return _socketDescriptor;
 }
 
+Student &Student::GetInstance()
+{
+    static Student student;
+    return student;
+}
+
 QDataStream &operator >>(QDataStream &in,Student &user)
 {
     in >> user._id >> user._name >> user._class >> user._grade >> user._password >> user._hostname;

@@ -74,3 +74,8 @@ client/Client.pro.user
 *.user
 *.user
 client/Client.pro.user
+*.user
+*.user
+*.3-pre1
+server/Examsys.pro.user
+client/Client.pro.user

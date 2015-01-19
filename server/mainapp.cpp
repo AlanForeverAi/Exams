@@ -504,7 +504,7 @@ void MainApp::userStateChange(int descriptor, QString state)
 {
     for(int i = 0; i < _userList.count(); i++)
     {
-        if(descriptor == _userList.at(i)->getSockDescriptor()||descriptor == -1)
+        if(descriptor == _userList.at(i)->getSockDescriptor() || descriptor == -1)
         {
             _userList.at(i)->setState(state);
         }
@@ -677,7 +677,7 @@ void MainApp::getCombo_id(QString a)
     QSqlQuery query;
     query = _DBM->queryPaperMark2(a);
 
-    QSqlQuery s = _DBM->selectStudentId(a);
+    QSqlQuery s = _DBM->selectStudentById(a);
     QString temp;
     if(s.next())
     {
@@ -767,7 +767,7 @@ void MainApp::getCombo_paperid(int id)
             b->setSubmark(submark);
             //from paper
             b->setPaperId(query.value(3).toInt());
-            QSqlQuery h = _DBM->selectStudentId(query.value(4).toString());
+            QSqlQuery h = _DBM->selectStudentById(query.value(4).toString());
             if(h.next())
             {
                 b->setUserId(h.value(0).toString());
@@ -838,7 +838,7 @@ void MainApp::modifyUser(Student u)
 
 void MainApp::deleteUserId(QString a)
 {
-    _DBM->deleteStudentId(a);
+    _DBM->deleteStudentById(a);
 }
 
 void MainApp::deleteManagerId(int a)

@@ -1,5 +1,4 @@
 ﻿#include "ExamUI.h"
-//#include <QColorGroup>
 
 ExamUI::ExamUI(QWidget *parent) :QWidget(parent)
 {
@@ -13,8 +12,6 @@ ExamUI::ExamUI(QWidget *parent) :QWidget(parent)
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(timeUpdate()));
     this->showFullScreen();
-
-
 }
 
 ExamUI::~ExamUI()
@@ -29,12 +26,12 @@ void ExamUI::showPaper(Paper paper)
     _subansList.resize(_currentPaper.subList.count());
     _obansList.fill("");
     _subansList.fill("");
-    _totalque = _currentPaper.obList.count()+_currentPaper.subList.count();
+    _totalque = _currentPaper.obList.count() + _currentPaper.subList.count();
     label_totalque->setText(QStringLiteral("共%1题").arg(_totalque));
 
     _currentQue = 0;
 
-    _examTime.setHMS(_currentPaper.getTime()/3600,_currentPaper.getTime()%3600/60,_currentPaper.getTime()%3600%60);
+    _examTime.setHMS(_currentPaper.getTime() / 3600,_currentPaper.getTime() % 3600 / 60,_currentPaper.getTime() % 3600 % 60);
     timeEdit->setTime(_examTime);
 
     this->iniQueInfo();
@@ -88,6 +85,7 @@ void ExamUI::remoteSubmit()
     ChoiceAnswers subanswers;
     subanswers.setPaperId(_currentPaper.getPaperId());
     subanswers.setAnswerList(_subansList);
+    //subanswers.setStudentId();
 
 
     EssayAnswers obanswers;
@@ -322,7 +320,7 @@ void ExamUI::submitAnswers()
     ChoiceAnswers subanswers;
     subanswers.setPaperId(_currentPaper.getPaperId());
     subanswers.setAnswerList(_subansList);
-
+    subanswers.setStudentId(Student::GetInstance().getID());
 
     EssayAnswers obanswers;
     obanswers.setPaperId(_currentPaper.getPaperId());
@@ -333,6 +331,7 @@ void ExamUI::submitAnswers()
         ans_string.append(",");
     }
     obanswers.setAnswers(ans_string);
+    obanswers.setStudentId(Student::GetInstance().getID());
 
     AllAnswers allanswers;
     allanswers.setPaperId(_currentPaper.getPaperId());

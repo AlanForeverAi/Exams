@@ -1,4 +1,5 @@
 ﻿#include "LoginUI.h"
+#include "data.h"
 #include <QMessageBox>
 #include <iostream>
 LoginUI::LoginUI(QWidget *parent) :
@@ -11,10 +12,12 @@ LoginUI::LoginUI(QWidget *parent) :
 
 void LoginUI::on_pushButton_login_clicked()
 {
-    Student student;
+//    Student student;
     lineEdit_ID->setText("20112100004");
     lineEdit_PW->setText("123");
-    student.setID(lineEdit_ID->text());
-    student.setPassword(lineEdit_PW->text());
-    emit this->loginSignal(student);
+//    student.setID(lineEdit_ID->text());
+//    student.setPassword(lineEdit_PW->text());
+    Student::GetInstance().setID(lineEdit_ID->text());
+    Student::GetInstance().setPassword(lineEdit_PW->text());
+    emit this->loginSignal(Student::GetInstance());
 }

@@ -14,11 +14,11 @@ public:
 
     //Student
     QSqlQuery selectStudent();
-    QSqlQuery selectStudentId(QString);
-    QSqlQuery selectStudentGC(int,int);//根据年级和班别选择user
+    QSqlQuery selectStudentById(QString);
+    QSqlQuery selectStudentByGC(int,int);//根据年级和班别选择user
     void insertStudent(QString,QString,int,int,QString);///////////插入学生
-    void deleteStudentId(QString);/////根据id删除学生
-    void deleteStudentName(QString);//根据name删除学生
+    void deleteStudentById(QString);/////根据id删除学生
+    void deleteStudentByName(QString);//根据name删除学生
     void modifyStudent(QString,QString,int,int,QString);
     //ServerUser
     QSqlQuery selectServerUser();
