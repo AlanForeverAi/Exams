@@ -148,7 +148,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;为考试安排考生名单&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -159,7 +159,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>10</x>
           <y>0</y>
-          <width>1242</width>
+          <width>1258</width>
           <height>586</height>
          </rect>
         </property>
@@ -339,7 +339,7 @@ p, li { white-space: pre-wrap; }
                 <rect>
                  <x>10</x>
                  <y>30</y>
-                 <width>461</width>
+                 <width>467</width>
                  <height>139</height>
                 </rect>
                </property>
@@ -635,8 +635,8 @@ p, li { white-space: pre-wrap; }
                 <rect>
                  <x>20</x>
                  <y>20</y>
-                 <width>209</width>
-                 <height>64</height>
+                 <width>256</width>
+                 <height>73</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -739,7 +739,7 @@ p, li { white-space: pre-wrap; }
                  <x>20</x>
                  <y>20</y>
                  <width>211</width>
-                 <height>98</height>
+                 <height>109</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -908,7 +908,7 @@ p, li { white-space: pre-wrap; }
             </font>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
            <widget class="QWidget" name="tab">
             <attribute name="title">
@@ -919,7 +919,7 @@ p, li { white-space: pre-wrap; }
               <rect>
                <x>10</x>
                <y>10</y>
-               <width>1213</width>
+               <width>1233</width>
                <height>248</height>
               </rect>
              </property>
@@ -1162,7 +1162,7 @@ p, li { white-space: pre-wrap; }
               <rect>
                <x>10</x>
                <y>10</y>
-               <width>1213</width>
+               <width>1233</width>
                <height>248</height>
               </rect>
              </property>
