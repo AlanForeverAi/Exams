@@ -182,7 +182,6 @@ void DBManager::insertSub(int id,QString type,QString title)
 
     QSqlQuery query;
     query.prepare("INSERT INTO subquestions (subid,title,type) " "VALUES ( ?,?, ?)");
-    // query.prepare("INSERT INTO subquestions (subid,mark,title,type) " "VALUES ( ?,?, ?)");
     query.addBindValue(id);
     query.addBindValue(title);
     query.addBindValue(type);
@@ -270,7 +269,6 @@ void DBManager::insertPaper( QString obids, QString subids, int total, int perce
     query.addBindValue(description);
     query.addBindValue(time);
     query.exec();
-    query.lastQuery();
     qDebug() << "insertPaper] " << query.lastError();
 }
 
@@ -301,12 +299,18 @@ QSqlQuery DBManager::selectPaper()
         return query;
 }
 
+//删除试卷的时候需要不存放该试卷id的数据先删除，否则会因为外键的原因导致删除失败。
 void DBManager::deletePaperById(int id)
 {
     QSqlQuery query;
-    query.exec(QStringLiteral("DELETE FROM paper WHERE paperid  =  %1").arg(id));
-    query.exec();
-    qDebug() << "deletePaperById" << query.lastError();
+    query.exec(QStringLiteral("DELETE FROM subanswers WHERE fpaperid = %1").arg(id));
+    qDebug() << "deletePaperById] " << query.lastError();
+    query.exec(QStringLiteral("DELETE FROM obanswers WHERE fpaperid = %1").arg(id));
+    qDebug() << "deletePaperById] " << query.lastError();
+    query.exec(QStringLiteral("DELETE FROM papermark WHERE fpaperid = %1").arg(id));
+    qDebug() << "deletePaperById] " << query.lastError();
+    query.exec(QStringLiteral("DELETE FROM paper WHERE paperid = %1").arg(id));
+    qDebug() << "deletePaperById] " << query.lastError();
 }
 
 void DBManager::alterPaper(int id,QString obids, QString subids, int total, int percent, QString description,int time)
@@ -389,7 +393,7 @@ bool DBManager::deletePaperMark(int pid)
 {
     QSqlQuery query;
 
-    query.exec(QStringLiteral("DELETE FROM papermark WHERE fpaperid =  %1 and done= '%2'").arg(pid).arg(QString("未完成")));
+    query.exec(QStringLiteral("DELETE FROM papermark WHERE fpaperid =  %1 and done= '%2'").arg(pid).arg(QStringLiteral("未完成")));
     if (query.numRowsAffected()>0)
     {
         return true;
@@ -405,11 +409,10 @@ bool DBManager::deletePaperMark(int pid)
 QSqlQuery DBManager::searchPaperMark(int pid, QString uid)
 {
     QSqlQuery query;
-    QString s = "SELECT * FROM papermark WHERE fpaperid= %1 and fuserid= '%2' ";
+    QString s = "SELECT * FROM papermark WHERE fpaperid= %1 and fuserid= '%2'";
 
     if( query.exec(s.arg(pid).arg(uid)))
     {
-        qDebug() << query.lastQuery();
         qDebug() << "searchPaperMark] " << query.lastError();
         return query;
     }
@@ -532,7 +535,7 @@ void DBManager::updatePaperMarkTotalmark(int totalmark,int pid,QString uid)
     QSqlQuery query;
     QString s = "UPDATE papermark set totalmark= '%1',finish= '%2' WHERE fpaperid= %3 and fuserid= '%4'";
 
-    query.exec(s.arg(totalmark).arg(QString("已批改")).arg(pid).arg(uid));
+    query.exec(s.arg(totalmark).arg(QStringLiteral("已批改")).arg(pid).arg(uid));
 
     qDebug() << "updatePaperMarkTotalmark] " << query.lastError();
 }
