@@ -8,7 +8,7 @@ MainMenuUI::MainMenuUI(QWidget *parent) :
 {
     setupUi(this);
     //根据用户类型设置选项是否可以执行。
-    if(USER::GetInstance().getType() == 1)
+    if(User::GetInstance().getType() == 1)
     {
         pushButton_question->setEnabled(false);
         pushButton_paper->setEnabled(false);

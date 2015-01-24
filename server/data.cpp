@@ -396,45 +396,45 @@ Combo::Combo()
     qRegisterMetaTypeStreamOperators<Combo>("Combo");
 }
 
-void Combo::setUserId(QString a)
+void Combo::setUserId(QString userId)
 {
-    _userId = a;
+    _userId = userId;
 }
-void Combo::setName(QString s)
+void Combo::setName(QString name)
 {
-    _name = s;
+    _name = name;
 }
-void Combo::setGrade(int a)
+void Combo::setGrade(int grade)
 {
-    _grade = a;
+    _grade = grade;
 }
-void Combo::setClass(int b)
+void Combo::setClass(int class_)
 {
-    _class = b;
+    _class = class_;
 }
 void Combo::setTime(int t)
 {
     _time = t;
 }
-void Combo::setPaperId(int d)
+void Combo::setPaperId(int paperId)
 {
-    _paperId = d;
+    _paperId = paperId;
 }
-void Combo::setPaperMark(int m)
+void Combo::setPaperMark(int mark)
 {
-    _paperMark = m;
+    _paperMark = mark;
 }
-void Combo::setObmark(int m)
+void Combo::setObmark(int obmark)
 {
-    _obmark = m;
+    _obmark = obmark;
 }
-void Combo::setSubmark(int m)
+void Combo::setSubmark(int submark)
 {
-    _submark = m;
+    _submark = submark;
 }
-void Combo::setPaperName(QString n)
+void Combo::setPaperName(QString paperName)
 {
-    _paperName = n;
+    _paperName = paperName\;
 }
 
 QString Combo::getUserId()
@@ -489,53 +489,53 @@ QDataStream &operator <<(QDataStream &out,const Combo &c)
 }
 
 
-USER::USER()
+User::User()
 {
 
 }
 
-void USER::setId(int id)
+void User::setId(int id)
 {
     _id = id;
 }
 
-void USER::setName(QString name)
+void User::setName(QString name)
 {
     _name = name;
 }
 
-void USER::setPassword(QString password)
+void User::setPassword(QString password)
 {
     _password = password;
 }
 
-void USER::setType(int type)
+void User::setType(int type)
 {
     _type = type;
 }
 
-int USER::getType() const
+int User::getType() const
 {
     return _type;
 }
 
-int USER::getId() const
+int User::getId() const
 {
     return _id;
 }
 
-QString USER::getName() const
+QString User::getName() const
 {
     return _name;
 }
 
-QString USER::getPassword() const
+QString User::getPassword() const
 {
     return _password;
 }
 
-USER &USER::GetInstance()
+User &User::GetInstance()
 {
-    static USER user;
+    static User user;
     return user;
 }

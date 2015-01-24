@@ -40,10 +40,9 @@ private:
 };
 Q_DECLARE_METATYPE(Student)
 
-//管理员。。。通过用户ID判断是否管理员。。。。
-class USER{
+class User{
 public:
-    USER();
+    User();
     void setId(int);
     void setName(QString);
     void setPassword(QString);
@@ -52,7 +51,7 @@ public:
     int getId() const;
     QString getName() const;
     QString getPassword() const;
-    static USER& GetInstance();
+    static User& GetInstance();
 private:
     int _id;
     QString _name;
@@ -409,16 +408,16 @@ class Combo ///用于成绩管理 包括了user paper papermark全部或者部�
     friend QDataStream &operator >>(QDataStream &,Combo &);
 public:
     Combo();
-    void setUserId(QString);
+    void setUserId(QString userId);
     void setName(QString);
-    void setGrade(int);
+    void setGrade(int grade);
     void setClass(int);
     void setTime(int);
-    void setPaperId(int);
-    void setPaperMark(int);
-    void setObmark(int);
-    void setSubmark(int);
-    void setPaperName(QString);
+    void setPaperId(int paperId);
+    void setPaperMark(int mark);
+    void setObmark(int obmark);
+    void setSubmark(int submark);
+    void setPaperName(QString paperName);
 
     QString getUserId();
     QString getName();

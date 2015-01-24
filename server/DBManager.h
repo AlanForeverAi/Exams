@@ -14,24 +14,24 @@ public:
 
     //Student
     QSqlQuery selectStudent();
-    QSqlQuery selectStudentById(QString);
-    QSqlQuery selectStudentByGC(int,int);//根据年级和班别选择user
-    void insertStudent(QString,QString,int,int,QString);///////////插入学生
-    void deleteStudentById(QString);/////根据id删除学生
-    void deleteStudentByName(QString);//根据name删除学生
+    QSqlQuery selectStudentByID(QString);
+    QSqlQuery selectStudentByGC(int,int);
+    void insertStudent(QString,QString,int,int,QString);
+    void deleteStudentById(QString);
+    void deleteStudentByName(QString);
     void modifyStudent(QString,QString,int,int,QString);
     //ServerUser
     QSqlQuery selectServerUser();
     void insertServerUser(int,QString,QString);
-    void deleteServerUserID(int);
-    void deleteServerUserName(QString);
+    void deleteServerUserByID(int);
+    void deleteServerUserByName(QString);
 
     void insertOb(int,QString,QString,QString);
     void insertSub(int,QString,QString);
     QSqlQuery selectObQuestions();//查询客观题表的所有数据
     QSqlQuery selectSubQuestions();//查询主观题表的所有数据
-    void deleteObQuestions(int);//按ID找到记录把在问题表和答案表内的该记录一并删除（客观题）
-    void deleteSubQuestions(int);//按ID找到记录把在问题表和答案表内的该记录一并删除（主观题）
+    void deleteObQuestionsByID(int);//按ID找到记录把在问题表和答案表内的该记录一并删除（客观题）
+    void deleteSubQuestionsByID(int);//按ID找到记录把在问题表和答案表内的该记录一并删除（主观题）
     void alterObQuestions(int,QString,QString,QString);
     void alterSubQuestions(int,QString,QString);
     void insertPaper(QString,QString,int,int,QString,int);
@@ -54,7 +54,7 @@ public:
     QSqlQuery queryPaperMark1(int);//按试卷ID在papermark表中查询,返回的是papermark表的记录
     QSqlQuery queryPaperMark2(QString);//按学生ID在papermark表中查询,返回的是papermark表的记录
     QSqlQuery querySubAnswers(int,QString);//按试卷ID和学生ID在subanswers表中查询
-    QSqlQuery login(QString,QString);//登录功能
+    QSqlQuery studentLogin(QString,QString);
     QSqlQuery managerLogin(int,QString);//登录功能
     void updatePaperMarkDone(QString,int,QString);
     int deleteScore(int pid,qlonglong uid);

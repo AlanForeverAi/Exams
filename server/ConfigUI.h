@@ -8,7 +8,6 @@ class ConfigUI : public QWidget,public Ui::ConfigUI
     Q_OBJECT
 public:
     explicit ConfigUI(QWidget *parent = 0);
-
 signals:
     void readDB();
     void readServer();

@@ -49,7 +49,7 @@ private slots:
     void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void showAllPaper(QList<Paper*>);
     void showCurrentPaper(Paper);
-    void showAllUser(QList<Student*>,QList<USER*>);
+    void showAllUser(QList<Student*>,QList<User*>);
     void showSelectUser(QList<Student*>);
     void paperChange(QTableWidgetItem*);
 //    void typeChange(QString);
