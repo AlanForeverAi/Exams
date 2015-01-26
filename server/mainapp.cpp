@@ -531,7 +531,7 @@ void MainApp::removeUser(int descriptor)
 void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 {
 
-    bool isdelete = _DBM->deletePaperMark(pid);
+//    bool isdelete = _DBM->deletePaperMark(pid);
     QMessageBox msg;
     for(int i = 0; i < ulist.count(); i++)
     {
@@ -555,7 +555,12 @@ void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 
 void MainApp::dealObAnswers(EssayAnswers obans)
 {
+//    std::cout << obans.getPaperId() << " " << obans.getStudentId().toStdString() << " " << obans.getAnswers().toStdString() << std::endl;
     _DBM->updateObAnswers(obans.getPaperId(),obans.getStudentId(),obans.getAnswers());
+
+//    QString answers = obans.getAnswers();
+//    QString standardAnswers;
+
 
     QString ans_string = obans.getAnswers();
     QStringList ansList;
@@ -567,10 +572,11 @@ void MainApp::dealObAnswers(EssayAnswers obans)
     }
     QString eachObmark;
     QString obMarkString;
-    eachObmark = QString::number(_mainPaper.getTotalMark()*_mainPaper.getPercent()/100/_mainPaper.choiceQuestionList.count());
+    eachObmark = QString::number(_mainPaper.getTotalMark() * _mainPaper.getPercent() / 100 / _mainPaper.choiceQuestionList.count());
     for(int i = 0; i < ansList.count(); i++)
     {
         QString correctAns = _mainPaper.choiceQuestionList.value(i).getAnswer();
+//        std::cout << correctAns.toStdString() << std::endl;
         if(ansList.at(i) == correctAns)
         {
 
@@ -609,7 +615,7 @@ void MainApp::submitSubMark(QStringList submark)
         temp = ob.indexOf(",",temp)+1;
     }
     temp = 0;
-    while(temp<sub.length())
+    while(temp < sub.length())
     {
         totalmark += sub.mid(temp,sub.indexOf(",",temp)-temp).toInt();
         temp = sub.indexOf(",",temp)+1;

@@ -434,7 +434,7 @@ void Combo::setSubmark(int submark)
 }
 void Combo::setPaperName(QString paperName)
 {
-    _paperName = paperName\;
+    _paperName = paperName;
 }
 
 QString Combo::getUserId()
