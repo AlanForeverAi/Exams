@@ -10,7 +10,7 @@ MemberManageUI::~MemberManageUI()
 {
 }
 
-void MemberManageUI::showUser(QList<Student *> userList,QList<USER *> managerList)
+void MemberManageUI::showUser(QList<Student *> userList,QList<User *> managerList)
 {
     if(userList.isEmpty())
         userList = userList;
@@ -50,7 +50,6 @@ void MemberManageUI::showUser(QList<Student *> userList,QList<USER *> managerLis
         tableWidget_Teacher->setItem(i,1,t_name);
         tableWidget_Teacher->setItem(i,2,t_password);
     }
-
 }
 
 void MemberManageUI::on_pushButton_add_user_clicked()
@@ -69,14 +68,13 @@ void MemberManageUI::on_pushButton_add_user_clicked()
     }
     else if(tabWidget->currentIndex() == 1)
     {
-        USER *managerptr = new USER;
+        User *managerptr = new User;
         managerptr->setId(lineEdit_managerId->text().toInt());
         managerptr->setName(lineEdit_managerName->text());
         managerptr->setPassword(lineEdit_managerPwd->text());
         emit this->addManager(managerptr);
         delete(managerptr);
     }
-
     this->textClear();
 }
 
@@ -105,7 +103,6 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     {
         QMessageBox::about(this,"msg",QString("请选择一个用户"));
     }
-
 }
 
 void MemberManageUI::on_pushButton_search_clicked()
@@ -161,4 +158,3 @@ void MemberManageUI::textClear()
     lineEdit_managerName->clear();
     lineEdit_managerPwd->clear();
 }
-

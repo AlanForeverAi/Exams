@@ -30,7 +30,6 @@ void SubMarkUI::showPapers(QList<Paper *> pList)
     {
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(pList.at(i)->getPaperId()));
         QTableWidgetItem *description = new QTableWidgetItem(pList.at(i)->getDescription());
-
         tableWidget_paper->setItem(i,0,id);
         tableWidget_paper->setItem(i,1,description);
     }
@@ -95,7 +94,6 @@ void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
         tableWidget_userInfo->setItem(i,2,grade);
         tableWidget_userInfo->setItem(i,3,clas);
         tableWidget_userInfo->setItem(i,4,state);
-
     }
 }
 

@@ -85,7 +85,7 @@ void ExamUI::remoteSubmit()
     ChoiceAnswers subanswers;
     subanswers.setPaperId(_currentPaper.getPaperId());
     subanswers.setAnswerList(_subansList);
-    //subanswers.setStudentId();
+    subanswers.setStudentId(Student::GetInstance().getID());
 
 
     EssayAnswers obanswers;
@@ -97,6 +97,7 @@ void ExamUI::remoteSubmit()
         ans_string.append(",");
     }
     obanswers.setAnswers(ans_string);
+    obanswers.setStudentId(Student::GetInstance().getID());
 
     AllAnswers allanswers;
     allanswers.setPaperId(_currentPaper.getPaperId());

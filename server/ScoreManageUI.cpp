@@ -15,21 +15,19 @@ ScoreManageUI::ScoreManageUI(QWidget *parent) :
     connect(tableWidget_paper,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(paperChange(QTableWidgetItem*)));
 }
 
-
-
 ScoreManageUI::~ScoreManageUI()
 {
 
 }
 
-void ScoreManageUI::showPapers(QList<Paper *> pList)
+void ScoreManageUI::showPapers(QList<Paper *> paperList)
 {
-    tableWidget_paper->setRowCount(pList.count());
-    for(int i = 0; i < pList.count(); i++)
+    tableWidget_paper->setRowCount(paperList.count());
+    for(int i = 0; i < paperList.count(); i++)
     {
 
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(pList.at(i)->getPaperId()));
-        QTableWidgetItem *description = new QTableWidgetItem(pList.at(i)->getDescription());
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(paperList.at(i)->getPaperId()));
+        QTableWidgetItem *description = new QTableWidgetItem(paperList.at(i)->getDescription());
         tableWidget_paper->setItem(i,0,id);
         tableWidget_paper->setItem(i,1,description);
     }

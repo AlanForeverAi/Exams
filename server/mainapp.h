@@ -35,7 +35,7 @@ signals:
     void updateUserTable(QList<Student*>);//更新考试控制界面的考生表
     void showUserByPaperId(QList<Student*>);//按试卷显示考生
     void showSubAnswer(QVector<QString>);//显示主观题答案
-    void showUser(QList<Student*>,QList<USER*>);//显示用户
+    void showUser(QList<Student*>,QList<User*>);//显示用户
     void showCombo(QList<Combo*>);//显示成绩
     void LoginOK();//登录成功信号
     void getcurrentPaperTime(int);//取得当前考试剩余时间
@@ -61,14 +61,14 @@ public slots:
     void endExam();//结束考试
     bool userLogin(Student student);//考生登录
     void sendPaperTime(int,int);//发送带有当前剩余时间的试卷
-    bool managerLogin(USER);//管理员登录
+    bool managerLogin(User);//管理员登录
     QList<Student*> getUserByPaperId(int,QString);//按试卷id查找考生
     void getSubAnswer(int,QString);//取得主观题答案
     void submitSubMark(QStringList);//提交主观题评分
     void getUser();//取得用户信息（考生、管理员）
     void addUser(Student *);//添加考生
     void modifyUser(Student);//修改考生
-    void addManager(USER *);//添加管理员
+    void addManager(User *);//添加管理员
     void deleteUserId(QString);//删除考生
     void deleteManagerId(int);//删除管理员
     void getCombo_id(QString );//根据userid 获得成绩

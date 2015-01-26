@@ -12,8 +12,6 @@ class ExamCtrlUI:public QWidget,public Ui::ExamCtrlUI
 public:
     ExamCtrlUI(QWidget *parent=0);
     ~ExamCtrlUI();
-
-
 signals:
     void sendPaper(int);
     void endExam();
@@ -23,7 +21,6 @@ private slots:
     void showPapers(QList<Paper*>);
     void on_pushButton_send_clicked();
     void on_pushButton_begin_clicked();
-
     void counttimeUpdate();
     void datetimeUpdate();
     void updateUserTable(QList<Student*>);
@@ -33,7 +30,6 @@ private:
     QTimer *_countTimer;
     QTimer *_dateTimer;
     QTime _countTime;
-
 };
 
 

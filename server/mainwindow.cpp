@@ -18,18 +18,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     _statusBar = statusBar();
     this->on_action_login_triggered();
-
 }
 
 MainWindow::~MainWindow()
 {
     delete _ui;
-
 }
 
 void MainWindow::do_QuestionsManager()
 {
-
     QuestionsManageUI *queManager  =  new QuestionsManageUI();
     connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),queManager,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(queManager,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SIGNAL(addOb_Questoins(ChoiceQuestions*)));
@@ -62,7 +59,7 @@ void MainWindow::do_makepaper()
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
     connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),make_paper,SLOT(showSelectUser(QList<Student*>)));
     connect(make_paper,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)));
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<USER*>)),make_paper,SLOT(showAllUser(QList<Student*>,QList<USER*>)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),make_paper,SLOT(showAllUser(QList<Student*>,QList<User*>)));
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
@@ -111,10 +108,10 @@ void MainWindow::do_subscore()
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<USER*>)),mem_Manage,SLOT(showUser(QList<Student*>,QList<USER*>)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),mem_Manage,SLOT(showUser(QList<Student*>,QList<User*>)));
     connect(mem_Manage,SIGNAL(addUser(Student*)),this,SIGNAL(addUser(Student*)));
     connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
-    connect(mem_Manage,SIGNAL(addManager(USER*)),this,SIGNAL(addManager(USER*)));
+    connect(mem_Manage,SIGNAL(addManager(User*)),this,SIGNAL(addManager(User*)));
     connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
     connect(mem_Manage,SIGNAL(deleteUserId(QString)),this,SIGNAL(deleteUserId(QString)));
     connect(mem_Manage->pushButton_delete_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
@@ -129,7 +126,7 @@ void MainWindow::do_memmanage()
 void MainWindow::do_login()
 {
     LoginUI *loginPage = new LoginUI;
-    connect(loginPage,SIGNAL(loginSignal(USER)),this,SIGNAL(loginSignal(USER)));
+    connect(loginPage,SIGNAL(loginSignal(User)),this,SIGNAL(loginSignal(User)));
     this->setCentralWidget(loginPage);
     _statusBar->showMessage(QString("登录"));
 }
@@ -270,7 +267,7 @@ void MainWindow::endExamMode()
 //设置菜单栏的按钮是否活动
 void MainWindow::LoginOK()
 {
-    if(USER::GetInstance().getType()  ==  1)
+    if(User::GetInstance().getType()  ==  1)
     {
         _ui->action_memmanager->setEnabled(true);
         _ui->action_config->setEnabled(true);

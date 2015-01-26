@@ -43,7 +43,7 @@ void QuestionsManageUI::add()
         if(radio_C->isChecked()) answer.append("C-");
         if(radio_D->isChecked()) answer.append("D-");
         choiceQuestions->setAnswer(answer);
-        choiceQuestions->setQuestionType(QString(USER::GetInstance().getType()));
+        choiceQuestions->setQuestionType(QString(User::GetInstance().getType()));
         emit this->addOb_Questoins(choiceQuestions);
         QMessageBox::about(this,QStringLiteral("信息"),QStringLiteral("添加成功！"));
         delete(choiceQuestions);
@@ -52,7 +52,7 @@ void QuestionsManageUI::add()
     {
         EssayQuestions *essayQuestions = new EssayQuestions;
         essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-        essayQuestions->setQuestionType(QString(USER::GetInstance().getType()));
+        essayQuestions->setQuestionType(QString(User::GetInstance().getType()));
         qDebug()<<essayQuestions->getQuestionTitle();
         emit this->addSub_Questoins(essayQuestions);
         delete(essayQuestions);
@@ -121,7 +121,7 @@ void QuestionsManageUI::modify()
             if(radio_C->isChecked()) answer.append("C-");
             if(radio_D->isChecked()) answer.append("D-");
             choiceQuestions->setAnswer(answer);
-            choiceQuestions->setQuestionType(QString(USER::GetInstance().getType()));
+            choiceQuestions->setQuestionType(QString(User::GetInstance().getType()));
             emit this->modifyOb_Questoins(choiceQuestions);
             delete(choiceQuestions);
         }
@@ -130,7 +130,7 @@ void QuestionsManageUI::modify()
             EssayQuestions *essayQuestions = new EssayQuestions;
             essayQuestions->setQuestionId(subTable->item(subTable->currentRow(),0)->text().toInt());
             essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-            essayQuestions->setQuestionType(QString(USER::GetInstance().getType()));
+            essayQuestions->setQuestionType(QString(User::GetInstance().getType()));
             emit this->modifySub_Questoins(essayQuestions);
             delete(essayQuestions);
         }

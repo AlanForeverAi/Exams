@@ -98,13 +98,13 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
     connect(&_window,SIGNAL(getUser()),this,SLOT(getUser()));//mainwindow发，mainapp收
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<USER*>)),&_window,SIGNAL(showUser(QList<Student*>,QList<USER*>)));
+    connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),&_window,SIGNAL(showUser(QList<Student*>,QList<User*>)));
     connect(&_window,SIGNAL(addUser(Student*)),this,SLOT(addUser(Student *)));
-    connect(&_window,SIGNAL(addManager(USER*)),this,SLOT(addManager(USER*)));
+    connect(&_window,SIGNAL(addManager(User*)),this,SLOT(addManager(User*)));
     connect(&_window,SIGNAL(deleteUserId(QString)),this,SLOT(deleteUserId(QString)));
     connect(&_window,SIGNAL(deleteManagerId(int)),this,SLOT(deleteManagerId(int)));
     //login
-    connect(&_window,SIGNAL(loginSignal(USER)),this,SLOT(managerLogin(USER)));
+    connect(&_window,SIGNAL(loginSignal(User)),this,SLOT(managerLogin(User)));
     connect(this,SIGNAL(LoginOK()),&_window,SLOT(LoginOK()));
     //scomem
     connect(&_window,SIGNAL(getCombo_id(QString)),this,SLOT(getCombo_id(QString)));
@@ -246,12 +246,12 @@ void MainApp::modifySub_Questoins(EssayQuestions *s_que)
 
 void MainApp::deleteOb_Questoins(int id)
 {
-    _DBM->deleteObQuestions(id);
+    _DBM->deleteObQuestionsByID(id);
 }
 
 void MainApp::deleteSub_Questoins(int id)
 {
-    _DBM->deleteSubQuestions(id);
+    _DBM->deleteSubQuestionsByID(id);
 }
 
 void MainApp::addPaper(Paper paper)
@@ -420,7 +420,7 @@ bool MainApp::userLogin(Student student)
 {
     int isIn = 0;
     QVariant v;
-    QSqlQuery query = _DBM->login(student.getID(),student.getPassword());
+    QSqlQuery query = _DBM->studentLogin(student.getID(),student.getPassword());
     if(query.size() > 0)
     {
         for(int i = 0; i < _userList.count(); i++)
@@ -483,7 +483,7 @@ void MainApp::sendPaperTime(int descriptor,int time)
 }
 
 //登录serveruser验证。。。
-bool MainApp::managerLogin(USER m)
+bool MainApp::managerLogin(User m)
 {
     QSqlQuery query = _DBM->managerLogin(m.getId(),m.getPassword());
     if(query.size() > 0)
@@ -531,7 +531,7 @@ void MainApp::removeUser(int descriptor)
 void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 {
 
-    bool isdelete = _DBM->deletePaperMark(pid);
+//    bool isdelete = _DBM->deletePaperMark(pid);
     QMessageBox msg;
     for(int i = 0; i < ulist.count(); i++)
     {
@@ -555,7 +555,12 @@ void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 
 void MainApp::dealObAnswers(EssayAnswers obans)
 {
+//    std::cout << obans.getPaperId() << " " << obans.getStudentId().toStdString() << " " << obans.getAnswers().toStdString() << std::endl;
     _DBM->updateObAnswers(obans.getPaperId(),obans.getStudentId(),obans.getAnswers());
+
+//    QString answers = obans.getAnswers();
+//    QString standardAnswers;
+
 
     QString ans_string = obans.getAnswers();
     QStringList ansList;
@@ -567,10 +572,11 @@ void MainApp::dealObAnswers(EssayAnswers obans)
     }
     QString eachObmark;
     QString obMarkString;
-    eachObmark = QString::number(_mainPaper.getTotalMark()*_mainPaper.getPercent()/100/_mainPaper.choiceQuestionList.count());
+    eachObmark = QString::number(_mainPaper.getTotalMark() * _mainPaper.getPercent() / 100 / _mainPaper.choiceQuestionList.count());
     for(int i = 0; i < ansList.count(); i++)
     {
         QString correctAns = _mainPaper.choiceQuestionList.value(i).getAnswer();
+//        std::cout << correctAns.toStdString() << std::endl;
         if(ansList.at(i) == correctAns)
         {
 
@@ -609,7 +615,7 @@ void MainApp::submitSubMark(QStringList submark)
         temp = ob.indexOf(",",temp)+1;
     }
     temp = 0;
-    while(temp<sub.length())
+    while(temp < sub.length())
     {
         totalmark += sub.mid(temp,sub.indexOf(",",temp)-temp).toInt();
         temp = sub.indexOf(",",temp)+1;
@@ -677,7 +683,7 @@ void MainApp::getCombo_id(QString a)
     QSqlQuery query;
     query = _DBM->queryPaperMark2(a);
 
-    QSqlQuery s = _DBM->selectStudentById(a);
+    QSqlQuery s = _DBM->selectStudentByID(a);
     QString temp;
     if(s.next())
     {
@@ -689,7 +695,6 @@ void MainApp::getCombo_id(QString a)
         if(query.value(6).toString() == QString("已批改"))
         {
             Combo *b = new Combo;
-
             //from user
             b->setUserId(a);
             b->setName(temp);
@@ -700,13 +705,13 @@ void MainApp::getCombo_id(QString a)
             QString ob = query.value(0).toString();
             QString sub = query.value(1).toString();
             int t = 0;
-            while(t<ob.length())
+            while(t < ob.length())
             {
                 obmark += ob.mid(t,ob.indexOf(",",t)-t).toInt();
                 t = ob.indexOf(",",t)+1;
             }
             t = 0;
-            while(t<sub.length())
+            while(t < sub.length())
             {
                 submark += sub.mid(t,sub.indexOf(",",t)-t).toInt();
                 t = sub.indexOf(",",t)+1;
@@ -752,13 +757,13 @@ void MainApp::getCombo_paperid(int id)
             QString ob = query.value(0).toString();
             QString sub = query.value(1).toString();
             int t = 0;
-            while(t<ob.length())
+            while(t < ob.length())
             {
                 obmark += ob.mid(t,ob.indexOf(",",t)-t).toInt();
                 t = ob.indexOf(",",t)+1;
             }
             t = 0;
-            while(t<sub.length())
+            while(t < sub.length())
             {
                 submark += sub.mid(t,sub.indexOf(",",t)-t).toInt();
                 t = sub.indexOf(",",t)+1;
@@ -767,7 +772,7 @@ void MainApp::getCombo_paperid(int id)
             b->setSubmark(submark);
             //from paper
             b->setPaperId(query.value(3).toInt());
-            QSqlQuery h = _DBM->selectStudentById(query.value(4).toString());
+            QSqlQuery h = _DBM->selectStudentByID(query.value(4).toString());
             if(h.next())
             {
                 b->setUserId(h.value(0).toString());
@@ -786,7 +791,7 @@ void MainApp::getCombo_paperid(int id)
 void MainApp::getUser()
 {
     QList<Student*> userList;
-    QList<USER*> managerList;
+    QList<User*> managerList;
 
     QSqlQuery query;
     query = _DBM->selectStudent();
@@ -806,7 +811,7 @@ void MainApp::getUser()
     query = _DBM->selectServerUser();
     while(query.next())
     {
-        USER *managerptr = new USER();
+        User *managerptr = new User();
         managerptr->setId(query.value(0).toInt());
         managerptr->setName(query.value(1).toString());
         managerptr->setPassword(query.value(2).toString());
@@ -826,7 +831,7 @@ void MainApp::addUser(Student *user)
 }
 
 //serveruser用户添加
-void MainApp::addManager(USER *m)
+void MainApp::addManager(User *m)
 {
     _DBM->insertServerUser(m->getId(),m->getName(),m->getPassword());
 }
@@ -843,7 +848,7 @@ void MainApp::deleteUserId(QString a)
 
 void MainApp::deleteManagerId(int a)
 {
-    _DBM->deleteServerUserID(a);
+    _DBM->deleteServerUserByID(a);
 }
 
 void MainApp::outputUser()
