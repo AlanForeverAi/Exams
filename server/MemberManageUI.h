@@ -24,7 +24,8 @@ private slots:
     void on_pushButton_delete_user_clicked();
     void on_pushButton_search_clicked();
     void on_pushButton_all_clicked();
-    void showUser(QList<Student*>, QList<User *> );
+    void showUser(QList<Student*>, QList<User *>);
+    void showUserType(QList<QString>);
     void textClear();
 private:
     QList<Student *> userList;

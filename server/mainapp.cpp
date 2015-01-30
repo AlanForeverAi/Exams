@@ -1,4 +1,5 @@
 ﻿#include"mainapp.h"
+#include "data.h"
 #include <QMessageBox>
 #include <QDebug>
 MainApp::MainApp()
@@ -49,7 +50,10 @@ void MainApp::readConfig()
 
 void MainApp::iniDBManager()
 {
-    _DBM = new DBManager(_dbName,_dbUser,_dbPassword);
+//    _DBM = new DBManager(_dbName,_dbUser,_dbPassword);
+    _DBM = new DBManager();
+    _DBM->setConfig(_dbName, _dbUser, _dbPassword);
+//    DBManager::getInstance().setConfig(_dbName, _dbUser, _dbPassword);
 }
 
 void MainApp::iniServer()
@@ -97,6 +101,8 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&_window,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
+    connect(&_window, SIGNAL(getUserType()), this, SLOT(getUserType()));
+    connect(this, SIGNAL(showUserType(QList<QString>)), &_window, SIGNAL(showUserType(QList<QString>)));
     connect(&_window,SIGNAL(getUser()),this,SLOT(getUser()));//mainwindow发，mainapp收
     connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),&_window,SIGNAL(showUser(QList<Student*>,QList<User*>)));
     connect(&_window,SIGNAL(addUser(Student*)),this,SLOT(addUser(Student *)));
@@ -142,20 +148,20 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
             if(_serverState == STATE_EXAMING)
             {
 
-                QPushButton *agree = new QPushButton(QString("批准"));
-                QPushButton *reject = new QPushButton(QString("拒绝"));
-                msg.setText(QString("考生 %1 请求考试，\n是否批准？").arg(student.getID()));
+                QPushButton *agree = new QPushButton(QStringLiteral("批准"));
+                QPushButton *reject = new QPushButton(QStringLiteral("拒绝"));
+                msg.setText(QStringLiteral("考生 %1 请求考试，\n是否批准？").arg(student.getID()));
                 msg.addButton(agree,QMessageBox::AcceptRole);
                 msg.addButton(reject,QMessageBox::RejectRole);
                 int ret = msg.exec();
                 if(ret == QMessageBox::AcceptRole)
                 {
                     emit this->sendData(descriptor,MSG_BEGINEXAM,0);
-                    this->userStateChange(descriptor,QString("考试中"));
+                    this->userStateChange(descriptor,QStringLiteral("考试中"));
                 }
                 if(ret == QMessageBox::RejectRole)
                 {
-                    QString errorstring = QString("考试要求被拒绝\n请联系工作人员");
+                    QString errorstring = QStringLiteral("考试要求被拒绝\n请联系工作人员");
                     v.setValue(errorstring);
                     emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
                 }
@@ -177,7 +183,7 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 
     case MSG_ANSWER:
         answers = v.value<AllAnswers>();
-        this->userStateChange(descriptor,QString("已经交卷"));
+        this->userStateChange(descriptor,QStringLiteral("已经交卷"));
         this->updateUserTable(_userList);
         this->dealObAnswers(answers.getObanswer());
         this->dealSubAnswers(answers.getSubanswer());
@@ -206,7 +212,7 @@ void MainApp::getQuestions()
         choicequestion->setQuestionId(query.value(0).toInt());
         choicequestion->setQuestionTitle(query.value(1).toString());
         choicequestion->setAnswer(query.value(2).toString());
-        choicequestion->setQuestionType(query.value(3).toString());
+        choicequestion->setSubjectID(query.value(3).toString());
         choiceList.append(choicequestion);
     }
 
@@ -217,7 +223,7 @@ void MainApp::getQuestions()
         EssayQuestions *sub_que = new EssayQuestions;
         sub_que->setQuestionId(query.value(0).toInt());
         sub_que->setQuestionTitle(query.value(1).toString());
-        sub_que->setQuestionType(query.value(2).toString());
+        sub_que->setSubjectID(query.value(2).toString());
         essayList.append(sub_que);
     }
     emit this->showQuestions(choiceList,essayList);         //传递题目列表。。。。。
@@ -226,22 +232,22 @@ void MainApp::getQuestions()
 
 void MainApp::addOb_Questions(ChoiceQuestions *o_que)
 {
-    _DBM->insertOb(NULL,o_que->getQuestionType(),o_que->getQuestionTitle(),o_que->getAnswer());
+    _DBM->insertOb(NULL,o_que->getSubjectID(),o_que->getQuestionTitle(),o_que->getAnswer());
 }
 
 void MainApp::addSub_Questions(EssayQuestions *s_que)
 {
-    _DBM->insertSub(NULL,s_que->getQuestionType(),s_que->getQuestionTitle());
+    _DBM->insertSub(NULL,s_que->getSubjectID(),s_que->getQuestionTitle());
 }
 
 void MainApp::modifyOb_Questoins(ChoiceQuestions *o_que)
 {
-    _DBM->alterObQuestions(o_que->getQuestionId(),o_que->getQuestionType(),o_que->getQuestionTitle(),o_que->getAnswer());
+    _DBM->alterObQuestions(o_que->getQuestionId(),o_que->getSubjectID(),o_que->getQuestionTitle(),o_que->getAnswer());
 }
 
 void MainApp::modifySub_Questoins(EssayQuestions *s_que)
 {
-    _DBM->alterSubQuestions(s_que->getQuestionId(),s_que->getQuestionType(),s_que->getQuestionTitle());
+    _DBM->alterSubQuestions(s_que->getQuestionId(),s_que->getSubjectID(),s_que->getQuestionTitle());
 }
 
 void MainApp::deleteOb_Questoins(int id)
@@ -351,7 +357,7 @@ Paper MainApp::preparePaper(int id)
             ob_que->setQuestionId(query.value(0).toInt());
             ob_que->setQuestionTitle(query.value(1).toString());
             ob_que->setAnswer(query.value(2).toString());
-            ob_que->setQuestionType(query.value(3).toString());
+            ob_que->setSubjectID(query.value(3).toString());
 
             paper.choiceQuestionList.append(*ob_que);
         }
@@ -367,7 +373,7 @@ Paper MainApp::preparePaper(int id)
             EssayQuestions *sub_que = new EssayQuestions;
             sub_que->setQuestionId(query.value(0).toInt());
             sub_que->setQuestionTitle(query.value(1).toString());
-            sub_que->setQuestionType(query.value(2).toString());
+            sub_que->setSubjectID(query.value(2).toString());
             paper.essayQuestionbList.append(*sub_que);
         }
     }
@@ -377,8 +383,8 @@ Paper MainApp::preparePaper(int id)
 void MainApp::sendPaper(int id)
 {
     _mainPaper = this->preparePaper(id);
-    _userList = this->getUserByPaperId(id,QString("未完成"));
-    this->userStateChange(-1,QString("未登录"));
+    _userList = this->getUserByPaperId(id,QStringLiteral("未完成"));
+    this->userStateChange(-1,QStringLiteral("未登录"));
 
     QVariant v;
     v.setValue(_mainPaper);
@@ -396,8 +402,8 @@ void MainApp::beginExam()
     _serverState = STATE_EXAMING;
     for(int i = 0; i < _userList.count(); i++)
     {
-        if(_userList.at(i)->getState() == QString("等待"))
-            this->userStateChange(_userList.at(i)->getSockDescriptor(),QString("考试中"));
+        if(_userList.at(i)->getState() == QStringLiteral("等待"))
+            this->userStateChange(_userList.at(i)->getSockDescriptor(),QStringLiteral("考试中"));
     }
     emit this->sendData(-1,MSG_BEGINEXAM,0);
 
@@ -408,7 +414,7 @@ void MainApp::endExam()
     _serverState = STATE_NOEXAM;
     for(int i = 0; i < _userList.count(); i++)
     {
-        if(_userList.at(i)->getState() == QString("考试中"))
+        if(_userList.at(i)->getState() == QStringLiteral("考试中"))
         {
             emit this->sendData(_userList.at(i)->getSockDescriptor(),MSG_ENDEXAM,0);
         }
@@ -519,10 +525,10 @@ void MainApp::removeUser(int descriptor)
     {
         if(_userList.at(i)->getSockDescriptor() == descriptor)
         {
-            if(_userList.at(i)->getState() != QString("已经交卷"))
+            if(_userList.at(i)->getState() != QStringLiteral("已经交卷"))
             {
                 _userList.at(i)->setHostName("");
-                this->userStateChange(descriptor,QString("未登录"));
+                this->userStateChange(descriptor,QStringLiteral("未登录"));
             }
         }
     }
@@ -544,12 +550,12 @@ void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
         else
         {
             QString name = ulist.at(i)->getName();
-            QString text = QString("学生 '%1' 添加失败，已完成该次考试的学生不能再次添加").arg(name);
+            QString text = QStringLiteral("学生 '%1' 添加失败，已完成该次考试的学生不能再次添加").arg(name);
             msg.setText(text);
             msg.exec();
         }
     }
-    msg.setText(QString("操作完成"));
+    msg.setText(QStringLiteral("操作完成"));
     msg.exec();
 }
 
@@ -692,7 +698,7 @@ void MainApp::getCombo_id(QString a)
 
     while(query.next())
     {
-        if(query.value(6).toString() == QString("已批改"))
+        if(query.value(6).toString() == QStringLiteral("已批改"))
         {
             Combo *b = new Combo;
             //from user
@@ -747,7 +753,7 @@ void MainApp::getCombo_paperid(int id)
 
     while(query.next())
     {
-        if(query.value(6).toString() == QString("已批改"))
+        if(query.value(6).toString() == QStringLiteral("已批改"))
         {
             Combo *b = new Combo;
             b->setPaperId(id);
@@ -788,36 +794,50 @@ void MainApp::getCombo_paperid(int id)
     emit this->showCombo(comboList);
 }
 
+void MainApp::getUserType()
+{
+    QList<QString> typeList;
+    QSqlQuery query;
+    query = _DBM->selectUserType();
+
+    while(query.next()){
+        typeList.append(query.value(1).toString());
+    }
+
+    emit this->showUserType(typeList);
+}
+
 void MainApp::getUser()
 {
-    QList<Student*> userList;
-    QList<User*> managerList;
+    QList<Student*> studentList;
+    QList<User*> userList;
 
     QSqlQuery query;
     query = _DBM->selectStudent();
 
     while(query.next())
     {
-        Student *userptr = new Student();
-        userptr->setID(query.value(0).toString());
-        userptr->setName(query.value(1).toString());
-        userptr->setGrade(query.value(2).toInt());
-        userptr->setClass(query.value(3).toInt());
-        userptr->setPassword(query.value(4).toString());
-        userList.append(userptr);
+        Student *studentptr = new Student();
+        studentptr->setID(query.value(0).toString());
+        studentptr->setName(query.value(1).toString());
+        studentptr->setGrade(query.value(2).toInt());
+        studentptr->setClass(query.value(3).toInt());
+        studentptr->setPassword(query.value(4).toString());
+        studentList.append(studentptr);
     }
 
     query.clear();
-    query = _DBM->selectServerUser();
+    query = _DBM->selectUser();
     while(query.next())
     {
-        User *managerptr = new User();
-        managerptr->setId(query.value(0).toInt());
-        managerptr->setName(query.value(1).toString());
-        managerptr->setPassword(query.value(2).toString());
-        managerList.append(managerptr);
+        User *userptr = new User();
+        userptr->setId(query.value(0).toInt());
+        userptr->setName(query.value(1).toString());
+        userptr->setPassword(query.value(2).toString());
+        userptr->setSubject(query.value(3).toString());
+        userList.append(userptr);
     }
-    emit this->showUser(userList,managerList);
+    emit this->showUser(studentList,userList);
 }
 
 void MainApp::addUser(Student *user)
@@ -833,7 +853,10 @@ void MainApp::addUser(Student *user)
 //serveruser用户添加
 void MainApp::addManager(User *m)
 {
-    _DBM->insertServerUser(m->getId(),m->getName(),m->getPassword());
+    QSqlQuery query;
+    query = _DBM->selectUserTypeBySubject(m->getSubject());
+    query.first();
+    _DBM->insertServerUser(m->getId(),m->getName(),m->getPassword(), query.value(0).toInt());
 }
 
 void MainApp::modifyUser(Student u)
@@ -870,7 +893,7 @@ void MainApp::outputUser()
     }
     _IOM->outputUser(userList);
     QMessageBox msg;
-    msg.setText(QString("导出成功。"));
+    msg.setText(QStringLiteral("导出成功。"));
     msg.exec();
 }
 
@@ -885,12 +908,12 @@ void MainApp::outputOb()
         ob_que->setQuestionId(query.value(0).toInt());
         ob_que->setQuestionTitle(query.value(1).toString());
         ob_que->setAnswer(query.value(2).toString());
-        ob_que->setQuestionType(query.value(3).toString());
+        ob_que->setSubjectID(query.value(3).toString());
         obList.append(ob_que);
     }
     _IOM->outputOb(obList);
     QMessageBox msg;
-    msg.setText(QString("导出成功。"));
+    msg.setText(QStringLiteral("导出成功。"));
     msg.exec();
 }
 
@@ -903,12 +926,12 @@ void MainApp::outputSub()
         EssayQuestions *sub_que = new EssayQuestions;
         sub_que->setQuestionId(query.value(0).toInt());
         sub_que->setQuestionTitle(query.value(1).toString());
-        sub_que->setQuestionType(query.value(2).toString());
+        sub_que->setSubjectID(query.value(2).toString());
         subList.append(sub_que);
     }
     _IOM->outputSub(subList);
     QMessageBox msg;
-    msg.setText(QString("导出成功。"));
+    msg.setText(QStringLiteral("导出成功。"));
     msg.exec();
 }
 
@@ -931,7 +954,7 @@ void MainApp::outputPaper()
     }
     _IOM->outputPaper(paperList);
     QMessageBox msg;
-    msg.setText(QString("导出成功。"));
+    msg.setText(QStringLiteral("导出成功。"));
     msg.exec();
 }
 
@@ -949,7 +972,7 @@ void MainApp::inputUser(QString path)
             userlist.at(i)->getPassword());
     }
     QMessageBox msg;
-    msg.setText(QString("导入成功。"));
+    msg.setText(QStringLiteral("导入成功。"));
     msg.exec();
 }
 
@@ -959,10 +982,10 @@ void MainApp::inputOb(QString path)
     oblist = _IOM->inputOb(path);
     for(int i = 0; i < oblist.count(); i++)
     {
-        _DBM->insertOb(oblist.at(i)->getQuestionId(),oblist.at(i)->getQuestionType(),oblist.at(i)->getQuestionTitle(),oblist.at(i)->getAnswer());
+        _DBM->insertOb(oblist.at(i)->getQuestionId(),oblist.at(i)->getSubjectID(),oblist.at(i)->getQuestionTitle(),oblist.at(i)->getAnswer());
     }
     QMessageBox msg;
-    msg.setText(QString("导入成功。"));
+    msg.setText(QStringLiteral("导入成功。"));
     msg.exec();
 }
 
@@ -972,10 +995,10 @@ void MainApp::inputSub(QString path)
     sublist = _IOM->inputSub(path);
     for(int i = 0; i < sublist.count(); i++)
     {
-        _DBM->insertSub(sublist.at(i)->getQuestionId(),sublist.at(i)->getQuestionType(),sublist.at(i)->getQuestionTitle());
+        _DBM->insertSub(sublist.at(i)->getQuestionId(),sublist.at(i)->getSubjectID(),sublist.at(i)->getQuestionTitle());
     }
     QMessageBox msg;
-    msg.setText(QString("导入成功。"));
+    msg.setText(QStringLiteral("导入成功。"));
     msg.exec();
 }
 
@@ -994,7 +1017,7 @@ void MainApp::inputPaper(QString path)
             plist.at(i)->getTime());
     }
     QMessageBox msg;
-    msg.setText(QString("导入成功。"));
+    msg.setText(QStringLiteral("导入成功。"));
     msg.exec();
 }
 
@@ -1008,6 +1031,7 @@ void MainApp::sendInfo(QStringList list)
         _infoList.append(",");
     }
 }
+
 
 void MainApp::delete_score(int pid,qlonglong uid)
 {

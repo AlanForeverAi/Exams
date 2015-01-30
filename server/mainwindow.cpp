@@ -40,7 +40,7 @@ void MainWindow::do_QuestionsManager()
     connect(queManager->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(queManager);
     emit this->getQuestions();
-    _statusBar->showMessage(QString("题库管理"));
+    _statusBar->showMessage(QStringLiteral("题库管理"));
 }
 
 void MainWindow::do_makepaper()
@@ -65,7 +65,7 @@ void MainWindow::do_makepaper()
     emit this->getAllPaper();
     emit this->getQuestions();
     emit this->getUser();
-    _statusBar->showMessage(QString("试卷管理"));
+    _statusBar->showMessage(QStringLiteral("试卷管理"));
 }
 
 void MainWindow::do_examctrl()
@@ -85,7 +85,7 @@ void MainWindow::do_examctrl()
     this->setCentralWidget(examctrl);
     emit this->getAllPaper();
     emit this->getUserList();
-    _statusBar->showMessage(QString("考试控制"));
+    _statusBar->showMessage(QStringLiteral("考试控制"));
 
 }
 
@@ -101,16 +101,17 @@ void MainWindow::do_subscore()
     connect(sub_score->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     emit this->getAllPaper();
     this->setCentralWidget(sub_score);
-    _statusBar->showMessage(QString("在线评卷"));
+    _statusBar->showMessage(QStringLiteral("在线评卷"));
 
 }
 
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),mem_Manage,SLOT(showUser(QList<Student*>,QList<User*>)));
+    connect(this, SIGNAL(showUserType(QList<QString>)), mem_Manage, SLOT(showUserType(QList<QString>)));
+    connect(this, SIGNAL(showUser(QList<Student*>,QList<User*>)),mem_Manage, SLOT(showUser(QList<Student*>, QList<User*>)));
     connect(mem_Manage,SIGNAL(addUser(Student*)),this,SIGNAL(addUser(Student*)));
-    connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
+    connect(mem_Manage->pushButton_add_user, SIGNAL(clicked()), this, SIGNAL(getUser()));
     connect(mem_Manage,SIGNAL(addManager(User*)),this,SIGNAL(addManager(User*)));
     connect(mem_Manage->pushButton_add_user,SIGNAL(clicked()),this,SIGNAL(getUser()));
     connect(mem_Manage,SIGNAL(deleteUserId(QString)),this,SIGNAL(deleteUserId(QString)));
@@ -120,7 +121,8 @@ void MainWindow::do_memmanage()
     connect(mem_Manage->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(mem_Manage);
     emit this->getUser();
-    _statusBar->showMessage(QString("用户管理"));
+    emit this->getUserType();
+    _statusBar->showMessage(QStringLiteral("用户管理"));
 }
 
 void MainWindow::do_login()
@@ -128,7 +130,7 @@ void MainWindow::do_login()
     LoginUI *loginPage = new LoginUI;
     connect(loginPage,SIGNAL(loginSignal(User)),this,SIGNAL(loginSignal(User)));
     this->setCentralWidget(loginPage);
-    _statusBar->showMessage(QString("登录"));
+    _statusBar->showMessage(QStringLiteral("登录"));
 }
 
 void MainWindow::do_mainmenu()
@@ -143,14 +145,14 @@ void MainWindow::do_mainmenu()
     connect(mainmenu,SIGNAL(action_scoremanage()),this,SLOT(on_action_scomanage_triggered()));
     connect(mainmenu,SIGNAL(action_inoutput()),this,SLOT(on_action_inoutput_triggered()));
     this->setCentralWidget(mainmenu);
-    this->statusBar()->showMessage(QString("主菜单"));
+    this->statusBar()->showMessage(QStringLiteral("主菜单"));
 }
 void MainWindow::do_config()
 {
     ConfigUI *config = new ConfigUI;
     connect(config->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(config);
-    _statusBar->showMessage(QString("设置"));
+    _statusBar->showMessage(QStringLiteral("设置"));
 }
 
 void MainWindow::do_scomanage()
@@ -166,7 +168,7 @@ void MainWindow::do_scomanage()
     emit this->getAllPaper();
     this->setCentralWidget(score_manage);
 
-    _statusBar->showMessage(QString("成绩管理"));
+    _statusBar->showMessage(QStringLiteral("成绩管理"));
 }
 
 void MainWindow::do_inoutput()
@@ -182,7 +184,7 @@ void MainWindow::do_inoutput()
     connect(io,SIGNAL(outputPaper()),this,SIGNAL(outputPaper()));
     connect(io->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(io);
-    _statusBar->showMessage(QString("导入导出"));
+    _statusBar->showMessage(QStringLiteral("导入导出"));
 }
 
 void MainWindow::on_action_QuestionsManager_triggered()

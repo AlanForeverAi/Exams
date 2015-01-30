@@ -43,7 +43,7 @@ void QuestionsManageUI::add()
         if(radio_C->isChecked()) answer.append("C-");
         if(radio_D->isChecked()) answer.append("D-");
         choiceQuestions->setAnswer(answer);
-        choiceQuestions->setQuestionType(QString(User::GetInstance().getType()));
+        choiceQuestions->setSubjectID(QString(User::GetInstance().getType()));
         emit this->addOb_Questoins(choiceQuestions);
         QMessageBox::about(this,QStringLiteral("信息"),QStringLiteral("添加成功！"));
         delete(choiceQuestions);
@@ -52,7 +52,7 @@ void QuestionsManageUI::add()
     {
         EssayQuestions *essayQuestions = new EssayQuestions;
         essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-        essayQuestions->setQuestionType(QString(User::GetInstance().getType()));
+        essayQuestions->setSubjectID(QString(User::GetInstance().getType()));
         qDebug()<<essayQuestions->getQuestionTitle();
         emit this->addSub_Questoins(essayQuestions);
         delete(essayQuestions);
@@ -121,7 +121,7 @@ void QuestionsManageUI::modify()
             if(radio_C->isChecked()) answer.append("C-");
             if(radio_D->isChecked()) answer.append("D-");
             choiceQuestions->setAnswer(answer);
-            choiceQuestions->setQuestionType(QString(User::GetInstance().getType()));
+            choiceQuestions->setSubjectID(QString(User::GetInstance().getType()));
             emit this->modifyOb_Questoins(choiceQuestions);
             delete(choiceQuestions);
         }
@@ -130,7 +130,7 @@ void QuestionsManageUI::modify()
             EssayQuestions *essayQuestions = new EssayQuestions;
             essayQuestions->setQuestionId(subTable->item(subTable->currentRow(),0)->text().toInt());
             essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-            essayQuestions->setQuestionType(QString(User::GetInstance().getType()));
+            essayQuestions->setSubjectID(QString(User::GetInstance().getType()));
             emit this->modifySub_Questoins(essayQuestions);
             delete(essayQuestions);
         }
@@ -162,7 +162,7 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
         QTableWidgetItem *ansC = new QTableWidgetItem(s_ansC);
         QTableWidgetItem *ansD = new QTableWidgetItem(s_ansD);
         QTableWidgetItem *correctAns = new QTableWidgetItem(obList.at(i)->getAnswer());
-        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getSubjectID());
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
         maintitle->setToolTip(maintitle->text());
         obTable->setItem(i,0,id);
@@ -174,9 +174,9 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
         obTable->setItem(i,6,ansD);
         obTable->setItem(i,7,correctAns);
 
-        if(!_typeList.contains(obList.at(i)->getQuestionType()))
+        if(!_typeList.contains(obList.at(i)->getSubjectID()))
         {
-            _typeList<<obList.at(i)->getQuestionType();
+            _typeList<<obList.at(i)->getSubjectID();
         }
 
     }
@@ -188,14 +188,14 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
     {
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
         QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getSubjectID());
         subTable->setItem(i,0,id);
         subTable->setItem(i,1,type);
         subTable->setItem(i,2,title);
 
-        if(!_typeList.contains(subList.at(i)->getQuestionType()))
+        if(!_typeList.contains(subList.at(i)->getSubjectID()))
         {
-            _typeList << subList.at(i)->getQuestionType();
+            _typeList << subList.at(i)->getSubjectID();
         }
     }
 }

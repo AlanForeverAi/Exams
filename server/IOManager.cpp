@@ -99,19 +99,19 @@ void IOManager::outputPaper(QList<Paper*> paperlist)
     QTextStream out(&inouput);
     for(int i = 0; i<paperlist.count(); ++i)
     {
-        out << QString("试卷ID ");
+        out << QStringLiteral("试卷ID ");
         out << paperlist.at(i)->getPaperId() << "\n";
-        out << QString("客观题ID ");
+        out << QStringLiteral("客观题ID ");
         out << paperlist.at(i)->getObQuIds() << "\n";
-        out << QString("主观题ID ");
+        out << QStringLiteral("主观题ID ");
         out << paperlist.at(i)->getSubQuIds() << "\n";
-        out << QString("总分 ");
+        out << QStringLiteral("总分 ");
         out << paperlist.at(i)->getTotalMark() << "\n";
-        out << QString("客观题分数比例 ");
+        out << QStringLiteral("客观题分数比例 ");
         out << paperlist.at(i)->getPercent() << "\n";
-        out << QString("试卷名称 ");
+        out << QStringLiteral("试卷名称 ");
         out << paperlist.at(i)->getDescription() << "\n";
-        out << QString("考试时间 ");
+        out << QStringLiteral("考试时间 ");
         out << paperlist.at(i)->getTime() << "\n";
     }
 

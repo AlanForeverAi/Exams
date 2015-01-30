@@ -99,7 +99,7 @@ void EssayQuestions::setQuestionId(int id)
 {
     _questionId = id;
 }
-void EssayQuestions::setQuestionType(QString type)
+void EssayQuestions::setSubjectID(QString type)
 {
     _questionType = type;
 }
@@ -111,7 +111,7 @@ int EssayQuestions::getQuestionId() const
 {
     return _questionId;
 }
-QString EssayQuestions::getQuestionType() const
+QString EssayQuestions::getSubjectID() const
 {
     return _questionType;
 }
@@ -255,21 +255,21 @@ ChoiceQuestions::ChoiceQuestions()
 }
 QDataStream &operator >>(QDataStream &in,ChoiceQuestions &ob)
 {
-    in >> ob._questionId >> ob._questionTitle >> ob._answer >> ob._questionType;
+    in >> ob._questionId >> ob._questionTitle >> ob._answer >> ob._subjectID;
     return in;
 }
 QDataStream &operator <<(QDataStream &out,const ChoiceQuestions &ob)
 {
-    out << ob._questionId << ob._questionTitle << ob._answer << ob._questionType;
+    out << ob._questionId << ob._questionTitle << ob._answer << ob._subjectID;
     return out;
 }
 int ChoiceQuestions::getQuestionId() const
 {
     return _questionId;
 }
-QString ChoiceQuestions::getQuestionType() const
+QString ChoiceQuestions::getSubjectID() const
 {
-    return _questionType;
+    return _subjectID;
 }
 QString ChoiceQuestions::getQuestionTitle() const
 {
@@ -283,9 +283,9 @@ void ChoiceQuestions::setQuestionId(int id)
 {
     _questionId = id;
 }
-void ChoiceQuestions::setQuestionType(QString type)
+void ChoiceQuestions::setSubjectID(QString type)
 {
-    _questionType = type;
+    _subjectID = type;
 }
 void ChoiceQuestions::setQuestionTitle(QString title)
 {
@@ -514,6 +514,11 @@ void User::setType(int type)
     _type = type;
 }
 
+void User::setSubject(QString subject)
+{
+    _subject = subject;
+}
+
 int User::getType() const
 {
     return _type;
@@ -534,8 +539,15 @@ QString User::getPassword() const
     return _password;
 }
 
+QString User::getSubject() const
+{
+    return _subject;
+}
+
 User &User::GetInstance()
 {
     static User user;
     return user;
 }
+
+

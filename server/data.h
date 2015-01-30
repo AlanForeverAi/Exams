@@ -47,16 +47,19 @@ public:
     void setName(QString);
     void setPassword(QString);
     void setType(int);
+    void setSubject(QString);
     int getType() const;
     int getId() const;
     QString getName() const;
     QString getPassword() const;
+    QString getSubject() const;
     static User& GetInstance();
 private:
     int _id;
+    int _type; //根据Type判断用户为管理员还是老师（还要判断老师类型）
     QString _name;
     QString _password;
-    int _type; //根据Type判断用户为管理员还是老师（还要判断老师类型）
+    QString _subject;
 };
 
 /*
@@ -190,6 +193,20 @@ private:
 //    QString _answer;
 //};
 
+class ObjectQuestions{
+public:
+    ObjectQuestions();
+    virtual void setQuestionId(int);
+//    virtual void
+//    virtual void
+private:
+    int _questionID;
+    int mark;
+    QString _subjectID;
+    QString _questionTitle;
+    QString _answer;
+};
+
 //选择题
 class ChoiceQuestions
 {
@@ -198,16 +215,16 @@ class ChoiceQuestions
 public:
     ChoiceQuestions();
     void setQuestionId(int);
-    void setQuestionType(QString);
+    void setSubjectID(QString);
     void setQuestionTitle(QString);
     void setAnswer(QString);
     int getQuestionId() const;
-    QString getQuestionType() const;
+    QString getSubjectID() const;
     QString getQuestionTitle() const;
     QString getAnswer() const;
 private:
     int _questionId;
-    QString _questionType;
+    QString _subjectID;
     QString _questionTitle;
     QString _answer;
 
@@ -221,10 +238,10 @@ class EssayQuestions
 public:
     EssayQuestions();
     void setQuestionId(int);
-    void setQuestionType(QString);
+    void setSubjectID(QString);
     void setQuestionTitle(QString);
     int getQuestionId() const;
-    QString getQuestionType() const;
+    QString getSubjectID() const;
     QString getQuestionTitle() const;
 private:
     int _questionId;
