@@ -105,7 +105,7 @@ void PaperManageUI::showQuestions(QList<ChoiceQuestions*> obList, QList<EssayQue
 
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
         QTableWidgetItem *maintitle = new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getSubjectID());
         tableWidget_All_Ob->setItem(i,0,id);
         tableWidget_All_Ob->setItem(i,1,type);
         tableWidget_All_Ob->setItem(i,2,maintitle);
@@ -118,7 +118,7 @@ void PaperManageUI::showQuestions(QList<ChoiceQuestions*> obList, QList<EssayQue
     {
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
         QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getSubjectID());
         tableWidget_All_Sub->setItem(i,0,id);
         tableWidget_All_Sub->setItem(i,1,type);
         tableWidget_All_Sub->setItem(i,2,title);
@@ -226,7 +226,7 @@ void PaperManageUI::updateSelectTable()
         QString s_maintitle = t.mid(0,t.indexOf("@a"));
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(_selectOb.at(i)->getQuestionId()));
         QTableWidgetItem *title = new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type = new QTableWidgetItem(_selectOb.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(_selectOb.at(i)->getSubjectID());
         tableWidget_Select_Ob->setItem(i,0,id);
         tableWidget_Select_Ob->setItem(i,1,type);
         tableWidget_Select_Ob->setItem(i,2,title);
@@ -240,7 +240,7 @@ void PaperManageUI::updateSelectTable()
     {
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(_selectSub.at(i)->getQuestionId()));
         QTableWidgetItem *title = new QTableWidgetItem(_selectSub.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(_selectSub.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(_selectSub.at(i)->getSubjectID());
         tableWidget_Select_Sub->setItem(i,0,id);
         tableWidget_Select_Sub->setItem(i,1,type);
         tableWidget_Select_Sub->setItem(i,2,title);
@@ -706,7 +706,7 @@ void PaperManageUI::showCurrentType(QList<ChoiceQuestions *> obList, QList<Essay
         QString s_maintitle = title.mid(0,title.indexOf("@a"));
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
         QTableWidgetItem *maintitle = new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getSubjectID());
         tableWidget_All_Ob->setItem(i,0,id);
         tableWidget_All_Ob->setItem(i,1,type);
         tableWidget_All_Ob->setItem(i,2,maintitle);
@@ -718,7 +718,7 @@ void PaperManageUI::showCurrentType(QList<ChoiceQuestions *> obList, QList<Essay
     {
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
         QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getQuestionType());
+        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getSubjectID());
         tableWidget_All_Sub->setItem(i,0,id);
         tableWidget_All_Sub->setItem(i,1,type);
         tableWidget_All_Sub->setItem(i,2,title);

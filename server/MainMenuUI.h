@@ -1,6 +1,7 @@
 #ifndef MAINMENUUI_H
 #define MAINMENUUI_H
 
+#include <iostream>
 #include <QWidget>
 #include "ui_MainMenuUI.h"
 class MainMenuUI : public QWidget,public Ui::MainMenuUI

@@ -64,7 +64,7 @@ signals:
     void addManager(User *);
     void deleteUserId(QString);
     void deleteManagerId(int);
-    void showUser(QList<Student*>,QList<User*>);/////
+    void showUser(QList<Student*>,QList<User*>);
     void getcurrentPaperTime(int);
     void sendPaperTime(int,int);
     void getCombo_id(QString);//根据userid 获得
@@ -80,6 +80,10 @@ signals:
     void inputSub(QString);
     void inputPaper(QString);
     void sendInfo(QStringList);
+
+    void showUserType(QList<QString>);
+    void getUserType();
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();

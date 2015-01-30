@@ -1,29 +1,57 @@
 ﻿#include"DBManager.h"
 #include <QMessageBox>
 //构造函数，连接数据库
-DBManager::DBManager(QString name, QString user, QString pw)
+DBManager::DBManager()
 {
-    _db = QSqlDatabase::addDatabase("QMYSQL");
-    _db.setHostName("localhost");    //主机名
-    _db.setDatabaseName("qtdb");     //数据库名
-    _db.setUserName("root");             //用户名
-    _db.setPassword("allen");                 //密码
 
-    if(!_db.open())
-    {
-        QMessageBox msg;
-        msg.setText(QStringLiteral("连接数据库失败！"));
-        msg.exec();
-    }
 }
+
 DBManager::~DBManager()
 {
 
 }
 
+void DBManager::setConfig(QString name, QString user, QString password)
+{
+     _db = QSqlDatabase::addDatabase("QMYSQL");
+     _db.setHostName("localhost");
+     _db.setDatabaseName(name);
+     _db.setUserName(user);
+     _db.setPassword(password);
+
+     if(!_db.open()){
+         QMessageBox msg;
+         msg.setText(QStringLiteral("连接数据库失败！"));
+         msg.exec();
+     }
+}
+
+QSqlQuery DBManager::selectUserType()
+{
+    QSqlQuery query;
+    if(query.exec("SELECT * FROM serveridtype"))
+        return query;
+    else
+    {
+        qDebug() << "selectUserType] " << query.lastError();
+    }
+}
+
+QSqlQuery DBManager::selectUserTypeBySubject(QString subject)
+{
+    QSqlQuery query;
+    QString s = "SELECT id FROM serveridtype WHERE type = '%1'";
+    if(query.exec(s.arg(subject))){
+        return query;
+    }
+    else{
+        qDebug() << "selectUserTypeBySubject] " << query.lastError();
+    }
+}
+
+
 QSqlQuery DBManager::selectStudent()
 {
-
     QSqlQuery query;
     if( query.exec("SELECT * FROM student"))
         return query;
@@ -39,10 +67,8 @@ QSqlQuery DBManager::selectStudentByID(QString a)
     query.prepare("SELECT * FROM student WHERE userid  =  (?)");
     query.addBindValue(a);
     query.exec();
-
     qDebug() << "selectStudentById]" << query.lastError();
     return query;
-
 }
 
 QSqlQuery DBManager::selectStudentByGC(int a, int b)
@@ -107,25 +133,24 @@ void DBManager::deleteStudentByName(QString a)
 QSqlQuery DBManager::selectServerUser()
 {
     QSqlQuery query;
-    if( query.exec("SELECT userid,name,password,type FROM serveruser"))
+//    if( query.exec("SELECT userid, name, password, serveridtype.type FROM serveruser, serveridtype WHERE serveruser.type = serveridtype.id"))
+    if(query.exec("SELECT userid, name, password, type FROM serveruser"))
         return query;
     else
-        return query;
+        qDebug() << "selectServerUser] " << query.lastError();
 }
-void DBManager::insertServerUser(int a,QString b,QString c)
+
+QSqlQuery DBManager::selectUser()
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO serveruser (userid, name,password) "
-                  "VALUES (:teacherid, :name, :password)");
-    query.bindValue(":teacherid", a);
-    query.bindValue(":name", b);
-    query.bindValue(":password",c);
-    query.exec();
-    qDebug() << "insertServerUser] " << query.lastError();
+    if( query.exec("SELECT userid, name, password, serveridtype.type FROM serveruser, serveridtype WHERE serveruser.type = serveridtype.id")){
+        return query;
+    }
+    else
+        qDebug() << "selectServerUser] " << query.lastError();
 }
-//下面的插入管理员函数需要修改UI使得支持用户类型。。所以暂时使用原来不带用户类型的函数
-/*
-void DBManager::InsertManager(int a,QString b,QString c, int d)
+
+void DBManager::insertServerUser(int a,QString b,QString c, int d)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO serveruser (userid,name,password,type) "
@@ -133,11 +158,11 @@ void DBManager::InsertManager(int a,QString b,QString c, int d)
     query.bindValue(":userid", a);
     query.bindValue(":name", b);
     query.bindValue(":password",c);
-    query.bindValue(":type",d)
+    query.bindValue(":type",d);
     query.exec();
     qDebug() << query.lastError();
 }
-*/
+
 
 void DBManager::deleteServerUserByID(int a)
 {
@@ -192,7 +217,6 @@ QSqlQuery DBManager::selectObQuestions()
         return query;
     else
         return query;
-    ;
 }
 
 //查询主观题表的所有数据

@@ -1,6 +1,9 @@
 ﻿#include "MemberManageUI.h"
-#include<QMessageBox>
-#include<QDebug>
+#include "DBManager.h"
+#include <iostream>
+#include <QMessageBox>
+#include <QDebug>
+#include <QtSql>
 MemberManageUI::MemberManageUI(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
@@ -10,24 +13,23 @@ MemberManageUI::~MemberManageUI()
 {
 }
 
-void MemberManageUI::showUser(QList<Student *> userList,QList<User *> managerList)
+void MemberManageUI::showUser(QList<Student *> studentList,QList<User *> userList)
 {
+    if(studentList.isEmpty())
+        studentList = studentList;
     if(userList.isEmpty())
         userList = userList;
-    if(managerList.isEmpty())
-        managerList = managerList;
 
     tableWidget_Student->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_Student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
-    tableWidget_Student->setRowCount(userList.count());
-    for(int i = 0; i < userList.count(); ++i)
+    tableWidget_Student->setRowCount(studentList.count());
+    for(int i = 0; i < studentList.count(); ++i)
     {
-
-        QTableWidgetItem *u_id = new QTableWidgetItem(userList.at(i)->getID());
-        QTableWidgetItem *u_name = new QTableWidgetItem(userList.at(i)->getName());
-        QTableWidgetItem *u_grade = new QTableWidgetItem(QString::number(userList.at(i)->getGrade()));
-        QTableWidgetItem *u_class = new QTableWidgetItem(QString::number(userList.at(i)->getClass()));
-        QTableWidgetItem *u_password = new QTableWidgetItem(userList.at(i)->getPassword());
+        QTableWidgetItem *u_id = new QTableWidgetItem(studentList.at(i)->getID());
+        QTableWidgetItem *u_name = new QTableWidgetItem(studentList.at(i)->getName());
+        QTableWidgetItem *u_grade = new QTableWidgetItem(QString::number(studentList.at(i)->getGrade()));
+        QTableWidgetItem *u_class = new QTableWidgetItem(QString::number(studentList.at(i)->getClass()));
+        QTableWidgetItem *u_password = new QTableWidgetItem(studentList.at(i)->getPassword());
 
         tableWidget_Student->setItem(i,0,u_id);
         tableWidget_Student->setItem(i,1,u_name);
@@ -38,17 +40,25 @@ void MemberManageUI::showUser(QList<Student *> userList,QList<User *> managerLis
 
     tableWidget_Teacher->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_Teacher->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
-
-    for(int i = 0; i < managerList.count(); ++i)
+    tableWidget_Teacher->setRowCount(userList.count());
+    for(int i = 0; i < userList.count(); ++i)
     {
-        tableWidget_Teacher->setRowCount(managerList.count());
-        QTableWidgetItem *t_id = new QTableWidgetItem(QString::number(managerList.at(i)->getId()));
-        QTableWidgetItem *t_name = new QTableWidgetItem(managerList.at(i)->getName());
-        QTableWidgetItem *t_password = new QTableWidgetItem(managerList.at(i)->getPassword());
+        QTableWidgetItem *t_id = new QTableWidgetItem(QString::number(userList.at(i)->getId()));
+        QTableWidgetItem *t_name = new QTableWidgetItem(userList.at(i)->getName());
+        QTableWidgetItem *t_password = new QTableWidgetItem(userList.at(i)->getPassword());
+        QTableWidgetItem *t_subject = new QTableWidgetItem(userList.at(i)->getSubject());
 
         tableWidget_Teacher->setItem(i,0,t_id);
         tableWidget_Teacher->setItem(i,1,t_name);
         tableWidget_Teacher->setItem(i,2,t_password);
+        tableWidget_Teacher->setItem(i,3,t_subject);
+    }
+}
+
+void MemberManageUI::showUserType(QList<QString> typeList)
+{
+    for(int i = 0; i < typeList.count(); ++i){
+        comboBox->addItem(typeList.at(i));
     }
 }
 
@@ -68,10 +78,19 @@ void MemberManageUI::on_pushButton_add_user_clicked()
     }
     else if(tabWidget->currentIndex() == 1)
     {
+        if(comboBox->currentText() == QStringLiteral("  未选择")){
+//            QMessageBox msg;
+//            msg.setText(QStringLiteral("用户类型未选择！"));
+//            msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
+            QMessageBox::about(this,"msg",QStringLiteral("用户类型未选择！"));
+            return ;
+        }
         User *managerptr = new User;
         managerptr->setId(lineEdit_managerId->text().toInt());
         managerptr->setName(lineEdit_managerName->text());
         managerptr->setPassword(lineEdit_managerPwd->text());
+        managerptr->setSubject(comboBox->currentText());
+
         emit this->addManager(managerptr);
         delete(managerptr);
     }
@@ -81,9 +100,9 @@ void MemberManageUI::on_pushButton_add_user_clicked()
 void MemberManageUI::on_pushButton_delete_user_clicked()
 {
     QMessageBox msg;
-    msg.setText(QString("确定要删除吗？"));
+    msg.setText(QStringLiteral("确定要删除吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-    if(tabWidget->currentIndex() == 0&&tableWidget_Student->currentRow() >= 0)
+    if(tabWidget->currentIndex() == 0 && tableWidget_Student->currentRow() >= 0)
     {
         int ret = msg.exec();
         if(ret == QMessageBox::Ok)
@@ -91,7 +110,7 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
         else
             return;
     }
-    else if(tabWidget->currentIndex() == 1&&tableWidget_Teacher->currentRow() >= 0)
+    else if(tabWidget->currentIndex() == 1 && tableWidget_Teacher->currentRow() >= 0)
     {
         int ret = msg.exec();
         if(ret == QMessageBox::Ok)
@@ -101,7 +120,7 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QString("请选择一个用户"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择一个用户"));
     }
 }
 

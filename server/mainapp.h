@@ -39,6 +39,7 @@ signals:
     void showCombo(QList<Combo*>);//显示成绩
     void LoginOK();//登录成功信号
     void getcurrentPaperTime(int);//取得当前考试剩余时间
+    void showUserType(QList<QString>);
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
     void removeUser(int);//将考生状态重置为未连接
@@ -85,6 +86,8 @@ public slots:
     void inputPaper(QString);
     //发送考试信息
     void sendInfo(QStringList);
+
+    void getUserType();
 private:
     DBManager *_DBM;
     MainWindow _window;

@@ -1,6 +1,6 @@
 ﻿#ifndef DBMANAGER_H
 #define DBMANAGER_H
-#include<QtSql>
+#include <QtSql>
 #include <iostream>
 #include "data.h"
 
@@ -9,8 +9,14 @@ class DBManager:public QObject
 {
 Q_OBJECT
 public:
-    DBManager(QString,QString,QString);
+    DBManager();
     ~DBManager();
+
+
+    void setConfig(QString, QString, QString);
+
+    QSqlQuery selectUserType();
+    QSqlQuery selectUserTypeBySubject(QString);
 
     //Student
     QSqlQuery selectStudent();
@@ -22,7 +28,8 @@ public:
     void modifyStudent(QString,QString,int,int,QString);
     //ServerUser
     QSqlQuery selectServerUser();
-    void insertServerUser(int,QString,QString);
+    QSqlQuery selectUser();
+    void insertServerUser(int, QString, QString,int);
     void deleteServerUserByID(int);
     void deleteServerUserByName(QString);
 
