@@ -1,6 +1,5 @@
 ﻿#include"DBManager.h"
 #include <QMessageBox>
-//构造函数，连接数据库
 DBManager::DBManager()
 {
 
@@ -29,7 +28,8 @@ void DBManager::setConfig(QString name, QString user, QString password)
 QSqlQuery DBManager::selectUserType()
 {
     QSqlQuery query;
-    if(query.exec("SELECT * FROM serveridtype"))
+    QString s = "select * FROM serveridtype WHERE type not in (select type from serveridtype where type = '%1')";
+    if(query.exec(s.arg(QStringLiteral("管理员"))))
         return query;
     else
     {
@@ -40,7 +40,7 @@ QSqlQuery DBManager::selectUserType()
 QSqlQuery DBManager::selectUserTypeBySubject(QString subject)
 {
     QSqlQuery query;
-    QString s = "SELECT id FROM serveridtype WHERE type = '%1'";
+    QString s = "select id from serveridtype where type = '%1'";
     if(query.exec(s.arg(subject))){
         return query;
     }
@@ -53,7 +53,7 @@ QSqlQuery DBManager::selectUserTypeBySubject(QString subject)
 QSqlQuery DBManager::selectStudent()
 {
     QSqlQuery query;
-    if( query.exec("SELECT * FROM student"))
+    if( query.exec("select * from student"))
         return query;
     else
     {
@@ -64,7 +64,7 @@ QSqlQuery DBManager::selectStudent()
 QSqlQuery DBManager::selectStudentByID(QString a)
 {
     QSqlQuery query;
-    query.prepare("SELECT * FROM student WHERE userid  =  (?)");
+    query.prepare("select * from student where userid  =  (?)");
     query.addBindValue(a);
     query.exec();
     qDebug() << "selectStudentById]" << query.lastError();
@@ -74,7 +74,7 @@ QSqlQuery DBManager::selectStudentByID(QString a)
 QSqlQuery DBManager::selectStudentByGC(int a, int b)
 {
     QSqlQuery query;
-    query.prepare("SELECT * FROM student WHERE grade  =  (?) AND class =  (?)");
+    query.prepare("select * from student where grade  =  (?) AND class =  (?)");
     query.addBindValue(a);
     query.addBindValue(b);
     query.exec();
@@ -87,8 +87,8 @@ void DBManager::insertStudent(QString a, QString b, int c, int d, QString e)
 {
     QSqlQuery query;
 
-    query.prepare("INSERT INTO student (userid, name, grade, class,password) "
-                  "VALUES (?,?,?,?,?)");
+    query.prepare("insert into student (userid, name, grade, class,password) "
+                  "values (?,?,?,?,?)");
     query.addBindValue(a);
     query.addBindValue(b);
     query.addBindValue(c);
@@ -101,7 +101,7 @@ void DBManager::insertStudent(QString a, QString b, int c, int d, QString e)
 void DBManager::modifyStudent(QString id, QString name, int grade, int clas, QString PW)
 {
     QSqlQuery query;
-    QString s = "UPDATE student set name= '%1',grade= %2,class= %3,password= '%4' WHERE userid= '%5'";
+    QString s = "update student set name= '%1',grade= %2,class= %3,password= '%4' where userid= '%5'";
 
     query.exec(s.arg(name).arg(grade).arg(clas).arg(PW).arg(id));
 
@@ -111,7 +111,7 @@ void DBManager::modifyStudent(QString id, QString name, int grade, int clas, QSt
 void DBManager::deleteStudentById(QString a)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM student WHERE userid  =  (?)");
+    query.prepare("delete from student where userid  =  (?)");
     query.addBindValue(a);
     if(!query.isValid())
 
@@ -121,29 +121,32 @@ void DBManager::deleteStudentById(QString a)
 void DBManager::deleteStudentByName(QString a)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM student WHERE name  =  (?)");
+    query.prepare("delete from student where name  =  (?)");
     query.addBindValue(a);
     if(!query.isValid())
         query.exec();
 }
 
-/*
- *改用serveruser数据库。。。
- */
-QSqlQuery DBManager::selectServerUser()
-{
+QSqlQuery DBManager::selectManager(){
     QSqlQuery query;
-//    if( query.exec("SELECT userid, name, password, serveridtype.type FROM serveruser, serveridtype WHERE serveruser.type = serveridtype.id"))
-    if(query.exec("SELECT userid, name, password, type FROM serveruser"))
+    if(query.exec("select userid, name, password from serveruser where serveruser.type = 1")){
         return query;
-    else
-        qDebug() << "selectServerUser] " << query.lastError();
+    }
+    else{
+        qDebug() << "selectManager] " << query.lastError();
+        return query;
+    }
 }
+
 
 QSqlQuery DBManager::selectUser()
 {
     QSqlQuery query;
-    if( query.exec("SELECT userid, name, password, serveridtype.type FROM serveruser, serveridtype WHERE serveruser.type = serveridtype.id")){
+    QString s = "select userid, name, password, serveridtype.type "
+                "from serveruser, serveridtype "
+                "where serveruser.type = serveridtype.id and"
+                " serveruser.type not in (select id from serveridtype where type = '%1');";
+    if( query.exec(s.arg(QStringLiteral("管理员")))){
         return query;
     }
     else
@@ -153,8 +156,8 @@ QSqlQuery DBManager::selectUser()
 void DBManager::insertServerUser(int a,QString b,QString c, int d)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO serveruser (userid,name,password,type) "
-                  "VALUES (:userid, :name, :password, :type)");
+    query.prepare("insert into serveruser (userid,name,password,type) "
+                  "values (:userid, :name, :password, :type)");
     query.bindValue(":userid", a);
     query.bindValue(":name", b);
     query.bindValue(":password",c);
@@ -167,7 +170,7 @@ void DBManager::insertServerUser(int a,QString b,QString c, int d)
 void DBManager::deleteServerUserByID(int a)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM serveruser WHERE userid  =  (?)");
+    query.prepare("delete from serveruser where userid  =  (?)");
     query.addBindValue(a);
     if(!query.isValid())
         query.exec();
@@ -176,7 +179,7 @@ void DBManager::deleteServerUserByID(int a)
 void DBManager::deleteServerUserByName(QString a)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM serveruser WHERE name  =  (?)");
+    query.prepare("delete from serveruser where name  =  (?)");
     query.addBindValue(a);
     if(!query.isValid())
         query.exec();
@@ -187,7 +190,7 @@ void DBManager::insertOb(int id,QString type,QString title,QString answer)
 {
     QSqlQuery query;
 
-    query.prepare("INSERT INTO obquestions ( obid,title,answer,type) " "VALUES ( ?,?,?,?)");
+    query.prepare("insert into obquestions ( obid,title,answer,type) " "values ( ?,?,?,?)");
     query.addBindValue(id);
     query.addBindValue(title);
     query.addBindValue(answer);
@@ -200,7 +203,7 @@ void DBManager::insertOb(int id,QString type,QString title,QString answer)
 void DBManager::insertSub(int id,QString type,QString title)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO subquestions (subid,title,type) " "VALUES ( ?,?, ?)");
+    query.prepare("insert into subquestions (subid,title,type) " "values ( ?,?, ?)");
     query.addBindValue(id);
     query.addBindValue(title);
     query.addBindValue(type);
@@ -213,7 +216,7 @@ QSqlQuery DBManager::selectObQuestions()
 {
     QSqlQuery query;
     int type = User::GetInstance().getType();
-    if( query.exec(QString("SELECT * FROM obquestions WHERE type = %1").arg(type)))
+    if( query.exec(QString("select * from obquestions where type = %1").arg(type)))
         return query;
     else
         return query;
@@ -224,7 +227,7 @@ QSqlQuery DBManager::selectSubQuestions()
 {
     QSqlQuery query;
     int type = User::GetInstance().getType();
-    if( query.exec(QString("SELECT * FROM subquestions WHERE type = %1").arg(type)))
+    if( query.exec(QString("select * from subquestions where type = %1").arg(type)))
         return query;
     else
         return query;
@@ -235,7 +238,7 @@ void DBManager::deleteObQuestionsByID(int id)
 {
 
     QSqlQuery query;
-    query.exec(QStringLiteral("DELETE FROM obquestions WHERE obid  =  %1").arg(id));
+    query.exec(QStringLiteral("delete from obquestions where obid  =  %1").arg(id));
     query.exec();
     qDebug() << "selectSubQuestions] " << query.lastError();
 
@@ -245,7 +248,7 @@ void DBManager::deleteObQuestionsByID(int id)
 void DBManager::deleteSubQuestionsByID(int id)
 {
     QSqlQuery query;
-    query.exec(QStringLiteral("DELETE FROM subquestions WHERE subid  =  %1").arg(id));
+    query.exec(QStringLiteral("delete from subquestions where subid  =  %1").arg(id));
     query.exec();
     qDebug() << "deleteSubQuestions] " << query.lastError();
 }
@@ -254,7 +257,7 @@ void DBManager::deleteSubQuestionsByID(int id)
 void DBManager::alterObQuestions(int id ,QString type,QString title ,QString answer)
 {
     QSqlQuery query;
-    QString s = "UPDATE obquestions set type= '%1',title= '%2',answer= '%3' WHERE obid= %4";
+    QString s = "update obquestions set type= '%1',title= '%2',answer= '%3' where obid= %4";
     query.exec(s.arg(type).arg(title).arg(answer).arg(id));
     qDebug() << "alterObQuestions] " << query.lastError();
 }
@@ -264,14 +267,14 @@ void DBManager::alterObQuestions(int id ,QString type,QString title ,QString ans
 void DBManager::alterSubQuestions(int id ,QString type ,QString title)
 {
     QSqlQuery query;
-    query.exec(QStringLiteral("UPDATE subquestions set type = '%1',title= '%2' WHERE subid= %3").arg(type).arg(title).arg(id));
+    query.exec(QStringLiteral("update subquestions set type = '%1',title= '%2' where subid= %3").arg(type).arg(title).arg(id));
     qDebug() << "alterSubQuestions] " << query.lastError();
 }
 
 void DBManager::insertPaper( QString obids, QString subids, int total, int percent, QString description,int time)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO paper (obquids,subquids,totalmark,percent,description,time) " "VALUES (?,?,?,?,?,?)");
+    query.prepare("insert into paper (obquids,subquids,totalmark,percent,description,time) " "values (?,?,?,?,?,?)");
     query.addBindValue(obids);
     query.addBindValue(subids);
     query.addBindValue(total);
@@ -285,7 +288,7 @@ void DBManager::insertPaper( QString obids, QString subids, int total, int perce
 QSqlQuery DBManager::selectPaperById(int id)
 {
     QSqlQuery query;
-    QString s = "SELECT * FROM paper WHERE paperid= %1";
+    QString s = "select * from paper where paperid= %1";
     if( query.exec(s.arg(id)))
     {
         qDebug() << "selectPaperById] " << query.lastError();
@@ -303,7 +306,7 @@ QSqlQuery DBManager::selectPaper()
 {
 
     QSqlQuery query;
-    if( query.exec("SELECT * FROM paper"))
+    if( query.exec("select * from paper"))
         return query;
     else
         return query;
@@ -313,20 +316,20 @@ QSqlQuery DBManager::selectPaper()
 void DBManager::deletePaperById(int id)
 {
     QSqlQuery query;
-    query.exec(QStringLiteral("DELETE FROM subanswers WHERE fpaperid = %1").arg(id));
+    query.exec(QStringLiteral("delete from subanswers where fpaperid = %1").arg(id));
     qDebug() << "deletePaperById] " << query.lastError();
-    query.exec(QStringLiteral("DELETE FROM obanswers WHERE fpaperid = %1").arg(id));
+    query.exec(QStringLiteral("delete from obanswers where fpaperid = %1").arg(id));
     qDebug() << "deletePaperById] " << query.lastError();
-    query.exec(QStringLiteral("DELETE FROM papermark WHERE fpaperid = %1").arg(id));
+    query.exec(QStringLiteral("delete from papermark where fpaperid = %1").arg(id));
     qDebug() << "deletePaperById] " << query.lastError();
-    query.exec(QStringLiteral("DELETE FROM paper WHERE paperid = %1").arg(id));
+    query.exec(QStringLiteral("delete from paper where paperid = %1").arg(id));
     qDebug() << "deletePaperById] " << query.lastError();
 }
 
 void DBManager::alterPaper(int id,QString obids, QString subids, int total, int percent, QString description,int time)
 {
     QSqlQuery query;
-    QString s = "UPDATE paper set obquids= '%1',subquids= '%2',totalmark= %3,percent= %4,description= '%5',time= '%6' WHERE paperid= %7";
+    QString s = "update paper set obquids= '%1',subquids= '%2',totalmark= %3,percent= %4,description= '%5',time= '%6' where paperid= %7";
     query.exec(s.arg(obids).arg(subids).arg(total).arg(percent).arg(description).arg(time).arg(id));
     qDebug() << "alterPaper] " << query.lastError();
 }
@@ -336,7 +339,7 @@ void DBManager::alterPaper(int id,QString obids, QString subids, int total, int 
 void DBManager::insertObAnswers(int fpaperid,QString studentid,QString answers)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO obanswers (fpaperid,studentid,answers) " "VALUES (?,?,?)");
+    query.prepare("insert into obanswers (fpaperid,studentid,answers) " "values (?,?,?)");
     query.addBindValue(fpaperid);
     query.addBindValue(studentid);
     query.addBindValue(answers);
@@ -346,7 +349,7 @@ void DBManager::insertObAnswers(int fpaperid,QString studentid,QString answers)
 
 void DBManager::updateObAnswers(int pid, QString uid, QString ans)
 {
-    QString s = "UPDATE obanswers set answers= '%1' WHERE fpaperid= %2 and studentid= '%3'";
+    QString s = "update obanswers set answers= '%1' where fpaperid= %2 and studentid= '%3'";
     QSqlQuery query;
     query.exec(s.arg(ans).arg(pid).arg(uid));
     qDebug() << "updateObAnswers] " <<  query.lastError();
@@ -358,7 +361,7 @@ void DBManager::insertSubAnswers(int fpaperid,QString studentid)
 {
 
     QSqlQuery query;
-    query.prepare("INSERT INTO subanswers(fpaperid,studentid)" "values(?,?)");
+    query.prepare("insert into subanswers(fpaperid,studentid)" "values(?,?)");
     query.addBindValue(fpaperid);
     query.addBindValue(studentid);
     query.exec();
@@ -367,7 +370,7 @@ void DBManager::insertSubAnswers(int fpaperid,QString studentid)
 }
 void DBManager::updateSubAnswers(int pid, QString uid, int index, QString answer)
 {
-    QString s = "UPDATE subanswers set answer%1= '%2' WHERE fpaperid= %3 and studentid= '%4'";
+    QString s = "update subanswers set answer%1= '%2' where fpaperid= %3 and studentid= '%4'";
     QSqlQuery query;
     query.exec(s.arg(index).arg(answer).arg(pid).arg(uid));
     qDebug() << "updateSubAnswers] " <<  query.lastError();
@@ -377,7 +380,7 @@ void DBManager::updateSubAnswers(int pid, QString uid, int index, QString answer
 bool DBManager::insertPaperMark(QString obqumark,QString subqumark,int totalmark,int fpaperid,QString fuserid)
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO papermark (obqumark,subqumark,totalmark,fpaperid,fuserid,done) " "VALUES (?,?,?,?,?,?)");
+    query.prepare("insert into papermark (obqumark,subqumark,totalmark,fpaperid,fuserid,done) " "values (?,?,?,?,?,?)");
     query.addBindValue(obqumark);
     query.addBindValue(subqumark);
     query.addBindValue(totalmark);
@@ -402,7 +405,7 @@ bool DBManager::deletePaperMark(int pid)
 {
     QSqlQuery query;
 
-    query.exec(QStringLiteral("DELETE FROM papermark WHERE fpaperid =  %1 and done= '%2'").arg(pid).arg(QStringLiteral("未完成")));
+    query.exec(QStringLiteral("delete from papermark where fpaperid =  %1 and done= '%2'").arg(pid).arg(QStringLiteral("未完成")));
     if (query.numRowsAffected()>0)
     {
         return true;
@@ -418,7 +421,7 @@ bool DBManager::deletePaperMark(int pid)
 QSqlQuery DBManager::searchPaperMark(int pid, QString uid)
 {
     QSqlQuery query;
-    QString s = "SELECT * FROM papermark WHERE fpaperid= %1 and fuserid= '%2'";
+    QString s = "select * from papermark where fpaperid= %1 and fuserid= '%2'";
 
     if( query.exec(s.arg(pid).arg(uid)))
     {
@@ -436,7 +439,7 @@ QSqlQuery DBManager::searchPaperMark(int pid, QString uid)
 QSqlQuery DBManager::queryPaperMark1(int id)
 {
     QSqlQuery query;
-    QString s = "SELECT * FROM papermark inner join student on student.userid= papermark.fuserid WHERE fpaperid= %1";
+    QString s = "select * from papermark inner join student on student.userid= papermark.fuserid where fpaperid= %1";
     if( query.exec(s.arg(id)))
     {
         qDebug() << "queryPaperMark1] " << query.lastError();
@@ -456,7 +459,7 @@ QSqlQuery DBManager::queryPaperMark1(int id)
 QSqlQuery DBManager::queryPaperMark2(QString id)
 {
     QSqlQuery query;
-    QString s = "SELECT * FROM papermark WHERE fuserid= %1";
+    QString s = "select * from papermark where fuserid= %1";
     if( query.exec(s.arg(id)))
     {
         qDebug() << "queryPaperMark2] " << query.lastError();
@@ -475,7 +478,7 @@ QSqlQuery DBManager::querySubAnswers(int fpaperid,QString studentid)
 {
 
     QSqlQuery query;
-    query.exec(QStringLiteral("SELECT * FROM subanswers WHERE fpaperid = %1 and studentid= '%2'").arg(fpaperid).arg(studentid));
+    query.exec(QStringLiteral("select * from subanswers where fpaperid = %1 and studentid= '%2'").arg(fpaperid).arg(studentid));
     qDebug() << "querySubAnswers] " << query.lastError();
     return query;
 }
@@ -484,7 +487,7 @@ QSqlQuery DBManager::querySubAnswers(int fpaperid,QString studentid)
 QSqlQuery DBManager::studentLogin(QString id ,QString password)
 {
     QSqlQuery query;
-    QString s = "SELECT * FROM student WHERE userid= '%1' and password= '%2' ";
+    QString s = "select * from student where userid= '%1' and password= '%2' ";
 
     if( query.exec(s.arg(id).arg(password)))
     {
@@ -499,12 +502,10 @@ QSqlQuery DBManager::studentLogin(QString id ,QString password)
 
 }
 
-//serveruser登录
-//转成serveruser数据库。。。验证成功的时候顺便把用户的设置用户的type。。。方便以后可以获得当前用户的信息。
 QSqlQuery DBManager::managerLogin(int id ,QString password)
 {
     QSqlQuery query;
-    QString s = "SELECT userid, name, type FROM serveruser WHERE userid= %1 and password= \'%2\' ";
+    QString s = "select userid, name, type from serveruser where userid= %1 and password= \'%2\' ";
     if( query.exec(s.arg(id).arg(password)))
     {
         query.first(); //QSqlQuery使用value()需要调用该函数
@@ -523,7 +524,7 @@ QSqlQuery DBManager::managerLogin(int id ,QString password)
 void DBManager::updatePaperMarkObmark(QString obmark,int pid,QString uid)
 {
     QSqlQuery query;
-    QString s = "UPDATE papermark set obqumark= '%1' WHERE fpaperid= %2 and fuserid= '%3'";
+    QString s = "update papermark set obqumark= '%1' where fpaperid= %2 and fuserid= '%3'";
 
     query.exec(s.arg(obmark).arg(pid).arg(uid));
 
@@ -533,7 +534,7 @@ void DBManager::updatePaperMarkObmark(QString obmark,int pid,QString uid)
 void DBManager::updatePaperMarkSubmark(QString submark,int pid,QString uid)
 {
     QSqlQuery query;
-    QString s = "UPDATE papermark set subqumark= '%1' WHERE fpaperid= %2 and fuserid= '%3'";
+    QString s = "update papermark set subqumark= '%1' where fpaperid= %2 and fuserid= '%3'";
 
     query.exec(s.arg(submark).arg(pid).arg(uid));
 
@@ -543,7 +544,7 @@ void DBManager::updatePaperMarkSubmark(QString submark,int pid,QString uid)
 void DBManager::updatePaperMarkTotalmark(int totalmark,int pid,QString uid)
 {
     QSqlQuery query;
-    QString s = "UPDATE papermark set totalmark= '%1',finish= '%2' WHERE fpaperid= %3 and fuserid= '%4'";
+    QString s = "update papermark set totalmark= '%1',finish= '%2' where fpaperid= %3 and fuserid= '%4'";
 
     query.exec(s.arg(totalmark).arg(QStringLiteral("已批改")).arg(pid).arg(uid));
 
@@ -553,7 +554,7 @@ void DBManager::updatePaperMarkTotalmark(int totalmark,int pid,QString uid)
 void DBManager::updatePaperMarkDone(QString date,int pid,QString uid)
 {
     QSqlQuery query;
-    QString s = "UPDATE papermark set date= '%1',done= '%2',finish= '%3' WHERE fpaperid= %4 and fuserid= '%5'";
+    QString s = "update papermark set date= '%1',done= '%2',finish= '%3' where fpaperid= %4 and fuserid= '%5'";
     query.exec(s.arg(date).arg(QStringLiteral("已完成")).arg(QStringLiteral("未批改")).arg(pid).arg(uid));
     qDebug() << "updatePaperMarkDone] " << query.lastError();
 }
@@ -562,17 +563,17 @@ int DBManager::deleteScore(int pid,qlonglong uid)
 {
     QSqlQuery query;
     int rowsaffected = 0;
-    QString s = "DELETE FROM papermark WHERE fpaperid= '%1' and fuserid= '%2'";
+    QString s = "delete from papermark where fpaperid= '%1' and fuserid= '%2'";
     query.exec(s.arg(pid).arg(uid));
     qDebug() << "deleteScore] " << query.lastError();
     qDebug() << "rowsaffected:" << query.numRowsAffected();
     rowsaffected = query.numRowsAffected()+ rowsaffected;
-    QString r = "DELETE FROM obanswers WHERE fpaperid= '%1' and studentid= '%2'";
+    QString r = "delete from obanswers where fpaperid= '%1' and studentid= '%2'";
     query.exec(r.arg(pid).arg(uid));
     qDebug() << "deleteScore] " << query.lastError();
     qDebug() << "rowsaffected:" << query.numRowsAffected();
     rowsaffected = query.numRowsAffected()+ rowsaffected;
-    QString t = "DELETE FROM subanswers WHERE fpaperid= '%1' and studentid= '%2'";
+    QString t = "delete from subanswers where fpaperid= '%1' and studentid= '%2'";
     query.exec(t.arg(pid).arg(uid));
     rowsaffected = query.numRowsAffected()+ rowsaffected;
     qDebug() << "rowsaffected:" << query.numRowsAffected() << rowsaffected;

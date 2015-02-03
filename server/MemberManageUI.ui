@@ -177,7 +177,7 @@
            </font>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -622,7 +622,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_managerId">
+                  <widget class="QLineEdit" name="lineEdit_teacherId">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -666,7 +666,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_managerName">
+                  <widget class="QLineEdit" name="lineEdit_teacherName">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -710,7 +710,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_managerPwd">
+                  <widget class="QLineEdit" name="lineEdit_teacherPwd">
                    <property name="enabled">
                     <bool>true</bool>
                    </property>
@@ -897,7 +897,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_managerId_3">
+                  <widget class="QLineEdit" name="lineEdit_managerId">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -941,7 +941,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_managerName_3">
+                  <widget class="QLineEdit" name="lineEdit_managerName">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -985,7 +985,7 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLineEdit" name="lineEdit_managerPwd_3">
+                  <widget class="QLineEdit" name="lineEdit_managerPwd">
                    <property name="enabled">
                     <bool>true</bool>
                    </property>

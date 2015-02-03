@@ -35,6 +35,7 @@ signals:
     void updateUserTable(QList<Student*>);//更新考试控制界面的考生表
     void showUserByPaperId(QList<Student*>);//按试卷显示考生
     void showSubAnswer(QVector<QString>);//显示主观题答案
+    void showManager(QList<User *>);
     void showUser(QList<Student*>,QList<User*>);//显示用户
     void showCombo(QList<Combo*>);//显示成绩
     void LoginOK();//登录成功信号
@@ -67,9 +68,10 @@ public slots:
     void getSubAnswer(int,QString);//取得主观题答案
     void submitSubMark(QStringList);//提交主观题评分
     void getUser();//取得用户信息（考生、管理员）
-    void addUser(Student *);//添加考生
+    void addStudent(Student *);//添加考生
     void modifyUser(Student);//修改考生
-    void addManager(User *);//添加管理员
+    void addTeacher(User *);
+    void addManager(User *);
     void deleteUserId(QString);//删除考生
     void deleteManagerId(int);//删除管理员
     void getCombo_id(QString );//根据userid 获得成绩
@@ -86,7 +88,7 @@ public slots:
     void inputPaper(QString);
     //发送考试信息
     void sendInfo(QStringList);
-
+    void getManager();
     void getUserType();
 private:
     DBManager *_DBM;

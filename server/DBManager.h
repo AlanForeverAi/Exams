@@ -27,7 +27,7 @@ public:
     void deleteStudentByName(QString);
     void modifyStudent(QString,QString,int,int,QString);
     //ServerUser
-    QSqlQuery selectServerUser();
+    QSqlQuery selectManager();
     QSqlQuery selectUser();
     void insertServerUser(int, QString, QString,int);
     void deleteServerUserByID(int);

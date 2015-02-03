@@ -9,7 +9,6 @@ LoginUI::LoginUI(QWidget *parent) :
 
 void LoginUI::on_pushButton_login_clicked()
 {
-    //自动填写。。。
     lineEdit_ID->setText("123");
     lineEdit_PW->setText("123");
     User::GetInstance().setId(lineEdit_ID->text().toInt());
