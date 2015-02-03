@@ -13,8 +13,9 @@ public:
     explicit MemberManageUI(QWidget *parent = 0);
     ~MemberManageUI();
 signals:
-    void addUser(Student*);
-    void addManager(User*);
+    void addStudent(Student *);
+    void addTeacher(User *);
+    void addManager(User *);
     void deleteUserId(QString);
     void deleteManagerId(int);
 
@@ -24,14 +25,17 @@ private slots:
     void on_pushButton_delete_user_clicked();
     void on_pushButton_search_clicked();
     void on_pushButton_all_clicked();
-    void showUser(QList<Student*>, QList<User *>);
+    void showManager(QList<User *>);
+    void showUser(QList<Student *>, QList<User *>);
     void showUserType(QList<QString>);
     void textClear();
 private:
-    QList<Student *> userList;
+    QList<Student *> studentList;
+    QList<User *> teacherList;
     QList<User *> managerList;
-    QList<Student *> usearchList;
-    QList<User *> msearchList;
+    QList<Student *> userSearchList;
+    QList<User *> teacherSearchList;
+    QList<User *> managerSearchList;
 
 };
 

@@ -59,11 +59,14 @@ signals:
     void showSubAnswer(QVector<QString>);
     void submitSubMark(QStringList);
     void loginSignal(User);
-    void getUser();/////
-    void addUser(Student*);//////增加用户
-    void addManager(User *);
+    void getManager();
+    void getUser();
+    void addStudent(Student*);
+    void addTeacher(User *);
+    void addManger(User *);
     void deleteUserId(QString);
     void deleteManagerId(int);
+    void showManager(QList<User *>);
     void showUser(QList<Student*>,QList<User*>);
     void getcurrentPaperTime(int);
     void sendPaperTime(int,int);

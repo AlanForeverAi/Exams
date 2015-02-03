@@ -349,8 +349,6 @@ QDataStream &operator <<(QDataStream &out,const EssayAnswers &ob)
     return out;
 }
 
-
-
 AllAnswers::AllAnswers()
 {
     qRegisterMetaTypeStreamOperators<AllAnswers>("All_answers");

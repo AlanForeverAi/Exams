@@ -354,13 +354,8 @@ public:
     int     getPercent();
     int     getTime();
     QString getDate();
-    //一下两个list看着好不顺眼。。。。
     QList<ChoiceQuestions> choiceQuestionList;
     QList<EssayQuestions> essayQuestionbList;
-
-    /*
-     QList<Questions *> questionList; //试卷的题目列表。。。。
-    */
 private:
     int _paperId;
     QString _obQuIds;

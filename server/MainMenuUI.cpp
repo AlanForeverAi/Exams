@@ -7,7 +7,6 @@ MainMenuUI::MainMenuUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-    //根据用户类型设置选项是否可以执行。
     if(User::GetInstance().getType() == 1)
     {
         pushButton_question->setEnabled(false);
@@ -20,9 +19,7 @@ MainMenuUI::MainMenuUI(QWidget *parent) :
     {
         pushButton_mem->setEnabled(false);
         pushButton_config->setEnabled(false);
-
     }
-    //管理员和老师都需要用到导入导出功能
 }
 
 void MainMenuUI::on_pushButton_question_clicked()

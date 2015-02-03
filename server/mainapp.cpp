@@ -25,7 +25,7 @@ MainApp::~MainApp()
 void MainApp::readConfig()
 {
     QFile Config("./config.ini");
-    if(!Config.open(QIODevice::ReadOnly|QIODevice::Text)){
+    if(!Config.open(QIODevice::ReadOnly | QIODevice::Text)){
         QMessageBox msg;
         msg.setText(QStringLiteral("读取配置文件失败！将使用默认配置"));
         msg.exec();
@@ -50,10 +50,8 @@ void MainApp::readConfig()
 
 void MainApp::iniDBManager()
 {
-//    _DBM = new DBManager(_dbName,_dbUser,_dbPassword);
     _DBM = new DBManager();
     _DBM->setConfig(_dbName, _dbUser, _dbPassword);
-//    DBManager::getInstance().setConfig(_dbName, _dbUser, _dbPassword);
 }
 
 void MainApp::iniServer()
@@ -104,9 +102,12 @@ void MainApp::iniMainWindow()
     connect(&_window, SIGNAL(getUserType()), this, SLOT(getUserType()));
     connect(this, SIGNAL(showUserType(QList<QString>)), &_window, SIGNAL(showUserType(QList<QString>)));
     connect(&_window,SIGNAL(getUser()),this,SLOT(getUser()));//mainwindow发，mainapp收
+    connect(&_window, SIGNAL(getManager()), this, SLOT(getManager()));
+    connect(this,SIGNAL(showManager(QList<User*>)), &_window, SIGNAL(showManager(QList<User*>)));
     connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),&_window,SIGNAL(showUser(QList<Student*>,QList<User*>)));
-    connect(&_window,SIGNAL(addUser(Student*)),this,SLOT(addUser(Student *)));
-    connect(&_window,SIGNAL(addManager(User*)),this,SLOT(addManager(User*)));
+    connect(&_window,SIGNAL(addStudent(Student*)),this,SLOT(addStudent(Student *)));
+    connect(&_window,SIGNAL(addTeacher(User*)),this,SLOT(addTeacher(User*)));
+    connect(&_window, SIGNAL(addManger(User*)), this, SLOT(addManager(User*)));
     connect(&_window,SIGNAL(deleteUserId(QString)),this,SLOT(deleteUserId(QString)));
     connect(&_window,SIGNAL(deleteManagerId(int)),this,SLOT(deleteManagerId(int)));
     //login
@@ -226,7 +227,7 @@ void MainApp::getQuestions()
         sub_que->setSubjectID(query.value(2).toString());
         essayList.append(sub_que);
     }
-    emit this->showQuestions(choiceList,essayList);         //传递题目列表。。。。。
+    emit this->showQuestions(choiceList,essayList);
 
 }
 
@@ -488,7 +489,6 @@ void MainApp::sendPaperTime(int descriptor,int time)
     emit this->sendData(descriptor,MSG_GETPAPER,v);
 }
 
-//登录serveruser验证。。。
 bool MainApp::managerLogin(User m)
 {
     QSqlQuery query = _DBM->managerLogin(m.getId(),m.getPassword());
@@ -536,8 +536,6 @@ void MainApp::removeUser(int descriptor)
 
 void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 {
-
-//    bool isdelete = _DBM->deletePaperMark(pid);
     QMessageBox msg;
     for(int i = 0; i < ulist.count(); i++)
     {
@@ -561,13 +559,7 @@ void MainApp::saveUsertoPaperMark(int pid, QList<Student *> ulist)
 
 void MainApp::dealObAnswers(EssayAnswers obans)
 {
-//    std::cout << obans.getPaperId() << " " << obans.getStudentId().toStdString() << " " << obans.getAnswers().toStdString() << std::endl;
     _DBM->updateObAnswers(obans.getPaperId(),obans.getStudentId(),obans.getAnswers());
-
-//    QString answers = obans.getAnswers();
-//    QString standardAnswers;
-
-
     QString ans_string = obans.getAnswers();
     QStringList ansList;
     int temp = 0;
@@ -582,7 +574,6 @@ void MainApp::dealObAnswers(EssayAnswers obans)
     for(int i = 0; i < ansList.count(); i++)
     {
         QString correctAns = _mainPaper.choiceQuestionList.value(i).getAnswer();
-//        std::cout << correctAns.toStdString() << std::endl;
         if(ansList.at(i) == correctAns)
         {
 
@@ -794,6 +785,22 @@ void MainApp::getCombo_paperid(int id)
     emit this->showCombo(comboList);
 }
 
+void MainApp::getManager(){
+    QList<User *> managerList;
+    QSqlQuery query;
+    query = _DBM->selectManager();
+
+    while(query.next()){
+        User * managerptr = new User();
+        managerptr->setId(query.value(0).toInt());
+        managerptr->setName(query.value(1).toString());
+        managerptr->setPassword(query.value(2).toString());
+        managerList.append(managerptr);
+    }
+
+    emit this->showManager(managerList);
+}
+
 void MainApp::getUserType()
 {
     QList<QString> typeList;
@@ -840,23 +847,25 @@ void MainApp::getUser()
     emit this->showUser(studentList,userList);
 }
 
-void MainApp::addUser(Student *user)
+void MainApp::addStudent(Student *user)
 {
-    _DBM->insertStudent(
-        user->getID(),
-        user->getName(),
-        user->getGrade(),
-        user->getClass(),
-        user->getPassword());
+    _DBM->insertStudent(user->getID(), user->getName(), user->getGrade(), user->getClass(), user->getPassword());
 }
 
-//serveruser用户添加
-void MainApp::addManager(User *m)
+void MainApp::addTeacher(User *m)
 {
     QSqlQuery query;
     query = _DBM->selectUserTypeBySubject(m->getSubject());
     query.first();
     _DBM->insertServerUser(m->getId(),m->getName(),m->getPassword(), query.value(0).toInt());
+}
+
+void MainApp::addManager(User * user)
+{
+    QSqlQuery query;
+    query = _DBM->selectUserTypeBySubject(QStringLiteral("管理员"));
+    query.first();
+    _DBM->insertServerUser(user->getId(), user->getName(), user->getPassword(), query.value(0).toInt());
 }
 
 void MainApp::modifyUser(Student u)
