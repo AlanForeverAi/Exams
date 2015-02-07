@@ -274,13 +274,14 @@ void DBManager::alterSubQuestions(int id ,QString type ,QString title)
 void DBManager::insertPaper( QString obids, QString subids, int total, int percent, QString description,int time)
 {
     QSqlQuery query;
-    query.prepare("insert into paper (obquids,subquids,totalmark,percent,description,time) " "values (?,?,?,?,?,?)");
+    query.prepare("insert into paper (obquids,subquids,totalmark,percent,description,time,subject) " "values (?,?,?,?,?,?,?)");
     query.addBindValue(obids);
     query.addBindValue(subids);
     query.addBindValue(total);
     query.addBindValue(percent);
     query.addBindValue(description);
     query.addBindValue(time);
+    query.addBindValue(User::GetInstance().getType());
     query.exec();
     qDebug() << "insertPaper] " << query.lastError();
 }
@@ -288,8 +289,9 @@ void DBManager::insertPaper( QString obids, QString subids, int total, int perce
 QSqlQuery DBManager::selectPaperById(int id)
 {
     QSqlQuery query;
-    QString s = "select * from paper where paperid= %1";
-    if( query.exec(s.arg(id)))
+    int subject = User::GetInstance().getType();
+    QString s = "select * from paper where paperid = %1 and subject = %2";
+    if( query.exec(s.arg(id).arg(subject)))
     {
         qDebug() << "selectPaperById] " << query.lastError();
         return query;
@@ -304,9 +306,9 @@ QSqlQuery DBManager::selectPaperById(int id)
 
 QSqlQuery DBManager::selectPaper()
 {
-
     QSqlQuery query;
-    if( query.exec("select * from paper"))
+    int subject = User::GetInstance().getType();
+    if( query.exec(QString("select * from paper where subject = %1").arg(subject)))
         return query;
     else
         return query;

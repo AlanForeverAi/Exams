@@ -249,6 +249,16 @@ void Paper::setDate(QString d)
     _date = d;
 }
 
+void Paper::setSubject(int subject)
+{
+    _subject = subject;
+}
+
+int Paper::getSubject()
+{
+    return _subject;
+}
+
 ChoiceQuestions::ChoiceQuestions()
 {
     qRegisterMetaTypeStreamOperators<ChoiceQuestions>("Ob_questions");
