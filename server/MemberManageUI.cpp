@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QMessageBox>
 #include <QDebug>
-#include <QtSql>
+
 MemberManageUI::MemberManageUI(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
@@ -87,15 +87,16 @@ void MemberManageUI::on_pushButton_add_user_clicked()
 {
     if(tabWidget->currentIndex() == 0)
     {
-        Student * userptr =  new Student;
-        userptr->setID(lineEdit_userID->text());
-        userptr->setName(lineEdit_userName->text());
-        userptr->setGrade(lineEdit_userGrade->text().toInt());
-        userptr->setClass(lineEdit_userClass->text().toInt());
-        userptr->setPassword(lineEdit_userPwd->text());
+        Student * studentptr =  new Student;
+        studentptr->setID(lineEdit_userID->text());
+        studentptr->setName(lineEdit_userName->text());
+        studentptr->setGrade(lineEdit_userGrade->text().toInt());
+        studentptr->setClass(lineEdit_userClass->text().toInt());
+        studentptr->setPassword(lineEdit_userPwd->text());
 
-        emit this->addStudent(userptr);
-        delete(userptr);
+        studentList.append(studentptr);
+        emit this->addStudent(studentptr);
+        delete(studentptr);
     }
     else if(tabWidget->currentIndex() == 1)
     {
@@ -109,7 +110,8 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         teacherptr->setPassword(lineEdit_teacherPwd->text());
         teacherptr->setSubject(comboBox->currentText());
 
-        emit this->addTeacher(teacherptr);
+        teacherList.append(teacherptr);
+        emit this->addTeacher(teacherptr);       
         delete(teacherptr);
     }
     else if(tabWidget->currentIndex() == 2){
@@ -118,6 +120,7 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         managerptr->setName(lineEdit_managerName->text());
         managerptr->setPassword(lineEdit_managerPwd->text());
 
+        managerList.append(managerptr);
         emit this->addManager(managerptr);
         delete(managerptr);
     }
@@ -128,27 +131,57 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
 {
     QMessageBox msg;
     msg.setText(QStringLiteral("确定要删除吗？"));
-    msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
+    msg.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
     if(tabWidget->currentIndex() == 0 && tableWidget_Student->currentRow() >= 0)
     {
         int ret = msg.exec();
-        if(ret == QMessageBox::Ok)
+        if(ret == QMessageBox::Ok){
+            Student *student = NULL;
+            for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
+                if((*ite)->getID() == tableWidget_Student->item(tableWidget_Student->currentRow(), 0)->text()){
+                    student = *ite;
+                    break;
+                }
+            }
+            studentList.removeOne(student);
+
             emit this->deleteUserId(tableWidget_Student->item(tableWidget_Student->currentRow(), 0)->text());
+        }
         else
             return;
     }
     else if(tabWidget->currentIndex() == 1 && tableWidget_Teacher->currentRow() >= 0)
     {
         int ret = msg.exec();
-        if(ret == QMessageBox::Ok)
+        if(ret == QMessageBox::Ok){
+            User *teacher = NULL;
+            for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
+                if((*ite)->getId() == tableWidget_Teacher->item(tableWidget_Teacher->currentRow(), 0)->text().toInt()){
+                    teacher = *ite;
+                    break;
+                }
+            }
+            teacherList.removeOne(teacher);
+
             emit this->deleteManagerId(tableWidget_Teacher->item(tableWidget_Teacher->currentRow(), 0)->text().toInt());
+        }
         else
             return;
     }
     else if(tabWidget->currentIndex() == 2 && tableWidget_Manager->currentRow() >= 0){
         int ret = msg.exec();
-        if(ret == QMessageBox::Ok)
+        if(ret == QMessageBox::Ok){
+            User *manager = NULL;
+            for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+                if((*ite)->getId() == tableWidget_Manager->item(tableWidget_Manager->currentRow(), 0)->text().toInt()){
+                    manager = *ite;
+                    break;
+                }
+            }
+            managerList.removeOne(manager);
+
             emit this->deleteManagerId(tableWidget_Manager->item(tableWidget_Manager->currentRow(), 0)->text().toInt());
+        }
         else
             return;
     }
@@ -162,20 +195,20 @@ void MemberManageUI::on_pushButton_search_clicked()
 {
     if(tabWidget->currentIndex() == 0)
     {
-        userSearchList.clear();
+        studentSearchList.clear();
         QString s_tosearch;
         s_tosearch = lineEdit_search->text();
         for(int i = 0; i < studentList.count(); i++)
         {
-            if(studentList.at(i)->getID() == s_tosearch||
-                    studentList.at(i)->getName() == s_tosearch||
-                    studentList.at(i)->getGrade() == s_tosearch.toInt()||
+            if(studentList.at(i)->getID() == s_tosearch ||
+                    studentList.at(i)->getName() == s_tosearch ||
+                    studentList.at(i)->getGrade() == s_tosearch.toInt() ||
                     studentList.at(i)->getClass() == s_tosearch.toInt())
             {
-                userSearchList.append(studentList.at(i));
+                studentSearchList.append(studentList.at(i));
             }
         }
-        this->showUser(userSearchList,teacherList);
+        this->showUser(studentSearchList,teacherList);
     }
     else if(tabWidget->currentIndex() == 1)
     {
@@ -184,13 +217,27 @@ void MemberManageUI::on_pushButton_search_clicked()
         s_tosearch = lineEdit_search->text();
         for(int i = 0; i < teacherList.count(); i++)
         {
-            if(teacherList.at(i)->getId() == s_tosearch.toInt()||
+            if(teacherList.at(i)->getId() == s_tosearch.toInt() ||
                     teacherList.at(i)->getName() == s_tosearch)
             {
                 teacherSearchList.append(teacherList.at(i));
             }
         }
         this->showUser(studentList,teacherSearchList);
+    }
+    else if(tabWidget->currentIndex() == 2)
+    {
+        managerSearchList.clear();
+        QString s_tosearch;
+        s_tosearch = lineEdit_search->text();
+        for(int i = 0; i < managerList.count(); i++){
+            if(managerList.at(i)->getId() == s_tosearch.toInt() ||
+                    managerList.at(i)->getName() == s_tosearch)
+            {
+                managerSearchList.append(managerList.at(i));
+            }
+        }
+        this->showManager(managerSearchList);
     }
 }
 

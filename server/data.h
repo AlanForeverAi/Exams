@@ -346,6 +346,8 @@ public:
     void setDescription(QString);
     void setTime(int);
     void setDate(QString);
+    void setSubject(int);
+    int getSubject();
     int getPaperId();
     QString getObQuIds();
     QString getSubQuIds();
@@ -357,20 +359,15 @@ public:
     QList<ChoiceQuestions> choiceQuestionList;
     QList<EssayQuestions> essayQuestionbList;
 private:
-    int _paperId;
+    int     _paperId;
     QString _obQuIds;
     QString _subQuIds;
-
-    /*
-      QString questionsID;
-     */
     QString _description;
     int     _totalMark;
     int     _percent;
     int     _time;
     QString _date;
-
-
+    int     _subject;
 };
 Q_DECLARE_METATYPE(Paper)
 

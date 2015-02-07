@@ -33,7 +33,7 @@ private:
     QList<Student *> studentList;
     QList<User *> teacherList;
     QList<User *> managerList;
-    QList<Student *> userSearchList;
+    QList<Student *> studentSearchList;
     QList<User *> teacherSearchList;
     QList<User *> managerSearchList;
 
