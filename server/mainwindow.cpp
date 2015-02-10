@@ -108,12 +108,17 @@ void MainWindow::do_subscore()
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
+    connect(this, SIGNAL(showType(QMap<int,QString>)), mem_Manage, SLOT(showType(QMap<int,QString>)));
     connect(this, SIGNAL(showManager(QList<User*>)), mem_Manage, SLOT(showManager(QList<User*>)));
-    connect(this, SIGNAL(showUserType(QList<QString>)), mem_Manage, SLOT(showUserType(QList<QString>)));
+    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SLOT(showSubject(QList<QString>)));
     connect(this, SIGNAL(showUser(QList<Student*>,QList<User*>)),mem_Manage, SLOT(showUser(QList<Student*>, QList<User*>)));
-    connect(mem_Manage,SIGNAL(addStudent(Student*)),this,SIGNAL(addStudent(Student*)));
-    connect(mem_Manage,SIGNAL(addTeacher(User*)),this,SIGNAL(addTeacher(User*)));
+    connect(mem_Manage, SIGNAL(addStudent(Student*)),this,SIGNAL(addStudent(Student*)));
+    connect(mem_Manage, SIGNAL(addTeacher(User*)),this,SIGNAL(addTeacher(User*)));
     connect(mem_Manage, SIGNAL(addManager(User*)), this, SIGNAL(addManger(User*)));
+    connect(mem_Manage, SIGNAL(addType(int,QString)), this, SIGNAL(addType(int,QString)));
+    connect(mem_Manage, SIGNAL(deleteType(int)), this, SIGNAL(deleteType(int)));
+    connect(mem_Manage->pushButton_add_user, SIGNAL(clicked()), this, SIGNAL(getType()));
+    connect(mem_Manage->pushButton_delete_user, SIGNAL(clicked()), this, SIGNAL(getType()));
     connect(mem_Manage->pushButton_add_user, SIGNAL(clicked()), this, SIGNAL(getManager()));
     connect(mem_Manage->pushButton_add_user, SIGNAL(clicked()), this, SIGNAL(getUser()));
     connect(mem_Manage,SIGNAL(deleteUserId(QString)),this,SIGNAL(deleteUserId(QString)));
@@ -124,8 +129,9 @@ void MainWindow::do_memmanage()
     connect(mem_Manage->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(mem_Manage);
     emit this->getUser();
-    emit this->getUserType();
+    emit this->getSubject();
     emit this->getManager();
+    emit this->getType();
     _statusBar->showMessage(QStringLiteral("用户管理"));
 }
 

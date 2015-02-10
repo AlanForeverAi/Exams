@@ -76,10 +76,25 @@ void MemberManageUI::showUser(QList<Student *> listStudent, QList<User *> listTe
     }
 }
 
-void MemberManageUI::showUserType(QList<QString> typeList)
+void MemberManageUI::showSubject(QList<QString> typeList)
 {
     for(int i = 0; i < typeList.count(); ++i){
         comboBox->addItem(typeList.at(i));
+    }
+}
+
+void MemberManageUI::showType(QMap<int, QString> type)
+{
+    tableWidget_Type->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableWidget_Type->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tableWidget_Type->setRowCount(type.count());
+    QMap<int, QString>::iterator ite = type.begin();
+    for(int i = 0; ite != type.end(); ++i, ++ite){
+        QTableWidgetItem *id = new QTableWidgetItem(QString::number(ite.key()));
+        QTableWidgetItem *type = new QTableWidgetItem(ite.value());
+
+        tableWidget_Type->setItem(i, 0, id);
+        tableWidget_Type->setItem(i, 1, type);
     }
 }
 
@@ -124,6 +139,9 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         emit this->addManager(managerptr);
         delete(managerptr);
     }
+    else if(tabWidget->currentIndex() == 3){
+        emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
+    }
     this->textClear();
 }
 
@@ -144,7 +162,7 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
                 }
             }
             studentList.removeOne(student);
-
+            delete(student);
             emit this->deleteUserId(tableWidget_Student->item(tableWidget_Student->currentRow(), 0)->text());
         }
         else
@@ -162,7 +180,7 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
                 }
             }
             teacherList.removeOne(teacher);
-
+            delete(teacher);
             emit this->deleteManagerId(tableWidget_Teacher->item(tableWidget_Teacher->currentRow(), 0)->text().toInt());
         }
         else
@@ -179,8 +197,16 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
                 }
             }
             managerList.removeOne(manager);
-
+            delete(manager);
             emit this->deleteManagerId(tableWidget_Manager->item(tableWidget_Manager->currentRow(), 0)->text().toInt());
+        }
+        else
+            return;
+    }
+    else if(tabWidget->currentIndex() == 3 && tableWidget_Type->currentRow() >= 0){
+        int ret = msg.exec();
+        if(ret == QMessageBox::Ok){
+            emit this->deleteType(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
         }
         else
             return;

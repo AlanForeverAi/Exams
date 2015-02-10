@@ -25,15 +25,26 @@ void DBManager::setConfig(QString name, QString user, QString password)
      }
 }
 
-QSqlQuery DBManager::selectUserType()
+QSqlQuery DBManager::selectType()
 {
     QSqlQuery query;
-    QString s = "select * FROM serveridtype WHERE type not in (select type from serveridtype where type = '%1')";
+    if(query.exec("select * from serveridtype"))
+        return query;
+    else
+    {
+        qDebug() << "selectType] " << query.lastError();
+    }
+}
+
+QSqlQuery DBManager::selectSubject()
+{
+    QSqlQuery query;
+    QString s = "select * from serveridtype where type not in (select type from serveridtype where type = '%1')";
     if(query.exec(s.arg(QStringLiteral("管理员"))))
         return query;
     else
     {
-        qDebug() << "selectUserType] " << query.lastError();
+        qDebug() << "selectSubject] " << query.lastError();
     }
 }
 
@@ -47,6 +58,25 @@ QSqlQuery DBManager::selectUserTypeBySubject(QString subject)
     else{
         qDebug() << "selectUserTypeBySubject] " << query.lastError();
     }
+}
+
+void DBManager::insertType(int id, QString type)
+{
+    QSqlQuery query;
+    query.prepare("insert into serveridtype (id, type) values (?, ?)");
+    query.addBindValue(id);
+    query.addBindValue(type);
+    query.exec();
+    qDebug() << "insertType] " << query.lastError();
+}
+
+void DBManager::deleteType(int id)
+{
+    QSqlQuery query;
+    query.prepare("delete from serveridtype where id = ?");
+    query.addBindValue(id);
+    query.exec();
+    qDebug() << "deleteType] " << query.lastError();
 }
 
 
@@ -67,7 +97,7 @@ QSqlQuery DBManager::selectStudentByID(QString a)
     query.prepare("select * from student where userid  =  (?)");
     query.addBindValue(a);
     query.exec();
-    qDebug() << "selectStudentById]" << query.lastError();
+    qDebug() << "selectStudentById] " << query.lastError();
     return query;
 }
 

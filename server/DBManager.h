@@ -15,8 +15,12 @@ public:
 
     void setConfig(QString, QString, QString);
 
-    QSqlQuery selectUserType();
+    QSqlQuery selectType();
+    QSqlQuery selectSubject();
     QSqlQuery selectUserTypeBySubject(QString);
+
+    void insertType(int, QString);
+    void deleteType(int);
 
     //Student
     QSqlQuery selectStudent();

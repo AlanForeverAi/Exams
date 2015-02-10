@@ -84,8 +84,13 @@ signals:
     void inputPaper(QString);
     void sendInfo(QStringList);
 
-    void showUserType(QList<QString>);
-    void getUserType();
+    void showSubject(QList<QString>);
+    void getSubject();
+    void showType(QMap<int, QString>);
+    void getType();
+
+    void addType(int, QString);
+    void deleteType(int);
 
 private slots:
     void on_action_QuestionsManager_triggered();

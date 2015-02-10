@@ -9,9 +9,7 @@ MainApp::MainApp()
     iniDBManager();
     iniServer();
     _IOM = new IOManager;
-
     _serverState = STATE_NOEXAM;
-    //在信息字符串前预留一位用来填写考试状态
     _infoList.append("*,");
 }
 
@@ -99,8 +97,10 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&_window,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
-    connect(&_window, SIGNAL(getUserType()), this, SLOT(getUserType()));
-    connect(this, SIGNAL(showUserType(QList<QString>)), &_window, SIGNAL(showUserType(QList<QString>)));
+    connect(&_window, SIGNAL(getType()), this, SLOT(getType()));
+    connect(this, SIGNAL(showType(QMap<int, QString>)), &_window, SIGNAL(showType(QMap<int, QString>)));
+    connect(&_window, SIGNAL(getSubject()), this, SLOT(getSubject()));
+    connect(this, SIGNAL(showSubject(QList<QString>)), &_window, SIGNAL(showSubject(QList<QString>)));
     connect(&_window,SIGNAL(getUser()),this,SLOT(getUser()));//mainwindow发，mainapp收
     connect(&_window, SIGNAL(getManager()), this, SLOT(getManager()));
     connect(this,SIGNAL(showManager(QList<User*>)), &_window, SIGNAL(showManager(QList<User*>)));
@@ -110,6 +110,8 @@ void MainApp::iniMainWindow()
     connect(&_window, SIGNAL(addManger(User*)), this, SLOT(addManager(User*)));
     connect(&_window,SIGNAL(deleteUserId(QString)),this,SLOT(deleteUserId(QString)));
     connect(&_window,SIGNAL(deleteManagerId(int)),this,SLOT(deleteManagerId(int)));
+    connect(&_window, SIGNAL(addType(int,QString)), this, SLOT(addType(int,QString)));
+    connect(&_window, SIGNAL(deleteType(int)), this, SLOT(deleteType(int)));
     //login
     connect(&_window,SIGNAL(loginSignal(User)),this,SLOT(managerLogin(User)));
     connect(this,SIGNAL(LoginOK()),&_window,SLOT(LoginOK()));
@@ -384,12 +386,12 @@ Paper MainApp::preparePaper(int id)
 void MainApp::sendPaper(int id)
 {
     _mainPaper = this->preparePaper(id);
-    _userList = this->getUserByPaperId(id,QStringLiteral("未完成"));
-    this->userStateChange(-1,QStringLiteral("未登录"));
+    _userList = this->getUserByPaperId(id, QStringLiteral("未完成"));
+    this->userStateChange(-1, QStringLiteral("未登录"));
 
     QVariant v;
     v.setValue(_mainPaper);
-    emit this->sendData(-1,MSG_GETPAPER,v);
+    emit this->sendData(-1, MSG_GETPAPER,v);
     _serverState = STATE_PAPERREADY;
 }
 
@@ -406,7 +408,7 @@ void MainApp::beginExam()
         if(_userList.at(i)->getState() == QStringLiteral("等待"))
             this->userStateChange(_userList.at(i)->getSockDescriptor(),QStringLiteral("考试中"));
     }
-    emit this->sendData(-1,MSG_BEGINEXAM,0);
+    emit this->sendData(-1, MSG_BEGINEXAM, 0);
 
 }
 
@@ -801,17 +803,40 @@ void MainApp::getManager(){
     emit this->showManager(managerList);
 }
 
-void MainApp::getUserType()
+void MainApp::getSubject()
 {
-    QList<QString> typeList;
+    QList<QString> subjectList;
     QSqlQuery query;
-    query = _DBM->selectUserType();
+    query = _DBM->selectSubject();
 
     while(query.next()){
-        typeList.append(query.value(1).toString());
+        subjectList.append(query.value(1).toString());
     }
 
-    emit this->showUserType(typeList);
+    emit this->showSubject(subjectList);
+}
+
+void MainApp::getType()
+{
+    QMap<int, QString> type;
+    QSqlQuery query;
+    query = _DBM->selectType();
+
+    while(query.next()){
+        type[query.value(0).toInt()] = query.value(1).toString();
+    }
+
+    emit this->showType(type);
+}
+
+void MainApp::addType(int id, QString type)
+{
+    _DBM->insertType(id, type);
+}
+
+void MainApp::deleteType(int id)
+{
+    _DBM->deleteType(id);
 }
 
 void MainApp::getUser()
