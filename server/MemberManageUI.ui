@@ -125,7 +125,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>点击此处输入</string>
+             <string/>
             </property>
            </widget>
           </item>

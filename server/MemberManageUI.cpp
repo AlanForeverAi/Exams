@@ -85,6 +85,9 @@ void MemberManageUI::showSubject(QList<QString> typeList)
 
 void MemberManageUI::showType(QMap<int, QString> type)
 {
+    if(typeList.count() == 0)
+        typeList = type;
+
     tableWidget_Type->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_Type->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     tableWidget_Type->setRowCount(type.count());
@@ -102,6 +105,18 @@ void MemberManageUI::on_pushButton_add_user_clicked()
 {
     if(tabWidget->currentIndex() == 0)
     {
+        if(lineEdit_userID->text() == "" || lineEdit_userName->text() == "" || lineEdit_userClass->text() == "" ||
+                lineEdit_userGrade->text() == "" || lineEdit_userPwd->text() == ""){
+            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+            return ;
+        }
+
+        for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
+            if((*ite)->getID() == lineEdit_userID->text()){
+                QMessageBox::about(this, "msg", QStringLiteral("学生ID已存在！"));
+                return ;
+            }
+        }
         Student * studentptr =  new Student;
         studentptr->setID(lineEdit_userID->text());
         studentptr->setName(lineEdit_userName->text());
@@ -115,10 +130,23 @@ void MemberManageUI::on_pushButton_add_user_clicked()
     }
     else if(tabWidget->currentIndex() == 1)
     {
+        if(lineEdit_teacherId->text() == "" || lineEdit_teacherName->text() == "" || lineEdit_teacherPwd->text() == ""){
+            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+            return ;
+        }
+
         if(comboBox->currentText() == QStringLiteral("  未选择")){
             QMessageBox::about(this,"msg",QStringLiteral("用户类型未选择！"));
             return ;
         }
+
+        for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
+            if((*ite)->getId() == lineEdit_teacherId->text().toInt()){
+                QMessageBox::about(this, "msg", QStringLiteral("教师ID已存在！"));
+                return ;
+            }
+        }
+
         User *teacherptr = new User;
         teacherptr->setId(lineEdit_teacherId->text().toInt());
         teacherptr->setName(lineEdit_teacherName->text());
@@ -130,6 +158,18 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         delete(teacherptr);
     }
     else if(tabWidget->currentIndex() == 2){
+        if(lineEdit_managerId->text() == "" || lineEdit_managerName->text() == "" || lineEdit_managerPwd->text() == ""){
+            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+            return ;
+        }
+
+        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+            if((*ite)->getId() == lineEdit_managerId->text().toInt()){
+                QMessageBox::about(this, "msg", QStringLiteral("管理员ID已存在！"));
+                return ;
+            }
+        }
+
         User *managerptr = new User;
         managerptr->setId(lineEdit_managerId->text().toInt());
         managerptr->setName(lineEdit_managerName->text());
@@ -140,6 +180,23 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         delete(managerptr);
     }
     else if(tabWidget->currentIndex() == 3){
+        if(lineEdit_typeId->text() == "" || lineEdit_typeName->text() == ""){
+            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+            return ;
+        }
+
+        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+            if(ite.key() == lineEdit_typeId->text().toInt()){
+                QMessageBox::about(this, "msg", QStringLiteral("类型ID已存在！"));
+                return ;
+            }
+            if(ite.value() == lineEdit_typeName->text()){
+                QMessageBox::about(this, "msg", QStringLiteral("类型已存在！"));
+                return ;
+            }
+        }
+
+        typeList[lineEdit_typeId->text().toInt()] = lineEdit_typeName->text();
         emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
     }
     this->textClear();
@@ -206,6 +263,7 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     else if(tabWidget->currentIndex() == 3 && tableWidget_Type->currentRow() >= 0){
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
+            typeList.remove(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
             emit this->deleteType(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
         }
         else
@@ -213,7 +271,7 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QStringLiteral("请选择一个用户"));
+        QMessageBox::about(this,"msg",QStringLiteral("请选择你要删除的一项"));
     }
 }
 
@@ -265,12 +323,24 @@ void MemberManageUI::on_pushButton_search_clicked()
         }
         this->showManager(managerSearchList);
     }
+    else if(tabWidget->currentIndex() == 3){
+        typeSearchList.clear();
+        QString s_tosearch;
+        s_tosearch = lineEdit_search->text();
+        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+            if(ite.key() == s_tosearch.toInt() || ite.value() == s_tosearch){
+                typeSearchList[ite.key()] = ite.value();
+            }
+        }\
+        this->showType(typeSearchList);
+    }
 }
 
 void MemberManageUI::on_pushButton_all_clicked()
 {
     this->showUser(studentList,teacherList);
     this->showManager(managerList);
+    this->showType(typeList);
 }
 
 void MemberManageUI::textClear()

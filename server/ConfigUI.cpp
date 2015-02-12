@@ -43,6 +43,6 @@ void ConfigUI::onPushbuttonSaveClicked()
     out << lineEdit_port->text() << "\n";
     configFile.close();
 
-    QMessageBox::about(this,"ConfigMSG",tr("保存成功"));
+    QMessageBox::about(this,"ConfigMSG",QStringLiteral("保存成功"));
 
 }

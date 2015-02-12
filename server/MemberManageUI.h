@@ -39,7 +39,8 @@ private:
     QList<Student *> studentSearchList;
     QList<User *>    teacherSearchList;
     QList<User *>    managerSearchList;
-
+    QMap<int, QString> typeList;
+    QMap<int, QString> typeSearchList;
 };
 
 #endif // MEMBERMANAGEUI_H

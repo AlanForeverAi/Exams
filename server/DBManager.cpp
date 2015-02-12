@@ -540,7 +540,7 @@ QSqlQuery DBManager::managerLogin(int id ,QString password)
     QString s = "select userid, name, type from serveruser where userid= %1 and password= \'%2\' ";
     if( query.exec(s.arg(id).arg(password)))
     {
-        query.first(); //QSqlQuery使用value()需要调用该函数
+        query.first();
         User::GetInstance().setType(query.value(2).toInt());
         qDebug() << "managerLogin] " << query.lastError();
         return query;
