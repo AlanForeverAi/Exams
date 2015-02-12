@@ -17,6 +17,7 @@ IOManager::IOManager()
 
 IOManager::~IOManager()
 {
+
 }
 
 void IOManager::outputUser(QList<Student*> userlist)
@@ -51,7 +52,7 @@ QList<Student*> IOManager::inputUser(QString path)
     QList<Student*> userlist;
 
     QFile inouput(path);
-    if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::ReadOnly | QIODevice::Text))
         return userlist;
     QTextStream in(&inouput);
     QString temp;
@@ -94,7 +95,7 @@ void IOManager::outputPaper(QList<Paper*> paperlist)
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);
-    if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&inouput);
     for(int i = 0; i<paperlist.count(); ++i)
@@ -114,7 +115,6 @@ void IOManager::outputPaper(QList<Paper*> paperlist)
         out << QStringLiteral("考试时间 ");
         out << paperlist.at(i)->getTime() << "\n";
     }
-
     inouput.close();
 }
 //以上为paper表写入文件
@@ -126,7 +126,7 @@ QList<Paper*> IOManager::inputPaper(QString path)
     QList<Paper*> paperlist;
 
     QFile inouput(path);
-    if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::ReadOnly | QIODevice::Text))
         return paperlist;
     QTextStream in(&inouput);
     QString temp;
@@ -178,7 +178,7 @@ void IOManager::outputOb(QList<ChoiceQuestions*> obquestionlist)
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);
-    if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&inouput);
     for(int i = 0; i<obquestionlist.count(); ++i)
@@ -203,7 +203,7 @@ QList<ChoiceQuestions*> IOManager::inputOb(QString path)
     QList<ChoiceQuestions*> oblist;
 
     QFile inouput(path);
-    if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::ReadOnly | QIODevice::Text))
         return oblist;
     QTextStream in(&inouput);
     QString temp;
@@ -239,7 +239,7 @@ void IOManager::outputSub(QList<EssayQuestions*> subquestionlist)
     filename.append(QDate::currentDate().toString());
     filename.append(".txt");
     QFile inouput(filename);
-    if(!inouput.open(QIODevice::WriteOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::WriteOnly | QIODevice::Text))
         return ;
     QTextStream out(&inouput);
     for(int i = 0; i<subquestionlist.count(); ++i)
@@ -260,7 +260,7 @@ QList<EssayQuestions*> IOManager::inputSub(QString path)
     QList<EssayQuestions*> sublist;
 
     QFile inouput(path);
-    if(!inouput.open(QIODevice::ReadOnly|QIODevice::Text))
+    if(!inouput.open(QIODevice::ReadOnly | QIODevice::Text))
         return sublist;
     QTextStream in(&inouput);
     QString temp;

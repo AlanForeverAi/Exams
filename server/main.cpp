@@ -11,13 +11,13 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext &context, con
     QString txt;
     switch (type) {
     case QtDebugMsg:
-        txt = QString("Debug: %1").arg(msg);
+        txt = QString("%1 Debug: %2").arg(QTime::currentTime().toString("hh:mm:ss")).arg(msg);
         break;
     case QtWarningMsg:
-        txt = QString("Warning: %1").arg(msg);
+        txt = QString("%1 Warning: %2").arg(QTime::currentTime().toString("hh:mm:ss")).arg(msg);
         break;
     case QtFatalMsg:
-        txt = QString("Fatal: %1").arg(msg);
+        txt = QString("%1 Fatal: %2").arg(QTime::currentTime().toString("hh:mm:ss")).arg(msg);
         abort();
     }
     QTextStream ts(&outFile);
@@ -26,7 +26,7 @@ void customMessageHandler(QtMsgType type, const QMessageLogContext &context, con
 
 int main(int argc, char *argv[])
 {
-    outFile.setFileName(QString("%1.log").arg(QTime::currentTime().toString("hh_mm")));
+    outFile.setFileName(QString("%1.log").arg(QDate::currentDate().toString("dd_MM_yyyy")));
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("GBK"));
     QApplication a(argc, argv);

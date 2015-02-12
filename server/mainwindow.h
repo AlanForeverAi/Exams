@@ -60,14 +60,16 @@ signals:
     void submitSubMark(QStringList);
     void loginSignal(User);
     void getManager();
-    void getUser();
+    void getStudent();
+    void getTeacher();
     void addStudent(Student*);
     void addTeacher(User *);
     void addManger(User *);
     void deleteUserId(QString);
     void deleteManagerId(int);
     void showManager(QList<User *>);
-    void showUser(QList<Student*>,QList<User*>);
+    void showStudent(QList<Student *>);
+    void showTeacher(QList<User *>);
     void getcurrentPaperTime(int);
     void sendPaperTime(int,int);
     void getCombo_id(QString);//根据userid 获得
@@ -84,8 +86,13 @@ signals:
     void inputPaper(QString);
     void sendInfo(QStringList);
 
-    void showUserType(QList<QString>);
-    void getUserType();
+    void showSubject(QList<QString>);
+    void getSubject();
+    void showType(QMap<int, QString>);
+    void getType();
+
+    void addType(int, QString);
+    void deleteType(int);
 
 private slots:
     void on_action_QuestionsManager_triggered();

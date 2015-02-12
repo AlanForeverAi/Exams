@@ -36,11 +36,14 @@ signals:
     void showUserByPaperId(QList<Student*>);//按试卷显示考生
     void showSubAnswer(QVector<QString>);//显示主观题答案
     void showManager(QList<User *>);
-    void showUser(QList<Student*>,QList<User*>);//显示用户
     void showCombo(QList<Combo*>);//显示成绩
     void LoginOK();//登录成功信号
     void getcurrentPaperTime(int);//取得当前考试剩余时间
-    void showUserType(QList<QString>);
+    void showSubject(QList<QString>);
+    void showType(QMap<int, QString>);
+    void showStudent(QList<Student *>);
+    void showTeacher(QList<User *>);
+
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
     void removeUser(int);//将考生状态重置为未连接
@@ -67,7 +70,8 @@ public slots:
     QList<Student*> getUserByPaperId(int,QString);//按试卷id查找考生
     void getSubAnswer(int,QString);//取得主观题答案
     void submitSubMark(QStringList);//提交主观题评分
-    void getUser();//取得用户信息（考生、管理员）
+    void getStudent();
+    void getTeacher();
     void addStudent(Student *);//添加考生
     void modifyUser(Student);//修改考生
     void addTeacher(User *);
@@ -89,7 +93,12 @@ public slots:
     //发送考试信息
     void sendInfo(QStringList);
     void getManager();
-    void getUserType();
+    void getSubject();
+    void getType();
+
+    void addType(int, QString);
+    void deleteType(int);
+
 private:
     DBManager *_DBM;
     MainWindow _window;

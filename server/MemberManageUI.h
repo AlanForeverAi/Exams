@@ -16,9 +16,10 @@ signals:
     void addStudent(Student *);
     void addTeacher(User *);
     void addManager(User *);
+    void addType(int, QString);
     void deleteUserId(QString);
     void deleteManagerId(int);
-
+    void deleteType(int);
 
 private slots:
     void on_pushButton_add_user_clicked();
@@ -26,17 +27,21 @@ private slots:
     void on_pushButton_search_clicked();
     void on_pushButton_all_clicked();
     void showManager(QList<User *>);
-    void showUser(QList<Student *>, QList<User *>);
-    void showUserType(QList<QString>);
+    void showStudent(QList<Student *>);
+    void showTeacher(QList<User *>);
+    void showSubject(QList<QString>);
+    void showType(QMap<int, QString>);
     void textClear();
+
 private:
     QList<Student *> studentList;
-    QList<User *> teacherList;
-    QList<User *> managerList;
+    QList<User *>    teacherList;
+    QList<User *>    managerList;
     QList<Student *> studentSearchList;
-    QList<User *> teacherSearchList;
-    QList<User *> managerSearchList;
-
+    QList<User *>    teacherSearchList;
+    QList<User *>    managerSearchList;
+    QMap<int, QString> typeList;
+    QMap<int, QString> typeSearchList;
 };
 
 #endif // MEMBERMANAGEUI_H
