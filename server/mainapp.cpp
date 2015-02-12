@@ -97,14 +97,17 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&_window,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
+
     connect(&_window, SIGNAL(getType()), this, SLOT(getType()));
     connect(this, SIGNAL(showType(QMap<int, QString>)), &_window, SIGNAL(showType(QMap<int, QString>)));
     connect(&_window, SIGNAL(getSubject()), this, SLOT(getSubject()));
     connect(this, SIGNAL(showSubject(QList<QString>)), &_window, SIGNAL(showSubject(QList<QString>)));
-    connect(&_window,SIGNAL(getUser()),this,SLOT(getUser()));//mainwindow发，mainapp收
+    connect(&_window, SIGNAL(getStudent()), this, SLOT(getStudent()));
+    connect(&_window, SIGNAL(getTeacher()), this, SLOT(getTeacher()));
     connect(&_window, SIGNAL(getManager()), this, SLOT(getManager()));
     connect(this,SIGNAL(showManager(QList<User*>)), &_window, SIGNAL(showManager(QList<User*>)));
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),&_window,SIGNAL(showUser(QList<Student*>,QList<User*>)));
+    connect(this, SIGNAL(showStudent(QList<Student*>)), &_window, SIGNAL(showStudent(QList<Student*>)));
+    connect(this, SIGNAL(showTeacher(QList<User*>)), &_window, SIGNAL(showTeacher(QList<User*>)));
     connect(&_window,SIGNAL(addStudent(Student*)),this,SLOT(addStudent(Student *)));
     connect(&_window,SIGNAL(addTeacher(User*)),this,SLOT(addTeacher(User*)));
     connect(&_window, SIGNAL(addManger(User*)), this, SLOT(addManager(User*)));
@@ -839,11 +842,9 @@ void MainApp::deleteType(int id)
     _DBM->deleteType(id);
 }
 
-void MainApp::getUser()
+void MainApp::getStudent()
 {
-    QList<Student*> studentList;
-    QList<User*> userList;
-
+    QList<Student*> studentList;\
     QSqlQuery query;
     query = _DBM->selectStudent();
 
@@ -857,19 +858,25 @@ void MainApp::getUser()
         studentptr->setPassword(query.value(4).toString());
         studentList.append(studentptr);
     }
+    emit this->showStudent(studentList);
+}
 
-    query.clear();
+void MainApp::getTeacher()
+{
+    QList<User*> teacherList;
+    QSqlQuery query;
     query = _DBM->selectUser();
+
     while(query.next())
     {
-        User *userptr = new User();
-        userptr->setId(query.value(0).toInt());
-        userptr->setName(query.value(1).toString());
-        userptr->setPassword(query.value(2).toString());
-        userptr->setSubject(query.value(3).toString());
-        userList.append(userptr);
+        User *teacherptr = new User();
+        teacherptr->setId(query.value(0).toInt());
+        teacherptr->setName(query.value(1).toString());
+        teacherptr->setPassword(query.value(2).toString());
+        teacherptr->setSubject(query.value(3).toString());
+        teacherList.append(teacherptr);
     }
-    emit this->showUser(studentList,userList);
+    emit this->showTeacher(teacherList);
 }
 
 void MainApp::addStudent(Student *user)

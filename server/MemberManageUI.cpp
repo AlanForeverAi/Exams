@@ -33,13 +33,10 @@ void MemberManageUI::showManager(QList<User *> listManager)
     }
 }
 
-void MemberManageUI::showUser(QList<Student *> listStudent, QList<User *> listTeacher)
+void MemberManageUI::showStudent(QList<Student *> listStudent)
 {
     if(studentList.empty())
         studentList = listStudent;
-
-    if(teacherList.empty())
-        teacherList = listTeacher;
 
     tableWidget_Student->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_Student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
@@ -58,6 +55,12 @@ void MemberManageUI::showUser(QList<Student *> listStudent, QList<User *> listTe
         tableWidget_Student->setItem(i,3,u_class);
         tableWidget_Student->setItem(i,4,u_password);
     }
+}
+
+void MemberManageUI::showTeacher(QList<User *>listTeacher)
+{
+    if(teacherList.empty())
+        teacherList = listTeacher;
 
     tableWidget_Teacher->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_Teacher->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
@@ -142,7 +145,13 @@ void MemberManageUI::on_pushButton_add_user_clicked()
 
         for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
             if((*ite)->getId() == lineEdit_teacherId->text().toInt()){
-                QMessageBox::about(this, "msg", QStringLiteral("教师ID已存在！"));
+                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+                return ;
+            }
+        }
+        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+            if((*ite)->getId() == lineEdit_teacherId->text().toInt()){
+                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
                 return ;
             }
         }
@@ -163,9 +172,16 @@ void MemberManageUI::on_pushButton_add_user_clicked()
             return ;
         }
 
+        for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
+            if((*ite)->getId() == lineEdit_teacherId->text().toInt()){
+                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+                return ;
+            }
+        }
+
         for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
             if((*ite)->getId() == lineEdit_managerId->text().toInt()){
-                QMessageBox::about(this, "msg", QStringLiteral("管理员ID已存在！"));
+                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
                 return ;
             }
         }
@@ -292,7 +308,7 @@ void MemberManageUI::on_pushButton_search_clicked()
                 studentSearchList.append(studentList.at(i));
             }
         }
-        this->showUser(studentSearchList,teacherList);
+        this->showStudent(studentSearchList);
     }
     else if(tabWidget->currentIndex() == 1)
     {
@@ -307,7 +323,7 @@ void MemberManageUI::on_pushButton_search_clicked()
                 teacherSearchList.append(teacherList.at(i));
             }
         }
-        this->showUser(studentList,teacherSearchList);
+        this->showTeacher(teacherSearchList);
     }
     else if(tabWidget->currentIndex() == 2)
     {
@@ -338,7 +354,8 @@ void MemberManageUI::on_pushButton_search_clicked()
 
 void MemberManageUI::on_pushButton_all_clicked()
 {
-    this->showUser(studentList,teacherList);
+    this->showStudent(studentList);
+    this->showTeacher(teacherList);
     this->showManager(managerList);
     this->showType(typeList);
 }
@@ -353,4 +370,9 @@ void MemberManageUI::textClear()
     lineEdit_managerId->clear();
     lineEdit_managerName->clear();
     lineEdit_managerPwd->clear();
+    lineEdit_teacherId->clear();
+    lineEdit_teacherName->clear();
+    lineEdit_teacherPwd->clear();
+    lineEdit_typeId->clear();
+    lineEdit_typeName->clear();
 }

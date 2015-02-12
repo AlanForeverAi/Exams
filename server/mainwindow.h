@@ -60,14 +60,16 @@ signals:
     void submitSubMark(QStringList);
     void loginSignal(User);
     void getManager();
-    void getUser();
+    void getStudent();
+    void getTeacher();
     void addStudent(Student*);
     void addTeacher(User *);
     void addManger(User *);
     void deleteUserId(QString);
     void deleteManagerId(int);
     void showManager(QList<User *>);
-    void showUser(QList<Student*>,QList<User*>);
+    void showStudent(QList<Student *>);
+    void showTeacher(QList<User *>);
     void getcurrentPaperTime(int);
     void sendPaperTime(int,int);
     void getCombo_id(QString);//根据userid 获得

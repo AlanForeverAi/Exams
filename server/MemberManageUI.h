@@ -27,7 +27,8 @@ private slots:
     void on_pushButton_search_clicked();
     void on_pushButton_all_clicked();
     void showManager(QList<User *>);
-    void showUser(QList<Student *>, QList<User *>);
+    void showStudent(QList<Student *>);
+    void showTeacher(QList<User *>);
     void showSubject(QList<QString>);
     void showType(QMap<int, QString>);
     void textClear();
