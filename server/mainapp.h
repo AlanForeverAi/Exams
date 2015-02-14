@@ -99,6 +99,8 @@ public slots:
     void addType(int, QString);
     void deleteType(int);
 
+    void updateStudent(Student *);
+
 private:
     DBManager *_DBM;
     MainWindow _window;

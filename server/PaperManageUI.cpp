@@ -9,6 +9,23 @@ PaperManageUI::PaperManageUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
+    table_allpaper->verticalHeader()->setHidden(true);
+    tableWidget_allpaper->verticalHeader()->setHidden(true);
+    tableWidget_alluser->verticalHeader()->setHidden(true);
+    tableWidget_All_Ob->verticalHeader()->setHidden(true);
+    tableWidget_All_Sub->verticalHeader()->setHidden(true);
+    tableWidget_selectuser->verticalHeader()->setHidden(true);
+    tableWidget_Select_Ob->verticalHeader()->setHidden(true);
+    tableWidget_Select_Sub->verticalHeader()->setHidden(true);
+
+    tableWidget_allpaper->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_alluser->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_All_Ob->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_All_Sub->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_selectuser->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_Select_Ob->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_Select_Sub->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     table_allpaper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     table_allpaper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_allpaper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
@@ -439,7 +456,7 @@ void PaperManageUI::clear()
     this->updateSelectTable();
 }
 
-void PaperManageUI::showAllUser(QList<Student *> studentsList, QList<User *> m)
+void PaperManageUI::showStudent(QList<Student *> studentsList)
 {
     if(_userList.isEmpty())
     {
@@ -457,7 +474,6 @@ void PaperManageUI::showAllUser(QList<Student *> studentsList, QList<User *> m)
         tableWidget_alluser->setItem(i,1,u_name);
         tableWidget_alluser->setItem(i,2,u_grade);
         tableWidget_alluser->setItem(i,3,u_class);
-
     }
 }
 
@@ -484,7 +500,6 @@ void PaperManageUI::showSelectUser(QList<Student *> studentsList)
 
 void PaperManageUI::on_pushButton_searchall_clicked()
 {
-
     _searchList.clear();
     QString s_tosearch;
     s_tosearch = lineEdit_searchall->text();
@@ -498,13 +513,11 @@ void PaperManageUI::on_pushButton_searchall_clicked()
             _searchList.append(_userList.at(i));
         }
     }
-    QList<User*> l;//没用的，凑参数。。
-    this->showAllUser(_searchList,l);
+    this->showStudent(_searchList);
 }
 
 void PaperManageUI::on_pushButton_searchselect_clicked()
 {
-
     _searchList.clear();
     QString s_tosearch;
     s_tosearch = lineEdit_searchselect->text();
@@ -523,8 +536,7 @@ void PaperManageUI::on_pushButton_searchselect_clicked()
 
 void PaperManageUI::on_pushButton_all_1_clicked()	
 {
-    QList<User*> l;//没用的，凑参数。。
-    this->showAllUser(_userList,l);
+    this->showStudent(_userList);
 }
 
 void PaperManageUI::on_pushButton_all_2_clicked()

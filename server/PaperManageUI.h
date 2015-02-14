@@ -49,10 +49,9 @@ private slots:
     void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void showAllPaper(QList<Paper*>);
     void showCurrentPaper(Paper);
-    void showAllUser(QList<Student*>,QList<User*>);
+    void showStudent(QList<Student *>);
     void showSelectUser(QList<Student*>);
     void paperChange(QTableWidgetItem*);
-//    void typeChange(QString);
     void showCurrentType(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void on_comboBoxselect_currentIndexChanged(const QString &arg1);
 

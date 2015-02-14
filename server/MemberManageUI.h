@@ -20,6 +20,8 @@ signals:
     void deleteUserId(QString);
     void deleteManagerId(int);
     void deleteType(int);
+    void alterStudent(Student *);
+    void updateStudent(Student *);
 
 private slots:
     void on_pushButton_add_user_clicked();
@@ -32,6 +34,8 @@ private slots:
     void showSubject(QList<QString>);
     void showType(QMap<int, QString>);
     void textClear();
+    void studentDialog(QTableWidgetItem *);
+    void updateStudentList(Student *);
 
 private:
     QList<Student *> studentList;

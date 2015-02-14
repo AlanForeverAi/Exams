@@ -94,6 +94,8 @@ signals:
     void addType(int, QString);
     void deleteType(int);
 
+    void updateStudent(Student *);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();

@@ -97,7 +97,7 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&_window,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
-
+    connect(&_window, SIGNAL(updateStudent(Student*)), this, SLOT(updateStudent(Student*)));
     connect(&_window, SIGNAL(getType()), this, SLOT(getType()));
     connect(this, SIGNAL(showType(QMap<int, QString>)), &_window, SIGNAL(showType(QMap<int, QString>)));
     connect(&_window, SIGNAL(getSubject()), this, SLOT(getSubject()));
@@ -840,6 +840,12 @@ void MainApp::addType(int id, QString type)
 void MainApp::deleteType(int id)
 {
     _DBM->deleteType(id);
+}
+
+void MainApp::updateStudent(Student *student)
+{
+    _DBM->modifyStudent(student->getID(), student->getName(), student->getGrade(), student->getClass(), student->getPassword());
+    getStudent();
 }
 
 void MainApp::getStudent()

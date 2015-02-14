@@ -128,12 +128,12 @@ void DBManager::insertStudent(QString a, QString b, int c, int d, QString e)
     qDebug() << "insetStudent] " << query.lastError();
 }
 
-void DBManager::modifyStudent(QString id, QString name, int grade, int clas, QString PW)
+void DBManager::modifyStudent(QString id, QString name, int grade, int clas, QString passowrd)
 {
     QSqlQuery query;
     QString s = "update student set name= '%1',grade= %2,class= %3,password= '%4' where userid= '%5'";
 
-    query.exec(s.arg(name).arg(grade).arg(clas).arg(PW).arg(id));
+    query.exec(s.arg(name).arg(grade).arg(clas).arg(passowrd).arg(id));
 
     qDebug() << "modifyStudent] " << query.lastError();
 }

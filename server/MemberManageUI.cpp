@@ -1,5 +1,5 @@
 ﻿#include "MemberManageUI.h"
-#include "DBManager.h"
+#include "alterstudent.h"
 #include <iostream>
 #include <QMessageBox>
 #include <QDebug>
@@ -7,6 +7,26 @@
 MemberManageUI::MemberManageUI(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
+    tableWidget_Manager->verticalHeader()->setHidden(true);
+    tableWidget_Student->verticalHeader()->setHidden(true);
+    tableWidget_Teacher->verticalHeader()->setHidden(true);
+    tableWidget_Type->verticalHeader()->setHidden(true);
+
+    tableWidget_Manager->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
+    tableWidget_Manager->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
+    tableWidget_Student->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableWidget_Student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tableWidget_Teacher->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableWidget_Teacher->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tableWidget_Type->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableWidget_Type->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    tableWidget_Student->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_Teacher->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_Manager->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_Type->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    connect(tableWidget_Student, SIGNAL(itemDoubleClicked(QTableWidgetItem *)), this, SLOT(studentDialog(QTableWidgetItem *)));
 }
 
 MemberManageUI::~MemberManageUI()
@@ -19,8 +39,6 @@ void MemberManageUI::showManager(QList<User *> listManager)
     if(managerList.empty())
         managerList = listManager;
 
-    tableWidget_Manager->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_Manager->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
     tableWidget_Manager->setRowCount(listManager.count());
     for(int i = 0; i < listManager.count(); ++i){
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(listManager.at(i)->getId()));
@@ -38,8 +56,6 @@ void MemberManageUI::showStudent(QList<Student *> listStudent)
     if(studentList.empty())
         studentList = listStudent;
 
-    tableWidget_Student->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_Student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
     tableWidget_Student->setRowCount(listStudent.count());
     for(int i = 0; i < listStudent.count(); ++i)
     {
@@ -49,11 +65,11 @@ void MemberManageUI::showStudent(QList<Student *> listStudent)
         QTableWidgetItem *u_class = new QTableWidgetItem(QString::number(listStudent.at(i)->getClass()));
         QTableWidgetItem *u_password = new QTableWidgetItem(listStudent.at(i)->getPassword());
 
-        tableWidget_Student->setItem(i,0,u_id);
-        tableWidget_Student->setItem(i,1,u_name);
-        tableWidget_Student->setItem(i,2,u_grade);
-        tableWidget_Student->setItem(i,3,u_class);
-        tableWidget_Student->setItem(i,4,u_password);
+        tableWidget_Student->setItem(i, 0, u_id);
+        tableWidget_Student->setItem(i, 1, u_name);
+        tableWidget_Student->setItem(i, 2, u_grade);
+        tableWidget_Student->setItem(i, 3, u_class);
+        tableWidget_Student->setItem(i, 4, u_password);
     }
 }
 
@@ -62,8 +78,6 @@ void MemberManageUI::showTeacher(QList<User *>listTeacher)
     if(teacherList.empty())
         teacherList = listTeacher;
 
-    tableWidget_Teacher->setSelectionBehavior(QAbstractItemView::SelectRows);
-    tableWidget_Teacher->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
     tableWidget_Teacher->setRowCount(listTeacher.count());
     for(int i = 0; i < listTeacher.count(); ++i)
     {
@@ -72,10 +86,10 @@ void MemberManageUI::showTeacher(QList<User *>listTeacher)
         QTableWidgetItem *t_password = new QTableWidgetItem(listTeacher.at(i)->getPassword());
         QTableWidgetItem *t_subject = new QTableWidgetItem(listTeacher.at(i)->getSubject());
 
-        tableWidget_Teacher->setItem(i,0,t_id);
-        tableWidget_Teacher->setItem(i,1,t_name);
-        tableWidget_Teacher->setItem(i,2,t_password);
-        tableWidget_Teacher->setItem(i,3,t_subject);
+        tableWidget_Teacher->setItem(i, 0, t_id);
+        tableWidget_Teacher->setItem(i, 1, t_name);
+        tableWidget_Teacher->setItem(i, 2, t_password);
+        tableWidget_Teacher->setItem(i, 3, t_subject);
     }
 }
 
@@ -91,8 +105,6 @@ void MemberManageUI::showType(QMap<int, QString> type)
     if(typeList.count() == 0)
         typeList = type;
 
-    tableWidget_Type->setSelectionBehavior(QAbstractItemView::SelectRows);
-    tableWidget_Type->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     tableWidget_Type->setRowCount(type.count());
     QMap<int, QString>::iterator ite = type.begin();
     for(int i = 0; ite != type.end(); ++i, ++ite){
@@ -139,7 +151,7 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         }
 
         if(comboBox->currentText() == QStringLiteral("  未选择")){
-            QMessageBox::about(this,"msg",QStringLiteral("用户类型未选择！"));
+            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
             return ;
         }
 
@@ -287,7 +299,7 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     }
     else
     {
-        QMessageBox::about(this,"msg",QStringLiteral("请选择你要删除的一项"));
+        QMessageBox::about(this, "msg", QStringLiteral("请选择你要删除的一项"));
     }
 }
 
@@ -375,4 +387,37 @@ void MemberManageUI::textClear()
     lineEdit_teacherPwd->clear();
     lineEdit_typeId->clear();
     lineEdit_typeName->clear();
+}
+
+void MemberManageUI::studentDialog(QTableWidgetItem *item)
+{
+    AlterStudent *alterStudentDialog = new AlterStudent();
+    connect(this, SIGNAL(alterStudent(Student*)), alterStudentDialog, SLOT(showStudent(Student*)));
+    connect(alterStudentDialog, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
+    connect(alterStudentDialog, SIGNAL(updateStudent(Student*)), this, SLOT(updateStudentList(Student*)));
+
+    Student *student = NULL;
+    QString id = tableWidget_Student->item(item->row(), 0)->text();
+    for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
+        if((*ite)->getID() == id){
+            student = *ite;
+        }
+    }
+
+    emit this->alterStudent(student);
+    alterStudentDialog->exec();
+}
+
+void MemberManageUI::updateStudentList(Student *student)
+{
+    for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
+        if((*ite)->getID() == student->getID()){
+            (*ite)->setName(student->getName());
+            (*ite)->setGrade(student->getGrade());
+            (*ite)->setClass(student->getClass());
+            (*ite)->setPassword(student->getPassword());
+
+            return ;
+        }
+    }
 }

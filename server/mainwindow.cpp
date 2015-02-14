@@ -59,12 +59,12 @@ void MainWindow::do_makepaper()
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
     connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),make_paper,SLOT(showSelectUser(QList<Student*>)));
     connect(make_paper,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)));
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),make_paper,SLOT(showAllUser(QList<Student*>,QList<User*>)));
+    connect(this, SIGNAL(showStudent(QList<Student*>)), make_paper, SLOT(showStudent(QList<Student*>)));
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
     emit this->getQuestions();
-//    emit this->getUser();
+    emit this->getStudent();
     _statusBar->showMessage(QStringLiteral("试卷管理"));
 }
 
@@ -113,6 +113,7 @@ void MainWindow::do_memmanage()
     connect(this, SIGNAL(showType(QMap<int,QString>)), mem_Manage, SLOT(showType(QMap<int,QString>)));
     connect(this, SIGNAL(showManager(QList<User*>)), mem_Manage, SLOT(showManager(QList<User*>)));
     connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SLOT(showSubject(QList<QString>)));
+    connect(mem_Manage, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
     connect(mem_Manage, SIGNAL(addStudent(Student*)),this,SIGNAL(addStudent(Student*)));
     connect(mem_Manage, SIGNAL(addTeacher(User*)),this,SIGNAL(addTeacher(User*)));
     connect(mem_Manage, SIGNAL(addManager(User*)), this, SIGNAL(addManger(User*)));

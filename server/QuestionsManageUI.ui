@@ -46,7 +46,7 @@
      <x>9</x>
      <y>10</y>
      <width>1262</width>
-     <height>656</height>
+     <height>662</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -154,8 +154,8 @@
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>1245</width>
-         <height>247</height>
+         <width>1254</width>
+         <height>254</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -180,7 +180,7 @@
            </size>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_3">
            <attribute name="title">
