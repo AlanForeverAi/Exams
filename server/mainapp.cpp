@@ -97,7 +97,14 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&_window,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
+    connect(this, SIGNAL(updateTeacherList(QList<User*>)), &_window, SIGNAL(updateTeacherList(QList<User*>)));
+    connect(this, SIGNAL(updateManagerList(QList<User*>)), &_window, SIGNAL(updateManagerList(QList<User*>)));
+    connect(this, SIGNAL(updateTypeList(QMap<int,QString>)), &_window, SIGNAL(updateTypeList(QMap<int,QString>)));
+    connect(this, SIGNAL(updateStudentList(QList<Student*>)), &_window, SIGNAL(updateStudentList(QList<Student*>)));
     connect(&_window, SIGNAL(updateStudent(Student*)), this, SLOT(updateStudent(Student*)));
+    connect(&_window, SIGNAL(updateTeacher(User*)), this, SLOT(updateTeahcer(User*)));
+    connect(&_window, SIGNAL(updateManager(User*)), this, SLOT(updateManager(User*)));
+    connect(&_window, SIGNAL(updateType(int,QString)), this, SLOT(updateType(int,QString)));
     connect(&_window, SIGNAL(getType()), this, SLOT(getType()));
     connect(this, SIGNAL(showType(QMap<int, QString>)), &_window, SIGNAL(showType(QMap<int, QString>)));
     connect(&_window, SIGNAL(getSubject()), this, SLOT(getSubject()));
@@ -496,7 +503,7 @@ void MainApp::sendPaperTime(int descriptor,int time)
 
 bool MainApp::managerLogin(User m)
 {
-    QSqlQuery query = _DBM->managerLogin(m.getId(),m.getPassword());
+    QSqlQuery query = _DBM->managerLogin(m.getID(),m.getPassword());
     if(query.size() > 0)
     {
         emit this->LoginOK();
@@ -797,12 +804,12 @@ void MainApp::getManager(){
 
     while(query.next()){
         User * managerptr = new User();
-        managerptr->setId(query.value(0).toInt());
+        managerptr->setID(query.value(0).toString());
         managerptr->setName(query.value(1).toString());
         managerptr->setPassword(query.value(2).toString());
         managerList.append(managerptr);
     }
-
+    emit this->updateManagerList(managerList);
     emit this->showManager(managerList);
 }
 
@@ -828,7 +835,7 @@ void MainApp::getType()
     while(query.next()){
         type[query.value(0).toInt()] = query.value(1).toString();
     }
-
+    emit this->updateTypeList(type);
     emit this->showType(type);
 }
 
@@ -844,8 +851,32 @@ void MainApp::deleteType(int id)
 
 void MainApp::updateStudent(Student *student)
 {
-    _DBM->modifyStudent(student->getID(), student->getName(), student->getGrade(), student->getClass(), student->getPassword());
+    _DBM->updateStudent(student->getID(), student->getName(), student->getGrade(), student->getClass(), student->getPassword());
     getStudent();
+}
+
+void MainApp::updateTeahcer(User *teacher)
+{
+    QSqlQuery query;
+    query = _DBM->selectUserTypeBySubject(teacher->getSubject());
+    query.first();
+    _DBM->updateServerUser(teacher->getID(), teacher->getName(), teacher->getPassword(), query.value(0).toInt());
+    getTeacher();
+}
+
+void MainApp::updateManager(User *manager)
+{
+    QSqlQuery query;
+    query = _DBM->selectUserTypeBySubject(QStringLiteral("管理员"));
+    query.first();
+    _DBM->updateServerUser(manager->getID(), manager->getName(), manager->getPassword(), query.value(0).toInt());
+    getManager();
+}
+
+void MainApp::updateType(int id, QString type)
+{
+    _DBM->updateType(id, type);
+    getType();
 }
 
 void MainApp::getStudent()
@@ -864,6 +895,7 @@ void MainApp::getStudent()
         studentptr->setPassword(query.value(4).toString());
         studentList.append(studentptr);
     }
+    emit this->updateStudentList(studentList);
     emit this->showStudent(studentList);
 }
 
@@ -876,12 +908,13 @@ void MainApp::getTeacher()
     while(query.next())
     {
         User *teacherptr = new User();
-        teacherptr->setId(query.value(0).toInt());
+        teacherptr->setID(query.value(0).toString());
         teacherptr->setName(query.value(1).toString());
         teacherptr->setPassword(query.value(2).toString());
         teacherptr->setSubject(query.value(3).toString());
         teacherList.append(teacherptr);
     }
+    emit this->updateTeacherList(teacherList);
     emit this->showTeacher(teacherList);
 }
 
@@ -890,12 +923,12 @@ void MainApp::addStudent(Student *user)
     _DBM->insertStudent(user->getID(), user->getName(), user->getGrade(), user->getClass(), user->getPassword());
 }
 
-void MainApp::addTeacher(User *m)
+void MainApp::addTeacher(User *teahcer)
 {
     QSqlQuery query;
-    query = _DBM->selectUserTypeBySubject(m->getSubject());
+    query = _DBM->selectUserTypeBySubject(teahcer->getSubject());
     query.first();
-    _DBM->insertServerUser(m->getId(),m->getName(),m->getPassword(), query.value(0).toInt());
+    _DBM->insertServerUser(teahcer->getID(),teahcer->getName(),teahcer->getPassword(), query.value(0).toInt());
 }
 
 void MainApp::addManager(User * user)
@@ -903,12 +936,7 @@ void MainApp::addManager(User * user)
     QSqlQuery query;
     query = _DBM->selectUserTypeBySubject(QStringLiteral("管理员"));
     query.first();
-    _DBM->insertServerUser(user->getId(), user->getName(), user->getPassword(), query.value(0).toInt());
-}
-
-void MainApp::modifyUser(Student u)
-{
-    _DBM->modifyStudent(u.getID(),u.getName(),u.getGrade(),u.getClass(),u.getPassword());
+    _DBM->insertServerUser(user->getID(), user->getName(), user->getPassword(), query.value(0).toInt());
 }
 
 void MainApp::deleteUserId(QString a)
@@ -1078,7 +1106,6 @@ void MainApp::sendInfo(QStringList list)
         _infoList.append(",");
     }
 }
-
 
 void MainApp::delete_score(int pid,qlonglong uid)
 {

@@ -43,19 +43,22 @@ Q_DECLARE_METATYPE(Student)
 class User{
 public:
     User();
-    void setId(int);
+    void setID(QString);
+//    void setID(int);
     void setName(QString);
     void setPassword(QString);
     void setType(int);
     void setSubject(QString);
     int getType() const;
-    int getId() const;
+//    int getID() const;
+    QString getID() const;
     QString getName() const;
     QString getPassword() const;
     QString getSubject() const;
     static User& GetInstance();
 private:
-    int _id;
+//    int _id;
+    QString _id;
     int _type; //根据Type判断用户为管理员还是老师（还要判断老师类型）
     QString _name;
     QString _password;

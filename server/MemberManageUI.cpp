@@ -1,5 +1,8 @@
 ﻿#include "MemberManageUI.h"
 #include "alterstudent.h"
+#include "alterteacher.h"
+#include "altermanager.h"
+#include "altertype.h"
 #include <iostream>
 #include <QMessageBox>
 #include <QDebug>
@@ -27,6 +30,9 @@ MemberManageUI::MemberManageUI(QWidget *parent) : QWidget(parent)
     tableWidget_Type->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect(tableWidget_Student, SIGNAL(itemDoubleClicked(QTableWidgetItem *)), this, SLOT(studentDialog(QTableWidgetItem *)));
+    connect(tableWidget_Teacher, SIGNAL(itemDoubleClicked(QTableWidgetItem *)), this, SLOT(teacherDialog(QTableWidgetItem *)));
+    connect(tableWidget_Manager, SIGNAL(itemDoubleClicked(QTableWidgetItem *)), this, SLOT(managerDialog(QTableWidgetItem *)));
+    connect(tableWidget_Type, SIGNAL(itemDoubleClicked(QTableWidgetItem *)), this, SLOT(typeDialog(QTableWidgetItem *)));
 }
 
 MemberManageUI::~MemberManageUI()
@@ -36,12 +42,9 @@ MemberManageUI::~MemberManageUI()
 
 void MemberManageUI::showManager(QList<User *> listManager)
 {
-    if(managerList.empty())
-        managerList = listManager;
-
     tableWidget_Manager->setRowCount(listManager.count());
     for(int i = 0; i < listManager.count(); ++i){
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(listManager.at(i)->getId()));
+        QTableWidgetItem *id = new QTableWidgetItem(listManager.at(i)->getID());
         QTableWidgetItem *name= new QTableWidgetItem(listManager.at(i)->getName());
         QTableWidgetItem *password = new QTableWidgetItem(listManager.at(i)->getPassword());
 
@@ -53,9 +56,6 @@ void MemberManageUI::showManager(QList<User *> listManager)
 
 void MemberManageUI::showStudent(QList<Student *> listStudent)
 {
-    if(studentList.empty())
-        studentList = listStudent;
-
     tableWidget_Student->setRowCount(listStudent.count());
     for(int i = 0; i < listStudent.count(); ++i)
     {
@@ -75,13 +75,10 @@ void MemberManageUI::showStudent(QList<Student *> listStudent)
 
 void MemberManageUI::showTeacher(QList<User *>listTeacher)
 {
-    if(teacherList.empty())
-        teacherList = listTeacher;
-
     tableWidget_Teacher->setRowCount(listTeacher.count());
     for(int i = 0; i < listTeacher.count(); ++i)
     {
-        QTableWidgetItem *t_id = new QTableWidgetItem(QString::number(listTeacher.at(i)->getId()));
+        QTableWidgetItem *t_id = new QTableWidgetItem(listTeacher.at(i)->getID());
         QTableWidgetItem *t_name = new QTableWidgetItem(listTeacher.at(i)->getName());
         QTableWidgetItem *t_password = new QTableWidgetItem(listTeacher.at(i)->getPassword());
         QTableWidgetItem *t_subject = new QTableWidgetItem(listTeacher.at(i)->getSubject());
@@ -139,7 +136,6 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         studentptr->setClass(lineEdit_userClass->text().toInt());
         studentptr->setPassword(lineEdit_userPwd->text());
 
-        studentList.append(studentptr);
         emit this->addStudent(studentptr);
         delete(studentptr);
     }
@@ -156,25 +152,24 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         }
 
         for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
-            if((*ite)->getId() == lineEdit_teacherId->text().toInt()){
+            if((*ite)->getID() == lineEdit_teacherId->text()){
                 QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
                 return ;
             }
         }
         for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
-            if((*ite)->getId() == lineEdit_teacherId->text().toInt()){
+            if((*ite)->getID() == lineEdit_teacherId->text()){
                 QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
                 return ;
             }
         }
 
         User *teacherptr = new User;
-        teacherptr->setId(lineEdit_teacherId->text().toInt());
+        teacherptr->setID(lineEdit_teacherId->text());
         teacherptr->setName(lineEdit_teacherName->text());
         teacherptr->setPassword(lineEdit_teacherPwd->text());
         teacherptr->setSubject(comboBox->currentText());
 
-        teacherList.append(teacherptr);
         emit this->addTeacher(teacherptr);       
         delete(teacherptr);
     }
@@ -185,25 +180,24 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         }
 
         for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
-            if((*ite)->getId() == lineEdit_teacherId->text().toInt()){
+            if((*ite)->getID() == lineEdit_teacherId->text()){
                 QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
                 return ;
             }
         }
 
         for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
-            if((*ite)->getId() == lineEdit_managerId->text().toInt()){
+            if((*ite)->getID() == lineEdit_managerId->text()){
                 QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
                 return ;
             }
         }
 
         User *managerptr = new User;
-        managerptr->setId(lineEdit_managerId->text().toInt());
+        managerptr->setID(lineEdit_managerId->text());
         managerptr->setName(lineEdit_managerName->text());
         managerptr->setPassword(lineEdit_managerPwd->text());
 
-        managerList.append(managerptr);
         emit this->addManager(managerptr);
         delete(managerptr);
     }
@@ -224,7 +218,6 @@ void MemberManageUI::on_pushButton_add_user_clicked()
             }
         }
 
-        typeList[lineEdit_typeId->text().toInt()] = lineEdit_typeName->text();
         emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
     }
     this->textClear();
@@ -239,15 +232,6 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     {
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            Student *student = NULL;
-            for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
-                if((*ite)->getID() == tableWidget_Student->item(tableWidget_Student->currentRow(), 0)->text()){
-                    student = *ite;
-                    break;
-                }
-            }
-            studentList.removeOne(student);
-            delete(student);
             emit this->deleteUserId(tableWidget_Student->item(tableWidget_Student->currentRow(), 0)->text());
         }
         else
@@ -257,15 +241,6 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     {
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            User *teacher = NULL;
-            for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
-                if((*ite)->getId() == tableWidget_Teacher->item(tableWidget_Teacher->currentRow(), 0)->text().toInt()){
-                    teacher = *ite;
-                    break;
-                }
-            }
-            teacherList.removeOne(teacher);
-            delete(teacher);
             emit this->deleteManagerId(tableWidget_Teacher->item(tableWidget_Teacher->currentRow(), 0)->text().toInt());
         }
         else
@@ -274,15 +249,6 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     else if(tabWidget->currentIndex() == 2 && tableWidget_Manager->currentRow() >= 0){
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            User *manager = NULL;
-            for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
-                if((*ite)->getId() == tableWidget_Manager->item(tableWidget_Manager->currentRow(), 0)->text().toInt()){
-                    manager = *ite;
-                    break;
-                }
-            }
-            managerList.removeOne(manager);
-            delete(manager);
             emit this->deleteManagerId(tableWidget_Manager->item(tableWidget_Manager->currentRow(), 0)->text().toInt());
         }
         else
@@ -291,7 +257,6 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     else if(tabWidget->currentIndex() == 3 && tableWidget_Type->currentRow() >= 0){
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            typeList.remove(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
             emit this->deleteType(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
         }
         else
@@ -329,7 +294,7 @@ void MemberManageUI::on_pushButton_search_clicked()
         s_tosearch = lineEdit_search->text();
         for(int i = 0; i < teacherList.count(); i++)
         {
-            if(teacherList.at(i)->getId() == s_tosearch.toInt() ||
+            if(teacherList.at(i)->getID() == s_tosearch ||
                     teacherList.at(i)->getName() == s_tosearch)
             {
                 teacherSearchList.append(teacherList.at(i));
@@ -343,7 +308,7 @@ void MemberManageUI::on_pushButton_search_clicked()
         QString s_tosearch;
         s_tosearch = lineEdit_search->text();
         for(int i = 0; i < managerList.count(); i++){
-            if(managerList.at(i)->getId() == s_tosearch.toInt() ||
+            if(managerList.at(i)->getID() == s_tosearch ||
                     managerList.at(i)->getName() == s_tosearch)
             {
                 managerSearchList.append(managerList.at(i));
@@ -392,9 +357,8 @@ void MemberManageUI::textClear()
 void MemberManageUI::studentDialog(QTableWidgetItem *item)
 {
     AlterStudent *alterStudentDialog = new AlterStudent();
-    connect(this, SIGNAL(alterStudent(Student*)), alterStudentDialog, SLOT(showStudent(Student*)));
+    connect(this, SIGNAL(showStudent(Student*)), alterStudentDialog, SLOT(showStudent(Student*)));
     connect(alterStudentDialog, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
-    connect(alterStudentDialog, SIGNAL(updateStudent(Student*)), this, SLOT(updateStudentList(Student*)));
 
     Student *student = NULL;
     QString id = tableWidget_Student->item(item->row(), 0)->text();
@@ -404,20 +368,83 @@ void MemberManageUI::studentDialog(QTableWidgetItem *item)
         }
     }
 
-    emit this->alterStudent(student);
+    emit this->showStudent(student);
     alterStudentDialog->exec();
 }
 
-void MemberManageUI::updateStudentList(Student *student)
+void MemberManageUI::teacherDialog(QTableWidgetItem *item)
 {
-    for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
-        if((*ite)->getID() == student->getID()){
-            (*ite)->setName(student->getName());
-            (*ite)->setGrade(student->getGrade());
-            (*ite)->setClass(student->getClass());
-            (*ite)->setPassword(student->getPassword());
+    AlterTeacher *alterTeacherDialog = new AlterTeacher();
+    connect(this, SIGNAL(showTypeList(QList<QString>)), alterTeacherDialog, SLOT(showTypeList(QList<QString>)));
+    connect(this, SIGNAL(showTeacher(User*)), alterTeacherDialog, SLOT(showTeacher(User*)));
+    connect(alterTeacherDialog, SIGNAL(updateTeacher(User*)), this, SIGNAL(updateTeacher(User*)));
 
-            return ;
+    User *teacher = NULL;
+    QString id = tableWidget_Teacher->item(item->row(), 0)->text();
+    for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
+        if((*ite)->getID() == id){
+            teacher = *ite;
         }
     }
+
+    emit this->showTypeList(typeList.values());
+    emit this->showTeacher(teacher);
+    alterTeacherDialog->exec();
 }
+
+void MemberManageUI::managerDialog(QTableWidgetItem *item)
+{
+    AlterManager *alterManagerDialog = new AlterManager();
+    connect(this, SIGNAL(showManager(User*)), alterManagerDialog, SLOT(showManager(User*)));
+    connect(alterManagerDialog, SIGNAL(updateManager(User*)), this, SIGNAL(updateManager(User*)));
+
+    User *manager = NULL;
+    QString id = tableWidget_Manager->item(item->row(), 0)->text();
+    for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+        if((*ite)->getID() == id){
+            manager = *ite;
+        }
+    }
+
+    emit this->showManager(manager);
+    alterManagerDialog->exec();
+}
+
+void MemberManageUI::typeDialog(QTableWidgetItem *item)
+{
+    AlterType *alterTypeDialog = new AlterType();
+    connect(this, SIGNAL(showType(int, QString)), alterTypeDialog, SLOT(showType(int, QString)));
+    connect(alterTypeDialog, SIGNAL(updateType(int, QString)), this, SIGNAL(updateType(int, QString)));
+
+    int id = tableWidget_Type->item(item->row(), 0)->text().toInt();
+    QString type;
+    for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+        if(ite.key() == id){
+            type = ite.value();
+        }
+    }
+
+    emit this->showType(id, type);
+    alterTypeDialog->exec();
+}
+
+void MemberManageUI::updateStudentList(QList<Student *> students)
+{
+    studentList = students;
+}
+
+void MemberManageUI::updateTeacherList(QList<User *> teachers)
+{
+    teacherList = teachers;
+}
+
+void MemberManageUI::updateManagerList(QList<User *> managers)
+{
+    managerList = managers;
+}
+
+void MemberManageUI::updateTypeList(QMap<int, QString> types)
+{
+    typeList = types;
+}
+

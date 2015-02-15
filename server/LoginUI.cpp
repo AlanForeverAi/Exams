@@ -11,7 +11,7 @@ void LoginUI::on_pushButton_login_clicked()
 {
     lineEdit_ID->setText("123");
     lineEdit_PW->setText("123");
-    User::GetInstance().setId(lineEdit_ID->text().toInt());
+    User::GetInstance().setID(lineEdit_ID->text());
     User::GetInstance().setPassword(lineEdit_PW->text());
     emit this->loginSignal(User::GetInstance());
 }
