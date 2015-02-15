@@ -6,7 +6,6 @@ MainApp::MainApp()
     iniMainWindow();
     readConfig();
     iniClient();
-
 }
 MainApp::~MainApp()
 {

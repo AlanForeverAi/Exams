@@ -43,6 +43,10 @@ signals:
     void showType(QMap<int, QString>);
     void showStudent(QList<Student *>);
     void showTeacher(QList<User *>);
+    void updateStudentList(QList<Student *>);
+    void updateTeacherList(QList<User *>);
+    void updateManagerList(QList<User *>);
+    void updateTypeList(QMap<int, QString>);
 
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
@@ -73,7 +77,7 @@ public slots:
     void getStudent();
     void getTeacher();
     void addStudent(Student *);//添加考生
-    void modifyUser(Student);//修改考生
+//    void modifyUser(Student);//修改考生
     void addTeacher(User *);
     void addManager(User *);
     void deleteUserId(QString);//删除考生
@@ -98,6 +102,11 @@ public slots:
 
     void addType(int, QString);
     void deleteType(int);
+
+    void updateStudent(Student *);
+    void updateTeahcer(User *);
+    void updateManager(User *);
+    void updateType(int, QString);
 
 private:
     DBManager *_DBM;

@@ -59,12 +59,12 @@ void MainWindow::do_makepaper()
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
     connect(this,SIGNAL(showUserByPaperId(QList<Student*>)),make_paper,SLOT(showSelectUser(QList<Student*>)));
     connect(make_paper,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)));
-    connect(this,SIGNAL(showUser(QList<Student*>,QList<User*>)),make_paper,SLOT(showAllUser(QList<Student*>,QList<User*>)));
+    connect(this, SIGNAL(showStudent(QList<Student*>)), make_paper, SLOT(showStudent(QList<Student*>)));
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
     emit this->getQuestions();
-//    emit this->getUser();
+    emit this->getStudent();
     _statusBar->showMessage(QStringLiteral("试卷管理"));
 }
 
@@ -108,11 +108,19 @@ void MainWindow::do_subscore()
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
+    connect(this, SIGNAL(updateTeacherList(QList<User*>)), mem_Manage, SLOT(updateTeacherList(QList<User*>)));
+    connect(this, SIGNAL(updateManagerList(QList<User*>)), mem_Manage, SLOT(updateManagerList(QList<User*>)));
+    connect(this, SIGNAL(updateStudentList(QList<Student*>)), mem_Manage, SLOT(updateStudentList(QList<Student*>)));
+    connect(this, SIGNAL(updateTypeList(QMap<int,QString>)), mem_Manage, SLOT(updateTypeList(QMap<int,QString>)));
     connect(this, SIGNAL(showStudent(QList<Student*>)), mem_Manage, SLOT(showStudent(QList<Student*>)));
     connect(this, SIGNAL(showTeacher(QList<User*>)), mem_Manage, SLOT(showTeacher(QList<User*>)));
     connect(this, SIGNAL(showType(QMap<int,QString>)), mem_Manage, SLOT(showType(QMap<int,QString>)));
     connect(this, SIGNAL(showManager(QList<User*>)), mem_Manage, SLOT(showManager(QList<User*>)));
     connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SLOT(showSubject(QList<QString>)));
+    connect(mem_Manage, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
+    connect(mem_Manage, SIGNAL(updateTeacher(User*)), this, SIGNAL(updateTeacher(User*)));
+    connect(mem_Manage, SIGNAL(updateManager(User*)), this, SIGNAL(updateManager(User*)));
+    connect(mem_Manage, SIGNAL(updateType(int,QString)), this, SIGNAL(updateType(int,QString)));
     connect(mem_Manage, SIGNAL(addStudent(Student*)),this,SIGNAL(addStudent(Student*)));
     connect(mem_Manage, SIGNAL(addTeacher(User*)),this,SIGNAL(addTeacher(User*)));
     connect(mem_Manage, SIGNAL(addManager(User*)), this, SIGNAL(addManger(User*)));

@@ -5,6 +5,13 @@ ExamCtrlUI::ExamCtrlUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
+
+    tableWidget_paper->verticalHeader()->setHidden(true);
+    tableWidget_user->verticalHeader()->setHidden(true);
+
+    tableWidget_paper->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_user->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     dateTimeEdit->setDateTime(QDateTime::currentDateTime());
     pushButton_end->setEnabled(false);
     pushButton_begin->setEnabled(false);

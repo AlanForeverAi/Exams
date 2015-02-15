@@ -14,16 +14,6 @@ enum MessageType
     MSG_NEWCONNECT
 };
 
-/*
-#define MSG_LOGIN 0
-#define MSG_GETPAPER 1
-#define MSG_ANSWER 2
-#define MSG_ANSWERSINGLE 3
-#define MSG_BEGINEXAM 4
-#define MSG_ENDEXAM 5
-#define MSG_ERROR 6
-#define MSG_NEWCONNECT 7
-*/
 
 /*客户端类*/
 class Client : public  QTcpSocket

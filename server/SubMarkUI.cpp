@@ -10,6 +10,17 @@ SubMarkUI::SubMarkUI(QWidget *parent) :QWidget(parent)
     tableWidget_examInfo->horizontalHeader()->setStretchLastSection(true);
     tableWidget_userInfo->horizontalHeader()->setStretchLastSection(true);
 
+    tableWidget_paper->verticalHeader()->setHidden(true);
+    tableWidget_userInfo->verticalHeader()->setHidden(true);
+
+    tableWidget_paper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
+    tableWidget_paper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
+    tableWidget_userInfo->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
+
+    tableWidget_paper->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_userInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_examInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     connect(tableWidget_paper,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(paperTableChange(QTableWidgetItem*)));
     connect(tableWidget_userInfo,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(userTableChange(QTableWidgetItem*)));
 }
@@ -23,8 +34,6 @@ SubMarkUI::~SubMarkUI()
 void SubMarkUI::showPapers(QList<Paper *> pList)
 {
     _paperList = pList;
-    tableWidget_paper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_paper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_paper->setRowCount(pList.count());
     for(int i = 0; i < pList.count(); i++)
     {
@@ -38,12 +47,10 @@ void SubMarkUI::showPapers(QList<Paper *> pList)
 void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 {
     _currentPaperId = tableWidget_paper->item(item->row(),0)->text();
-
     for(int i = 0; i < _paperList.count(); i++)
     {
         if(_paperList.at(i)->getPaperId() == _currentPaperId.toInt())
         {
-
             int obnumber = _paperList.at(i)->getObQuIds().count(",");
             int subnumber = _paperList.at(i)->getSubQuIds().count(",");
 
@@ -64,8 +71,6 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 
             QIntValidator *validator  =  new QIntValidator(0,mark,this);//0-mark值之间的整数验证器
             lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
-
-
         }
     }
     pushButton_Pre->setEnabled(false);
@@ -75,7 +80,6 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
 
 void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
 {
-    tableWidget_userInfo->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     tableWidget_userInfo->setRowCount(ulist.count());
     for(int i = 0; i < ulist.count(); i++)
     {
@@ -99,9 +103,7 @@ void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
 
 void SubMarkUI::userTableChange(QTableWidgetItem *item)
 {
-
     _currentUserId = tableWidget_userInfo->item(item->row(),0)->text();
-
     emit this->getSubAnswer(_currentPaperId.toInt(),_currentUserId);
 }
 
@@ -110,10 +112,7 @@ void SubMarkUI::showSubAnswer(QVector<QString> s)
     _sub = s;
     _subNo = 0;
     _subMark.resize(_sub.size() / 2);
-
-
     _subMark.fill("0");
-
     pushButton_Pre->setEnabled(true);
     pushButton_Next->setEnabled(true);
     pushButton_submit->setEnabled(true);
@@ -142,7 +141,6 @@ void SubMarkUI::on_pushButton_Next_clicked()
 
 void SubMarkUI::showCurrentAnswer(int n)
 {
-
     lineEdit_GotMark->setText(_subMark.at(n));
     textBrowser_answser->setText(_sub.at(n));
     textBrowser_title->setText(_sub.at(_sub.size() / 2 + n));
@@ -161,7 +159,6 @@ void SubMarkUI::on_pushButton_submit_clicked()
     pushButton_Pre->setEnabled(false);
     pushButton_Next->setEnabled(false);
     pushButton_submit->setEnabled(false);
-
 
     QString mark;
     for(int i = 0; i < _subMark.size(); i++)

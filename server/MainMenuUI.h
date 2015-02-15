@@ -4,7 +4,7 @@
 #include <iostream>
 #include <QWidget>
 #include "ui_MainMenuUI.h"
-class MainMenuUI : public QWidget,public Ui::MainMenuUI
+class MainMenuUI : public QWidget, public Ui::MainMenuUI
 {
     Q_OBJECT
 public:

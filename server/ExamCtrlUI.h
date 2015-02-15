@@ -2,10 +2,10 @@
 #define EXAMCTRL_H
 
 
-#include<QWidget>
+#include <QWidget>
 #include <QTimer>
-#include"ui_ExamCtrlUI.h"
-#include"data.h"
+#include "ui_ExamCtrlUI.h"
+#include "data.h"
 class ExamCtrlUI:public QWidget,public Ui::ExamCtrlUI
 {
     Q_OBJECT

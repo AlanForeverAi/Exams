@@ -12,7 +12,6 @@ public:
     DBManager();
     ~DBManager();
 
-
     void setConfig(QString, QString, QString);
 
     QSqlQuery selectType();
@@ -21,6 +20,7 @@ public:
 
     void insertType(int, QString);
     void deleteType(int);
+    void updateType(int, QString);
 
     //Student
     QSqlQuery selectStudent();
@@ -29,11 +29,12 @@ public:
     void insertStudent(QString,QString,int,int,QString);
     void deleteStudentById(QString);
     void deleteStudentByName(QString);
-    void modifyStudent(QString,QString,int,int,QString);
+    void updateStudent(QString,QString,int,int,QString);
     //ServerUser
+    void updateServerUser(QString, QString, QString, int);
     QSqlQuery selectManager();
     QSqlQuery selectUser();
-    void insertServerUser(int, QString, QString,int);
+    void insertServerUser(QString, QString, QString, int);
     void deleteServerUserByID(int);
     void deleteServerUserByName(QString);
 
@@ -66,7 +67,7 @@ public:
     QSqlQuery queryPaperMark2(QString);//按学生ID在papermark表中查询,返回的是papermark表的记录
     QSqlQuery querySubAnswers(int,QString);//按试卷ID和学生ID在subanswers表中查询
     QSqlQuery studentLogin(QString,QString);
-    QSqlQuery managerLogin(int,QString);//登录功能
+    QSqlQuery managerLogin(QString,QString);//登录功能
     void updatePaperMarkDone(QString,int,QString);
     int deleteScore(int pid,qlonglong uid);
 private:

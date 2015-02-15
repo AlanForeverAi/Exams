@@ -28,7 +28,11 @@ SOURCES += main.cpp\
     MemberManageUI.cpp \
     LoginUI.cpp \
     ScoreManageUI.cpp \
-    DBManager.cpp
+    DBManager.cpp \
+    alterstudent.cpp \
+    alterteacher.cpp \
+    altermanager.cpp \
+    altertype.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -46,7 +50,11 @@ HEADERS  += mainwindow.h \
     MainMenuUI.h \
     MemberManageUI.h \
     LoginUI.h \
-    ScoreManageUI.h
+    ScoreManageUI.h \
+    alterstudent.h \
+    alterteacher.h \
+    altermanager.h \
+    altertype.h
 
 
 FORMS    += mainwindow.ui \
@@ -59,7 +67,11 @@ FORMS    += mainwindow.ui \
     MainMenuUI.ui \
     MemberManageUI.ui \
     LoginUI.ui \
-    ScoreManageUI.ui
+    ScoreManageUI.ui \
+    alterstudent.ui \
+    alterteacher.ui \
+    altermanager.ui \
+    altertype.ui
 
 RESOURCES += \
     res.qrc

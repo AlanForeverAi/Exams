@@ -8,10 +8,17 @@ ScoreManageUI::ScoreManageUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-    tableWidget_Detail->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_Detail->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
-    tableWidget_paper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_paper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
+    tableWidget_paper->verticalHeader()->setHidden(true);
+    tableWidget_Detail->verticalHeader()->setHidden(true);
+
+    tableWidget_Detail->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableWidget_Detail->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    tableWidget_paper->setSelectionBehavior(QAbstractItemView::SelectRows);
+    tableWidget_paper->horizontalHeader()->setStretchLastSection(true);
+
+    tableWidget_paper->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    tableWidget_Detail->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     connect(tableWidget_paper,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(paperChange(QTableWidgetItem*)));
 }
 
@@ -25,7 +32,6 @@ void ScoreManageUI::showPapers(QList<Paper *> paperList)
     tableWidget_paper->setRowCount(paperList.count());
     for(int i = 0; i < paperList.count(); i++)
     {
-
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(paperList.at(i)->getPaperId()));
         QTableWidgetItem *description = new QTableWidgetItem(paperList.at(i)->getDescription());
         tableWidget_paper->setItem(i,0,id);
@@ -62,7 +68,6 @@ void ScoreManageUI::showCombo(QList<Combo *> combolist)
         QTableWidgetItem *submark = new QTableWidgetItem(QString::number(combolist.at(i)->getSubMark()));
         QTableWidgetItem *papername = new QTableWidgetItem(combolist.at(i)->getPaperName());
 
-
         tableWidget_Detail->setItem(i,0,u_id);
         tableWidget_Detail->setItem(i,1,u_name);
         tableWidget_Detail->setItem(i,2,u_grade);
@@ -73,7 +78,6 @@ void ScoreManageUI::showCombo(QList<Combo *> combolist)
         tableWidget_Detail->setItem(i,7,submark);
         tableWidget_Detail->setItem(i,8,paper_mark);
     }
-
 }
 
 void ScoreManageUI::on_pushButton_print_clicked()

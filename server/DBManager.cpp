@@ -79,6 +79,14 @@ void DBManager::deleteType(int id)
     qDebug() << "deleteType] " << query.lastError();
 }
 
+void DBManager::updateType(int id, QString type)
+{
+    QSqlQuery query;
+    QString s = "update serveridtype set type = '%1' where id = %2";
+    query.exec(s.arg(type).arg(id));
+
+    qDebug() << "updateType] " << query.lastError();
+}
 
 QSqlQuery DBManager::selectStudent()
 {
@@ -128,14 +136,24 @@ void DBManager::insertStudent(QString a, QString b, int c, int d, QString e)
     qDebug() << "insetStudent] " << query.lastError();
 }
 
-void DBManager::modifyStudent(QString id, QString name, int grade, int clas, QString PW)
+void DBManager::updateStudent(QString id, QString name, int grade, int clas, QString passowrd)
 {
     QSqlQuery query;
-    QString s = "update student set name= '%1',grade= %2,class= %3,password= '%4' where userid= '%5'";
+    QString s = "update student set name = '%1', grade = %2, class = %3, password = '%4' where userid = '%5'";
 
-    query.exec(s.arg(name).arg(grade).arg(clas).arg(PW).arg(id));
+    query.exec(s.arg(name).arg(grade).arg(clas).arg(passowrd).arg(id));
 
-    qDebug() << "modifyStudent] " << query.lastError();
+    qDebug() << "updateStudent] " << query.lastError();
+}
+
+void DBManager::updateServerUser(QString id, QString name, QString password, int type)
+{
+    QSqlQuery query;
+    QString s = "update serveruser set name = '%1', password = '%2', type = %3 where userid = '%4'";
+
+    query.exec(s.arg(name).arg(password).arg(type).arg(id));
+
+    qDebug() << "updateTeacher] " << query.lastError();
 }
 
 void DBManager::deleteStudentById(QString a)
@@ -183,7 +201,7 @@ QSqlQuery DBManager::selectUser()
         qDebug() << "selectServerUser] " << query.lastError();
 }
 
-void DBManager::insertServerUser(int a,QString b,QString c, int d)
+void DBManager::insertServerUser(QString a,QString b,QString c, int d)
 {
     QSqlQuery query;
     query.prepare("insert into serveruser (userid,name,password,type) "
@@ -534,7 +552,7 @@ QSqlQuery DBManager::studentLogin(QString id ,QString password)
 
 }
 
-QSqlQuery DBManager::managerLogin(int id ,QString password)
+QSqlQuery DBManager::managerLogin(QString id ,QString password)
 {
     QSqlQuery query;
     QString s = "select userid, name, type from serveruser where userid= %1 and password= \'%2\' ";

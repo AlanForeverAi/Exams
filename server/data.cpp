@@ -504,10 +504,15 @@ User::User()
 
 }
 
-void User::setId(int id)
+void User::setID(QString id)
 {
     _id = id;
 }
+
+//void User::setID(int id)
+//{
+//    _id = id;
+//}
 
 void User::setName(QString name)
 {
@@ -534,7 +539,12 @@ int User::getType() const
     return _type;
 }
 
-int User::getId() const
+//int User::getID() const
+//{
+//    return _id;
+//}
+
+QString User::getID() const
 {
     return _id;
 }

@@ -7,6 +7,15 @@ QuestionsManageUI::QuestionsManageUI(QWidget *parent):QWidget(parent)
     setupUi(this);
     connect(obTable,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(showCurrentQue(QTableWidgetItem*)));
     connect(subTable,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(showCurrentQue(QTableWidgetItem*)));
+
+    obTable->verticalHeader()->setHidden(true);
+    subTable->verticalHeader()->setHidden(true);
+
+    obTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    subTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    obTable->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
+    obTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
 }
 QuestionsManageUI::~QuestionsManageUI()
 {
@@ -17,7 +26,6 @@ void QuestionsManageUI::return_clicked()
     this->close();
 }
 
-//添加题目 工厂模式？
 //Question
 void QuestionsManageUI::add()
 {
@@ -143,8 +151,6 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
 {
     //显示客观题
     _typeList.clear();
-    obTable->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    obTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
 
     obTable->setRowCount(obList.count());
     for(int i = 0; i < obList.count(); i++)
@@ -262,5 +268,4 @@ void QuestionsManageUI::on_Button_new_clicked()
     textClear();
     textEdit->setText(QStringLiteral("请输入新题目的内容"));
     textEdit2_Content->setText(QStringLiteral("请输入新题目的内容"));
-
 }

@@ -94,6 +94,15 @@ signals:
     void addType(int, QString);
     void deleteType(int);
 
+    void updateStudent(Student *);
+    void updateTeacher(User *);
+    void updateManager(User *);
+    void updateType(int, QString);
+    void updateStudentList(QList<Student *>);
+    void updateTeacherList(QList<User *>);
+    void updateManagerList(QList<User *>);
+    void updateTypeList(QMap<int, QString>);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();
