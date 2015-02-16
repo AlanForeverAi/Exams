@@ -23,6 +23,13 @@ void AlterStudent::showStudent(Student *student)
 
 void AlterStudent::on_pushButton_Save_clicked()
 {
+    if(lineEdit_Name->text() == "" || lineEdit_Class->text() == "" ||
+            lineEdit_Grade->text() == "" || lineEdit_Password->text() == "")
+    {
+        QMessageBox::about(this, "msg", QString("某项信息未填写！"));
+        return ;
+    }
+
     Student *student = new Student();
     student->setID(lineEdit_ID->text());
     student->setName(lineEdit_Name->text());

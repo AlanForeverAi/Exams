@@ -1,6 +1,6 @@
-﻿#include "SubMarkUI.h"
-#include<QDebug>
-#include<QMessageBox>
+﻿#include "submark.h"
+#include <QDebug>
+#include <QMessageBox>
 SubMarkUI::SubMarkUI(QWidget *parent) :QWidget(parent)
 {
     setupUi(this);

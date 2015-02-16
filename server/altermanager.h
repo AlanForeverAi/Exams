@@ -2,6 +2,7 @@
 #define ALTERMANAGER_H
 
 #include <QDialog>
+#include <QMessageBox>
 #include "data.h"
 #include "ui_altermanager.h"
 

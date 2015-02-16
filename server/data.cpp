@@ -1,4 +1,4 @@
-﻿#include"data.h"
+﻿#include "data.h"
 
 Student::Student()
 {
@@ -509,11 +509,6 @@ void User::setID(QString id)
     _id = id;
 }
 
-//void User::setID(int id)
-//{
-//    _id = id;
-//}
-
 void User::setName(QString name)
 {
     _name = name;
@@ -538,11 +533,6 @@ int User::getType() const
 {
     return _type;
 }
-
-//int User::getID() const
-//{
-//    return _id;
-//}
 
 QString User::getID() const
 {

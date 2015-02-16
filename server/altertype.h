@@ -1,6 +1,7 @@
 #ifndef ALTERTYPE_H
 #define ALTERTYPE_H
 
+#include <QMessageBox>
 #include <QDialog>
 #include "data.h"
 #include "ui_altertype.h"

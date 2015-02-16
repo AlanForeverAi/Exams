@@ -1,10 +1,10 @@
-﻿#include "IOManager.h"
+﻿#include "iomanager.h"
 #include <QMessageBox>
 #include <QTextStream>
 #include <QFile>
 #include <QDir>
 #include <QDate>
-#include<QDebug>
+#include <QDebug>
 IOManager::IOManager()
 {
 

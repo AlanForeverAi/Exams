@@ -1,6 +1,6 @@
-﻿#include"QuestionsManageUI.h"
-#include<QMessageBox>
-#include<QDebug>
+﻿#include "questionsmanage.h"
+#include <QMessageBox>
+#include <QDebug>
 
 QuestionsManageUI::QuestionsManageUI(QWidget *parent):QWidget(parent)
 {

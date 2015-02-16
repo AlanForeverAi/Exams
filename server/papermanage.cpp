@@ -1,4 +1,4 @@
-﻿#include "PaperManageUI.h"
+﻿#include "papermanage.h"
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>

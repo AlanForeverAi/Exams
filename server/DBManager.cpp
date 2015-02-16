@@ -1,4 +1,4 @@
-﻿#include"DBManager.h"
+﻿#include "dbmanager.h"
 #include <QMessageBox>
 DBManager::DBManager()
 {

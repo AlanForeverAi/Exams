@@ -1,4 +1,4 @@
-﻿#include "ExamCtrlUI.h"
+﻿#include "examctrl.h"
 #include <QMessageBox>
 #include <QDebug>
 ExamCtrlUI::ExamCtrlUI(QWidget *parent) :

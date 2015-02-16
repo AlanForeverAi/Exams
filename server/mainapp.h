@@ -1,9 +1,9 @@
 ﻿#ifndef MAINAPP_H
 #define MAINAPP_H
-#include "DBManager.h"
+#include "dbmanager.h"
 #include "mainwindow.h"
 #include "server.h"
-#include "IOManager.h"
+#include "iomanager.h"
 enum ServerState
 {
     STATE_NOEXAM,

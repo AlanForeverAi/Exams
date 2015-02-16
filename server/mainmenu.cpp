@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <QDebug>
 #include "data.h"
-#include "MainMenuUI.h"
+#include "mainmenu.h"
 
 MainMenuUI::MainMenuUI(QWidget *parent) :
     QWidget(parent)

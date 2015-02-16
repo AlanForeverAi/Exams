@@ -1,4 +1,4 @@
-﻿#include "ScoreManageUI.h"
+﻿#include "scoremanage.h"
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>

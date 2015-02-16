@@ -12,7 +12,6 @@ public:
     QList<Student*> inputUser(QString);
     void outputPaper(QList<Paper*>);
     QList<Paper*> inputPaper(QString);
-    //下面又写死了。。。。
     void outputOb(QList<ChoiceQuestions*>);
     QList<ChoiceQuestions*> inputOb(QString);
     void outputSub(QList<EssayQuestions*>);

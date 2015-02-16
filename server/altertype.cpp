@@ -19,6 +19,12 @@ void AlterType::showType(int id, QString type)
 
 void AlterType::on_pushButton_Save_clicked()
 {
+    if(lineEdit_Type->text() == "")
+    {
+        QMessageBox::about(this, "msg", QString("某项信息未填写！"));
+        return ;
+    }
+
     emit this->updateType(lineEdit_ID->text().toInt(), lineEdit_Type->text());
     this->close();
 }

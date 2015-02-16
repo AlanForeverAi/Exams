@@ -20,6 +20,12 @@ void AlterManager::showManager(User *manager)
 
 void AlterManager::on_pushButton_Save_clicked()
 {
+    if(lineEdit_Name->text() == "" || lineEdit_Password->text() == "")
+    {
+        QMessageBox::about(this, "msg", QString("某项信息未填写！"));
+        return ;
+    }
+
     User *manager = new User();
     manager->setID(lineEdit_ID->text());
     manager->setName(lineEdit_Name->text());
