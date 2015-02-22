@@ -223,37 +223,7 @@
               </column>
               <column>
                <property name="text">
-                <string>题目类型</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
                 <string>题干</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>答案A</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>答案B</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>答案C</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>答案D</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>正确答案</string>
                </property>
               </column>
              </widget>

@@ -27,18 +27,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::do_QuestionsManager()
 {
-    QuestionsManageUI *queManager  =  new QuestionsManageUI();
-    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),queManager,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
-    connect(queManager,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SIGNAL(addOb_Questoins(ChoiceQuestions*)));
-    connect(queManager,SIGNAL(addSub_Questoins(EssayQuestions*)),this,SIGNAL(addSub_Questoins(EssayQuestions*)));
-    connect(queManager,SIGNAL(modifyOb_Questoins(ChoiceQuestions*)),this,SIGNAL(modifyOb_Questoins(ChoiceQuestions*)));
-    connect(queManager,SIGNAL(modifySub_Questoins(EssayQuestions*)),this,SIGNAL(modifySub_Questoins(EssayQuestions*)));
-    connect(queManager->Button_Save,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
-    connect(queManager->Button_delete,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
-    connect(queManager,SIGNAL(deleteOb_Questoins(int)),this,SIGNAL(deleteOb_Questoins(int)));
-    connect(queManager,SIGNAL(deleteSub_Questoins(int)),this,SIGNAL(deleteSub_Questoins(int)));
-    connect(queManager->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
-    this->setCentralWidget(queManager);
+    QuestionsManageUI *questionManager  =  new QuestionsManageUI();
+    connect(questionManager, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)));
+    connect(questionManager, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SIGNAL(updateEssayQuestion(EssayQuestions*)));
+    connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), questionManager, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
+    connect(this,SIGNAL(setEssayQuestions(QList<EssayQuestions*>)), questionManager, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
+    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),questionManager,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
+    connect(questionManager,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SIGNAL(addOb_Questoins(ChoiceQuestions*)));
+    connect(questionManager,SIGNAL(addSub_Questoins(EssayQuestions*)),this,SIGNAL(addSub_Questoins(EssayQuestions*)));
+    connect(questionManager,SIGNAL(modifyOb_Questoins(ChoiceQuestions*)),this,SIGNAL(modifyOb_Questoins(ChoiceQuestions*)));
+    connect(questionManager,SIGNAL(modifySub_Questoins(EssayQuestions*)),this,SIGNAL(modifySub_Questoins(EssayQuestions*)));
+    connect(questionManager->Button_Save,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
+    connect(questionManager->Button_delete,SIGNAL(clicked()),this,SIGNAL(getQuestions()));
+    connect(questionManager,SIGNAL(deleteOb_Questoins(int)),this,SIGNAL(deleteOb_Questoins(int)));
+    connect(questionManager,SIGNAL(deleteSub_Questoins(int)),this,SIGNAL(deleteSub_Questoins(int)));
+    connect(questionManager->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
+    this->setCentralWidget(questionManager);
     emit this->getQuestions();
     _statusBar->showMessage(QStringLiteral("题库管理"));
 }

@@ -63,7 +63,11 @@ void MainApp::iniServer()
 void MainApp::iniMainWindow()
 {
     //与题库管理界面连接的信号和槽
+    connect(&_window, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SLOT(updateChoiceQuestion(ChoiceQuestions*)));
+    connect(&_window, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SLOT(updateEssayQuestion(EssayQuestions*)));
     connect(&_window,SIGNAL(getQuestions()),this,SLOT(getQuestions()));
+    connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), &_window, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)));
+    connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)),  &_window, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)));
     connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),&_window,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(&_window,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SLOT(addOb_Questions(ChoiceQuestions*)));
     connect(&_window,SIGNAL(addSub_Questoins(EssayQuestions*)),this,SLOT(addSub_Questions(EssayQuestions*)));
@@ -239,28 +243,30 @@ void MainApp::getQuestions()
         sub_que->setSubjectID(query.value(2).toString());
         essayList.append(sub_que);
     }
+    emit this->setChoiceQuestions(choiceList);
+    emit this->setEssayQuestions(essayList);
     emit this->showQuestions(choiceList,essayList);
 
 }
 
-void MainApp::addOb_Questions(ChoiceQuestions *o_que)
+void MainApp::addOb_Questions(ChoiceQuestions *question)
 {
-    _DBM->insertOb(NULL,o_que->getSubjectID(),o_que->getQuestionTitle(),o_que->getAnswer());
+    _DBM->insertOb(question->getQuestionTitle(), question->getAnswer(), question->getSubjectID().toInt());
 }
 
-void MainApp::addSub_Questions(EssayQuestions *s_que)
+void MainApp::addSub_Questions(EssayQuestions *question)
 {
-    _DBM->insertSub(NULL,s_que->getSubjectID(),s_que->getQuestionTitle());
+    _DBM->insertSub(question->getQuestionTitle(), question->getSubjectID());
 }
 
-void MainApp::modifyOb_Questoins(ChoiceQuestions *o_que)
+void MainApp::modifyOb_Questoins(ChoiceQuestions *question)
 {
-    _DBM->alterObQuestions(o_que->getQuestionId(),o_que->getSubjectID(),o_que->getQuestionTitle(),o_que->getAnswer());
+    _DBM->updateChoiceQuestions(question->getQuestionId(),question->getQuestionTitle(),question->getAnswer());
 }
 
-void MainApp::modifySub_Questoins(EssayQuestions *s_que)
+void MainApp::modifySub_Questoins(EssayQuestions *question)
 {
-    _DBM->alterSubQuestions(s_que->getQuestionId(),s_que->getSubjectID(),s_que->getQuestionTitle());
+    _DBM->updateEssayQuestions(question->getQuestionId(),question->getQuestionTitle());
 }
 
 void MainApp::deleteOb_Questoins(int id)
@@ -879,6 +885,18 @@ void MainApp::updateType(int id, QString type)
     getType();
 }
 
+void MainApp::updateChoiceQuestion(ChoiceQuestions *question)
+{
+    _DBM->updateChoiceQuestions(question->getQuestionId(), question->getQuestionTitle(), question->getAnswer());
+    getQuestions();
+}
+
+void MainApp::updateEssayQuestion(EssayQuestions *question)
+{
+    _DBM->updateEssayQuestions(question->getQuestionId(), question->getQuestionTitle());
+    getQuestions();
+}
+
 void MainApp::getStudent()
 {
     QList<Student*> studentList;\
@@ -1057,7 +1075,7 @@ void MainApp::inputOb(QString path)
     oblist = _IOM->inputOb(path);
     for(int i = 0; i < oblist.count(); i++)
     {
-        _DBM->insertOb(oblist.at(i)->getQuestionId(),oblist.at(i)->getSubjectID(),oblist.at(i)->getQuestionTitle(),oblist.at(i)->getAnswer());
+//        _DBM->insertOb(oblist.at(i)->getQuestionId(),oblist.at(i)->getSubjectID(),oblist.at(i)->getQuestionTitle(),oblist.at(i)->getAnswer());
     }
     QMessageBox msg;
     msg.setText(QStringLiteral("导入成功。"));
@@ -1070,7 +1088,7 @@ void MainApp::inputSub(QString path)
     sublist = _IOM->inputSub(path);
     for(int i = 0; i < sublist.count(); i++)
     {
-        _DBM->insertSub(sublist.at(i)->getQuestionId(),sublist.at(i)->getSubjectID(),sublist.at(i)->getQuestionTitle());
+//        _DBM->insertSub(sublist.at(i)->getQuestionId(),sublist.at(i)->getSubjectID(),sublist.at(i)->getQuestionTitle());
     }
     QMessageBox msg;
     msg.setText(QStringLiteral("导入成功。"));

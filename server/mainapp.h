@@ -48,6 +48,9 @@ signals:
     void updateManagerList(QList<User *>);
     void updateTypeList(QMap<int, QString>);
 
+    void setChoiceQuestions(QList<ChoiceQuestions*>);
+    void setEssayQuestions(QList<EssayQuestions*>);
+
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
     void removeUser(int);//将考生状态重置为未连接
@@ -107,6 +110,9 @@ public slots:
     void updateTeahcer(User *);
     void updateManager(User *);
     void updateType(int, QString);
+
+    void updateChoiceQuestion(ChoiceQuestions *);
+    void updateEssayQuestion(EssayQuestions *);
 
 private:
     DBManager *_DBM;

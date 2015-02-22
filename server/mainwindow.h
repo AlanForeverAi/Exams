@@ -104,6 +104,11 @@ signals:
     void updateManagerList(QList<User *>);
     void updateTypeList(QMap<int, QString>);
 
+    void setChoiceQuestions(QList<ChoiceQuestions*>);
+    void setEssayQuestions(QList<EssayQuestions*>);
+    void updateChoiceQuestion(ChoiceQuestions *);
+    void updateEssayQuestion(EssayQuestions *);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();

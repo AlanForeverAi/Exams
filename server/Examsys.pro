@@ -32,7 +32,9 @@ SOURCES += main.cpp\
     papermanage.cpp \
     questionsmanage.cpp \
     scoremanage.cpp \
-    submark.cpp
+    submark.cpp \
+    alterchoicequestion.cpp \
+    alteressayquestion.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -54,7 +56,9 @@ HEADERS  += mainwindow.h \
     papermanage.h \
     questionsmanage.h \
     scoremanage.h \
-    submark.h
+    submark.h \
+    alterchoicequestion.h \
+    alteressayquestion.h
 
 
 FORMS    += mainwindow.ui \
@@ -71,7 +75,9 @@ FORMS    += mainwindow.ui \
     alterstudent.ui \
     alterteacher.ui \
     altermanager.ui \
-    altertype.ui
+    altertype.ui \
+    showchoicequestion.ui \
+    showessayquestion.ui
 
 RESOURCES += \
     res.qrc
