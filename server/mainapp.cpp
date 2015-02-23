@@ -65,10 +65,13 @@ void MainApp::iniMainWindow()
     //与题库管理界面连接的信号和槽
     connect(&_window, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SLOT(updateChoiceQuestion(ChoiceQuestions*)));
     connect(&_window, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SLOT(updateEssayQuestion(EssayQuestions*)));
-    connect(&_window,SIGNAL(getQuestions()),this,SLOT(getQuestions()));
+    connect(&_window, SIGNAL(getChoiceQuestions()), this, SLOT(getChoiceQuestion()));
+    connect(&_window, SIGNAL(getEssayQuestions()), this, SLOT(getEssayQuestion()));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), &_window, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)));
     connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)),  &_window, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)));
     connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),&_window,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
+    connect(this, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)), &_window, SIGNAL(showChoiceQuestionList(QList<ChoiceQuestions*>)));
+    connect(this, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)), &_window, SIGNAL(showEssayQuestionList(QList<EssayQuestions*>)));
     connect(&_window,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SLOT(addOb_Questions(ChoiceQuestions*)));
     connect(&_window,SIGNAL(addSub_Questoins(EssayQuestions*)),this,SLOT(addSub_Questions(EssayQuestions*)));
     connect(&_window,SIGNAL(modifyOb_Questoins(ChoiceQuestions*)),this,SLOT(modifyOb_Questoins(ChoiceQuestions*)));
@@ -216,10 +219,9 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
 
 }
 
-void MainApp::getQuestions()
+void MainApp::getChoiceQuestion()
 {
     QList<ChoiceQuestions*> choiceList;
-    QList<EssayQuestions*> essayList;
     QSqlQuery query;
     query = _DBM->selectObQuestions();
 
@@ -232,8 +234,14 @@ void MainApp::getQuestions()
         choicequestion->setSubjectID(query.value(3).toString());
         choiceList.append(choicequestion);
     }
+    emit this->setChoiceQuestions(choiceList);
+    emit this->showChoiceQuestions(choiceList);
+}
 
-    query.clear();
+void MainApp::getEssayQuestion()
+{
+    QList<EssayQuestions*> essayList;
+    QSqlQuery query;
     query = _DBM->selectSubQuestions();
     while(query.next())
     {
@@ -243,10 +251,8 @@ void MainApp::getQuestions()
         sub_que->setSubjectID(query.value(2).toString());
         essayList.append(sub_que);
     }
-    emit this->setChoiceQuestions(choiceList);
     emit this->setEssayQuestions(essayList);
-    emit this->showQuestions(choiceList,essayList);
-
+    emit this->showEssayQuestions(essayList);
 }
 
 void MainApp::addOb_Questions(ChoiceQuestions *question)
@@ -888,13 +894,13 @@ void MainApp::updateType(int id, QString type)
 void MainApp::updateChoiceQuestion(ChoiceQuestions *question)
 {
     _DBM->updateChoiceQuestions(question->getQuestionId(), question->getQuestionTitle(), question->getAnswer());
-    getQuestions();
+    getChoiceQuestion();
 }
 
 void MainApp::updateEssayQuestion(EssayQuestions *question)
 {
     _DBM->updateEssayQuestions(question->getQuestionId(), question->getQuestionTitle());
-    getQuestions();
+    getEssayQuestion();
 }
 
 void MainApp::getStudent()

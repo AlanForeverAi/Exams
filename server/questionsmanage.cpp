@@ -98,57 +98,8 @@ void QuestionsManageUI::on_Button_delete_clicked()
     }
 }
 
-//Question
-//void QuestionsManageUI::modify()
-//{
-//    QMessageBox msg;
-//    msg.setText(QStringLiteral("确定要修改吗？"));
-//    msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
-//    int ret = msg.exec();
-//    if(ret == QMessageBox::Ok)
-//    {
-//        if(tabWidget->currentIndex() == 0)
-//        {
-//            ChoiceQuestions *choiceQuestions = new ChoiceQuestions;
-//            choiceQuestions->setQuestionId(obTable->item(obTable->currentRow(),0)->text().toInt());
-//            QString title;
-//            title.append(textEdit->toPlainText());
-//            title.append("@a");
-//            title.append(textEdit_A->toPlainText());
-//            title.append("@b");
-//            title.append(textEdit_B->toPlainText());
-//            title.append("@c");
-//            title.append(textEdit_C->toPlainText());
-//            title.append("@d");
-//            title.append(textEdit_D->toPlainText());
-//            choiceQuestions->setQuestionTitle(title);
-
-//            QString answer;
-//            if(radio_A->isChecked()) answer.append("A-");
-//            if(radio_B->isChecked()) answer.append("B-");
-//            if(radio_C->isChecked()) answer.append("C-");
-//            if(radio_D->isChecked()) answer.append("D-");
-//            choiceQuestions->setAnswer(answer);
-//            choiceQuestions->setSubjectID(QString(User::GetInstance().getType()));
-//            emit this->modifyOb_Questoins(choiceQuestions);
-//            delete(choiceQuestions);
-//        }
-//        else if(tabWidget->currentIndex() == 1)
-//        {
-//            EssayQuestions *essayQuestions = new EssayQuestions;
-//            essayQuestions->setQuestionId(subTable->item(subTable->currentRow(),0)->text().toInt());
-//            essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-//            essayQuestions->setSubjectID(QString(User::GetInstance().getType()));
-//            emit this->modifySub_Questoins(essayQuestions);
-//            delete(essayQuestions);
-//        }
-//    }
-//}
-
-void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<EssayQuestions *> subList)
+void QuestionsManageUI::showChoiceQuestionList(QList<ChoiceQuestions *> obList)
 {
-    //显示客观题
-    _typeList.clear();
     obTable->setRowCount(obList.count());
     for(int i = 0; i < obList.count(); i++)
     {
@@ -160,14 +111,11 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
         maintitle->setToolTip(maintitle->text());
         obTable->setItem(i,0,id);
         obTable->setItem(i,1,maintitle);
-
-        if(!_typeList.contains(obList.at(i)->getSubjectID()))
-        {
-            _typeList << obList.at(i)->getSubjectID();
-        }
-
     }
-    //显示主观题   
+}
+
+void QuestionsManageUI::showEssayQuestionList(QList<EssayQuestions *> subList)
+{
     subTable->setRowCount(subList.count());
     for(int i = 0; i<subList.count(); i++)
     {
@@ -177,11 +125,6 @@ void QuestionsManageUI::showQuestions(QList<ChoiceQuestions *> obList, QList<Ess
         subTable->setItem(i,0,id);
         subTable->setItem(i,1,type);
         subTable->setItem(i,2,title);
-
-        if(!_typeList.contains(subList.at(i)->getSubjectID()))
-        {
-            _typeList << subList.at(i)->getSubjectID();
-        }
     }
 }
 

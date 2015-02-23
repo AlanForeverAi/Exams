@@ -33,6 +33,8 @@ public:
     ~MainWindow();
 signals:
     void getQuestions();
+    void getChoiceQuestions();
+    void getEssayQuestions();
     void addOb_Questoins(ChoiceQuestions*);
     void addSub_Questoins(EssayQuestions*);
     void modifyOb_Questoins(ChoiceQuestions*);
@@ -108,6 +110,8 @@ signals:
     void setEssayQuestions(QList<EssayQuestions*>);
     void updateChoiceQuestion(ChoiceQuestions *);
     void updateEssayQuestion(EssayQuestions *);
+    void showChoiceQuestionList(QList<ChoiceQuestions*>);
+    void showEssayQuestionList(QList<EssayQuestions*>);
 
 private slots:
     void on_action_QuestionsManager_triggered();

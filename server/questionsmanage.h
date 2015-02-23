@@ -14,7 +14,6 @@ public:
     QuestionsManageUI(QWidget *parent=0);
     ~QuestionsManageUI();
 
-
 signals:
     void addOb_Questoins(ChoiceQuestions*);
     void addSub_Questoins(EssayQuestions*);
@@ -31,19 +30,18 @@ private slots:
     void return_clicked();
     void add();
     void on_Button_delete_clicked();
-//    void modify();
     void on_Button_Save_clicked();
     void on_Button_new_clicked();
     void showCurrentQue(QTableWidgetItem*);
     void showChoiceQuestion(QTableWidgetItem*);
     void showEssayQuestion(QTableWidgetItem*);
     void textClear();
-    void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
+    void showChoiceQuestionList(QList<ChoiceQuestions*>);
+    void showEssayQuestionList(QList<EssayQuestions*>);
     void setChoiceQuestions(QList<ChoiceQuestions*>);
     void setEssayQuestions(QList<EssayQuestions*>);
 
 private:
-    QStringList _typeList;
     QList<ChoiceQuestions*> choiceQuestionList;
     QList<EssayQuestions*> essayQuestionList;
 };
