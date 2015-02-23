@@ -32,7 +32,6 @@ void MainWindow::do_QuestionsManager()
     connect(questionManager, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SIGNAL(updateEssayQuestion(EssayQuestions*)));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), questionManager, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
     connect(this,SIGNAL(setEssayQuestions(QList<EssayQuestions*>)), questionManager, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
-    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),questionManager,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(this, SIGNAL(showChoiceQuestionList(QList<ChoiceQuestions*>)), questionManager, SLOT(showChoiceQuestionList(QList<ChoiceQuestions*>)));
     connect(this, SIGNAL(showEssayQuestionList(QList<EssayQuestions*>)), questionManager, SLOT(showEssayQuestionList(QList<EssayQuestions*>)));
     connect(questionManager,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SIGNAL(addOb_Questoins(ChoiceQuestions*)));
@@ -42,9 +41,9 @@ void MainWindow::do_QuestionsManager()
     connect(questionManager,SIGNAL(deleteOb_Questoins(int)),this,SIGNAL(deleteOb_Questoins(int)));
     connect(questionManager,SIGNAL(deleteSub_Questoins(int)),this,SIGNAL(deleteSub_Questoins(int)));
     connect(questionManager->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
-    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getChoiceQuestions()));
+//    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getChoiceQuestions()));
     connect(questionManager->Button_delete, SIGNAL(clicked()), this, SIGNAL(getChoiceQuestions()));
-    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getEssayQuestions()));
+//    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getEssayQuestions()));
     connect(questionManager->Button_delete, SIGNAL(clicked()), this, SIGNAL(getEssayQuestions()));
     this->setCentralWidget(questionManager);
     emit this->getChoiceQuestions();

@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>675</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1280</width>
-    <height>675</height>
+    <height>775</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1280</width>
-    <height>675</height>
+    <height>775</height>
    </size>
   </property>
   <property name="font">
@@ -31,13 +31,13 @@
   <property name="windowTitle">
    <string>MainMenu</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>12</y>
      <width>1261</width>
-     <height>664</height>
+     <height>694</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_3">

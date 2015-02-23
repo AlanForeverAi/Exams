@@ -20,54 +20,15 @@ QuestionsManageUI::QuestionsManageUI(QWidget *parent):QWidget(parent)
     subTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     subTable->horizontalHeader()->setStretchLastSection(true);
 }
+
 QuestionsManageUI::~QuestionsManageUI()
 {
+
 }
 
 void QuestionsManageUI::return_clicked()
 {
     this->close();
-}
-
-//Question
-void QuestionsManageUI::add()
-{
-    if(tabWidget->currentIndex() == 0)
-    {
-        ChoiceQuestions *choiceQuestions = new ChoiceQuestions;
-
-        QString title;
-        title.append(textEdit->toPlainText());
-        title.append("@a");
-        title.append(textEdit_A->toPlainText());
-        title.append("@b");
-        title.append(textEdit_B->toPlainText());
-        title.append("@c");
-        title.append(textEdit_C->toPlainText());
-        title.append("@d");
-        title.append(textEdit_D->toPlainText());
-        choiceQuestions->setQuestionTitle(title);
-
-        QString answer;
-        if(radio_A->isChecked()) answer.append("A-");
-        if(radio_B->isChecked()) answer.append("B-");
-        if(radio_C->isChecked()) answer.append("C-");
-        if(radio_D->isChecked()) answer.append("D-");
-        choiceQuestions->setAnswer(answer);
-        choiceQuestions->setSubjectID(QString::number(User::GetInstance().getType()));
-        emit this->addOb_Questoins(choiceQuestions);
-        delete(choiceQuestions);
-    }
-    else if(tabWidget->currentIndex() == 1)
-    {
-        EssayQuestions *essayQuestions = new EssayQuestions;
-        essayQuestions->setQuestionTitle(textEdit2_Content->toPlainText());
-        essayQuestions->setSubjectID(QString::number(User::GetInstance().getType()));
-        emit this->addSub_Questoins(essayQuestions);
-        delete(essayQuestions);
-    }
-
-    this->textClear();
 }
 
 void QuestionsManageUI::on_Button_delete_clicked()
@@ -117,14 +78,12 @@ void QuestionsManageUI::showChoiceQuestionList(QList<ChoiceQuestions *> obList)
 void QuestionsManageUI::showEssayQuestionList(QList<EssayQuestions *> subList)
 {
     subTable->setRowCount(subList.count());
-    for(int i = 0; i<subList.count(); i++)
+    for(int i = 0; i < subList.count(); i++)
     {
         QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
         QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getSubjectID());
         subTable->setItem(i,0,id);
-        subTable->setItem(i,1,type);
-        subTable->setItem(i,2,title);
+        subTable->setItem(i,1,title);
     }
 }
 
@@ -136,48 +95,6 @@ void QuestionsManageUI::setChoiceQuestions(QList<ChoiceQuestions *> questionList
 void QuestionsManageUI::setEssayQuestions(QList<EssayQuestions *> questionList)
 {
     essayQuestionList = questionList;
-}
-
-void QuestionsManageUI::textClear()
-{
-    textEdit->clear();
-    textEdit_A->clear();
-    textEdit_B->clear();
-    textEdit_C->clear();
-    textEdit_D->clear();
-    radio_A->setChecked(false);
-    radio_B->setChecked(false);
-    radio_C->setChecked(false);
-    radio_D->setChecked(false);
-    textEdit2_Content->clear();
-}
-
-void QuestionsManageUI::showCurrentQue(QTableWidgetItem *item)
-{
-    textClear();
-    if(tabWidget_2->currentIndex() == 0 && item->row() >= 0)
-    {
-        tabWidget->setCurrentIndex(0);
-
-        textEdit->setText(obTable->item(item->row(),2)->text());
-        textEdit_A->setText(obTable->item(item->row(),3)->text());
-        textEdit_B->setText(obTable->item(item->row(),4)->text());
-        textEdit_C->setText(obTable->item(item->row(),5)->text());
-        textEdit_D->setText(obTable->item(item->row(),6)->text());
-        QStringList list = obTable->item(item->row(),7)->text().split("-");
-        for(int i = 0; i< list.count(); i++)
-        {
-            if(list.at(i) == "A") radio_A->setChecked(true);
-            if(list.at(i) == "B") radio_B->setChecked(true);
-            if(list.at(i) == "C") radio_C->setChecked(true);
-            if(list.at(i) == "D") radio_D->setChecked(true);
-        }
-    }
-    else if(tabWidget_2->currentIndex() == 1 && subTable->currentRow() >= 0)
-    {
-        tabWidget->setCurrentIndex(1);
-        textEdit2_Content->setText(subTable->item(subTable->currentRow(),2)->text());
-    }
 }
 
 void QuestionsManageUI::showChoiceQuestion(QTableWidgetItem *item)
@@ -216,14 +133,14 @@ void QuestionsManageUI::showEssayQuestion(QTableWidgetItem *item)
 
 void QuestionsManageUI::on_Button_Save_clicked()
 {
-    this->add();
-    textClear();
+
 }
 
 void QuestionsManageUI::on_Button_new_clicked()
 {
-    this->add();
-    textClear();
-    textEdit->setText(QStringLiteral("请输入新题目的内容"));
-    textEdit2_Content->setText(QStringLiteral("请输入新题目的内容"));
+    AddQuestion *addQuestionDialog = new AddQuestion();
+    connect(addQuestionDialog, SIGNAL(addChoiceQuestion(ChoiceQuestions*)), this, SIGNAL(addOb_Questoins(ChoiceQuestions*)));
+    connect(addQuestionDialog, SIGNAL(addEssayQuestion(EssayQuestions*)), this, SIGNAL(addSub_Questoins(EssayQuestions*)));
+
+    addQuestionDialog->exec();
 }

@@ -69,7 +69,6 @@ void MainApp::iniMainWindow()
     connect(&_window, SIGNAL(getEssayQuestions()), this, SLOT(getEssayQuestion()));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), &_window, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)));
     connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)),  &_window, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)));
-    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),&_window,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(this, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)), &_window, SIGNAL(showChoiceQuestionList(QList<ChoiceQuestions*>)));
     connect(this, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)), &_window, SIGNAL(showEssayQuestionList(QList<EssayQuestions*>)));
     connect(&_window,SIGNAL(addOb_Questoins(ChoiceQuestions*)),this,SLOT(addOb_Questions(ChoiceQuestions*)));
@@ -258,11 +257,13 @@ void MainApp::getEssayQuestion()
 void MainApp::addOb_Questions(ChoiceQuestions *question)
 {
     _DBM->insertOb(question->getQuestionTitle(), question->getAnswer(), question->getSubjectID().toInt());
+    getChoiceQuestion();
 }
 
 void MainApp::addSub_Questions(EssayQuestions *question)
 {
     _DBM->insertSub(question->getQuestionTitle(), question->getSubjectID());
+    getEssayQuestion();
 }
 
 void MainApp::modifyOb_Questoins(ChoiceQuestions *question)

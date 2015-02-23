@@ -6,6 +6,7 @@
 #include "data.h"
 #include "alterchoicequestion.h"
 #include "alteressayquestion.h"
+#include "addquestion.h"
 
 class QuestionsManageUI:public QWidget,public Ui::QuestionsManageUI
 {
@@ -28,14 +29,11 @@ signals:
 
 private slots:
     void return_clicked();
-    void add();
     void on_Button_delete_clicked();
     void on_Button_Save_clicked();
     void on_Button_new_clicked();
-    void showCurrentQue(QTableWidgetItem*);
     void showChoiceQuestion(QTableWidgetItem*);
     void showEssayQuestion(QTableWidgetItem*);
-    void textClear();
     void showChoiceQuestionList(QList<ChoiceQuestions*>);
     void showEssayQuestionList(QList<EssayQuestions*>);
     void setChoiceQuestions(QList<ChoiceQuestions*>);
