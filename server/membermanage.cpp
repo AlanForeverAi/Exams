@@ -1,4 +1,4 @@
-﻿#include "MemberManageUI.h"
+﻿#include "membermanage.h"
 #include "alterstudent.h"
 #include "alterteacher.h"
 #include "altermanager.h"

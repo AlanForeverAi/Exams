@@ -1,5 +1,5 @@
-﻿#include"server.h"
-#include<QThread>
+﻿#include "server.h"
+#include <QThread>
 
 /*
 Server类构造函数

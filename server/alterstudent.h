@@ -2,6 +2,7 @@
 #define ALTERSTUDENT_H
 
 #include <QWidget>
+#include <QMessageBox>
 #include <QDialog>
 #include "ui_alterstudent.h"
 #include "data.h"

@@ -1,4 +1,4 @@
-﻿#include"DBManager.h"
+﻿#include "dbmanager.h"
 #include <QMessageBox>
 DBManager::DBManager()
 {
@@ -234,28 +234,20 @@ void DBManager::deleteServerUserByName(QString a)
 }
 
 //插入客观题到数据库
-void DBManager::insertOb(int id,QString type,QString title,QString answer)
+void DBManager::insertOb(QString title, QString answer, int type)
 {
     QSqlQuery query;
-
-    query.prepare("insert into obquestions ( obid,title,answer,type) " "values ( ?,?,?,?)");
-    query.addBindValue(id);
-    query.addBindValue(title);
-    query.addBindValue(answer);
-    query.addBindValue(type);
-    query.exec();
+    QString s = "insert into obquestions (title, answer, type) values ('%1', '%2', %3)";
+    query.exec(s.arg(title).arg(answer).arg(type));
     qDebug() << "insertOb] " << query.lastError();
 }
 
 //插入主观题到数据库
-void DBManager::insertSub(int id,QString type,QString title)
+void DBManager::insertSub(QString title, QString type)
 {
     QSqlQuery query;
-    query.prepare("insert into subquestions (subid,title,type) " "values ( ?,?, ?)");
-    query.addBindValue(id);
-    query.addBindValue(title);
-    query.addBindValue(type);
-    query.exec();
+    QString s = "insert into subquestions (title, type) values ('%1', %2)";
+    query.exec(s.arg(title).arg(type));
     qDebug() << "insertSub]" << query.lastError();
 }
 
@@ -301,21 +293,19 @@ void DBManager::deleteSubQuestionsByID(int id)
     qDebug() << "deleteSubQuestions] " << query.lastError();
 }
 
-//按ID修改客观题问题表
-void DBManager::alterObQuestions(int id ,QString type,QString title ,QString answer)
+void DBManager::updateChoiceQuestions(int id, QString title, QString answer)
 {
     QSqlQuery query;
-    QString s = "update obquestions set type= '%1',title= '%2',answer= '%3' where obid= %4";
-    query.exec(s.arg(type).arg(title).arg(answer).arg(id));
+    QString s = "update obquestions set title= '%1',answer= '%2' where obid= %3";
+    query.exec(s.arg(title).arg(answer).arg(id));
     qDebug() << "alterObQuestions] " << query.lastError();
 }
 
-
-//按ID修改主观题问题表
-void DBManager::alterSubQuestions(int id ,QString type ,QString title)
+void DBManager::updateEssayQuestions(int id, QString title)
 {
     QSqlQuery query;
-    query.exec(QStringLiteral("update subquestions set type = '%1',title= '%2' where subid= %3").arg(type).arg(title).arg(id));
+    QString s = "update subquestions set title= '%1' where subid= %2";
+    query.exec(s.arg(title).arg(id));
     qDebug() << "alterSubQuestions] " << query.lastError();
 }
 

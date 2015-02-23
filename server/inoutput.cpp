@@ -1,4 +1,4 @@
-﻿#include "InOutPutUI.h"
+﻿#include "inoutput.h"
 #include <QFileDialog>
 InOutPutUI::InOutPutUI(QWidget *parent) :
     QWidget(parent)

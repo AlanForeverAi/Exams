@@ -34,7 +34,7 @@
      <x>420</x>
      <y>120</y>
      <width>400</width>
-     <height>301</height>
+     <height>341</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -58,13 +58,13 @@
    <property name="title">
     <string>配置config.ini</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>40</x>
       <y>30</y>
-      <width>321</width>
-      <height>253</height>
+      <width>351</width>
+      <height>290</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -291,9 +291,6 @@
      </item>
     </layout>
    </widget>
-   <zorder></zorder>
-   <zorder>label_6</zorder>
-   <zorder>label</zorder>
   </widget>
  </widget>
  <resources/>

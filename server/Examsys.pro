@@ -17,44 +17,50 @@ SOURCES += main.cpp\
     mainapp.cpp \
     data.cpp \
     server.cpp\
-    PaperManageUI.cpp \
-    QuestionsManageUI.cpp \
-    ExamCtrlUI.cpp \
-    SubMarkUI.cpp \
-    IOManager.cpp \
-    InOutPutUI.cpp \
-    ConfigUI.cpp \
-    MainMenuUI.cpp \
-    MemberManageUI.cpp \
-    LoginUI.cpp \
-    ScoreManageUI.cpp \
-    DBManager.cpp \
     alterstudent.cpp \
     alterteacher.cpp \
     altermanager.cpp \
-    altertype.cpp
+    altertype.cpp \
+    configui.cpp \
+    dbmanager.cpp \
+    iomanager.cpp \
+    loginui.cpp \
+    mainmenu.cpp \
+    examctrl.cpp \
+    inoutput.cpp \
+    membermanage.cpp \
+    papermanage.cpp \
+    questionsmanage.cpp \
+    scoremanage.cpp \
+    submark.cpp \
+    alterchoicequestion.cpp \
+    alteressayquestion.cpp \
+    addquestion.cpp
 
 
 HEADERS  += mainwindow.h \
-    DBManager.h \
     mainapp.h \
     data.h \
     server.h\
-    PaperManageUI.h \
-    QuestionsManageUI.h \
-    ExamCtrlUI.h \
-    SubMarkUI.h \
-    IOManager.h \
-    InOutPutUI.h \
-    ConfigUI.h \
-    MainMenuUI.h \
-    MemberManageUI.h \
-    LoginUI.h \
-    ScoreManageUI.h \
     alterstudent.h \
     alterteacher.h \
     altermanager.h \
-    altertype.h
+    altertype.h \
+    dbmanager.h \
+    iomanager.h \
+    mainmenu.h \
+    login.h \
+    config.h \
+    examctrl.h \
+    inoutput.h \
+    membermanage.h \
+    papermanage.h \
+    questionsmanage.h \
+    scoremanage.h \
+    submark.h \
+    alterchoicequestion.h \
+    alteressayquestion.h \
+    addquestion.h
 
 
 FORMS    += mainwindow.ui \
@@ -71,7 +77,10 @@ FORMS    += mainwindow.ui \
     alterstudent.ui \
     alterteacher.ui \
     altermanager.ui \
-    altertype.ui
+    altertype.ui \
+    showchoicequestion.ui \
+    showessayquestion.ui \
+    addquestion.ui
 
 RESOURCES += \
     res.qrc

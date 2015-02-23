@@ -1,4 +1,4 @@
-﻿#include "ConfigUI.h"
+﻿#include "config.h"
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>

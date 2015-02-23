@@ -1,9 +1,9 @@
 ﻿#ifndef MAINAPP_H
 #define MAINAPP_H
-#include "DBManager.h"
+#include "dbmanager.h"
 #include "mainwindow.h"
 #include "server.h"
-#include "IOManager.h"
+#include "iomanager.h"
 enum ServerState
 {
     STATE_NOEXAM,
@@ -30,6 +30,8 @@ public:
 signals:
     void sendData(int,qint32,QVariant);//发送数据
     void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);//显示题目
+    void showChoiceQuestions(QList<ChoiceQuestions*>);
+    void showEssayQuestions(QList<EssayQuestions*>);
     void showAllPaper(QList<Paper*>);//显示所以试卷
     void showCurrentPaper(Paper);//显示某一张试卷
     void updateUserTable(QList<Student*>);//更新考试控制界面的考生表
@@ -48,10 +50,14 @@ signals:
     void updateManagerList(QList<User *>);
     void updateTypeList(QMap<int, QString>);
 
+    void setChoiceQuestions(QList<ChoiceQuestions*>);
+    void setEssayQuestions(QList<EssayQuestions*>);
+
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
     void removeUser(int);//将考生状态重置为未连接
-    void getQuestions();//获取题目
+    void getChoiceQuestion();
+    void getEssayQuestion();
     void addOb_Questions(ChoiceQuestions*);//添加客观题
     void addSub_Questions(EssayQuestions*);//添加主观题
     void deleteOb_Questoins(int);//删除客观题
@@ -107,6 +113,9 @@ public slots:
     void updateTeahcer(User *);
     void updateManager(User *);
     void updateType(int, QString);
+
+    void updateChoiceQuestion(ChoiceQuestions *);
+    void updateEssayQuestion(EssayQuestions *);
 
 private:
     DBManager *_DBM;

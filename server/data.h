@@ -35,7 +35,7 @@ private:
     QString _password;
     QString _state;
     QString _hostname;
-    int _socketDescriptor; //socket文件描述符
+    int _socketDescriptor;
 
 };
 Q_DECLARE_METATYPE(Student)
@@ -44,20 +44,17 @@ class User{
 public:
     User();
     void setID(QString);
-//    void setID(int);
     void setName(QString);
     void setPassword(QString);
     void setType(int);
     void setSubject(QString);
     int getType() const;
-//    int getID() const;
     QString getID() const;
     QString getName() const;
     QString getPassword() const;
     QString getSubject() const;
     static User& GetInstance();
 private:
-//    int _id;
     QString _id;
     int _type; //根据Type判断用户为管理员还是老师（还要判断老师类型）
     QString _name;
@@ -200,8 +197,6 @@ class ObjectQuestions{
 public:
     ObjectQuestions();
     virtual void setQuestionId(int);
-//    virtual void
-//    virtual void
 private:
     int _questionID;
     int mark;
@@ -312,7 +307,7 @@ private:
 };
 
 //问答题答案
-class EssayAnswers   //作答的答案
+class EssayAnswers
 {
     friend QDataStream &operator <<(QDataStream &,const EssayAnswers &);
     friend QDataStream &operator >>(QDataStream &,EssayAnswers &);

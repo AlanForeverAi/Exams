@@ -8,16 +8,17 @@
 #include <QCloseEvent>
 #include "data.h"
 #include "ui_mainwindow.h"
-#include "QuestionsManageUI.h"
-#include "PaperManageUI.h"
-#include "ExamCtrlUI.h"
-#include "SubMarkUI.h"
-#include "MemberManageUI.h"
-#include "LoginUI.h"
-#include "MainMenuUI.h"
-#include "ConfigUI.h"
-#include "ScoreManageUI.h"
-#include "InOutPutUI.h"
+#include "questionsmanage.h"
+#include "papermanage.h"
+#include "examctrl.h"
+#include "submark.h"
+#include "membermanage.h"
+#include "login.h"
+#include "mainmenu.h"
+#include "config.h"
+#include "scoremanage.h"
+#include "inoutput.h"
+
 namespace Ui
 {
 class MainWindow;
@@ -32,6 +33,8 @@ public:
     ~MainWindow();
 signals:
     void getQuestions();
+    void getChoiceQuestions();
+    void getEssayQuestions();
     void addOb_Questoins(ChoiceQuestions*);
     void addSub_Questoins(EssayQuestions*);
     void modifyOb_Questoins(ChoiceQuestions*);
@@ -103,6 +106,13 @@ signals:
     void updateManagerList(QList<User *>);
     void updateTypeList(QMap<int, QString>);
 
+    void setChoiceQuestions(QList<ChoiceQuestions*>);
+    void setEssayQuestions(QList<EssayQuestions*>);
+    void updateChoiceQuestion(ChoiceQuestions *);
+    void updateEssayQuestion(EssayQuestions *);
+    void showChoiceQuestionList(QList<ChoiceQuestions*>);
+    void showEssayQuestionList(QList<EssayQuestions*>);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();
@@ -133,7 +143,6 @@ private:
     void do_inoutput();
     Ui::MainWindow *_ui;
     QStatusBar *_statusBar;
-
 
 };
 

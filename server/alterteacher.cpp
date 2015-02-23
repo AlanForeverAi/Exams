@@ -29,6 +29,12 @@ void AlterTeacher::showTypeList(QList<QString> typeList)
 
 void AlterTeacher::on_pushButton_Save_clicked()
 {
+    if(lineEdit_Name->text() == "" || lineEdit_Password->text() == "")
+    {
+        QMessageBox::about(this, "msg", QString("某项信息未填写！"));
+        return ;
+    }
+
     User *teacher = new User();
     teacher->setID(lineEdit_ID->text());
     teacher->setName(lineEdit_Name->text());

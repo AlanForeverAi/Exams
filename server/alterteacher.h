@@ -2,6 +2,7 @@
 #define ALTERTEACHER_H
 
 #include <QWidget>
+#include <QMessageBox>
 #include <QDialog>
 #include "data.h"
 #include "ui_alterteacher.h"
