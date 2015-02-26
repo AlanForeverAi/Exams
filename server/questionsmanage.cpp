@@ -131,11 +131,6 @@ void QuestionsManageUI::showEssayQuestion(QTableWidgetItem *item)
     alterEssayQuestionDialog->exec();
 }
 
-void QuestionsManageUI::on_Button_Save_clicked()
-{
-
-}
-
 void QuestionsManageUI::on_Button_new_clicked()
 {
     AddQuestion *addQuestionDialog = new AddQuestion();

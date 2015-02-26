@@ -21,7 +21,6 @@ signals:
 private slots:
     void showTeacher(User *);
     void showTypeList(QList<QString>);
-
     void on_pushButton_Save_clicked();
     void on_pushButton_Cancel_clicked();
 };

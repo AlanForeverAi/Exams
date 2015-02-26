@@ -41,9 +41,7 @@ void MainWindow::do_QuestionsManager()
     connect(questionManager,SIGNAL(deleteOb_Questoins(int)),this,SIGNAL(deleteOb_Questoins(int)));
     connect(questionManager,SIGNAL(deleteSub_Questoins(int)),this,SIGNAL(deleteSub_Questoins(int)));
     connect(questionManager->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
-//    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getChoiceQuestions()));
     connect(questionManager->Button_delete, SIGNAL(clicked()), this, SIGNAL(getChoiceQuestions()));
-//    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getEssayQuestions()));
     connect(questionManager->Button_delete, SIGNAL(clicked()), this, SIGNAL(getEssayQuestions()));
     this->setCentralWidget(questionManager);
     emit this->getChoiceQuestions();
@@ -124,7 +122,8 @@ void MainWindow::do_memmanage()
     connect(this, SIGNAL(showTeacher(QList<User*>)), mem_Manage, SLOT(showTeacher(QList<User*>)));
     connect(this, SIGNAL(showType(QMap<int,QString>)), mem_Manage, SLOT(showType(QMap<int,QString>)));
     connect(this, SIGNAL(showManager(QList<User*>)), mem_Manage, SLOT(showManager(QList<User*>)));
-    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SLOT(showSubject(QList<QString>)));
+//    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SLOT(showSubject(QList<QString>)));
+    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SIGNAL(showSubject(QList<QString>)));
     connect(mem_Manage, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
     connect(mem_Manage, SIGNAL(updateTeacher(User*)), this, SIGNAL(updateTeacher(User*)));
     connect(mem_Manage, SIGNAL(updateManager(User*)), this, SIGNAL(updateManager(User*)));

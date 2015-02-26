@@ -30,7 +30,6 @@ signals:
 private slots:
     void return_clicked();
     void on_Button_delete_clicked();
-    void on_Button_Save_clicked();
     void on_Button_new_clicked();
     void showChoiceQuestion(QTableWidgetItem*);
     void showEssayQuestion(QTableWidgetItem*);
