@@ -73,9 +73,9 @@ int ServerThread::getDescriptor()
 /*线程启动时调用的函数*/
 void ServerThread::run()
 {
-    _socket = new ClientSocket();
+    _clientSocket = new ClientSocket();
     /*用ServerThread保存的套接字描述符初始化套接字*/
-    if(!_socket->setSocketDescriptor(_descriptor))
+    if(!_clientSocket->setSocketDescriptor(_descriptor))
     {
         qDebug("socket create fail!");
         this->finished();
@@ -83,14 +83,14 @@ void ServerThread::run()
     }
     /*连接消息发送信号*/
     connect(this,SIGNAL(sendData(int,qint32,QVariant)),
-            _socket,SLOT(sendData(int,qint32,QVariant)));
+            _clientSocket,SLOT(sendData(int,qint32,QVariant)));
     /*连接消息到达信号*/
-    connect(_socket,SIGNAL(messageArrive(int,qint32,QVariant)),
+    connect(_clientSocket,SIGNAL(messageArrive(int,qint32,QVariant)),
             this,SIGNAL(messageArrive(int,qint32,QVariant)));
     /*连接客户端断开信号*/
-    connect(_socket,SIGNAL(disconnected()),this,SLOT(threadFinished()));
+    connect(_clientSocket,SIGNAL(disconnected()),this,SLOT(threadFinished()));
     /*连接数据到达信号*/
-    connect(_socket,SIGNAL(readyRead()),_socket,SLOT(readData()));
+    connect(_clientSocket,SIGNAL(readyRead()),_clientSocket,SLOT(readData()));
     exec();
 }
 
@@ -108,8 +108,8 @@ void ClientSocket::readData()
     in.setVersion(QDataStream::Qt_4_7);
 
     QVariant v;
-    AllAnswers allans;
-    Student u;
+    AllAnswers allAnswers;
+    Student student;
     /*如果还没有块大小信息则尝试去读取*/
     if(_totalBytes == 0)
     {
@@ -129,25 +129,25 @@ void ClientSocket::readData()
     switch(_messageType)
     {
     case MSG_NEWCONNECT:
-        in >> u;
-        v.setValue(u);
+        in >> student;
+        v.setValue(student);
         break;
     case MSG_LOGIN:
-        in >> u;
-        u.setSockDescriptor(this->socketDescriptor());
-        v.setValue(u);
+        in >> student;
+        student.setSockDescriptor(this->socketDescriptor());
+        v.setValue(student);
         break;
     case MSG_GETPAPER:
-        in >> u;
-        v.setValue(u);
+        in >> student;
+        v.setValue(student);
         break;
     case MSG_ANSWER:
-        in >> allans;
-        v.setValue(allans);
+        in >> allAnswers;
+        v.setValue(allAnswers);
         break;
     case MSG_ANSWERSINGLE:
-        in >> allans;
-        v.setValue(allans);
+        in >> allAnswers;
+        v.setValue(allAnswers);
         break;
     }
     /*将块大小信息重置为0，准备接收下一个数据块*/
@@ -203,6 +203,10 @@ void ClientSocket::send()
     case MSG_BEGINEXAM:
         break;
     case MSG_ENDEXAM:
+        break;
+    case MSG_PAUSEEXAM:
+        break;
+    case MSG_CONTINUEEXAM:
         break;
     }
     /*返回第一位并将数据大小写入*/

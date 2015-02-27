@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     alterchoicequestion.cpp \
     alteressayquestion.cpp \
     addquestion.cpp \
-    addinformation.cpp
+    addinformation.cpp \
+    examcontrol.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -62,7 +63,8 @@ HEADERS  += mainwindow.h \
     alterchoicequestion.h \
     alteressayquestion.h \
     addquestion.h \
-    addinformation.h
+    addinformation.h \
+    examcontrol.h
 
 
 FORMS    += mainwindow.ui \
@@ -83,7 +85,8 @@ FORMS    += mainwindow.ui \
     showchoicequestion.ui \
     showessayquestion.ui \
     addquestion.ui \
-    addinformation.ui
+    addinformation.ui \
+    examcontrol.ui
 
 RESOURCES += \
     res.qrc

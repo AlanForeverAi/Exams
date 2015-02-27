@@ -79,11 +79,16 @@ void MainWindow::do_examctrl()
     ExamCtrlUI *examctrl = new ExamCtrlUI();
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examctrl,SLOT(showPapers(QList<Paper*>)));
     connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
-    connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SLOT(examMode()));
-    connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SIGNAL(beginExam()));
+    connect(examctrl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+    connect(examctrl, SIGNAL(beginExam()), this, SLOT(examMode()));
+//    connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SLOT(examMode()));
+//    connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SIGNAL(beginExam()));
     connect(this,SIGNAL(updateUserTable(QList<Student*>)),examctrl,SLOT(updateUserTable(QList<Student*>)));
+    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examctrl, SIGNAL(updateStudentTable(QList<Student*>)));
     connect(examctrl,SIGNAL(endExam()),this,SIGNAL(endExam()));
     connect(examctrl,SIGNAL(endExam()),this,SLOT(endExamMode()));
+    connect(examctrl, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+    connect(examctrl, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
     connect(examctrl->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     connect(this,SIGNAL(getcurrentPaperTime(int)),examctrl,SLOT(getcurrentPaperTime(int)));
     connect(examctrl,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
@@ -334,4 +339,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->accept();
     else
         event->ignore();
+}
+
+void MainWindow::pauseExamMode()
+{
+
 }

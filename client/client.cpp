@@ -121,6 +121,10 @@ void Client::readData()
         break;
     case MSG_ENDEXAM:
         break;
+    case MSG_PAUSEEXAM:
+        break;
+    case MSG_CONTINUEEXAM:
+        break;
     }
     /*将块大小信息重置为0，准备接收下一个数据块*/
     _totalBytes = 0;

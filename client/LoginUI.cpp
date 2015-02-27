@@ -12,7 +12,7 @@ LoginUI::LoginUI(QWidget *parent) :
 
 void LoginUI::on_pushButton_login_clicked()
 {
-    lineEdit_ID->setText("20112100004");
+    lineEdit_ID->setText("20112100001");
     lineEdit_PW->setText("123");
     Student::GetInstance().setID(lineEdit_ID->text());
     Student::GetInstance().setPassword(lineEdit_PW->text());

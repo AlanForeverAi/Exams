@@ -43,7 +43,7 @@ void AddInformation::on_pushButton_Add_clicked()
         }
 
         if(comboBox->currentText() == QStringLiteral("  未选择")){
-            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
+//            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
             return ;
         }
 

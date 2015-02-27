@@ -7,7 +7,8 @@ enum ServerState
 {
     STATE_NOEXAM,
     STATE_PAPERREADY,
-    STATE_EXAMING
+    STATE_EXAMING,
+    STATE_PAUSE
 };
 class MainApp :public QObject
 {
@@ -28,6 +29,9 @@ signals:
     void showScore(QList<Combo>);
     void updateInfo(QString);
     void showMessage(QString);
+    void pauseExam();
+    void continueExam();
+
 public slots:
     void connected();
     void messageArrive(qint32,QVariant);

@@ -2,6 +2,7 @@
 #define ADDINFORMATION_H
 
 #include <QDialog>
+#include <QMessageBox>
 #include "data.h"
 #include "ui_addinformation.h"
 

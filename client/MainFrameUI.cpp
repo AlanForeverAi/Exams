@@ -22,6 +22,17 @@ void MainFrameUI::sendExamslot()
 
 }
 
+void MainFrameUI::pauseExam()
+{
+    label_m->setText(QStringLiteral("考试暂停！！！"));
+    stackedWidget_main->setCurrentIndex(0);
+}
+
+void MainFrameUI::continueExam()
+{
+    stackedWidget_main->setCurrentIndex(1);
+}
+
 void MainFrameUI::showUserInfo(Student u)
 {
     QString info = QStringLiteral("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");

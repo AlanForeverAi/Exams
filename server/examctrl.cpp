@@ -155,14 +155,33 @@ void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
 
 void ExamCtrlUI::on_pushButton_send_clicked()
 {
+    QStringList info;
+    info.append(lineEdit_windowtitle->text());
+    info.append(lineEdit_welcome->text());
+    info.append(lineEdit_NO->text());
+    info.append(lineEdit_pici->text());
+    info.append(textEdit_message->toPlainText());
     if(tableWidget_paper->currentRow() >= 0)
     {
         label_name->setText(tableWidget_paper->item(tableWidget_paper->currentRow(),1)->text());
+        int paperid = tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
+        ExamControl *examControlDialog = new ExamControl();
+        connect(this, SIGNAL(setExamName(QString)), examControlDialog, SLOT(setExamName(QString)));
+        connect(this, SIGNAL(setTime(QTime)), examControlDialog, SLOT(setTime(QTime)));
+        connect(this, SIGNAL(updateStudentTable(QList<Student*>)), examControlDialog, SLOT(updateStudentTable(QList<Student*>)));
+        connect(examControlDialog, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+        connect(examControlDialog, SIGNAL(endExam()), this, SIGNAL(endExam()));
+        connect(examControlDialog, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+        connect(examControlDialog, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+
         int time = tableWidget_paper->item(tableWidget_paper->currentRow(),2)->text().toInt();
         _countTime.setHMS(time / 60,time % 60,0);
-        timeEdit_papertime->setTime(_countTime);
-        int paperid = tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
+
+        emit this->setExamName(tableWidget_paper->item(tableWidget_paper->currentRow(), 1)->text());
+        emit this->setTime(_countTime);
         emit this->sendPaper(paperid);
+        emit this->sendInfo(info);
+        examControlDialog->exec();
     }
     else
     {
@@ -170,15 +189,6 @@ void ExamCtrlUI::on_pushButton_send_clicked()
     }
     pushButton_begin->setEnabled(true);
     label_state->setText(QStringLiteral("考试还没开始"));
-
-    QStringList info;
-    info.append(lineEdit_windowtitle->text());
-    info.append(lineEdit_welcome->text());
-    info.append(lineEdit_NO->text());
-    info.append(lineEdit_pici->text());
-    info.append(textEdit_message->toPlainText());
-
-    this->sendInfo(info);
 }
 
 void ExamCtrlUI::getcurrentPaperTime(int descriptor)

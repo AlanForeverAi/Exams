@@ -33,6 +33,9 @@ signals:
     void showUserInfo(Student);
     void showMessage(QString);
     void sendAnswersSingle(AllAnswers);
+    void pauseExam();
+    void continueExam();
+
 private slots:
     void do_login();
     void do_mainframe();

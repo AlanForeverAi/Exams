@@ -54,6 +54,8 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(getPaper()),this,SLOT(getPaper()));
     connect(&_window,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(sendAnswers(AllAnswers)));
     connect(this,SIGNAL(endExam()),&_window,SIGNAL(endExam()));
+    connect(this, SIGNAL(pauseExam()), &_window, SIGNAL(pauseExam()));
+    connect(this, SIGNAL(continueExam()), &_window, SIGNAL(continueExam()));
     connect(&_window,SIGNAL(loginSignal(Student)),this,SLOT(Login(Student)));
     connect(&_window,SIGNAL(sendAnswersSingle(AllAnswers)),this,SLOT(sendAnswersSingle(AllAnswers)));
     connect(this,SIGNAL(LoginOK()),&_window,SLOT(LoginOK()));
@@ -121,11 +123,21 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         }
         break;
     case MSG_BEGINEXAM:
-        emit  this->showPaper();
+        emit this->showPaper();
         break;
     case MSG_ENDEXAM:
         emit this->endExam();
         msg.setText(QStringLiteral("服务器已经结束考试，你的答案已自动提交"));
+        msg.exec();
+        break;
+    case MSG_PAUSEEXAM:
+        emit this->pauseExam();
+        msg.setText(QStringLiteral("考试暂停！！！"));
+        msg.exec();
+        break;
+    case MSG_CONTINUEEXAM:
+        emit this->continueExam();
+        msg.setText(QStringLiteral("考试继续！！！"));
         msg.exec();
         break;
     case MSG_ERROR:
@@ -134,6 +146,7 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         msg.setText(errorstring);
         msg.exec();
         break;
+
     }
 }
 void MainApp::sendAnswers(AllAnswers allans)

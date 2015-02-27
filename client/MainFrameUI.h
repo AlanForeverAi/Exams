@@ -22,6 +22,9 @@ public slots:
     void showPaper();
     void endExamslot();
     void sendExamslot();
+    void pauseExam();
+    void continueExam();
+
 private:
     ExamUI *_exam;
 };

@@ -13,7 +13,9 @@ enum MessageType
     MSG_BEGINEXAM,
     MSG_ENDEXAM,
     MSG_ERROR,
-    MSG_NEWCONNECT
+    MSG_NEWCONNECT,
+    MSG_PAUSEEXAM,
+    MSG_CONTINUEEXAM
 };
 
 /*套接字类*/
@@ -52,7 +54,7 @@ public slots:
     void threadFinished();//线程结束函数
 private:
     int _descriptor;//套接字描述符
-    ClientSocket *_socket;//套接字对象
+    ClientSocket *_clientSocket;//套接字对象
 };
 
 /*服务器类*/

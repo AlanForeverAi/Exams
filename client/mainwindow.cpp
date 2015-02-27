@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this,SIGNAL(paperReady(Paper)),_mainFrame,SLOT(paperReady(Paper)));
     connect(this,SIGNAL(showPaper()),_mainFrame,SLOT(showPaper()));
     connect(this,SIGNAL(showMessage(QString)),_mainFrame,SLOT(showMessage(QString)));
+    connect(this, SIGNAL(pauseExam()), _mainFrame, SLOT(pauseExam()));
+    connect(this, SIGNAL(continueExam()), _mainFrame, SLOT(continueExam()));
     connect(_mainFrame,SIGNAL(sendAnswersSingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
 
     _loginPage = new LoginUI;
