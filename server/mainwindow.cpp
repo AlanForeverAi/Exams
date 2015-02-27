@@ -89,6 +89,7 @@ void MainWindow::do_examctrl()
     connect(examctrl,SIGNAL(endExam()),this,SLOT(endExamMode()));
     connect(examctrl, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
     connect(examctrl, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+    connect(examctrl, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
     connect(examctrl->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     connect(this,SIGNAL(getcurrentPaperTime(int)),examctrl,SLOT(getcurrentPaperTime(int)));
     connect(examctrl,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));

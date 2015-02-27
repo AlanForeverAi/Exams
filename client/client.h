@@ -13,7 +13,8 @@ enum MessageType
     MSG_ERROR,
     MSG_NEWCONNECT,
     MSG_PAUSEEXAM,
-    MSG_CONTINUEEXAM
+    MSG_CONTINUEEXAM,
+    MSG_MESSAGE
 };
 
 

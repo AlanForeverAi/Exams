@@ -117,6 +117,10 @@ void Client::readData()
         in >> s;
         _data.setValue(s);
         break;
+    case MSG_MESSAGE:
+        in >> s;
+        _data.setValue(s);
+        break;
     case MSG_BEGINEXAM:
         break;
     case MSG_ENDEXAM:

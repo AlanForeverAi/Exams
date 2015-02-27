@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "ui_examcontrol.h"
+#include "sendmessage.h"
 #include "data.h"
 
 class ExamControl : public QDialog, public Ui::ExamControl
@@ -17,6 +18,7 @@ signals:
     void endExam();
     void pauseExam();
     void continueExam();
+    void sendMessage(QString);
 
 private slots:
     void updateStudentTable(QList<Student*>);
@@ -28,6 +30,11 @@ private slots:
     void on_pushButton_end_clicked();
     void on_pushButton_back_clicked();
     void on_pushButton_continue_clicked();
+
+private:
+    QTimer *_countTimer;
+    QTimer *_dateTimer;
+    QTime _countTime;
 };
 
 #endif // EXAMCONTROL_H

@@ -56,6 +56,7 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(endExam()),&_window,SIGNAL(endExam()));
     connect(this, SIGNAL(pauseExam()), &_window, SIGNAL(pauseExam()));
     connect(this, SIGNAL(continueExam()), &_window, SIGNAL(continueExam()));
+    connect(this, SIGNAL(receiveMessage(QString)), &_window, SIGNAL(receiveMessage(QString)));
     connect(&_window,SIGNAL(loginSignal(Student)),this,SLOT(Login(Student)));
     connect(&_window,SIGNAL(sendAnswersSingle(AllAnswers)),this,SLOT(sendAnswersSingle(AllAnswers)));
     connect(this,SIGNAL(LoginOK()),&_window,SLOT(LoginOK()));
@@ -140,13 +141,15 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         msg.setText(QStringLiteral("考试继续！！！"));
         msg.exec();
         break;
+    case MSG_MESSAGE:
+        emit this->receiveMessage(v.value<QString>());
+        break;
     case MSG_ERROR:
         QString errorstring;
         errorstring = v.value<QString>();
         msg.setText(errorstring);
         msg.exec();
         break;
-
     }
 }
 void MainApp::sendAnswers(AllAnswers allans)

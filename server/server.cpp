@@ -200,6 +200,10 @@ void ClientSocket::send()
         s = _data.value<QString>();
         out << s;
         break;
+    case MSG_MESSAGE:
+        s = _data.value<QString>();
+        out << s;
+        break;
     case MSG_BEGINEXAM:
         break;
     case MSG_ENDEXAM:
@@ -208,6 +212,7 @@ void ClientSocket::send()
         break;
     case MSG_CONTINUEEXAM:
         break;
+
     }
     /*返回第一位并将数据大小写入*/
     out.device()->seek(0);

@@ -25,6 +25,7 @@ signals:
     void beginExam();
     void pauseExam();
     void continueExam();
+    void sendMessage(QString);
 
 private slots:
     void showPapers(QList<Paper*>);

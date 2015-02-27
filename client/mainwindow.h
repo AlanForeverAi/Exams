@@ -35,6 +35,7 @@ signals:
     void sendAnswersSingle(AllAnswers);
     void pauseExam();
     void continueExam();
+    void receiveMessage(QString);
 
 private slots:
     void do_login();

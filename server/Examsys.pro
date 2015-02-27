@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     alteressayquestion.cpp \
     addquestion.cpp \
     addinformation.cpp \
-    examcontrol.cpp
+    examcontrol.cpp \
+    sendmessage.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -64,7 +65,8 @@ HEADERS  += mainwindow.h \
     alteressayquestion.h \
     addquestion.h \
     addinformation.h \
-    examcontrol.h
+    examcontrol.h \
+    sendmessage.h
 
 
 FORMS    += mainwindow.ui \
@@ -86,7 +88,8 @@ FORMS    += mainwindow.ui \
     showessayquestion.ui \
     addquestion.ui \
     addinformation.ui \
-    examcontrol.ui
+    examcontrol.ui \
+    sendmessage.ui
 
 RESOURCES += \
     res.qrc

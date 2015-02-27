@@ -31,6 +31,7 @@ signals:
     void showMessage(QString);
     void pauseExam();
     void continueExam();
+    void receiveMessage(QString);
 
 public slots:
     void connected();

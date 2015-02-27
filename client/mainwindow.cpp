@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this,SIGNAL(showMessage(QString)),_mainFrame,SLOT(showMessage(QString)));
     connect(this, SIGNAL(pauseExam()), _mainFrame, SLOT(pauseExam()));
     connect(this, SIGNAL(continueExam()), _mainFrame, SLOT(continueExam()));
+    connect(this, SIGNAL(receiveMessage(QString)), _mainFrame, SLOT(receiveMessage(QString)));
     connect(_mainFrame,SIGNAL(sendAnswersSingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
 
     _loginPage = new LoginUI;

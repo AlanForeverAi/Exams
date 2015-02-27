@@ -173,6 +173,7 @@ void ExamCtrlUI::on_pushButton_send_clicked()
         connect(examControlDialog, SIGNAL(endExam()), this, SIGNAL(endExam()));
         connect(examControlDialog, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
         connect(examControlDialog, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+        connect(examControlDialog, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
 
         int time = tableWidget_paper->item(tableWidget_paper->currentRow(),2)->text().toInt();
         _countTime.setHMS(time / 60,time % 60,0);

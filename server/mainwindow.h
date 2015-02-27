@@ -115,6 +115,7 @@ signals:
 
     void pauseExam();
     void continueExam();
+    void sendMessage(QString);
 
 private slots:
     void on_action_QuestionsManager_triggered();

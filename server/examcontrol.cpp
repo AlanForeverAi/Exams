@@ -1,5 +1,4 @@
 ﻿#include "examcontrol.h"
-#include "ui_examcontrol.h"
 
 ExamControl::ExamControl()
 {
@@ -66,7 +65,10 @@ void ExamControl::on_pushButton_begin_clicked()
 
 void ExamControl::on_pushButton_sendMessage_clicked()
 {
+    SendMessage *sendmessageDialog = new SendMessage();
+    connect(sendmessageDialog, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
 
+    sendmessageDialog->exec();
 }
 
 void ExamControl::on_pushButton_pause_clicked()

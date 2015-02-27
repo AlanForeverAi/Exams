@@ -33,6 +33,11 @@ void MainFrameUI::continueExam()
     stackedWidget_main->setCurrentIndex(1);
 }
 
+void MainFrameUI::receiveMessage(QString message)
+{
+    textBrowser_Inform->append(message);
+}
+
 void MainFrameUI::showUserInfo(Student u)
 {
     QString info = QStringLiteral("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");

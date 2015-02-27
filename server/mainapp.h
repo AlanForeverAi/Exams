@@ -78,6 +78,7 @@ public slots:
     void endExam();//结束考试
     void pauseExam();
     void continueExam();
+    void sendMessage(QString);
     bool userLogin(Student student);//考生登录
     void sendPaperTime(int,int);//发送带有当前剩余时间的试卷
     bool managerLogin(User);//管理员登录

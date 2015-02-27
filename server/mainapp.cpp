@@ -95,6 +95,7 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(endExam()),this,SLOT(endExam()));
     connect(&_window, SIGNAL(pauseExam()), this, SLOT(pauseExam()));
     connect(&_window, SIGNAL(continueExam()), this, SLOT(continueExam()));
+    connect(&_window, SIGNAL(sendMessage(QString)), this, SLOT(sendMessage(QString)));
     connect(this,SIGNAL(getcurrentPaperTime(int)),&_window,SIGNAL(getcurrentPaperTime(int)));
     connect(&_window,SIGNAL(sendPaperTime(int,int)),this,SLOT(sendPaperTime(int,int)));
     connect(&_window,SIGNAL(sendInfo(QStringList)),this,SLOT(sendInfo(QStringList)));
@@ -469,6 +470,17 @@ void MainApp::continueExam()
     }
 }
 
+void MainApp::sendMessage(QString message)
+{
+    QVariant v;
+    v.setValue(message);
+    for(int i = 0; i < _userList.count(); ++i){
+        if(_userList.at(i)->getState() == QStringLiteral("考试中")){
+            emit this->sendData(_userList.at(i)->getSockDescriptor(), MSG_MESSAGE, v);
+        }
+    }
+}
+
 bool MainApp::userLogin(Student student)
 {
     int isIn = 0;
@@ -491,7 +503,7 @@ bool MainApp::userLogin(Student student)
                 {
                     QString errorstring = QStringLiteral("你已经登录了");
                     v.setValue(errorstring);
-                    emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
+                    emit this->sendData(student.getSockDescriptor(), MSG_ERROR, v);
                     return false;
                 }
 
@@ -506,14 +518,14 @@ bool MainApp::userLogin(Student student)
         }
         if(isIn == 1)
         {
-            this->sendData(student.getSockDescriptor(),MSG_LOGIN,v);
+            this->sendData(student.getSockDescriptor(), MSG_LOGIN, v);
             return true;
         }
         else
         {
             QString errorstring = QStringLiteral("你不能参加这个考试");
             v.setValue(errorstring);
-            emit this->sendData(student.getSockDescriptor(),MSG_ERROR,v);
+            emit this->sendData(student.getSockDescriptor(), MSG_ERROR, v);
             return false;
         }
 
@@ -532,7 +544,7 @@ void MainApp::sendPaperTime(int descriptor,int time)
     QVariant v;
     _mainPaper.setTime(time);
     v.setValue(_mainPaper);
-    emit this->sendData(descriptor,MSG_GETPAPER,v);
+    emit this->sendData(descriptor,MSG_GETPAPER, v);
 }
 
 bool MainApp::managerLogin(User m)
