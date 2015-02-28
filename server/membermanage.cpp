@@ -170,7 +170,7 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         teacherptr->setPassword(lineEdit_teacherPwd->text());
         teacherptr->setSubject(comboBox->currentText());
 
-        emit this->addTeacher(teacherptr);       
+        emit this->addTeacher(teacherptr);
         delete(teacherptr);
     }
     else if(tabWidget->currentIndex() == 2){
@@ -221,6 +221,7 @@ void MemberManageUI::on_pushButton_add_user_clicked()
         emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
     }
     this->textClear();
+
 }
 
 void MemberManageUI::on_pushButton_delete_user_clicked()

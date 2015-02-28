@@ -29,6 +29,7 @@ signals:
     void updateManager(User *);
     void showType(int, QString);
     void updateType(int, QString);
+//    void showSubject(QList<QString>);
 
 private slots:
     void on_pushButton_add_user_clicked();

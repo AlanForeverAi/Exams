@@ -117,9 +117,17 @@ void Client::readData()
         in >> s;
         _data.setValue(s);
         break;
+    case MSG_MESSAGE:
+        in >> s;
+        _data.setValue(s);
+        break;
     case MSG_BEGINEXAM:
         break;
     case MSG_ENDEXAM:
+        break;
+    case MSG_PAUSEEXAM:
+        break;
+    case MSG_CONTINUEEXAM:
         break;
     }
     /*将块大小信息重置为0，准备接收下一个数据块*/

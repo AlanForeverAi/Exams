@@ -22,10 +22,27 @@ void MainFrameUI::sendExamslot()
 
 }
 
+void MainFrameUI::pauseExam()
+{
+    _exam->timer->stop();
+    label_m->setText(QStringLiteral("考试暂停！！！"));
+    stackedWidget_main->setCurrentIndex(0);
+}
+
+void MainFrameUI::continueExam()
+{
+    stackedWidget_main->setCurrentIndex(1);
+    _exam->timer->start(1000);
+}
+
+void MainFrameUI::receiveMessage(QString message)
+{
+    textBrowser_Inform->append(message);
+}
+
 void MainFrameUI::showUserInfo(Student u)
 {
     QString info = QStringLiteral("<br>姓名：%1<br>学号：%2<br>年级：%3<br>班级：%4");
-
     label_userinfo->setText(info.arg(u.getName()).arg(u.getID()).arg(QString::number(u.getGrade())).arg(QString::number(u.getClass())));
 }
 

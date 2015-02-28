@@ -4,11 +4,13 @@
 #include "mainwindow.h"
 #include "server.h"
 #include "iomanager.h"
+
 enum ServerState
 {
     STATE_NOEXAM,
     STATE_PAPERREADY,
-    STATE_EXAMING
+    STATE_EXAMING,
+    STATE_PAUSE
 };
 
 class MainApp : public QObject
@@ -74,6 +76,9 @@ public slots:
     void getUserList();//更新考生状态信息
     void beginExam();//考试考试
     void endExam();//结束考试
+    void pauseExam();
+    void continueExam();
+    void sendMessage(QString);
     bool userLogin(Student student);//考生登录
     void sendPaperTime(int,int);//发送带有当前剩余时间的试卷
     bool managerLogin(User);//管理员登录

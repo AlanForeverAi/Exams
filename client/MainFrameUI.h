@@ -22,6 +22,10 @@ public slots:
     void showPaper();
     void endExamslot();
     void sendExamslot();
+    void pauseExam();
+    void continueExam();
+    void receiveMessage(QString);
+
 private:
     ExamUI *_exam;
 };

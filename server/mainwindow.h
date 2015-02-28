@@ -113,6 +113,10 @@ signals:
     void showChoiceQuestionList(QList<ChoiceQuestions*>);
     void showEssayQuestionList(QList<EssayQuestions*>);
 
+    void pauseExam();
+    void continueExam();
+    void sendMessage(QString);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();
@@ -130,6 +134,8 @@ private slots:
     void LoginOK();
     void backToMenu();
     void closeEvent(QCloseEvent *);
+    void pauseExamMode();
+
 private:
     void do_QuestionsManager();
     void do_makepaper();

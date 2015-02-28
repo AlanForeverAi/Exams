@@ -19,7 +19,6 @@ signals:
 
 private slots:
     void showManager(User *);
-
     void on_pushButton_Save_clicked();
     void on_pushButton_Cancel_clicked();
 };

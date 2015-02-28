@@ -41,9 +41,7 @@ void MainWindow::do_QuestionsManager()
     connect(questionManager,SIGNAL(deleteOb_Questoins(int)),this,SIGNAL(deleteOb_Questoins(int)));
     connect(questionManager,SIGNAL(deleteSub_Questoins(int)),this,SIGNAL(deleteSub_Questoins(int)));
     connect(questionManager->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
-//    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getChoiceQuestions()));
     connect(questionManager->Button_delete, SIGNAL(clicked()), this, SIGNAL(getChoiceQuestions()));
-//    connect(questionManager->Button_Save, SIGNAL(clicked()), this, SIGNAL(getEssayQuestions()));
     connect(questionManager->Button_delete, SIGNAL(clicked()), this, SIGNAL(getEssayQuestions()));
     this->setCentralWidget(questionManager);
     emit this->getChoiceQuestions();
@@ -81,13 +79,16 @@ void MainWindow::do_examctrl()
     ExamCtrlUI *examctrl = new ExamCtrlUI();
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examctrl,SLOT(showPapers(QList<Paper*>)));
     connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
-    connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SLOT(examMode()));
-    connect(examctrl->pushButton_begin,SIGNAL(clicked()),this,SIGNAL(beginExam()));
-    connect(this,SIGNAL(updateUserTable(QList<Student*>)),examctrl,SLOT(updateUserTable(QList<Student*>)));
+    connect(examctrl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+    connect(examctrl, SIGNAL(beginExam()), this, SLOT(examMode()));
+    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examctrl, SIGNAL(updateStudentTable(QList<Student*>)));
     connect(examctrl,SIGNAL(endExam()),this,SIGNAL(endExam()));
     connect(examctrl,SIGNAL(endExam()),this,SLOT(endExamMode()));
+    connect(examctrl, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+    connect(examctrl, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+    connect(examctrl, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
     connect(examctrl->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
-    connect(this,SIGNAL(getcurrentPaperTime(int)),examctrl,SLOT(getcurrentPaperTime(int)));
+    connect(this,SIGNAL(getcurrentPaperTime(int)),examctrl,SIGNAL(getcurrentPaperTime(int)));
     connect(examctrl,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
     connect(examctrl,SIGNAL(sendInfo(QStringList)),this,SIGNAL(sendInfo(QStringList)));
     this->setCentralWidget(examctrl);
@@ -124,7 +125,7 @@ void MainWindow::do_memmanage()
     connect(this, SIGNAL(showTeacher(QList<User*>)), mem_Manage, SLOT(showTeacher(QList<User*>)));
     connect(this, SIGNAL(showType(QMap<int,QString>)), mem_Manage, SLOT(showType(QMap<int,QString>)));
     connect(this, SIGNAL(showManager(QList<User*>)), mem_Manage, SLOT(showManager(QList<User*>)));
-    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SLOT(showSubject(QList<QString>)));
+    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SIGNAL(showSubject(QList<QString>)));
     connect(mem_Manage, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
     connect(mem_Manage, SIGNAL(updateTeacher(User*)), this, SIGNAL(updateTeacher(User*)));
     connect(mem_Manage, SIGNAL(updateManager(User*)), this, SIGNAL(updateManager(User*)));
@@ -335,4 +336,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
         event->accept();
     else
         event->ignore();
+}
+
+void MainWindow::pauseExamMode()
+{
+
 }
