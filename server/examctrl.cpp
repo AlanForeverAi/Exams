@@ -5,26 +5,8 @@ ExamCtrlUI::ExamCtrlUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-
     tableWidget_paper->verticalHeader()->setHidden(true);
-    tableWidget_user->verticalHeader()->setHidden(true);
-
     tableWidget_paper->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    tableWidget_user->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    dateTimeEdit->setDateTime(QDateTime::currentDateTime());
-    pushButton_end->setEnabled(false);
-    pushButton_begin->setEnabled(false);
-    tableWidget_user->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
-
-    _countTimer = new QTimer(this);
-    connect(_countTimer,SIGNAL(timeout()),this,SLOT(counttimeUpdate()));
-    _dateTimer = new QTimer(this);
-    connect(_dateTimer,SIGNAL(timeout()),this,SLOT(datetimeUpdate()));
-    _dateTimer->start(1000);
-
-    label_state->setText(QStringLiteral("没有设置考试"));
-
 }
 ExamCtrlUI::~ExamCtrlUI()
 {
@@ -48,152 +30,39 @@ void ExamCtrlUI::showPapers(QList<Paper*> pList)
     }
 }
 
-
-
-void ExamCtrlUI::on_pushButton_begin_clicked()
-{
-
-    QMessageBox::about(this,"msg",QStringLiteral("考试已经开始，请不要关闭程序，在结束之前都不能切换到其他页面。"));
-
-    pushButton_begin->setEnabled(false);
-    pushButton_back->setEnabled(false);
-    pushButton_end->setEnabled(true);
-    pushButton_send->setEnabled(false);
-    tableWidget_paper->setEnabled(false);
-    _countTimer->start(1000);
-
-    label_state->setText(QStringLiteral("考试进行中"));
-
-}
-
-void ExamCtrlUI::on_pushButton_end_clicked()
-{
-    QMessageBox msg;
-    msg.setText(QStringLiteral("将要结束考试，并强制所有学生提交答案\n是否继续？"));
-    int ret = msg.exec();
-    if(ret == QMessageBox::Ok)
-    {
-        pushButton_send->setEnabled(true);
-        pushButton_begin->setEnabled(true);
-        pushButton_end->setEnabled(false);
-        pushButton_back->setEnabled(true);
-        tableWidget_paper->setEnabled(true);
-        _countTimer->stop();
-        emit this->endExam();
-        label_state->setText(QStringLiteral("考试已经结束"));
-    }
-    else
-    {
-        return;
-    }
-}
-
-void ExamCtrlUI::counttimeUpdate()
-{
-    _countTime = _countTime.addSecs(-1);
-    timeEdit_papertime->setTime(_countTime);
-    if(_countTime.secsTo(QTime(0,0,0)) == 0)
-    {
-        pushButton_send->setEnabled(true);
-        pushButton_begin->setEnabled(true);
-        pushButton_end->setEnabled(false);
-        pushButton_back->setEnabled(true);
-        tableWidget_paper->setEnabled(true);
-        _countTimer->stop();
-
-        emit this->endExam();
-        label_state->setText(QStringLiteral("考试已经结束"));
-    }
-
-}
-
-void ExamCtrlUI::datetimeUpdate()
-{
-    dateTimeEdit->setTime(QTime::currentTime());
-}
-
-void ExamCtrlUI::updateUserTable(QList<Student *> userlist)
-{
-    tableWidget_user->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_user->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);//自适应列宽
-    tableWidget_user->setRowCount(userlist.count());
-    for(int i = 0; i < userlist.count(); i++)
-    {
-
-        QTableWidgetItem *hostname = new QTableWidgetItem(userlist.at(i)->getHostname());
-        QTableWidgetItem *id = new QTableWidgetItem(userlist.at(i)->getID());
-        QTableWidgetItem *username = new QTableWidgetItem(userlist.at(i)->getName());
-        QTableWidgetItem *grade = new QTableWidgetItem(QString::number(userlist.at(i)->getGrade()));
-        QTableWidgetItem *_class = new QTableWidgetItem(QString::number(userlist.at(i)->getClass()));
-        QTableWidgetItem *state = new QTableWidgetItem(userlist.at(i)->getState());
-        if(state->text() == QStringLiteral("未登录"))
-        {
-            state->setTextColor(QColor("red"));
-        }
-        tableWidget_user->setItem(i,0,hostname);
-        tableWidget_user->setItem(i,1,id);
-        tableWidget_user->setItem(i,2,username);
-        tableWidget_user->setItem(i,3,grade);
-        tableWidget_user->setItem(i,4,_class);
-        tableWidget_user->setItem(i,5,state);
-    }
-
-    int numberlogin = 0;
-    int numbersubmit = 0;
-    for(int i = 0; i < userlist.count(); i++)
-    {
-        if(userlist.at(i)->getState() != QStringLiteral("未登录"))
-            numberlogin++;
-        if(userlist.at(i)->getState() == QStringLiteral("已经交卷"))
-            numbersubmit++;
-    }
-    label_usercount->setText(QStringLiteral("共有%1名学生    已登录%2人  已交卷%3人")
-                             .arg(userlist.count())
-                             .arg(numberlogin)
-                             .arg(numbersubmit));
-}
-
 void ExamCtrlUI::on_pushButton_send_clicked()
 {
-    QStringList info;
-    info.append(lineEdit_windowtitle->text());
-    info.append(lineEdit_welcome->text());
-    info.append(lineEdit_NO->text());
-    info.append(lineEdit_pici->text());
-    info.append(textEdit_message->toPlainText());
-    if(tableWidget_paper->currentRow() >= 0)
-    {
-        label_name->setText(tableWidget_paper->item(tableWidget_paper->currentRow(),1)->text());
-        int paperid = tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
-        ExamControl *examControlDialog = new ExamControl();
-        connect(this, SIGNAL(setExamName(QString)), examControlDialog, SLOT(setExamName(QString)));
-        connect(this, SIGNAL(setTime(QTime)), examControlDialog, SLOT(setTime(QTime)));
-        connect(this, SIGNAL(updateStudentTable(QList<Student*>)), examControlDialog, SLOT(updateStudentTable(QList<Student*>)));
-        connect(examControlDialog, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
-        connect(examControlDialog, SIGNAL(endExam()), this, SIGNAL(endExam()));
-        connect(examControlDialog, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
-        connect(examControlDialog, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
-        connect(examControlDialog, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
+     if(tableWidget_paper->currentRow() >= 0){
+         QStringList info;
+         info.append(lineEdit_windowtitle->text());
+         info.append(lineEdit_welcome->text());
+         info.append(lineEdit_NO->text());
+         info.append(lineEdit_pici->text());
+         info.append(textEdit_message->toPlainText());
+         int paperid = tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
+         ExamControl *examControlDialog = new ExamControl();
+         connect(this, SIGNAL(setExamName(QString)), examControlDialog, SLOT(setExamName(QString)));
+         connect(this, SIGNAL(setTime(QTime)), examControlDialog, SLOT(setTime(QTime)));
+         connect(this, SIGNAL(updateStudentTable(QList<Student*>)), examControlDialog, SLOT(updateStudentTable(QList<Student*>)));
+         connect(this, SIGNAL(getcurrentPaperTime(int)), examControlDialog, SLOT(getcurrentPaperTime(int)));
+         connect(examControlDialog, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+         connect(examControlDialog, SIGNAL(endExam()), this, SIGNAL(endExam()));
+         connect(examControlDialog, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+         connect(examControlDialog, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+         connect(examControlDialog, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
+         connect(examControlDialog, SIGNAL(sendPaperTime(int,int)), this, SIGNAL(sendPaperTime(int,int)));
 
-        int time = tableWidget_paper->item(tableWidget_paper->currentRow(),2)->text().toInt();
-        _countTime.setHMS(time / 60,time % 60,0);
+         int time = tableWidget_paper->item(tableWidget_paper->currentRow(), 2)->text().toInt();
+         _countTime.setHMS(time / 60,time % 60, 0);
 
-        emit this->setExamName(tableWidget_paper->item(tableWidget_paper->currentRow(), 1)->text());
-        emit this->setTime(_countTime);
-        emit this->sendPaper(paperid);
-        emit this->sendInfo(info);
-        examControlDialog->exec();
-    }
-    else
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
-    }
-    pushButton_begin->setEnabled(true);
-    label_state->setText(QStringLiteral("考试还没开始"));
+         emit this->setExamName(tableWidget_paper->item(tableWidget_paper->currentRow(), 1)->text());
+         emit this->setTime(_countTime);
+         emit this->sendPaper(paperid);
+         emit this->sendInfo(info);
+         examControlDialog->exec();
+     }
+     else{
+         QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
+     }
 }
 
-void ExamCtrlUI::getcurrentPaperTime(int descriptor)
-{
-    int time = _countTime.hour() * 3600 + _countTime.minute() * 60 + _countTime.second();
-    emit this->sendPaperTime(descriptor,time);
-}

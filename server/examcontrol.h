@@ -2,6 +2,7 @@
 #define EXAMCONTROL_H
 
 #include <QDialog>
+#include <QTimer>
 #include "ui_examcontrol.h"
 #include "sendmessage.h"
 #include "data.h"
@@ -19,11 +20,15 @@ signals:
     void pauseExam();
     void continueExam();
     void sendMessage(QString);
+    void sendPaperTime(int, int);
 
 private slots:
     void updateStudentTable(QList<Student*>);
     void setTime(QTime);
     void setExamName(QString);
+    void updateDateTime();
+    void updateCountTime();
+    void getcurrentPaperTime(int);
     void on_pushButton_begin_clicked();
     void on_pushButton_sendMessage_clicked();
     void on_pushButton_pause_clicked();

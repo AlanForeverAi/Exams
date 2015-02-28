@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>723</width>
-    <height>698</height>
+    <width>753</width>
+    <height>599</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>731</width>
-     <height>671</height>
+     <width>771</width>
+     <height>581</height>
     </rect>
    </property>
    <property name="orientation">
@@ -51,7 +51,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QDateTimeEdit" name="dateTimeEdit_2">
+       <widget class="QDateTimeEdit" name="dateTimeEdit">
         <property name="readOnly">
          <bool>true</bool>
         </property>
@@ -79,7 +79,7 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -231,7 +231,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
         <widget class="QLabel" name="label_2">
@@ -334,7 +334,7 @@
      </column>
     </widget>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <spacer name="verticalSpacer">
