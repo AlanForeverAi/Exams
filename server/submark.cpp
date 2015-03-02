@@ -78,17 +78,17 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
     emit this->getUserByPaperId(_currentPaperId.toInt(),QStringLiteral("已完成"));
 }
 
-void SubMarkUI::showUserByPaperId(QList<Student*> ulist)
+void SubMarkUI::showUserByPaperId(QList<Student*> studentlist)
 {
-    tableWidget_userInfo->setRowCount(ulist.count());
-    for(int i = 0; i < ulist.count(); i++)
+    tableWidget_userInfo->setRowCount(studentlist.count());
+    for(int i = 0; i < studentlist.count(); i++)
     {
 
-        QTableWidgetItem *id = new QTableWidgetItem(ulist.at(i)->getID());
-        QTableWidgetItem *name = new QTableWidgetItem(ulist.at(i)->getName());
-        QTableWidgetItem *grade = new QTableWidgetItem(QString::number(ulist.at(i)->getGrade()));
-        QTableWidgetItem *clas = new QTableWidgetItem(QString::number(ulist.at(i)->getClass()));
-        QTableWidgetItem *state = new QTableWidgetItem(ulist.at(i)->getState());
+        QTableWidgetItem *id = new QTableWidgetItem(studentlist.at(i)->getID());
+        QTableWidgetItem *name = new QTableWidgetItem(studentlist.at(i)->getName());
+        QTableWidgetItem *grade = new QTableWidgetItem(QString::number(studentlist.at(i)->getGrade()));
+        QTableWidgetItem *clas = new QTableWidgetItem(QString::number(studentlist.at(i)->getClass()));
+        QTableWidgetItem *state = new QTableWidgetItem(studentlist.at(i)->getState());
         if(state->text() == QStringLiteral("未批改"))
         {
             state->setTextColor(QColor("red"));

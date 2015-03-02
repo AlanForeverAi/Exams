@@ -39,17 +39,24 @@ void QuestionsManageUI::on_Button_delete_clicked()
     if(tabWidget_2->currentIndex() == 0 && obTable->currentRow() >= 0)
     {
         int ret = msg.exec();
-        if(ret == QMessageBox::Ok)
-            emit this->deleteOb_Questoins(obTable->item(obTable->currentRow(),0)->text().toInt());
+        if(ret == QMessageBox::Ok){
+            QList<QTableWidgetItem *> selectItems = obTable->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteOb_Questoins(obTable->item(selectItems.at(i)->row(), 0)->text().toInt());
+            }
+        }
         else
-            return;
-
+            return ;
     }
     else if(tabWidget_2->currentIndex() == 1 && subTable->currentRow() >= 0)
     {
         int ret  =  msg.exec();
-        if(ret == QMessageBox::Ok)
-            emit this->deleteSub_Questoins(subTable->item(subTable->currentRow(),0)->text().toInt());
+        if(ret == QMessageBox::Ok){
+            QList<QTableWidgetItem *> selectItems = subTable->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteSub_Questoins(subTable->item(selectItems.at(i)->row(), 0)->text().toInt());
+            }
+        }
         else
             return;
     }

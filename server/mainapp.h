@@ -122,6 +122,9 @@ public slots:
     void updateChoiceQuestion(ChoiceQuestions *);
     void updateEssayQuestion(EssayQuestions *);
 
+    void startServer();
+    void closeServer();
+
 private:
     DBManager *_DBM;
     MainWindow _window;

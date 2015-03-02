@@ -77,6 +77,8 @@ void MainWindow::do_makepaper()
 void MainWindow::do_examctrl()
 {
     ExamCtrlUI *examctrl = new ExamCtrlUI();
+    connect(examctrl, SIGNAL(startServer()), this, SIGNAL(startServer()));
+    connect(examctrl, SIGNAL(closeServer()), this, SIGNAL(closeServer()));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examctrl,SLOT(showPapers(QList<Paper*>)));
     connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
     connect(examctrl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));

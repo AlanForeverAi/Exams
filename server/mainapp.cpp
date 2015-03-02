@@ -7,7 +7,7 @@ MainApp::MainApp()
     readConfig();
     iniMainWindow();
     iniDBManager();
-    iniServer();
+//    iniServer();
     _IOM = new IOManager;
     _serverState = STATE_NOEXAM;
     _infoList.append("*,");
@@ -88,6 +88,8 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SLOT(saveUsertoPaperMark(int,QList<Student*>)));
 
     ////////examctrl
+    connect(&_window, SIGNAL(startServer()), this, SLOT(startServer()));
+    connect(&_window, SIGNAL(closeServer()), this, SLOT(closeServer()));
     connect(&_window,SIGNAL(sendPaper(int)),this,SLOT(sendPaper(int)));
     connect(&_window,SIGNAL(beginExam()),this,SLOT(beginExam()));
     connect(&_window,SIGNAL(getUserList()),this,SLOT(getUserList()));
@@ -935,6 +937,21 @@ void MainApp::updateEssayQuestion(EssayQuestions *question)
 {
     _DBM->updateEssayQuestions(question->getQuestionId(), question->getQuestionTitle());
     getEssayQuestion();
+}
+
+void MainApp::startServer()
+{
+    _server = new Server(this,_port);
+    connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
+    connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
+    connect(_server,SIGNAL(removeUser(int)),this,SLOT(removeUser(int)));
+}
+
+void MainApp::closeServer()
+{
+    _serverState = STATE_NOEXAM;
+    _server->close();
+    delete(_server);
 }
 
 void MainApp::getStudent()

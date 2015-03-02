@@ -7,6 +7,7 @@ ExamCtrlUI::ExamCtrlUI(QWidget *parent) :
     setupUi(this);
     tableWidget_paper->verticalHeader()->setHidden(true);
     tableWidget_paper->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    pushButton_closeServer->setEnabled(false);
 }
 ExamCtrlUI::~ExamCtrlUI()
 {
@@ -64,5 +65,17 @@ void ExamCtrlUI::on_pushButton_send_clicked()
      else{
          QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
      }
+}
+
+
+void ExamCtrlUI::on_pushButton_startServer_clicked()
+{
+    emit this->startServer();
+    pushButton_startServer->setEnabled(false);
+}
+
+void ExamCtrlUI::on_pushButton_closeServer_clicked()
+{
+    emit this->closeServer();
 }
 
