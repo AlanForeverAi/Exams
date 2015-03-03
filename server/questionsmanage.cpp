@@ -146,3 +146,32 @@ void QuestionsManageUI::on_Button_new_clicked()
 
     addQuestionDialog->exec();
 }
+
+void QuestionsManageUI::on_pushButton_export_clicked()
+{
+    QDir dir(".");
+    if(!dir.exists("data"))
+    {
+        dir.mkdir("data");
+    }
+    if(tabWidget_2->currentIndex() == 0){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出客观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportChoiceQuestion(choiceQuestionList, filename);
+    }
+    else{
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出主观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportEssayQuestion(essayQuestionList, filename);
+    }
+}
+
+void QuestionsManageUI::on_pushButton_import_clicked()
+{
+    if(tabWidget_2->currentIndex() == 0){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入客观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importChoiceQuestion(filename);
+    }
+    else{
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入主观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importEssayQuestion(filename);
+    }
+}

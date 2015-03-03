@@ -119,6 +119,19 @@ signals:
     void startServer();
     void closeServer();
 
+    void exportChoiceQuestion(QList<ChoiceQuestions *>, QString);
+    void exportEssayQuestion(QList<EssayQuestions *>, QString);
+    void importChoiceQuestion(QString);
+    void importEssayQuestion(QString);
+    void exportStudent(QList<Student *>, QString);
+    void exportTeacher(QList<User *>, QString);
+    void exportManager(QList<User *>, QString);
+    void exportType(QMap<int, QString>, QString);
+    void importStudent(QString);
+    void importTeacher(QString);
+    void importManager(QString);
+    void importType(QString);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();

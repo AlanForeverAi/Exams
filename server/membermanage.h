@@ -1,7 +1,11 @@
-﻿#ifndef MEMBERMANAGEUI_H
+﻿void on_pushButton_export_clicked();
+#ifndef MEMBERMANAGEUI_H
 #define MEMBERMANAGEUI_H
 //
 #include <QWidget>
+#include <QFileDialog>
+#include <QFile>
+#include <QDir>
 #include "ui_MemberManageUI.h"
 #include "data.h"
 
@@ -29,6 +33,14 @@ signals:
     void updateManager(User *);
     void showType(int, QString);
     void updateType(int, QString);
+    void exportStudent(QList<Student *>, QString);
+    void exportTeacher(QList<User *>, QString);
+    void exportManager(QList<User *>, QString);
+    void exportType(QMap<int, QString>, QString);
+    void importStudent(QString);
+    void importTeacher(QString);
+    void importManager(QString);
+    void importType(QString);
 
 private slots:
     void on_pushButton_add_user_clicked();
@@ -49,6 +61,10 @@ private slots:
     void updateTeacherList(QList<User *>);
     void updateManagerList(QList<User *>);
     void updateTypeList(QMap<int, QString>);
+
+    void on_pushButton_import_clicked();
+
+    void on_pushButton_export_clicked();
 
 private:
     QList<Student *> studentList;

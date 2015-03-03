@@ -129,15 +129,12 @@ void ScoreManageUI::on_pushButton_delete_clicked()
         if(tableWidget_Detail->currentRow() >= 0)
         {
             int pid = tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
-//            qlonglong uid = tableWidget_Detail->item(tableWidget_Detail->currentRow(),0)->text().toLongLong();
-//            emit this->delete_score(pid,uid);
             QList<QTableWidgetItem *> selectItems = tableWidget_Detail->selectedItems();
             for(int i = 0; i < selectItems.count(); ++i){
                 qlonglong uid = tableWidget_Detail->item(selectItems.at(i)->row(), 0)->text().toLongLong();
                 emit this->delete_score(pid, uid);
             }
             emit this->getCombo_paperid(pid);
-//            qDebug() << pid << "   " << uid;
         }
         else
         {

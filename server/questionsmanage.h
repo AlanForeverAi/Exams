@@ -2,6 +2,8 @@
 #define QuestionsManageUI_H
 
 #include <QWidget>
+#include <QFileDialog>
+#include <QFile>
 #include "ui_QuestionsManageUI.h"
 #include "data.h"
 #include "alterchoicequestion.h"
@@ -26,6 +28,10 @@ signals:
     void showEssayQuestion(EssayQuestions *);
     void updateChoiceQuestion(ChoiceQuestions *);
     void updateEssayQuestion(EssayQuestions *);
+    void exportChoiceQuestion(QList<ChoiceQuestions *>, QString);
+    void exportEssayQuestion(QList<EssayQuestions *>, QString);
+    void importChoiceQuestion(QString);
+    void importEssayQuestion(QString);
 
 private slots:
     void return_clicked();
@@ -37,6 +43,10 @@ private slots:
     void showEssayQuestionList(QList<EssayQuestions*>);
     void setChoiceQuestions(QList<ChoiceQuestions*>);
     void setEssayQuestions(QList<EssayQuestions*>);
+
+    void on_pushButton_export_clicked();
+
+    void on_pushButton_import_clicked();
 
 private:
     QList<ChoiceQuestions*> choiceQuestionList;

@@ -6,8 +6,8 @@
 
 QT       += core gui
 QT        += sql
-QT        +=network
-QT        +=widgets
+QT        += network
+QT        += widgets
 QT  += axcontainer
 TARGET = Examsys
 TEMPLATE = app

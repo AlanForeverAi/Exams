@@ -67,7 +67,6 @@ void ExamCtrlUI::on_pushButton_send_clicked()
      }
 }
 
-
 void ExamCtrlUI::on_pushButton_startServer_clicked()
 {
     emit this->startServer();

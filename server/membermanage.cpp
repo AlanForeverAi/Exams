@@ -461,3 +461,34 @@ void MemberManageUI::updateTypeList(QMap<int, QString> types)
 {
     typeList = types;
 }
+
+void MemberManageUI::on_pushButton_export_clicked()
+{
+    QDir dir(".");
+    if(!dir.exists("data"))
+    {
+        dir.mkdir("data");
+    }
+    if(tabWidget->currentIndex() == 0){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportStudent(studentList, filename);
+    }
+    else if(tabWidget->currentIndex() == 1){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportTeacher(teacherList, filename);
+    }
+    else if(tabWidget->currentIndex() == 2){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportManager(managerList, filename);
+    }
+    else if(tabWidget->currentIndex() == 3){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportType(typeList, filename);
+    }
+}
+
+void MemberManageUI::on_pushButton_import_clicked()
+{
+
+}
+

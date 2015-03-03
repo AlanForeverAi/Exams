@@ -28,6 +28,10 @@ MainWindow::~MainWindow()
 void MainWindow::do_QuestionsManager()
 {
     QuestionsManageUI *questionManager  =  new QuestionsManageUI();
+    connect(questionManager, SIGNAL(importChoiceQuestion(QString)), this, SIGNAL(importChoiceQuestion(QString)));
+    connect(questionManager, SIGNAL(importEssayQuestion(QString)), this, SIGNAL(importEssayQuestion(QString)));
+    connect(questionManager, SIGNAL(exportEssayQuestion(QList<EssayQuestions*>,QString)), this, SIGNAL(exportEssayQuestion(QList<EssayQuestions*>,QString)));
+    connect(questionManager, SIGNAL(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)), this, SIGNAL(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)));
     connect(questionManager, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)));
     connect(questionManager, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SIGNAL(updateEssayQuestion(EssayQuestions*)));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), questionManager, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
@@ -119,6 +123,14 @@ void MainWindow::do_subscore()
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
+    connect(mem_Manage, SIGNAL(exportStudent(QList<Student*>,QString)), this, SIGNAL(exportStudent(QList<Student*>,QString)));
+    connect(mem_Manage, SIGNAL(exportTeacher(QList<User*>,QString)), this, SIGNAL(exportTeacher(QList<User*>,QString)));
+    connect(mem_Manage, SIGNAL(exportManager(QList<User*>,QString)), this, SIGNAL(exportManager(QList<User*>,QString)));
+    connect(mem_Manage, SIGNAL(exportType(QMap<int,QString>,QString)), this, SIGNAL(exportType(QMap<int,QString>,QString)));
+    connect(mem_Manage, SIGNAL(importStudent(QString)), this, SIGNAL(importStudent(QString)));
+    connect(mem_Manage, SIGNAL(importTeacher(QString)), this, SIGNAL(importTeacher(QString)));
+    connect(mem_Manage, SIGNAL(importManager(QString)), this, SIGNAL(importManager(QString)));
+    connect(mem_Manage, SIGNAL(importType(QString)), this, SIGNAL(importType(QString)));
     connect(this, SIGNAL(updateTeacherList(QList<User*>)), mem_Manage, SLOT(updateTeacherList(QList<User*>)));
     connect(this, SIGNAL(updateManagerList(QList<User*>)), mem_Manage, SLOT(updateManagerList(QList<User*>)));
     connect(this, SIGNAL(updateStudentList(QList<Student*>)), mem_Manage, SLOT(updateStudentList(QList<Student*>)));

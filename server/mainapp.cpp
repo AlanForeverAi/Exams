@@ -63,6 +63,10 @@ void MainApp::iniServer()
 void MainApp::iniMainWindow()
 {
     //与题库管理界面连接的信号和槽
+    connect(&_window, SIGNAL(importChoiceQuestion(QString)), this, SLOT(importChoiceQuestion(QString)));
+    connect(&_window, SIGNAL(importEssayQuestion(QString)), this, SLOT(importEssayQuestion(QString)));
+    connect(&_window, SIGNAL(exportEssayQuestion(QList<EssayQuestions*>,QString)), this, SLOT(exportEssayQuestion(QList<EssayQuestions*>,QString)));
+    connect(&_window, SIGNAL(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)), this, SLOT(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)));
     connect(&_window, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SLOT(updateChoiceQuestion(ChoiceQuestions*)));
     connect(&_window, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SLOT(updateEssayQuestion(EssayQuestions*)));
     connect(&_window, SIGNAL(getChoiceQuestions()), this, SLOT(getChoiceQuestion()));
@@ -108,6 +112,10 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&_window,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
+    connect(&_window, SIGNAL(exportStudent(QList<Student*>,QString)), this, SLOT(exportStudent(QList<Student*>,QString)));
+    connect(&_window, SIGNAL(exportTeacher(QList<User*>,QString)), this, SLOT(exportTeacher(QList<User*>,QString)));
+    connect(&_window, SIGNAL(exportManager(QList<User*>,QString)), this, SLOT(exportManager(QList<User*>,QString)));
+    connect(&_window, SIGNAL(exportType(QMap<int,QString>,QString)), this, SLOT(exportType(QMap<int,QString>,QString)));
     connect(this, SIGNAL(updateTeacherList(QList<User*>)), &_window, SIGNAL(updateTeacherList(QList<User*>)));
     connect(this, SIGNAL(updateManagerList(QList<User*>)), &_window, SIGNAL(updateManagerList(QList<User*>)));
     connect(this, SIGNAL(updateTypeList(QMap<int,QString>)), &_window, SIGNAL(updateTypeList(QMap<int,QString>)));
@@ -952,6 +960,80 @@ void MainApp::closeServer()
     _serverState = STATE_NOEXAM;
     _server->close();
     delete(_server);
+}
+
+void MainApp::exportChoiceQuestion(QList<ChoiceQuestions *> questionlist, QString filename)
+{
+    _IOM->exportChoiceQuestion(questionlist, filename);
+}
+
+void MainApp::exportEssayQuestion(QList<EssayQuestions *> questionlist, QString filename)
+{
+    _IOM->exportEssayQuestion(questionlist, filename);
+}
+
+void MainApp::importChoiceQuestion(QString filename)
+{
+    QList<ChoiceQuestions *> questionlist = _IOM->inputOb(filename);
+    for(int i = 0; i < questionlist.count(); ++i){
+       _DBM->insertOb(questionlist.at(i)->getQuestionTitle(), questionlist.at(i)->getAnswer(), User::GetInstance().getType());
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getChoiceQuestion();
+}
+
+void MainApp::importEssayQuestion(QString filename)
+{
+    QList<EssayQuestions *> questionlist = _IOM->inputSub(filename);
+    for(int i = 0; i < questionlist.count(); ++i){
+        _DBM->insertSub(questionlist.at(i)->getQuestionTitle(), QString::number(User::GetInstance().getType()));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getEssayQuestion();
+}
+
+void MainApp::exportStudent(QList<Student *> studentlist, QString filename)
+{
+    _IOM->exportStudent(studentlist, filename);
+}
+
+void MainApp::exportTeacher(QList<User *> teacherlist, QString filename)
+{
+    _IOM->exportTeacher(teacherlist, filename);
+}
+
+void MainApp::exportManager(QList<User *> managerlist, QString filename)
+{
+    _IOM->exportManager(managerlist, filename);
+}
+
+void MainApp::exportType(QMap<int, QString> typelist, QString filename)
+{
+    _IOM->exportType(typelist, filename);
+}
+
+void MainApp::importStudent(QString)
+{
+
+}
+
+void MainApp::importTeacher(QString)
+{
+
+}
+
+void MainApp::importManager(QString)
+{
+
+}
+
+void MainApp::importType(QString)
+{
+
 }
 
 void MainApp::getStudent()
