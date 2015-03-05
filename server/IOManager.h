@@ -23,6 +23,10 @@ public:
     void exportTeacher(QList<User *>, QString);
     void exportManager(QList<User *>, QString);
     void exportType(QMap<int, QString>, QString);
+    QList<Student *> importStudent(QString);
+    QList<User *> importTeacher(QString);
+    QList<User *> importManager(QString);
+    QMap<int, QString> importType(QString);
 };
 
 #endif // IOMANAGER_H

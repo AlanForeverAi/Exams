@@ -21,7 +21,6 @@ IOManager::~IOManager()
 
 void IOManager::outputUser(QList<Student*> userlist)
 {
-
     QString filename;
     filename.append(QStringLiteral("data/用户信息_"));
     filename.append(QDate::currentDate().toString());
@@ -371,12 +370,108 @@ void IOManager::exportType(QMap<int, QString> typelist, QString filename)
         return;
     QTextStream out(&file);
     out.setFieldWidth(10);
-    out << QStringLiteral("类型id") << QStringLiteral("类型") << "\n";
+    out << QStringLiteral("科目id") << QStringLiteral("科目") << "\n";
     out.setFieldWidth(11);
     for(QMap<int, QString>::iterator ite = typelist.begin(); ite != typelist.end(); ++ite){
         out << ite.key();
         out << ite.value() << "\n";
     }
     file.close();
+}
+
+QList<Student *> IOManager::importStudent(QString filename)
+{
+    QList<Student *> studentlist;
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return studentlist;
+    QTextStream in(&file);
+    QString temp;
+    QStringList args;
+    temp = in.readLine();
+//    qDebug() << "this is title:" << temp << "\n";
+    while(!in.atEnd()){
+        Student *student = new Student();
+        temp = in.readLine();
+        args = temp.split(' ');
+        args.removeAll("");
+        student->setID(args.at(0));
+        student->setName(args.at(1));
+        student->setGrade(args.at(2).toInt());
+        student->setClass(args.at(3).toInt());
+        student->setPassword(args.at(4));
+        studentlist.append(student);
+    }
+    file.close();
+    return studentlist;
+}
+
+QList<User *> IOManager::importTeacher(QString filename)
+{
+    QList<User *> teacherlist;
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return teacherlist;
+    QTextStream in(&file);
+    QString temp;
+    QStringList args;
+    temp = in.readLine();
+    while(!in.atEnd()){
+        User *teacher = new User();
+        temp = in.readLine();
+        args = temp.split(' ');
+        args.removeAll("");
+        teacher->setID(args.at(0));
+        teacher->setName(args.at(1));
+        teacher->setPassword(args.at(2));
+        teacher->setSubject(args.at(3));
+        teacherlist.append(teacher);
+    }
+    file.close();
+    return teacherlist;
+}
+
+QList<User *> IOManager::importManager(QString filename)
+{
+    QList<User *> managerlist;
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return managerlist;
+    QTextStream in(&file);
+    QString temp;
+    QStringList args;
+    temp = in.readLine();
+    while(!in.atEnd()){
+        User *manager = new User();
+        temp = in.readLine();
+        args = temp.split(' ');
+        args.removeAll("");
+        manager->setID(args.at(0));
+        manager->setName(args.at(1));
+        manager->setPassword(args.at(2));
+        managerlist.append(manager);
+    }
+    file.close();
+    return managerlist;
+}
+
+QMap<int, QString> IOManager::importType(QString filename)
+{
+    QMap<int, QString> typelist;
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return typelist;
+    QTextStream in(&file);
+    QString temp;
+    QStringList args;
+    temp = in.readLine();
+    while(!in.atEnd()){
+        temp = in.readLine();
+        args = temp.split(' ');
+        args.removeAll("");
+        typelist[args.at(0).toInt()] = args.at(1);
+    }
+    file.close();
+    return typelist;
 }
 //以上为subquestions表读取文件

@@ -116,6 +116,10 @@ void MainApp::iniMainWindow()
     connect(&_window, SIGNAL(exportTeacher(QList<User*>,QString)), this, SLOT(exportTeacher(QList<User*>,QString)));
     connect(&_window, SIGNAL(exportManager(QList<User*>,QString)), this, SLOT(exportManager(QList<User*>,QString)));
     connect(&_window, SIGNAL(exportType(QMap<int,QString>,QString)), this, SLOT(exportType(QMap<int,QString>,QString)));
+    connect(&_window, SIGNAL(importStudent(QString)), this, SLOT(importStudent(QString)));
+    connect(&_window, SIGNAL(importTeacher(QString)), this, SLOT(importTeacher(QString)));
+    connect(&_window, SIGNAL(importManager(QString)), this, SLOT(importManager(QString)));
+    connect(&_window, SIGNAL(importType(QString)), this, SLOT(importType(QString)));
     connect(this, SIGNAL(updateTeacherList(QList<User*>)), &_window, SIGNAL(updateTeacherList(QList<User*>)));
     connect(this, SIGNAL(updateManagerList(QList<User*>)), &_window, SIGNAL(updateManagerList(QList<User*>)));
     connect(this, SIGNAL(updateTypeList(QMap<int,QString>)), &_window, SIGNAL(updateTypeList(QMap<int,QString>)));
@@ -974,6 +978,10 @@ void MainApp::exportEssayQuestion(QList<EssayQuestions *> questionlist, QString 
 
 void MainApp::importChoiceQuestion(QString filename)
 {
+    if(filename == ""){
+        return ;
+    }
+
     QList<ChoiceQuestions *> questionlist = _IOM->inputOb(filename);
     for(int i = 0; i < questionlist.count(); ++i){
        _DBM->insertOb(questionlist.at(i)->getQuestionTitle(), questionlist.at(i)->getAnswer(), User::GetInstance().getType());
@@ -986,6 +994,10 @@ void MainApp::importChoiceQuestion(QString filename)
 
 void MainApp::importEssayQuestion(QString filename)
 {
+    if(filename == ""){
+        return ;
+    }
+
     QList<EssayQuestions *> questionlist = _IOM->inputSub(filename);
     for(int i = 0; i < questionlist.count(); ++i){
         _DBM->insertSub(questionlist.at(i)->getQuestionTitle(), QString::number(User::GetInstance().getType()));
@@ -1016,24 +1028,68 @@ void MainApp::exportType(QMap<int, QString> typelist, QString filename)
     _IOM->exportType(typelist, filename);
 }
 
-void MainApp::importStudent(QString)
+void MainApp::importStudent(QString filename)
 {
+    if(filename == ""){
+        return ;
+    }
 
+    QList<Student *> studentlist =_IOM->importStudent(filename);
+    for(int i = 0; i < studentlist.count(); ++i){
+        this->addStudent(studentlist.at(i));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getStudent();
 }
 
-void MainApp::importTeacher(QString)
+void MainApp::importTeacher(QString filename)
 {
+    if(filename == ""){
+        return ;
+    }
 
+    QList<User *> teacherlist = _IOM->importTeacher(filename);
+    for(int i = 0; i < teacherlist.count(); ++i){
+        this->addTeacher(teacherlist.at(i));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getTeacher();
 }
 
-void MainApp::importManager(QString)
+void MainApp::importManager(QString filename)
 {
+    if(filename == ""){
+        return ;
+    }
 
+    QList<User *> managerlist = _IOM->importManager(filename);
+    for(int i = 0; i < managerlist.count(); ++i){
+        this->addManager(managerlist.at(i));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getManager();
 }
 
-void MainApp::importType(QString)
+void MainApp::importType(QString filename)
 {
+    if(filename == ""){
+        return ;
+    }
 
+    QMap<int, QString> typelist = _IOM->importType(filename);
+    for(QMap<int, QString>::iterator ite = typelist.begin(); ite != typelist.end(); ++ite){
+        this->addType(ite.key(), ite.value());
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getType();
 }
 
 void MainApp::getStudent()

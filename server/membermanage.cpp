@@ -489,6 +489,26 @@ void MemberManageUI::on_pushButton_export_clicked()
 
 void MemberManageUI::on_pushButton_import_clicked()
 {
-
+    QDir dir(".");
+    if(!dir.exists("data"))
+    {
+        dir.mkdir("data");
+    }
+    if(tabWidget->currentIndex() == 0){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importStudent(filename);
+    }
+    else if(tabWidget->currentIndex() == 1){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importTeacher(filename);
+    }
+    else if(tabWidget->currentIndex() == 2){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importManager(filename);
+    }
+    else if(tabWidget->currentIndex() == 3){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importType(filename);
+    }
 }
 
