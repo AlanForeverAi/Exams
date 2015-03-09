@@ -324,6 +324,15 @@ void DBManager::insertPaper( QString obids, QString subids, int total, int perce
     qDebug() << "insertPaper] " << query.lastError();
 }
 
+void DBManager::insertPaper(QString obids, QString subids, int totalmark, int percent, QString description, int time, int subject, QString obmarks, QString submarks)
+{
+    QSqlQuery query;
+    QString s = "insert into paper (obquids, subquids, totalmark, percent, description, time, subject, obmarks, submarks)"
+            "values('%1', '%2', %3, %4, '%5', %6, %7, '%8', '%9')";
+    query.exec(s.arg(obids).arg(subids).arg(totalmark).arg(percent).arg(description).arg(time).arg(subject).arg(obmarks).arg(submarks));
+    qDebug() << "insertPaper] " << query.lastError();
+}
+
 QSqlQuery DBManager::selectPaperById(int id)
 {
     QSqlQuery query;
@@ -372,6 +381,14 @@ void DBManager::alterPaper(int id,QString obids, QString subids, int total, int 
     QString s = "update paper set obquids= '%1',subquids= '%2',totalmark= %3,percent= %4,description= '%5',time= '%6' where paperid= %7";
     query.exec(s.arg(obids).arg(subids).arg(total).arg(percent).arg(description).arg(time).arg(id));
     qDebug() << "alterPaper] " << query.lastError();
+}
+
+void DBManager::updatePaper(int id, QString objectIds, QString subjectIds, int totalMark, int percent, QString description, int time, QString objectMarks, QString subjectMarks)
+{
+    QSqlQuery query;
+    QString s = "update paper set obquids = '%1', subquids = '%2', totalmark = %3, description = '%4', time = %5, obmarks = '%6', submarks = '%7' where paperid = %8";
+    query.exec(s.arg(objectIds).arg(subjectIds).arg(totalMark).arg(description).arg(time).arg(objectMarks).arg(subjectMarks).arg(id));
+    qDebug() << "updatePaper] " << query.lastError();
 }
 
 

@@ -34,6 +34,7 @@ private:
     QVector<QString> _sub;
     QString _currentPaperId;
     QString _currentUserId;
+    QStringList markList;
 };
 
 #endif // SUBMARKUI_H

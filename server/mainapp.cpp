@@ -7,7 +7,6 @@ MainApp::MainApp()
     readConfig();
     iniMainWindow();
     iniDBManager();
-//    iniServer();
     _IOM = new IOManager;
     _serverState = STATE_NOEXAM;
     _infoList.append("*,");
@@ -82,6 +81,8 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(deleteOb_Questoins(int)),this,SLOT(deleteOb_Questoins(int)));
     connect(&_window,SIGNAL(deleteSub_Questoins(int)),this,SLOT(deleteSub_Questoins(int)));
     //与试卷管理界面连接的信号和槽
+    connect(&_window, SIGNAL(insertPaper(Paper*)), this, SLOT(insertPaper(Paper*)));
+    connect(&_window, SIGNAL(updatePaper(Paper*)), this, SLOT(updatePaper(Paper*)));
     connect(&_window,SIGNAL(addPaper(Paper)),this,SLOT(addPaper(Paper)));
     connect(&_window,SIGNAL(getAllPaper()),this,SLOT(getAllPaper()));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),&_window,SIGNAL(showAllPaper(QList<Paper*>)));
@@ -329,6 +330,9 @@ void MainApp::getAllPaper()
         p->setPercent(query.value(4).toInt());
         p->setDescription(query.value(5).toString());
         p->setTime(query.value(6).toInt());
+        p->setSubject(query.value(7).toInt());
+        p->setObjectMark(query.value(8).toString());
+        p->setSubjectMark(query.value(9).toString());
         paperList.append(p);
     }
     emit this->showAllPaper(paperList);
@@ -357,6 +361,10 @@ void MainApp::getPaperById(int id)
     paper.setPercent(query.value(4).toInt());
     paper.setDescription(query.value(5).toString());
     paper.setTime(query.value(6).toInt());
+    paper.setSubject(query.value(7).toInt());
+    paper.setObjectMark(query.value(8).toString());
+    paper.setSubjectMark(query.value(9).toString());
+
     emit this->showCurrentPaper(paper);
 }
 
@@ -389,6 +397,9 @@ Paper MainApp::preparePaper(int id)
     paper.setPercent(query.value(4).toInt());
     paper.setDescription(query.value(5).toString());
     paper.setTime(query.value(6).toInt());
+    paper.setSubject(query.value(7).toInt());
+    paper.setObjectMark(query.value(8).toString());
+    paper.setSubjectMark(query.value(9).toString());
     query.clear();
 
     query = _DBM->selectObQuestions();
@@ -642,14 +653,19 @@ void MainApp::dealObAnswers(EssayAnswers obans)
     }
     QString eachObmark;
     QString obMarkString;
+    QStringList marks;
+    marks = _mainPaper.getObjectMark().split(',');
+//    marks.removeAt(marks.count()-1);
     eachObmark = QString::number(_mainPaper.getTotalMark() * _mainPaper.getPercent() / 100 / _mainPaper.choiceQuestionList.count());
+
     for(int i = 0; i < ansList.count(); i++)
     {
         QString correctAns = _mainPaper.choiceQuestionList.value(i).getAnswer();
         if(ansList.at(i) == correctAns)
         {
 
-            obMarkString.append(eachObmark);
+//            obMarkString.append(eachObmark);
+            obMarkString.append(marks.at(i));
         }
         else
             obMarkString.append("0");
@@ -1090,6 +1106,20 @@ void MainApp::importType(QString filename)
     msg.setText(QStringLiteral("导入成功。"));
     msg.exec();
     getType();
+}
+
+void MainApp::updatePaper(Paper * paper)
+{
+    _DBM->updatePaper(paper->getPaperId(), paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(),
+                      paper->getPercent(), paper->getDescription(), paper->getTime(), paper->getObjectMark(), paper->getSubjectMark());
+}
+
+void MainApp::insertPaper(Paper * paper)
+{   qDebug() << "eeeeeee";
+    if(paper == NULL)
+        qDebug() << "eeeeeee";
+    _DBM->insertPaper(paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(), paper->getPercent(),
+                      paper->getDescription(), paper->getTime(), paper->getSubject(), paper->getObjectMark(), paper->getSubjectMark());
 }
 
 void MainApp::getStudent()

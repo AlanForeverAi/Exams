@@ -37,6 +37,7 @@ PaperManageUI::PaperManageUI(QWidget *parent) :
     tableWidget_alluser->setSortingEnabled(true);
     tableWidget_selectuser->setSortingEnabled(true);
     connect(this->tableWidget_allpaper,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(paperChange(QTableWidgetItem*)));
+    connect(this->table_allpaper, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this , SLOT(alterPaper(QTableWidgetItem*)));
     spinBox_time->setMinimum(1);//设置最小值
     lineEdit_totalmark->setText("100");
     QRegExp regExp("[1-9][0-9]+");//正则表达式：1开头的整数
@@ -346,40 +347,78 @@ void PaperManageUI::on_pushButton_delete_clicked()
 
 void PaperManageUI::on_pushButton_AddorMoidfy_clicked()
 {
-    Paper currentpaper;
-    currentpaper.setDescription(lineEdit_Papername->text());
-    currentpaper.setObQuIds(_obQueIds);
-    currentpaper.setSubQuIds(_subQueIds);
-    currentpaper.setTotalMark(lineEdit_totalmark->text().toInt());
-    currentpaper.setPercent(spinBox_Percentage_Ob->value());
-    currentpaper.setTime(spinBox_time->value()*60);
-    QString state = QString::fromUtf8(pushButton_AddorMoidfy->text().toStdString().c_str());
-    if(state == QStringLiteral("创建试卷"))
-    {
-        emit this->addPaper(currentpaper);
-        _obQueIds.clear();
-        _subQueIds.clear();
-    }
-    else if(state == QStringLiteral("确认修改"))
-    {
-        pushButton_AddorMoidfy->setText(QStringLiteral("创建试卷"));
-        pushButton_unmodify->setEnabled(false);
-        pushButton_tomodify->setEnabled(true);
-        currentpaper.setPaperId(_currentPaperId);
-        emit this->modifyPaper(currentpaper);
-        _obQueIds.clear();//清记录
-        _subQueIds.clear();//
-    }
-    this->clear();
+//    Paper currentpaper;
+//    currentpaper.setDescription(lineEdit_Papername->text());
+//    currentpaper.setObQuIds(_obQueIds);
+//    currentpaper.setSubQuIds(_subQueIds);
+//    currentpaper.setTotalMark(lineEdit_totalmark->text().toInt());
+//    currentpaper.setPercent(spinBox_Percentage_Ob->value());
+//    currentpaper.setTime(spinBox_time->value()*60);
+//    QString state = QString::fromUtf8(pushButton_AddorMoidfy->text().toStdString().c_str());
+//    if(state == QStringLiteral("创建试卷"))
+//    {
+//        emit this->addPaper(currentpaper);
+//        _obQueIds.clear();
+//        _subQueIds.clear();
+//    }
+//    else if(state == QStringLiteral("确认修改"))
+//    {
+//        pushButton_AddorMoidfy->setText(QStringLiteral("创建试卷"));
+//        pushButton_unmodify->setEnabled(false);
+//        pushButton_tomodify->setEnabled(true);
+//        currentpaper.setPaperId(_currentPaperId);
+//        emit this->modifyPaper(currentpaper);
+//        _obQueIds.clear();//清记录
+//        _subQueIds.clear();//
+//    }
+//    this->clear();
+    AlterPaper *alterPaperDialog = new AlterPaper();
+    connect(this, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)), alterPaperDialog, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
+    connect(this,SIGNAL(showEssayQuestions(QList<EssayQuestions*>)), alterPaperDialog, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
+    connect(this, SIGNAL(addPaperMode()), alterPaperDialog, SLOT(addPaperMode()));
+    connect(alterPaperDialog, SIGNAL(addPaper(Paper*)), this, SIGNAL(insertPaper(Paper*)));
+
+    emit this->showChoiceQuestions(choicequestions);\
+    emit this->showEssayQuestions(essayquestions);
+    emit this->addPaperMode();
+
+    alterPaperDialog->exec();
 }
 
 void PaperManageUI::on_pushButton_tomodify_clicked()
 {
     if(table_allpaper->currentRow() >= 0)
     {
-        int id;
-        id = table_allpaper->item(table_allpaper->currentRow(),0)->text().toInt();
-        emit this->getPaperById(id);
+//        int id;
+//        id = table_allpaper->item(table_allpaper->currentRow(),0)->text().toInt();
+//        emit this->getPaperById(id);
+        AlterPaper *alterPaperDialog = new AlterPaper();
+        connect(this, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)), alterPaperDialog, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
+        connect(this, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)), alterPaperDialog, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
+        connect(this, SIGNAL(showPaper(Paper*)), alterPaperDialog, SLOT(showPaper(Paper*)));
+        connect(alterPaperDialog, SIGNAL(updatePaper(Paper*)), this, SIGNAL(updatePaper(Paper*)));
+
+//        emit this->getChoiceQuestions();
+//        emit this->getEssayQuestions();
+        emit this->showChoiceQuestions(choicequestions);
+        emit this->showEssayQuestions(essayquestions);
+
+        Paper *paper = NULL;
+        for(int i = 0; i < _paperList.count(); ++i){
+//            if(_paperList.at(i)->getPaperId() == table_allpaper->item(item->row(), 0)->text().toInt()){
+//                paper = _paperList.at(i);
+//                break;
+//            }
+            if(_paperList.at(i)->getPaperId() == tableWidget_allpaper->item(table_allpaper->currentRow(),0)->text().toInt()){
+                paper = _paperList.at(i);
+                break;
+            }
+        }
+
+        emit this->showPaper(paper);
+
+        alterPaperDialog->exec();
+
     }
     else
     {
@@ -436,7 +475,7 @@ void PaperManageUI::showCurrentPaper(Paper p)
     lineEdit_totalmark->setText(QString::number(p.getTotalMark()));
     spinBox_Percentage_Ob->setValue(p.getPercent());
     lineEdit_Papername->setText(p.getDescription());
-    spinBox_time->setValue(p.getTime()/60);
+    spinBox_time->setValue(p.getTime() / 60);
 }
 
 void PaperManageUI::clear()
@@ -756,4 +795,38 @@ void PaperManageUI::on_comboBoxselect_currentIndexChanged(const QString &arg1)
         pushButton_deleteuser->setEnabled(true);
         pushButton_saveuser->setEnabled(true);
     }
+}
+
+void PaperManageUI::alterPaper(QTableWidgetItem *item)
+{
+    AlterPaper *alterPaperDialog = new AlterPaper();
+    connect(this, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)), alterPaperDialog, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
+    connect(this, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)), alterPaperDialog, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
+    connect(this, SIGNAL(showPaper(Paper*)), alterPaperDialog, SLOT(showPaper(Paper*)));
+    connect(alterPaperDialog, SIGNAL(updatePaper(Paper*)), this, SIGNAL(updatePaper(Paper*)));
+
+    emit this->showChoiceQuestions(choicequestions);
+    emit this->showEssayQuestions(essayquestions);
+
+    Paper *paper = NULL;
+    for(int i = 0; i < _paperList.count(); ++i){
+        if(_paperList.at(i)->getPaperId() == table_allpaper->item(item->row(), 0)->text().toInt()){
+            paper = _paperList.at(i);
+            break;
+        }
+    }
+
+    emit this->showPaper(paper);
+
+    alterPaperDialog->exec();
+}
+
+void PaperManageUI::setChoiceQuestions(QList<ChoiceQuestions *> questionlist)
+{
+    choicequestions = questionlist;
+}
+
+void PaperManageUI::setEssayQuestions(QList<EssayQuestions *> questionlist)
+{
+    essayquestions = questionlist;
 }

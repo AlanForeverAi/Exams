@@ -138,6 +138,9 @@ public slots:
     void importManager(QString);
     void importType(QString);
 
+    void updatePaper(Paper *);
+    void insertPaper(Paper *);
+
 private:
     DBManager *_DBM;
     MainWindow _window;

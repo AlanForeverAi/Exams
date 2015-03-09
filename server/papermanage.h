@@ -5,7 +5,7 @@
 #include <iostream>
 #include "ui_PaperManageUI.h"
 #include "data.h"
-
+#include "alterpaper.h"
 
 class PaperManageUI : public QWidget,public Ui::PaperManageUI
 {
@@ -26,6 +26,13 @@ signals:
     void getPaperById(int);
     void queryPaperMark(int,QString);
     void saveUsertoPaperMark(int,QList<Student*>);
+    void showPaper(Paper *);
+    void showChoiceQuestions(QList<ChoiceQuestions *>);
+    void showEssayQuestions(QList<EssayQuestions *>);
+    void updatePaper(Paper *);
+    void addPaperMode();
+    void insertPaper(Paper *);
+
 private slots:
     void on_horizontalSlider_valueChanged(int value);	//调整题目比例
     void on_pushButton_Add_Ob_clicked();				//添加选择题
@@ -54,10 +61,13 @@ private slots:
     void paperChange(QTableWidgetItem*);
     void showCurrentType(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void on_comboBoxselect_currentIndexChanged(const QString &arg1);
+    void alterPaper(QTableWidgetItem *);
+//    void showPaper(Paper *);
+    void setChoiceQuestions(QList<ChoiceQuestions *>);
+    void setEssayQuestions(QList<EssayQuestions *>);
 
 private:
     int _currentPaperId;
-    //又又见到坑爹的东西。。。。。。。
     QList<ChoiceQuestions *> _allOb;
     QList<ChoiceQuestions *> _selectOb;
     QList<EssayQuestions *> _allSub;
@@ -71,7 +81,8 @@ private:
     QList<Student *> _selectUserList;
     QList<Student *> _searchList;
     QStringList _typeList;
-
+    QList<ChoiceQuestions *> choicequestions;
+    QList<EssayQuestions *> essayquestions;
 };
 
 #endif // PAPAERMANAGEUI_H

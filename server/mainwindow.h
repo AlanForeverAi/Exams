@@ -132,6 +132,9 @@ signals:
     void importManager(QString);
     void importType(QString);
 
+    void updatePaper(Paper *);
+    void insertPaper(Paper *);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();

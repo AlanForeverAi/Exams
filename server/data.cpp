@@ -254,6 +254,26 @@ void Paper::setSubject(int subject)
     _subject = subject;
 }
 
+void Paper::setObjectMark(QString mark)
+{
+    _objectMark = mark;
+}
+
+void Paper::setSubjectMark(QString mark)
+{
+    _subjectMark = mark;
+}
+
+QString Paper::getObjectMark()
+{
+    return _objectMark;
+}
+
+QString Paper::getSubjectMark()
+{
+    return _subjectMark;
+}
+
 int Paper::getSubject()
 {
     return _subject;

@@ -56,7 +56,16 @@ void MainWindow::do_QuestionsManager()
 void MainWindow::do_makepaper()
 {
     PaperManageUI *make_paper  =  new PaperManageUI();
-    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),make_paper,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
+
+    connect(make_paper, SIGNAL(insertPaper(Paper*)), this, SIGNAL(insertPaper(Paper*)));
+    connect(make_paper, SIGNAL(updatePaper(Paper*)), this,SIGNAL(updatePaper(Paper*)));
+    connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), make_paper, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
+    connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)), make_paper, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
+//    connect(make_paper, SIGNAL(getChoiceQuestions()), this, SIGNAL(getChoiceQuestions()));
+//    connect(make_paper, SIGNAL(getEssayQuestions()), this, SIGNAL(getEssayQuestions()));
+//    connect(this, SIGNAL(showChoiceQuestionList(QList<ChoiceQuestions*>)), make_paper, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)));
+//    connect(this, SIGNAL(showEssayQuestionList(QList<EssayQuestions*>)), make_paper, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)));
+//    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),make_paper,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(make_paper,SIGNAL(addPaper(Paper)),this,SIGNAL(addPaper(Paper)));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
     connect(make_paper->pushButton_AddorMoidfy,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
@@ -73,8 +82,10 @@ void MainWindow::do_makepaper()
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
-    emit this->getQuestions();
+//    emit this->getQuestions();
     emit this->getStudent();
+    emit this->getChoiceQuestions();
+    emit this->getEssayQuestions();
     _statusBar->showMessage(QStringLiteral("试卷管理"));
 }
 
