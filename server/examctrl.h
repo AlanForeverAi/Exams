@@ -1,4 +1,5 @@
-﻿#ifndef EXAMCTRL_H
+﻿void on_pushButton_startServer_clicked();
+#ifndef EXAMCTRL_H
 #define EXAMCTRL_H
 
 #include <QWidget>
@@ -28,15 +29,15 @@ signals:
     void continueExam();
     void sendMessage(QString);
     void getcurrentPaperTime(int);
+    void startServer();
+    void closeServer();
 
 private slots:
     void showPapers(QList<Paper*>);
     void on_pushButton_send_clicked();
-//    void on_pushButton_begin_clicked();
-//    void counttimeUpdate();
-//    void datetimeUpdate();
-//    void updateUserTable(QList<Student*>);
-//    void on_pushButton_end_clicked();
+    void on_pushButton_closeServer_clicked();
+
+    void on_pushButton_startServer_clicked();
 
 private:
     QTimer *_countTimer;

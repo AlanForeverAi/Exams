@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -545,6 +545,72 @@ p, li { white-space: pre-wrap; }
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="pushButton_startServer">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>1111</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>SimSun-ExtB</family>
+            <pointsize>9</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="text">
+           <string>开启服务器</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_closeServer">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>1111</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>SimSun-ExtB</family>
+            <pointsize>9</pointsize>
+            <weight>50</weight>
+            <italic>false</italic>
+            <bold>false</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+           </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="text">
+           <string>关闭服务器</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="pushButton_send">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -706,23 +772,6 @@ p, li { white-space: pre-wrap; }
     </item>
    </layout>
   </widget>
-  <zorder>line_4</zorder>
-  <zorder>pushButton_send</zorder>
-  <zorder>label_5</zorder>
-  <zorder>verticalSpacer_3</zorder>
-  <zorder>groupBox</zorder>
-  <zorder>pushButton_back</zorder>
-  <zorder>groupBox_2</zorder>
-  <zorder>groupBox_3</zorder>
-  <zorder>textEdit_message</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>verticalSpacer</zorder>
-  <zorder>verticalSpacer_4</zorder>
-  <zorder>verticalSpacer_5</zorder>
-  <zorder>verticalSpacer_6</zorder>
-  <zorder>verticalSpacer_7</zorder>
-  <zorder>verticalSpacer_8</zorder>
-  <zorder>verticalSpacer_9</zorder>
  </widget>
  <resources/>
  <connections/>

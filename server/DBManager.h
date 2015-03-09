@@ -47,11 +47,12 @@ public:
     void updateChoiceQuestions(int, QString, QString);
     void updateEssayQuestions(int, QString);
     void insertPaper(QString,QString,int,int,QString,int);
+    void insertPaper(QString, QString, int, int, QString, int, int, QString, QString);
     QSqlQuery selectPaperById(int);
     QSqlQuery selectPaper();
     void deletePaperById(int);
     void alterPaper(int,QString,QString,int,int,QString,int);
-
+    void updatePaper(int, QString, QString, int, int, QString, int, QString, QString);
 
     void insertObAnswers(int,QString,QString);//把学生客观题答案插入客观题答案表
     void insertSubAnswers(int,QString);//把学生主观题答案插入主观题答案表

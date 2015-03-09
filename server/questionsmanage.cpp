@@ -39,17 +39,24 @@ void QuestionsManageUI::on_Button_delete_clicked()
     if(tabWidget_2->currentIndex() == 0 && obTable->currentRow() >= 0)
     {
         int ret = msg.exec();
-        if(ret == QMessageBox::Ok)
-            emit this->deleteOb_Questoins(obTable->item(obTable->currentRow(),0)->text().toInt());
+        if(ret == QMessageBox::Ok){
+            QList<QTableWidgetItem *> selectItems = obTable->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteOb_Questoins(obTable->item(selectItems.at(i)->row(), 0)->text().toInt());
+            }
+        }
         else
-            return;
-
+            return ;
     }
     else if(tabWidget_2->currentIndex() == 1 && subTable->currentRow() >= 0)
     {
         int ret  =  msg.exec();
-        if(ret == QMessageBox::Ok)
-            emit this->deleteSub_Questoins(subTable->item(subTable->currentRow(),0)->text().toInt());
+        if(ret == QMessageBox::Ok){
+            QList<QTableWidgetItem *> selectItems = subTable->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteSub_Questoins(subTable->item(selectItems.at(i)->row(), 0)->text().toInt());
+            }
+        }
         else
             return;
     }
@@ -138,4 +145,33 @@ void QuestionsManageUI::on_Button_new_clicked()
     connect(addQuestionDialog, SIGNAL(addEssayQuestion(EssayQuestions*)), this, SIGNAL(addSub_Questoins(EssayQuestions*)));
 
     addQuestionDialog->exec();
+}
+
+void QuestionsManageUI::on_pushButton_export_clicked()
+{
+    QDir dir(".");
+    if(!dir.exists("data"))
+    {
+        dir.mkdir("data");
+    }
+    if(tabWidget_2->currentIndex() == 0){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出客观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportChoiceQuestion(choiceQuestionList, filename);
+    }
+    else{
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出主观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportEssayQuestion(essayQuestionList, filename);
+    }
+}
+
+void QuestionsManageUI::on_pushButton_import_clicked()
+{
+    if(tabWidget_2->currentIndex() == 0){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入客观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importChoiceQuestion(filename);
+    }
+    else{
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入主观题"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importEssayQuestion(filename);
+    }
 }

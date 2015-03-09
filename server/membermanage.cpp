@@ -233,7 +233,10 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     {
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            emit this->deleteUserId(tableWidget_Student->item(tableWidget_Student->currentRow(), 0)->text());
+            QList<QTableWidgetItem *> selectItems = tableWidget_Student->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteUserId(tableWidget_Student->item(selectItems.at(i)->row(), 0)->text());
+            }
         }
         else
             return;
@@ -242,7 +245,10 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     {
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            emit this->deleteManagerId(tableWidget_Teacher->item(tableWidget_Teacher->currentRow(), 0)->text().toInt());
+            QList<QTableWidgetItem *> selectItems = tableWidget_Teacher->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteManagerId(tableWidget_Teacher->item(selectItems.at(i)->row(), 0)->text().toInt());
+            }
         }
         else
             return;
@@ -250,7 +256,10 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     else if(tabWidget->currentIndex() == 2 && tableWidget_Manager->currentRow() >= 0){
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            emit this->deleteManagerId(tableWidget_Manager->item(tableWidget_Manager->currentRow(), 0)->text().toInt());
+            QList<QTableWidgetItem *> selectItems = tableWidget_Manager->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteManagerId(tableWidget_Manager->item(selectItems.at(i)->row(), 0)->text().toInt());
+            }
         }
         else
             return;
@@ -258,7 +267,11 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     else if(tabWidget->currentIndex() == 3 && tableWidget_Type->currentRow() >= 0){
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-            emit this->deleteType(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
+//            emit this->deleteType(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
+            QList<QTableWidgetItem *> selectItems = tableWidget_Type->selectedItems();
+            for(int i = 0; i < selectItems.count(); ++i){
+                emit this->deleteType(tableWidget_Type->item(selectItems.at(i)->row(), 0)->text().toInt());
+            }
         }
         else
             return;
@@ -447,5 +460,55 @@ void MemberManageUI::updateManagerList(QList<User *> managers)
 void MemberManageUI::updateTypeList(QMap<int, QString> types)
 {
     typeList = types;
+}
+
+void MemberManageUI::on_pushButton_export_clicked()
+{
+    QDir dir(".");
+    if(!dir.exists("data"))
+    {
+        dir.mkdir("data");
+    }
+    if(tabWidget->currentIndex() == 0){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportStudent(studentList, filename);
+    }
+    else if(tabWidget->currentIndex() == 1){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportTeacher(teacherList, filename);
+    }
+    else if(tabWidget->currentIndex() == 2){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportManager(managerList, filename);
+    }
+    else if(tabWidget->currentIndex() == 3){
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->exportType(typeList, filename);
+    }
+}
+
+void MemberManageUI::on_pushButton_import_clicked()
+{
+    QDir dir(".");
+    if(!dir.exists("data"))
+    {
+        dir.mkdir("data");
+    }
+    if(tabWidget->currentIndex() == 0){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importStudent(filename);
+    }
+    else if(tabWidget->currentIndex() == 1){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importTeacher(filename);
+    }
+    else if(tabWidget->currentIndex() == 2){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importManager(filename);
+    }
+    else if(tabWidget->currentIndex() == 3){
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("txt Files (*.txt)"));
+        emit this->importType(filename);
+    }
 }
 

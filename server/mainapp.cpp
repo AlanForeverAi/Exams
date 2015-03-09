@@ -7,7 +7,6 @@ MainApp::MainApp()
     readConfig();
     iniMainWindow();
     iniDBManager();
-    iniServer();
     _IOM = new IOManager;
     _serverState = STATE_NOEXAM;
     _infoList.append("*,");
@@ -63,6 +62,10 @@ void MainApp::iniServer()
 void MainApp::iniMainWindow()
 {
     //与题库管理界面连接的信号和槽
+    connect(&_window, SIGNAL(importChoiceQuestion(QString)), this, SLOT(importChoiceQuestion(QString)));
+    connect(&_window, SIGNAL(importEssayQuestion(QString)), this, SLOT(importEssayQuestion(QString)));
+    connect(&_window, SIGNAL(exportEssayQuestion(QList<EssayQuestions*>,QString)), this, SLOT(exportEssayQuestion(QList<EssayQuestions*>,QString)));
+    connect(&_window, SIGNAL(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)), this, SLOT(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)));
     connect(&_window, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SLOT(updateChoiceQuestion(ChoiceQuestions*)));
     connect(&_window, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SLOT(updateEssayQuestion(EssayQuestions*)));
     connect(&_window, SIGNAL(getChoiceQuestions()), this, SLOT(getChoiceQuestion()));
@@ -78,6 +81,8 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(deleteOb_Questoins(int)),this,SLOT(deleteOb_Questoins(int)));
     connect(&_window,SIGNAL(deleteSub_Questoins(int)),this,SLOT(deleteSub_Questoins(int)));
     //与试卷管理界面连接的信号和槽
+    connect(&_window, SIGNAL(insertPaper(Paper*)), this, SLOT(insertPaper(Paper*)));
+    connect(&_window, SIGNAL(updatePaper(Paper*)), this, SLOT(updatePaper(Paper*)));
     connect(&_window,SIGNAL(addPaper(Paper)),this,SLOT(addPaper(Paper)));
     connect(&_window,SIGNAL(getAllPaper()),this,SLOT(getAllPaper()));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),&_window,SIGNAL(showAllPaper(QList<Paper*>)));
@@ -88,6 +93,8 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SLOT(saveUsertoPaperMark(int,QList<Student*>)));
 
     ////////examctrl
+    connect(&_window, SIGNAL(startServer()), this, SLOT(startServer()));
+    connect(&_window, SIGNAL(closeServer()), this, SLOT(closeServer()));
     connect(&_window,SIGNAL(sendPaper(int)),this,SLOT(sendPaper(int)));
     connect(&_window,SIGNAL(beginExam()),this,SLOT(beginExam()));
     connect(&_window,SIGNAL(getUserList()),this,SLOT(getUserList()));
@@ -106,6 +113,14 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),&_window,SIGNAL(showSubAnswer(QVector<QString>)));
     connect(&_window,SIGNAL(submitSubMark(QStringList)),this,SLOT(submitSubMark(QStringList)));
     ///mem
+    connect(&_window, SIGNAL(exportStudent(QList<Student*>,QString)), this, SLOT(exportStudent(QList<Student*>,QString)));
+    connect(&_window, SIGNAL(exportTeacher(QList<User*>,QString)), this, SLOT(exportTeacher(QList<User*>,QString)));
+    connect(&_window, SIGNAL(exportManager(QList<User*>,QString)), this, SLOT(exportManager(QList<User*>,QString)));
+    connect(&_window, SIGNAL(exportType(QMap<int,QString>,QString)), this, SLOT(exportType(QMap<int,QString>,QString)));
+    connect(&_window, SIGNAL(importStudent(QString)), this, SLOT(importStudent(QString)));
+    connect(&_window, SIGNAL(importTeacher(QString)), this, SLOT(importTeacher(QString)));
+    connect(&_window, SIGNAL(importManager(QString)), this, SLOT(importManager(QString)));
+    connect(&_window, SIGNAL(importType(QString)), this, SLOT(importType(QString)));
     connect(this, SIGNAL(updateTeacherList(QList<User*>)), &_window, SIGNAL(updateTeacherList(QList<User*>)));
     connect(this, SIGNAL(updateManagerList(QList<User*>)), &_window, SIGNAL(updateManagerList(QList<User*>)));
     connect(this, SIGNAL(updateTypeList(QMap<int,QString>)), &_window, SIGNAL(updateTypeList(QMap<int,QString>)));
@@ -315,6 +330,9 @@ void MainApp::getAllPaper()
         p->setPercent(query.value(4).toInt());
         p->setDescription(query.value(5).toString());
         p->setTime(query.value(6).toInt());
+        p->setSubject(query.value(7).toInt());
+        p->setObjectMark(query.value(8).toString());
+        p->setSubjectMark(query.value(9).toString());
         paperList.append(p);
     }
     emit this->showAllPaper(paperList);
@@ -343,6 +361,10 @@ void MainApp::getPaperById(int id)
     paper.setPercent(query.value(4).toInt());
     paper.setDescription(query.value(5).toString());
     paper.setTime(query.value(6).toInt());
+    paper.setSubject(query.value(7).toInt());
+    paper.setObjectMark(query.value(8).toString());
+    paper.setSubjectMark(query.value(9).toString());
+
     emit this->showCurrentPaper(paper);
 }
 
@@ -375,6 +397,9 @@ Paper MainApp::preparePaper(int id)
     paper.setPercent(query.value(4).toInt());
     paper.setDescription(query.value(5).toString());
     paper.setTime(query.value(6).toInt());
+    paper.setSubject(query.value(7).toInt());
+    paper.setObjectMark(query.value(8).toString());
+    paper.setSubjectMark(query.value(9).toString());
     query.clear();
 
     query = _DBM->selectObQuestions();
@@ -628,14 +653,19 @@ void MainApp::dealObAnswers(EssayAnswers obans)
     }
     QString eachObmark;
     QString obMarkString;
+    QStringList marks;
+    marks = _mainPaper.getObjectMark().split(',');
+//    marks.removeAt(marks.count()-1);
     eachObmark = QString::number(_mainPaper.getTotalMark() * _mainPaper.getPercent() / 100 / _mainPaper.choiceQuestionList.count());
+
     for(int i = 0; i < ansList.count(); i++)
     {
         QString correctAns = _mainPaper.choiceQuestionList.value(i).getAnswer();
         if(ansList.at(i) == correctAns)
         {
 
-            obMarkString.append(eachObmark);
+//            obMarkString.append(eachObmark);
+            obMarkString.append(marks.at(i));
         }
         else
             obMarkString.append("0");
@@ -935,6 +965,161 @@ void MainApp::updateEssayQuestion(EssayQuestions *question)
 {
     _DBM->updateEssayQuestions(question->getQuestionId(), question->getQuestionTitle());
     getEssayQuestion();
+}
+
+void MainApp::startServer()
+{
+    _server = new Server(this,_port);
+    connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
+    connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
+    connect(_server,SIGNAL(removeUser(int)),this,SLOT(removeUser(int)));
+}
+
+void MainApp::closeServer()
+{
+    _serverState = STATE_NOEXAM;
+    _server->close();
+    delete(_server);
+}
+
+void MainApp::exportChoiceQuestion(QList<ChoiceQuestions *> questionlist, QString filename)
+{
+    _IOM->exportChoiceQuestion(questionlist, filename);
+}
+
+void MainApp::exportEssayQuestion(QList<EssayQuestions *> questionlist, QString filename)
+{
+    _IOM->exportEssayQuestion(questionlist, filename);
+}
+
+void MainApp::importChoiceQuestion(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QList<ChoiceQuestions *> questionlist = _IOM->inputOb(filename);
+    for(int i = 0; i < questionlist.count(); ++i){
+       _DBM->insertOb(questionlist.at(i)->getQuestionTitle(), questionlist.at(i)->getAnswer(), User::GetInstance().getType());
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getChoiceQuestion();
+}
+
+void MainApp::importEssayQuestion(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QList<EssayQuestions *> questionlist = _IOM->inputSub(filename);
+    for(int i = 0; i < questionlist.count(); ++i){
+        _DBM->insertSub(questionlist.at(i)->getQuestionTitle(), QString::number(User::GetInstance().getType()));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getEssayQuestion();
+}
+
+void MainApp::exportStudent(QList<Student *> studentlist, QString filename)
+{
+    _IOM->exportStudent(studentlist, filename);
+}
+
+void MainApp::exportTeacher(QList<User *> teacherlist, QString filename)
+{
+    _IOM->exportTeacher(teacherlist, filename);
+}
+
+void MainApp::exportManager(QList<User *> managerlist, QString filename)
+{
+    _IOM->exportManager(managerlist, filename);
+}
+
+void MainApp::exportType(QMap<int, QString> typelist, QString filename)
+{
+    _IOM->exportType(typelist, filename);
+}
+
+void MainApp::importStudent(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QList<Student *> studentlist =_IOM->importStudent(filename);
+    for(int i = 0; i < studentlist.count(); ++i){
+        this->addStudent(studentlist.at(i));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getStudent();
+}
+
+void MainApp::importTeacher(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QList<User *> teacherlist = _IOM->importTeacher(filename);
+    for(int i = 0; i < teacherlist.count(); ++i){
+        this->addTeacher(teacherlist.at(i));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getTeacher();
+}
+
+void MainApp::importManager(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QList<User *> managerlist = _IOM->importManager(filename);
+    for(int i = 0; i < managerlist.count(); ++i){
+        this->addManager(managerlist.at(i));
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getManager();
+}
+
+void MainApp::importType(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QMap<int, QString> typelist = _IOM->importType(filename);
+    for(QMap<int, QString>::iterator ite = typelist.begin(); ite != typelist.end(); ++ite){
+        this->addType(ite.key(), ite.value());
+    }
+    QMessageBox msg;
+    msg.setText(QStringLiteral("导入成功。"));
+    msg.exec();
+    getType();
+}
+
+void MainApp::updatePaper(Paper * paper)
+{
+    _DBM->updatePaper(paper->getPaperId(), paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(),
+                      paper->getPercent(), paper->getDescription(), paper->getTime(), paper->getObjectMark(), paper->getSubjectMark());
+}
+
+void MainApp::insertPaper(Paper * paper)
+{   qDebug() << "eeeeeee";
+    if(paper == NULL)
+        qDebug() << "eeeeeee";
+    _DBM->insertPaper(paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(), paper->getPercent(),
+                      paper->getDescription(), paper->getTime(), paper->getSubject(), paper->getObjectMark(), paper->getSubjectMark());
 }
 
 void MainApp::getStudent()

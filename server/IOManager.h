@@ -17,6 +17,16 @@ public:
     void outputSub(QList<EssayQuestions*>);
     QList<EssayQuestions*> inputSub(QString);
 
+    void exportChoiceQuestion(QList<ChoiceQuestions *>, QString);
+    void exportEssayQuestion(QList<EssayQuestions *>, QString);
+    void exportStudent(QList<Student *>, QString);
+    void exportTeacher(QList<User *>, QString);
+    void exportManager(QList<User *>, QString);
+    void exportType(QMap<int, QString>, QString);
+    QList<Student *> importStudent(QString);
+    QList<User *> importTeacher(QString);
+    QList<User *> importManager(QString);
+    QMap<int, QString> importType(QString);
 };
 
 #endif // IOMANAGER_H

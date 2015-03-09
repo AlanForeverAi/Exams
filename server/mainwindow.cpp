@@ -28,6 +28,10 @@ MainWindow::~MainWindow()
 void MainWindow::do_QuestionsManager()
 {
     QuestionsManageUI *questionManager  =  new QuestionsManageUI();
+    connect(questionManager, SIGNAL(importChoiceQuestion(QString)), this, SIGNAL(importChoiceQuestion(QString)));
+    connect(questionManager, SIGNAL(importEssayQuestion(QString)), this, SIGNAL(importEssayQuestion(QString)));
+    connect(questionManager, SIGNAL(exportEssayQuestion(QList<EssayQuestions*>,QString)), this, SIGNAL(exportEssayQuestion(QList<EssayQuestions*>,QString)));
+    connect(questionManager, SIGNAL(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)), this, SIGNAL(exportChoiceQuestion(QList<ChoiceQuestions*>,QString)));
     connect(questionManager, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)));
     connect(questionManager, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SIGNAL(updateEssayQuestion(EssayQuestions*)));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), questionManager, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
@@ -52,7 +56,16 @@ void MainWindow::do_QuestionsManager()
 void MainWindow::do_makepaper()
 {
     PaperManageUI *make_paper  =  new PaperManageUI();
-    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),make_paper,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
+
+    connect(make_paper, SIGNAL(insertPaper(Paper*)), this, SIGNAL(insertPaper(Paper*)));
+    connect(make_paper, SIGNAL(updatePaper(Paper*)), this,SIGNAL(updatePaper(Paper*)));
+    connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), make_paper, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
+    connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)), make_paper, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
+//    connect(make_paper, SIGNAL(getChoiceQuestions()), this, SIGNAL(getChoiceQuestions()));
+//    connect(make_paper, SIGNAL(getEssayQuestions()), this, SIGNAL(getEssayQuestions()));
+//    connect(this, SIGNAL(showChoiceQuestionList(QList<ChoiceQuestions*>)), make_paper, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)));
+//    connect(this, SIGNAL(showEssayQuestionList(QList<EssayQuestions*>)), make_paper, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)));
+//    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),make_paper,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(make_paper,SIGNAL(addPaper(Paper)),this,SIGNAL(addPaper(Paper)));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
     connect(make_paper->pushButton_AddorMoidfy,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
@@ -69,14 +82,18 @@ void MainWindow::do_makepaper()
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
-    emit this->getQuestions();
+//    emit this->getQuestions();
     emit this->getStudent();
+    emit this->getChoiceQuestions();
+    emit this->getEssayQuestions();
     _statusBar->showMessage(QStringLiteral("试卷管理"));
 }
 
 void MainWindow::do_examctrl()
 {
     ExamCtrlUI *examctrl = new ExamCtrlUI();
+    connect(examctrl, SIGNAL(startServer()), this, SIGNAL(startServer()));
+    connect(examctrl, SIGNAL(closeServer()), this, SIGNAL(closeServer()));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examctrl,SLOT(showPapers(QList<Paper*>)));
     connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
     connect(examctrl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
@@ -117,6 +134,14 @@ void MainWindow::do_subscore()
 void MainWindow::do_memmanage()
 {
     MemberManageUI *mem_Manage = new MemberManageUI();
+    connect(mem_Manage, SIGNAL(exportStudent(QList<Student*>,QString)), this, SIGNAL(exportStudent(QList<Student*>,QString)));
+    connect(mem_Manage, SIGNAL(exportTeacher(QList<User*>,QString)), this, SIGNAL(exportTeacher(QList<User*>,QString)));
+    connect(mem_Manage, SIGNAL(exportManager(QList<User*>,QString)), this, SIGNAL(exportManager(QList<User*>,QString)));
+    connect(mem_Manage, SIGNAL(exportType(QMap<int,QString>,QString)), this, SIGNAL(exportType(QMap<int,QString>,QString)));
+    connect(mem_Manage, SIGNAL(importStudent(QString)), this, SIGNAL(importStudent(QString)));
+    connect(mem_Manage, SIGNAL(importTeacher(QString)), this, SIGNAL(importTeacher(QString)));
+    connect(mem_Manage, SIGNAL(importManager(QString)), this, SIGNAL(importManager(QString)));
+    connect(mem_Manage, SIGNAL(importType(QString)), this, SIGNAL(importType(QString)));
     connect(this, SIGNAL(updateTeacherList(QList<User*>)), mem_Manage, SLOT(updateTeacherList(QList<User*>)));
     connect(this, SIGNAL(updateManagerList(QList<User*>)), mem_Manage, SLOT(updateManagerList(QList<User*>)));
     connect(this, SIGNAL(updateStudentList(QList<Student*>)), mem_Manage, SLOT(updateStudentList(QList<Student*>)));
@@ -125,7 +150,7 @@ void MainWindow::do_memmanage()
     connect(this, SIGNAL(showTeacher(QList<User*>)), mem_Manage, SLOT(showTeacher(QList<User*>)));
     connect(this, SIGNAL(showType(QMap<int,QString>)), mem_Manage, SLOT(showType(QMap<int,QString>)));
     connect(this, SIGNAL(showManager(QList<User*>)), mem_Manage, SLOT(showManager(QList<User*>)));
-    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SIGNAL(showSubject(QList<QString>)));
+    connect(this, SIGNAL(showSubject(QList<QString>)), mem_Manage, SLOT(showSubject(QList<QString>)));
     connect(mem_Manage, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
     connect(mem_Manage, SIGNAL(updateTeacher(User*)), this, SIGNAL(updateTeacher(User*)));
     connect(mem_Manage, SIGNAL(updateManager(User*)), this, SIGNAL(updateManager(User*)));

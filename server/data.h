@@ -345,6 +345,10 @@ public:
     void setTime(int);
     void setDate(QString);
     void setSubject(int);
+    void setObjectMark(QString mark);
+    void setSubjectMark(QString mark);
+    QString getObjectMark();
+    QString getSubjectMark();
     int getSubject();
     int getPaperId();
     QString getObQuIds();
@@ -361,6 +365,8 @@ private:
     QString _obQuIds;
     QString _subQuIds;
     QString _description;
+    QString _objectMark;
+    QString _subjectMark;
     int     _totalMark;
     int     _percent;
     int     _time;
