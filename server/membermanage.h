@@ -1,5 +1,4 @@
-﻿void on_pushButton_export_clicked();
-#ifndef MEMBERMANAGEUI_H
+﻿#ifndef MEMBERMANAGEUI_H
 #define MEMBERMANAGEUI_H
 //
 #include <QWidget>

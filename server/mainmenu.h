@@ -4,6 +4,8 @@
 #include <iostream>
 #include <QWidget>
 #include "ui_MainMenuUI.h"
+
+
 class MainMenuUI : public QWidget, public Ui::MainMenuUI
 {
     Q_OBJECT
@@ -19,6 +21,8 @@ signals:
     void action_config();
     void action_scoremanage();
     void action_inoutput();
+    void action_papersetting();
+
 public slots:
     void on_pushButton_question_clicked();
     void on_pushButton_paper_clicked();
@@ -28,7 +32,7 @@ public slots:
     void on_pushButton_config_clicked();
     void on_pushButton_scoremanage_clicked();
     void on_pushButton_inoutput_clicked();
-
+    void on_pushButton_papersetting_clicked();
 };
 
 #endif // MAINMENUUI_H

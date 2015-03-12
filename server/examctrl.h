@@ -1,5 +1,4 @@
-﻿void on_pushButton_startServer_clicked();
-#ifndef EXAMCTRL_H
+﻿#ifndef EXAMCTRL_H
 #define EXAMCTRL_H
 
 #include <QWidget>

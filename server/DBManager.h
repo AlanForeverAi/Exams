@@ -66,6 +66,7 @@ public:
     void updatePaperMarkTotalmark(int,int,QString);
     QSqlQuery queryPaperMark1(int);//按试卷ID在papermark表中查询,返回的是papermark表的记录
     QSqlQuery queryPaperMark2(QString);//按学生ID在papermark表中查询,返回的是papermark表的记录
+    QSqlQuery getStudentByPaperID(int);
     QSqlQuery querySubAnswers(int,QString);//按试卷ID和学生ID在subanswers表中查询
     QSqlQuery studentLogin(QString,QString);
     QSqlQuery managerLogin(QString,QString);//登录功能

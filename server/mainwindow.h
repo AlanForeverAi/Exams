@@ -18,6 +18,7 @@
 #include "config.h"
 #include "scoremanage.h"
 #include "inoutput.h"
+#include "papersetting.h"
 
 namespace Ui
 {
@@ -135,6 +136,9 @@ signals:
     void updatePaper(Paper *);
     void insertPaper(Paper *);
 
+    void getSelectPaper(int id);
+    void showSelectStudent(QStringList);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();
@@ -147,6 +151,7 @@ private slots:
     void on_action_scomanage_triggered();
     void on_action_inoutput_triggered();
     void on_action_Qt_triggered();
+    void action_papersetting();
     void examMode();
     void endExamMode();
     void LoginOK();
@@ -165,6 +170,8 @@ private:
     void do_config();
     void do_scomanage();
     void do_inoutput();
+    void do_papersetting();
+
     Ui::MainWindow *_ui;
     QStatusBar *_statusBar;
 

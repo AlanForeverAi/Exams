@@ -61,3 +61,8 @@ void MainMenuUI::on_pushButton_inoutput_clicked()
 {
     emit this->action_inoutput();
 }
+
+void MainMenuUI::on_pushButton_papersetting_clicked()
+{
+    emit this->action_papersetting();
+}

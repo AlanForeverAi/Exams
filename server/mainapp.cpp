@@ -163,6 +163,10 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(outputOb()),this,SLOT(outputOb()));
     connect(&_window,SIGNAL(outputSub()),this,SLOT(outputSub()));
     connect(&_window,SIGNAL(outputPaper()),this,SLOT(outputPaper()));
+
+    //PaperSetting
+    connect(&_window, SIGNAL(getSelectPaper(int)), this, SLOT(getSelectStudent(int)));
+    connect(this, SIGNAL(showSelectStudent(QStringList)), &_window, SIGNAL(showSelectStudent(QStringList)));
     _window.show();
 }
 
@@ -1115,11 +1119,20 @@ void MainApp::updatePaper(Paper * paper)
 }
 
 void MainApp::insertPaper(Paper * paper)
-{   qDebug() << "eeeeeee";
-    if(paper == NULL)
-        qDebug() << "eeeeeee";
+{
     _DBM->insertPaper(paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(), paper->getPercent(),
                       paper->getDescription(), paper->getTime(), paper->getSubject(), paper->getObjectMark(), paper->getSubjectMark());
+}
+
+void MainApp::getSelectStudent(int id)
+{
+    QStringList studentIDs;
+    QSqlQuery query = _DBM->getStudentByPaperID(id);
+
+    while(query.next()){
+        studentIDs.append(query.value(0).toString());
+    }
+    emit this->showSelectStudent(studentIDs);
 }
 
 void MainApp::getStudent()

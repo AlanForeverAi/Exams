@@ -5,6 +5,7 @@
 #include <QTime>
 #include <QDebug>
 #include <QHeaderView>
+
 PaperManageUI::PaperManageUI(QWidget *parent) :
     QWidget(parent)
 {
@@ -12,20 +13,10 @@ PaperManageUI::PaperManageUI(QWidget *parent) :
     table_allpaper->verticalHeader()->setHidden(true);
     tableWidget_allpaper->verticalHeader()->setHidden(true);
     tableWidget_alluser->verticalHeader()->setHidden(true);
-    tableWidget_All_Ob->verticalHeader()->setHidden(true);
-    tableWidget_All_Sub->verticalHeader()->setHidden(true);
     tableWidget_selectuser->verticalHeader()->setHidden(true);
-    tableWidget_Select_Ob->verticalHeader()->setHidden(true);
-    tableWidget_Select_Sub->verticalHeader()->setHidden(true);
-
     tableWidget_allpaper->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableWidget_alluser->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    tableWidget_All_Ob->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    tableWidget_All_Sub->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableWidget_selectuser->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    tableWidget_Select_Ob->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    tableWidget_Select_Sub->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
     table_allpaper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
     table_allpaper->horizontalHeader()->setStretchLastSection(true);//自适应列宽
     tableWidget_allpaper->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
@@ -37,13 +28,8 @@ PaperManageUI::PaperManageUI(QWidget *parent) :
     tableWidget_alluser->setSortingEnabled(true);
     tableWidget_selectuser->setSortingEnabled(true);
     connect(this->tableWidget_allpaper,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(paperChange(QTableWidgetItem*)));
-    connect(this->table_allpaper, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this , SLOT(alterPaper(QTableWidgetItem*)));
-    spinBox_time->setMinimum(1);//设置最小值
-    lineEdit_totalmark->setText("100");
+    connect(this->table_allpaper, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(alterPaper(QTableWidgetItem*)));
     QRegExp regExp("[1-9][0-9]+");//正则表达式：1开头的整数
-    QRegExpValidator *validator = new QRegExpValidator (regExp,this);
-    lineEdit_totalmark->setValidator(validator );
-    spinBox_Percentage_Ob->setValue(100);
     pushButton_unmodify->setEnabled(false);
     tabWidget_main->setCurrentIndex(0);
 }
@@ -51,96 +37,6 @@ PaperManageUI::PaperManageUI(QWidget *parent) :
 PaperManageUI::~PaperManageUI()
 {
 
-}
-
-void PaperManageUI::on_horizontalSlider_valueChanged(int value)
-{
-    spinBox_Percentage_Ob->setValue(100-value);		//修改选择题分值比例
-    this->averageChange();
-}
-void PaperManageUI::on_spinBox_Percentage_Ob_valueChanged(int value)
-{
-    spinBox_Percentage_Sub->setValue(100-value);
-}
-
-void PaperManageUI::averageChange()
-{
-    if(_selectOb.count() == 0 || _selectSub.count() == 0)
-    {
-        if(_selectOb.count() == 0 && _selectSub.count() == 0)//题数(OB,SUB) = (0,0)
-        {
-            double average_ob = 0;
-            textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-            double average_sub = 0;
-            textEdit_Show_Average_Sub->setText(QString::number(average_sub));
-        }
-        else//题数(OB,SUB) = (n,0)
-        {
-            if(_selectOb.count() != 0)
-            {
-                double average_ob = (double)lineEdit_totalmark->text().toInt()/_selectOb.count();
-                textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-                double average_sub = 0;
-                textEdit_Show_Average_Sub->setText(QString::number(average_sub));
-            }
-            else//题数(OB,SUB) = (0,n)
-            {
-                double average_ob = 0;
-                textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-                double average_sub = (double)lineEdit_totalmark->text().toInt()/_selectSub.count();
-                textEdit_Show_Average_Sub->setText(QString::number(average_sub));
-            }
-        }
-    }
-    else//题数(OB,SUB) = (n,n)
-    {
-        double average_ob = (double)lineEdit_totalmark->text().toInt()*spinBox_Percentage_Ob->value()/100/_selectOb.count();
-        textEdit_Show_Average_Ob->setText(QString::number(average_ob));
-        double average_sub = (double)lineEdit_totalmark->text().toInt()*spinBox_Percentage_Sub->value()/100/_selectSub.count();
-        textEdit_Show_Average_Sub->setText(QString::number(average_sub));
-    }
-}
-
-//这个函数是重点，显示题目
-//Question
-void PaperManageUI::showQuestions(QList<ChoiceQuestions*> obList, QList<EssayQuestions*> subList)
-{
-
-    _allOb = obList;
-    _allSub = subList;
-
-    spinBox_obnum->setMaximum(obList.count());
-    spinBox_subnum->setMaximum(subList.count());
-
-    //显示客观题
-    tableWidget_All_Ob->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_All_Ob->horizontalHeader()->setStretchLastSection(true);//自适应列宽
-    tableWidget_All_Ob->setRowCount(obList.count());
-    for(int i = 0; i < obList.count(); ++i)
-    {
-        QString title = obList.at(i)->getQuestionTitle();
-        QString s_maintitle = title.mid(0,title.indexOf("@a"));
-
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
-        QTableWidgetItem *maintitle = new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getSubjectID());
-        tableWidget_All_Ob->setItem(i,0,id);
-        tableWidget_All_Ob->setItem(i,1,type);
-        tableWidget_All_Ob->setItem(i,2,maintitle);
-    }
-    //显示主观题
-    tableWidget_All_Sub->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_All_Sub->horizontalHeader()->setStretchLastSection(true);//自适应列宽
-    tableWidget_All_Sub->setRowCount(subList.count());
-    for(int i = 0; i < subList.count(); ++i)
-    {
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
-        QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getSubjectID());
-        tableWidget_All_Sub->setItem(i,0,id);
-        tableWidget_All_Sub->setItem(i,1,type);
-        tableWidget_All_Sub->setItem(i,2,title);
-    }
 }
 
 void PaperManageUI::showAllPaper(QList<Paper *> pList)
@@ -168,159 +64,6 @@ void PaperManageUI::showAllPaper(QList<Paper *> pList)
     }
 }
 
-
-void PaperManageUI::on_pushButton_Add_Ob_clicked()
-{
-    if(tableWidget_All_Ob->currentRow()<0)
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
-        return;
-    }
-
-
-    QString id_string = tableWidget_All_Ob->item(tableWidget_All_Ob->currentRow(),0)->text();
-    if(-1 == _obQueIds.indexOf(id_string))
-    {
-        for(int i = 0; i < _allOb.count(); i++)
-        {
-            if(_allOb.at(i)->getQuestionId() == id_string.toInt())
-            {
-                _selectOb.append(_allOb.at(i));
-            }
-        }
-        _obQueIds.append(id_string);
-        _obQueIds.append(",");
-        this->updateSelectTable();
-        this->averageChange();
-    }
-    else
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("此题目已存在"));
-    }
-
-}
-
-void PaperManageUI::on_pushButton_Add_Sub_clicked()
-{
-    if(tableWidget_All_Sub->currentRow() < 0)
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
-        return;
-    }
-
-
-    QString id_string = tableWidget_All_Sub->item(tableWidget_All_Sub->currentRow(),0)->text();
-
-    if(-1 == _subQueIds.indexOf(id_string))
-    {
-
-        for(int i = 0; i < _allSub.count(); i++)
-        {
-            if(_allSub.at(i)->getQuestionId() == id_string.toInt())
-            {
-                _selectSub.append(_allSub.at(i));
-            }
-        }
-        _subQueIds.append(id_string);
-        _subQueIds.append(",");
-        this->updateSelectTable();
-        this->averageChange();
-    }
-    else
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("此题目已存在"));
-    }
-}
-
-void PaperManageUI::updateSelectTable()
-{
-    tableWidget_Select_Ob->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_Select_Ob->horizontalHeader()->setStretchLastSection(true);
-    tableWidget_Select_Ob->setRowCount(_selectOb.count());
-	//选择题
-    for(int i = 0; i < _selectOb.count(); i++)
-    {
-        QString t = _selectOb.at(i)->getQuestionTitle();
-        QString s_maintitle = t.mid(0,t.indexOf("@a"));
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(_selectOb.at(i)->getQuestionId()));
-        QTableWidgetItem *title = new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type = new QTableWidgetItem(_selectOb.at(i)->getSubjectID());
-        tableWidget_Select_Ob->setItem(i,0,id);
-        tableWidget_Select_Ob->setItem(i,1,type);
-        tableWidget_Select_Ob->setItem(i,2,title);
-    }
-
-    tableWidget_Select_Sub->setSelectionBehavior(QAbstractItemView::SelectRows);//点击选择一行
-    tableWidget_Select_Sub->horizontalHeader()->setStretchLastSection(true);
-    tableWidget_Select_Sub->setRowCount(_selectSub.count());
-	//问答题
-    for(int i = 0; i<_selectSub.count(); i++)
-    {
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(_selectSub.at(i)->getQuestionId()));
-        QTableWidgetItem *title = new QTableWidgetItem(_selectSub.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(_selectSub.at(i)->getSubjectID());
-        tableWidget_Select_Sub->setItem(i,0,id);
-        tableWidget_Select_Sub->setItem(i,1,type);
-        tableWidget_Select_Sub->setItem(i,2,title);
-    }
-    spinBox_obnum->setValue(_selectOb.count());
-    spinBox_subnum->setValue(_selectSub.count());
-
-}
-
-void PaperManageUI::on_pushButton_Delete_Ob_clicked()
-{
-    if(tableWidget_Select_Ob->currentRow()<0)
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
-        return;
-    }
-    else
-    {
-        QString id_string = tableWidget_Select_Ob->item(tableWidget_Select_Ob->currentRow(),0)->text();
-        _obQueIds.remove(_obQueIds.indexOf(id_string),id_string.length()+1);
-        for(int i = 0; i < _selectOb.count(); i++)
-        {
-            if(_selectOb.at(i)->getQuestionId() == id_string.toInt())
-            {
-                _selectOb.removeAt(i);
-            }
-        }
-
-
-        this->updateSelectTable();
-        this->averageChange();
-    }
-
-}
-
-void PaperManageUI::on_pushButton_Delete_Sub_clicked()
-{
-    if(tableWidget_Select_Sub->currentRow()<0)
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("请选择题目"));
-        return;
-    }
-    else
-    {
-        QString id_string = tableWidget_Select_Sub->item(tableWidget_Select_Sub->currentRow(),0)->text();
-        _subQueIds.remove(_subQueIds.indexOf(id_string),id_string.length()+1);
-        for(int i = 0; i < _selectSub.count(); i++)
-        {
-            if(_selectSub.at(i)->getQuestionId() == id_string.toInt())
-            {
-                _selectSub.removeAt(i);
-            }
-        }
-
-
-        this->updateSelectTable();
-        this->averageChange();
-    }
-}
-
-
-
 void PaperManageUI::on_pushButton_delete_clicked()
 {
 
@@ -347,31 +90,6 @@ void PaperManageUI::on_pushButton_delete_clicked()
 
 void PaperManageUI::on_pushButton_AddorMoidfy_clicked()
 {
-//    Paper currentpaper;
-//    currentpaper.setDescription(lineEdit_Papername->text());
-//    currentpaper.setObQuIds(_obQueIds);
-//    currentpaper.setSubQuIds(_subQueIds);
-//    currentpaper.setTotalMark(lineEdit_totalmark->text().toInt());
-//    currentpaper.setPercent(spinBox_Percentage_Ob->value());
-//    currentpaper.setTime(spinBox_time->value()*60);
-//    QString state = QString::fromUtf8(pushButton_AddorMoidfy->text().toStdString().c_str());
-//    if(state == QStringLiteral("创建试卷"))
-//    {
-//        emit this->addPaper(currentpaper);
-//        _obQueIds.clear();
-//        _subQueIds.clear();
-//    }
-//    else if(state == QStringLiteral("确认修改"))
-//    {
-//        pushButton_AddorMoidfy->setText(QStringLiteral("创建试卷"));
-//        pushButton_unmodify->setEnabled(false);
-//        pushButton_tomodify->setEnabled(true);
-//        currentpaper.setPaperId(_currentPaperId);
-//        emit this->modifyPaper(currentpaper);
-//        _obQueIds.clear();//清记录
-//        _subQueIds.clear();//
-//    }
-//    this->clear();
     AlterPaper *alterPaperDialog = new AlterPaper();
     connect(this, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)), alterPaperDialog, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
     connect(this,SIGNAL(showEssayQuestions(QList<EssayQuestions*>)), alterPaperDialog, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
@@ -389,26 +107,17 @@ void PaperManageUI::on_pushButton_tomodify_clicked()
 {
     if(table_allpaper->currentRow() >= 0)
     {
-//        int id;
-//        id = table_allpaper->item(table_allpaper->currentRow(),0)->text().toInt();
-//        emit this->getPaperById(id);
         AlterPaper *alterPaperDialog = new AlterPaper();
         connect(this, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)), alterPaperDialog, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
         connect(this, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)), alterPaperDialog, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
         connect(this, SIGNAL(showPaper(Paper*)), alterPaperDialog, SLOT(showPaper(Paper*)));
         connect(alterPaperDialog, SIGNAL(updatePaper(Paper*)), this, SIGNAL(updatePaper(Paper*)));
 
-//        emit this->getChoiceQuestions();
-//        emit this->getEssayQuestions();
         emit this->showChoiceQuestions(choicequestions);
         emit this->showEssayQuestions(essayquestions);
 
         Paper *paper = NULL;
         for(int i = 0; i < _paperList.count(); ++i){
-//            if(_paperList.at(i)->getPaperId() == table_allpaper->item(item->row(), 0)->text().toInt()){
-//                paper = _paperList.at(i);
-//                break;
-//            }
             if(_paperList.at(i)->getPaperId() == tableWidget_allpaper->item(table_allpaper->currentRow(),0)->text().toInt()){
                 paper = _paperList.at(i);
                 break;
@@ -424,75 +133,6 @@ void PaperManageUI::on_pushButton_tomodify_clicked()
     {
         QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
     }
-}
-
-void PaperManageUI::on_pushButton_unmodify_clicked()
-{
-    pushButton_tomodify->setEnabled(true);
-    pushButton_AddorMoidfy->setText(QStringLiteral("创建试卷"));
-    pushButton_unmodify->setEnabled(false);
-    _selectOb.clear();
-    _selectSub.clear();
-    _obQueIds.clear();
-    _subQueIds.clear();
-    this->clear();
-    lineEdit_Papername->setText(QStringLiteral("请输入新的试卷名称"));
-
-}
-
-void PaperManageUI::showCurrentPaper(Paper p)
-{
-    pushButton_AddorMoidfy->setText(QStringLiteral("确认修改"));
-    pushButton_tomodify->setEnabled(false);
-    pushButton_unmodify->setEnabled(true);
-    _currentPaperId = p.getPaperId();
-    _obQueIds = p.getObQuIds();
-    _selectOb.clear();
-    for(int i = 0; i < _allOb.count(); i++)
-    {
-        if(0 <= _obQueIds.indexOf(QString::number(_allOb.at(i)->getQuestionId())))
-        {
-            _selectOb.append(_allOb.at(i));
-
-        }
-    }
-    tableWidget_Select_Ob->setRowCount(_selectOb.count());
-    _subQueIds = p.getSubQuIds();
-    _selectSub.clear();
-    for(int i = 0; i < _allSub.count(); i++)
-    {
-        if(0 <= _subQueIds.indexOf(QString::number(_allSub.at(i)->getQuestionId())))
-        {
-            _selectSub.append(_allSub.at(i));
-        }
-    }
-
-    tableWidget_Select_Sub->setRowCount(_selectSub.count());
-    this->updateSelectTable();
-
-    _obQueIds = p.getObQuIds();
-    _subQueIds = p.getSubQuIds();
-    lineEdit_totalmark->setText(QString::number(p.getTotalMark()));
-    spinBox_Percentage_Ob->setValue(p.getPercent());
-    lineEdit_Papername->setText(p.getDescription());
-    spinBox_time->setValue(p.getTime() / 60);
-}
-
-void PaperManageUI::clear()
-{
-    tableWidget_Select_Ob->clear();
-    tableWidget_Select_Sub->clear();
-    _selectOb.clear();
-    _selectSub.clear();
-    QStringList header;
-    header << QStringLiteral("题目编号") << QStringLiteral("题干");
-    tableWidget_Select_Ob->setHorizontalHeaderLabels(header);
-    tableWidget_Select_Sub->setHorizontalHeaderLabels(header);
-    lineEdit_Papername->setText(QStringLiteral("请输入新的试卷名称"));
-    spinBox_Percentage_Ob->setValue(100);
-    spinBox_time->setValue(1);
-    lineEdit_totalmark->setText("100");
-    this->updateSelectTable();
 }
 
 void PaperManageUI::showStudent(QList<Student *> studentsList)
@@ -702,77 +342,6 @@ void PaperManageUI::on_pushButton_print_clicked()
     else
     {
         QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
-    }
-}
-
-//Question
-void PaperManageUI::on_pushButton_random_clicked()
-{
-    if(spinBox_subnum->value() == 0 && spinBox_obnum->value() == 0)
-    {
-        QMessageBox::about(this,"msg",QStringLiteral("客观题和主观题题数不可同时为0"));
-    }
-    else
-    {
-        _selectOb.clear();
-        _selectSub.clear();
-        _obQueIds.clear();
-        _subQueIds.clear();
-        QList<ChoiceQuestions*> oblist;
-        QList<EssayQuestions*> sublist;
-        oblist = _tempOb;
-        qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-        for(int i = 0; i < spinBox_obnum->value(); i++)
-        {
-            int j = qrand() % oblist.count();
-            _selectOb.append(oblist.at(j));
-            _obQueIds.append(QString::number(oblist.at(j)->getQuestionId()));
-            _obQueIds.append(",");
-            oblist.removeAt(j);
-        }
-        sublist = _tempSub;
-        for(int i = 0; i < spinBox_subnum->value(); i++)
-        {
-            int j = qrand() % sublist.count();
-            _selectSub.append(sublist.at(j));
-            _subQueIds.append(QString::number(sublist.at(j)->getQuestionId()));
-            _subQueIds.append(",");
-            sublist.removeAt(j);
-        }
-        this->updateSelectTable();
-        this->averageChange();
-        QMessageBox::about(this,"msg",QStringLiteral("生成题目成功"));
-    }
-}
-
-//Question
-void PaperManageUI::showCurrentType(QList<ChoiceQuestions *> obList, QList<EssayQuestions *> subList)
-{
-    spinBox_obnum->setMaximum(obList.count());
-    spinBox_subnum->setMaximum(subList.count());
-    tableWidget_All_Ob->setRowCount(obList.count());
-    for(int i = 0; i < obList.count(); ++i)
-    {
-        QString title = obList.at(i)->getQuestionTitle();
-        QString s_maintitle = title.mid(0,title.indexOf("@a"));
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(obList.at(i)->getQuestionId()));
-        QTableWidgetItem *maintitle = new QTableWidgetItem(s_maintitle);
-        QTableWidgetItem *type = new QTableWidgetItem(obList.at(i)->getSubjectID());
-        tableWidget_All_Ob->setItem(i,0,id);
-        tableWidget_All_Ob->setItem(i,1,type);
-        tableWidget_All_Ob->setItem(i,2,maintitle);
-    }
-    //显示主观题
-
-    tableWidget_All_Sub->setRowCount(subList.count());
-    for(int i = 0; i < subList.count(); ++i)
-    {
-        QTableWidgetItem *id = new QTableWidgetItem(QString::number(subList.at(i)->getQuestionId()));
-        QTableWidgetItem *title = new QTableWidgetItem(subList.at(i)->getQuestionTitle());
-        QTableWidgetItem *type = new QTableWidgetItem(subList.at(i)->getSubjectID());
-        tableWidget_All_Sub->setItem(i,0,id);
-        tableWidget_All_Sub->setItem(i,1,type);
-        tableWidget_All_Sub->setItem(i,2,title);
     }
 }
 

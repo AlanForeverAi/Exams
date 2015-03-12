@@ -61,18 +61,13 @@ void MainWindow::do_makepaper()
     connect(make_paper, SIGNAL(updatePaper(Paper*)), this,SIGNAL(updatePaper(Paper*)));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), make_paper, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
     connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)), make_paper, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
-//    connect(make_paper, SIGNAL(getChoiceQuestions()), this, SIGNAL(getChoiceQuestions()));
-//    connect(make_paper, SIGNAL(getEssayQuestions()), this, SIGNAL(getEssayQuestions()));
-//    connect(this, SIGNAL(showChoiceQuestionList(QList<ChoiceQuestions*>)), make_paper, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)));
-//    connect(this, SIGNAL(showEssayQuestionList(QList<EssayQuestions*>)), make_paper, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)));
-//    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),make_paper,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(make_paper,SIGNAL(addPaper(Paper)),this,SIGNAL(addPaper(Paper)));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
     connect(make_paper->pushButton_AddorMoidfy,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
     connect(make_paper->pushButton_delete,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
     connect(make_paper,SIGNAL(deletePaper(int)),this,SIGNAL(deletePaper(int)));
     connect(make_paper,SIGNAL(modifyPaper(Paper)),this,SIGNAL(modifyPaper(Paper)));
-    connect(this,SIGNAL(showCurrentPaper(Paper)),make_paper,SLOT(showCurrentPaper(Paper)));
+//    connect(this,SIGNAL(showCurrentPaper(Paper)),make_paper,SLOT(showCurrentPaper(Paper)));
     connect(make_paper,SIGNAL(getPaperById(int)),this,SIGNAL(getPaperById(int)));
     connect(make_paper->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
@@ -82,7 +77,6 @@ void MainWindow::do_makepaper()
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
-//    emit this->getQuestions();
     emit this->getStudent();
     emit this->getChoiceQuestions();
     emit this->getEssayQuestions();
@@ -199,9 +193,11 @@ void MainWindow::do_mainmenu()
     connect(mainmenu,SIGNAL(action_config()),this,SLOT(on_action_config_triggered()));
     connect(mainmenu,SIGNAL(action_scoremanage()),this,SLOT(on_action_scomanage_triggered()));
     connect(mainmenu,SIGNAL(action_inoutput()),this,SLOT(on_action_inoutput_triggered()));
+    connect(mainmenu,SIGNAL(action_papersetting()),this,SLOT(action_papersetting()));
     this->setCentralWidget(mainmenu);
     this->statusBar()->showMessage(QStringLiteral("主菜单"));
 }
+
 void MainWindow::do_config()
 {
     ConfigUI *config = new ConfigUI;
@@ -240,6 +236,21 @@ void MainWindow::do_inoutput()
     connect(io->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     this->setCentralWidget(io);
     _statusBar->showMessage(QStringLiteral("导入导出"));
+}
+
+void MainWindow::do_papersetting()
+{
+    PaperSetting *paperSetting = new PaperSetting();
+    connect(this, SIGNAL(showAllPaper(QList<Paper*>)), paperSetting, SLOT(setPaperList(QList<Paper*>)));
+    connect(this, SIGNAL(showAllPaper(QList<Paper*>)), paperSetting, SLOT(showPaper(QList<Paper*>)));
+    connect(this, SIGNAL(showStudent(QList<Student*>)), paperSetting, SLOT(setStudentList(QList<Student*>)));
+    connect(paperSetting, SIGNAL(getSelectStudent(int)), this, SIGNAL(getSelectPaper(int)));
+    connect(this, SIGNAL(showSelectStudent(QStringList)), paperSetting, SLOT(showSelectStudent(QStringList)));
+    connect(paperSetting->pushButton_back, SIGNAL(clicked()), this, SLOT(backToMenu()));
+    this->setCentralWidget(paperSetting);
+
+    emit this->getAllPaper();
+    emit this->getStudent();
 }
 
 void MainWindow::on_action_QuestionsManager_triggered()
@@ -344,6 +355,11 @@ void MainWindow::LoginOK()
 void MainWindow::on_action_Qt_triggered()
 {
     QMessageBox::aboutQt(this,QStringLiteral("关于Qt"));
+}
+
+void MainWindow::action_papersetting()
+{
+    do_papersetting();
 }
 
 void MainWindow::backToMenu()

@@ -267,7 +267,6 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     else if(tabWidget->currentIndex() == 3 && tableWidget_Type->currentRow() >= 0){
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-//            emit this->deleteType(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
             QList<QTableWidgetItem *> selectItems = tableWidget_Type->selectedItems();
             for(int i = 0; i < selectItems.count(); ++i){
                 emit this->deleteType(tableWidget_Type->item(selectItems.at(i)->row(), 0)->text().toInt());
@@ -470,19 +469,19 @@ void MemberManageUI::on_pushButton_export_clicked()
         dir.mkdir("data");
     }
     if(tabWidget->currentIndex() == 0){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportStudent(studentList, filename);
     }
     else if(tabWidget->currentIndex() == 1){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportTeacher(teacherList, filename);
     }
     else if(tabWidget->currentIndex() == 2){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportManager(managerList, filename);
     }
     else if(tabWidget->currentIndex() == 3){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportType(typeList, filename);
     }
 }
@@ -495,20 +494,19 @@ void MemberManageUI::on_pushButton_import_clicked()
         dir.mkdir("data");
     }
     if(tabWidget->currentIndex() == 0){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importStudent(filename);
     }
     else if(tabWidget->currentIndex() == 1){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importTeacher(filename);
     }
     else if(tabWidget->currentIndex() == 2){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importManager(filename);
     }
     else if(tabWidget->currentIndex() == 3){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importType(filename);
     }
 }
-

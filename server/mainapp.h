@@ -54,6 +54,7 @@ signals:
 
     void setChoiceQuestions(QList<ChoiceQuestions*>);
     void setEssayQuestions(QList<EssayQuestions*>);
+    void showSelectStudent(QStringList);
 
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
@@ -140,6 +141,8 @@ public slots:
 
     void updatePaper(Paper *);
     void insertPaper(Paper *);
+
+    void getSelectStudent(int);
 
 private:
     DBManager *_DBM;
