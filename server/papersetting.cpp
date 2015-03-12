@@ -10,8 +10,17 @@ PaperSetting::PaperSetting(QWidget *parent) :
     tableWidget_selectstudent->verticalHeader()->setHidden(true);
     tableWidget_selectstudent->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_selectstudent->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    radioButton_paperid->setChecked(true);
+    radioButton_selectstudentnumber->setChecked(true);
 
+    paperSelect.addButton(radioButton_paperid, 0);
+    paperSelect.addButton(radioButton_papername, 1);
+
+    studentSelect.addButton(radioButton_selectstudentnumber, 0);
+    studentSelect.addButton(radioButton_selectgrade, 1);
+    studentSelect.addButton(radioButton_selectclass, 2);
     connect(tableWidget_allpaper, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(changePaper(QTableWidgetItem*)));
+
 }
 
 PaperSetting::~PaperSetting()
@@ -28,11 +37,6 @@ void PaperSetting::setStudentList(QList<Student *> students)
 {
     studentList = students;
 }
-
-//void PaperSetting::setSelectedStudent(QList<Student *>)
-//{
-
-//}
 
 void PaperSetting::showPaper(QList<Paper *> papers)
 {
@@ -70,4 +74,82 @@ void PaperSetting::showSelectStudent(QStringList studentIDs)
             ++cnt;
         }
     }
+}
+
+void PaperSetting::setSelectStudent(QStringList studentIDs)
+{
+    selectedStudent = studentIDs;
+}
+
+void PaperSetting::on_pushButton_searchpaper_clicked()
+{
+    QString s = lineEdit->text();
+    if(s == ""){
+        QMessageBox::about(this, "msg", QStringLiteral("请填写查找信息！"));
+        return ;
+    }
+
+    QList<Paper *> papers;
+    if(paperSelect.checkedId() == 0){
+        for(int i = 0; i < paperList.count(); ++i){
+            if(paperList.at(i)->getPaperId() == s.toInt()){
+                papers.append(paperList.at(i));
+            }
+        }
+    }
+    else{
+        for(int i = 0; i < paperList.count(); ++i){
+            if(paperList.at(i)->getDescription() == s){
+                papers.append(paperList.at(i));
+            }
+        }
+    }
+    showPaper(papers);
+}
+
+void PaperSetting::on_pushButton_allpaper_clicked()
+{
+    showPaper(paperList);
+}
+
+void PaperSetting::on_pushButton_searchselectstudent_clicked()
+{
+    QString s = lineEdit_searchselectstudent->text();
+    if(s == ""){
+        QMessageBox::about(this, "msg", QStringLiteral("请填写查找信息！"));
+        return ;
+    }
+
+    QStringList studentIDs;
+    if(studentSelect.checkedId() == 0){
+        for(int i = 0; i < selectedStudent.count(); ++i){
+            if(selectedStudent.at(i) == s){
+                studentIDs.append(selectedStudent.at(i));
+            }
+        }
+    }
+    else if(studentSelect.checkedId() == 1){
+        for(int i = 0; i < studentList.count(); ++i){
+            if(studentList.at(i)->getGrade() == s.toInt()){
+                if(selectedStudent.contains(studentList.at(i)->getID())){
+                    studentIDs.append(studentList.at(i)->getID());
+                }
+            }
+        }
+    }
+    else{
+        for(int i = 0; i < studentList.count(); ++i){
+            if(studentList.at(i)->getClass() == s.toInt()){
+                if(selectedStudent.contains(studentList.at(i)->getID())){
+                    studentIDs.append(studentList.at(i)->getID());
+                }
+            }
+        }
+    }
+    showSelectStudent(studentIDs);
+}
+
+void PaperSetting::on_pushButton_allselectstudent_clicked()
+{
+    showSelectStudent(selectedStudent);
 }

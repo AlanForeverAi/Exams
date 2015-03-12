@@ -246,6 +246,7 @@ void MainWindow::do_papersetting()
     connect(this, SIGNAL(showStudent(QList<Student*>)), paperSetting, SLOT(setStudentList(QList<Student*>)));
     connect(paperSetting, SIGNAL(getSelectStudent(int)), this, SIGNAL(getSelectPaper(int)));
     connect(this, SIGNAL(showSelectStudent(QStringList)), paperSetting, SLOT(showSelectStudent(QStringList)));
+    connect(this, SIGNAL(showSelectStudent(QStringList)), paperSetting, SLOT(setSelectStudent(QStringList)));
     connect(paperSetting->pushButton_back, SIGNAL(clicked()), this, SLOT(backToMenu()));
     this->setCentralWidget(paperSetting);
 
