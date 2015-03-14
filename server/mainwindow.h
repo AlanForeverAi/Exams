@@ -132,12 +132,15 @@ signals:
     void importTeacher(QString);
     void importManager(QString);
     void importType(QString);
+    void importExaminee(QString);
 
     void updatePaper(Paper *);
     void insertPaper(Paper *);
 
     void getSelectPaper(int id);
     void showSelectStudent(QStringList);
+    void appendExaminee(QStringList);
+    void saveExaminee(int, QStringList);
 
 private slots:
     void on_action_QuestionsManager_triggered();

@@ -166,7 +166,10 @@ void MainApp::iniMainWindow()
 
     //PaperSetting
     connect(&_window, SIGNAL(getSelectPaper(int)), this, SLOT(getSelectStudent(int)));
+    connect(&_window, SIGNAL(importExaminee(QString)), this, SLOT(importExaminee(QString)));
     connect(this, SIGNAL(showSelectStudent(QStringList)), &_window, SIGNAL(showSelectStudent(QStringList)));
+    connect(this, SIGNAL(appendExaminee(QStringList)), &_window, SIGNAL(appendExaminee(QStringList)));
+    connect(&_window, SIGNAL(saveExaminee(int,QStringList)), this, SLOT(saveExaminee(int,QStringList)));
     _window.show();
 }
 
@@ -1112,6 +1115,16 @@ void MainApp::importType(QString filename)
     getType();
 }
 
+void MainApp::importExaminee(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QStringList studentIDs = _IOM->importExaminee(filename);
+    emit this->appendExaminee(studentIDs);
+}
+
 void MainApp::updatePaper(Paper * paper)
 {
     _DBM->updatePaper(paper->getPaperId(), paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(),
@@ -1133,6 +1146,28 @@ void MainApp::getSelectStudent(int id)
         studentIDs.append(query.value(0).toString());
     }
     emit this->showSelectStudent(studentIDs);
+}
+
+void MainApp::saveExaminee(int paperid, QStringList studentIDs)
+{
+    QMessageBox msg;
+    QStringList currentStudentIDs;
+    QSqlQuery query = _DBM->getStudentByPaperID(paperid);
+
+    while(query.next()){
+        currentStudentIDs.append(query.value(0).toString());
+    }
+
+    for(int i = 0; i < studentIDs.count(); ++i){
+        if(!currentStudentIDs.contains(studentIDs.at(i))){
+            if(_DBM->insertPaperMark(NULL, NULL, NULL, paperid, studentIDs.at(i))){
+                _DBM->insertObAnswers(paperid, studentIDs.at(i), NULL);
+                _DBM->insertSubAnswers(paperid, studentIDs.at(i));
+            }
+        }
+    }
+    msg.setText(QStringLiteral("操作完成"));
+    msg.exec();
 }
 
 void MainApp::getStudent()

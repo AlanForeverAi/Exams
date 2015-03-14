@@ -472,4 +472,22 @@ QMap<int, QString> IOManager::importType(QString filename)
     file.close();
     return typelist;
 }
+
+QStringList IOManager::importExaminee(QString filename)
+{
+    QStringList studentIDs;
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        return studentIDs;
+    }
+    QTextStream in(&file);
+    QString temp;
+    temp = in.readLine();
+    while(!in.atEnd()){
+        temp = in.readLine();
+        studentIDs.append(temp.split(',').at(0));
+    }
+    file.close();
+    return studentIDs;
+}
 //以上为subquestions表读取文件

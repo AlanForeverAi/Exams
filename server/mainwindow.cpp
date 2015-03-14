@@ -67,7 +67,6 @@ void MainWindow::do_makepaper()
     connect(make_paper->pushButton_delete,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
     connect(make_paper,SIGNAL(deletePaper(int)),this,SIGNAL(deletePaper(int)));
     connect(make_paper,SIGNAL(modifyPaper(Paper)),this,SIGNAL(modifyPaper(Paper)));
-//    connect(this,SIGNAL(showCurrentPaper(Paper)),make_paper,SLOT(showCurrentPaper(Paper)));
     connect(make_paper,SIGNAL(getPaperById(int)),this,SIGNAL(getPaperById(int)));
     connect(make_paper->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
@@ -247,6 +246,9 @@ void MainWindow::do_papersetting()
     connect(paperSetting, SIGNAL(getSelectStudent(int)), this, SIGNAL(getSelectPaper(int)));
     connect(this, SIGNAL(showSelectStudent(QStringList)), paperSetting, SLOT(showSelectStudent(QStringList)));
     connect(this, SIGNAL(showSelectStudent(QStringList)), paperSetting, SLOT(setSelectStudent(QStringList)));
+    connect(paperSetting, SIGNAL(importExaminee(QString)), this, SIGNAL(importExaminee(QString)));
+    connect(this, SIGNAL(appendExaminee(QStringList)), paperSetting, SLOT(appendExaminee(QStringList)));
+    connect(paperSetting, SIGNAL(saveExaminee(int,QStringList)), this, SIGNAL(saveExaminee(int,QStringList)));
     connect(paperSetting->pushButton_back, SIGNAL(clicked()), this, SLOT(backToMenu()));
     this->setCentralWidget(paperSetting);
 

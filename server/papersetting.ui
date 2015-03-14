@@ -549,7 +549,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_export">
+       <widget class="QPushButton" name="pushButton_save">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -569,7 +569,7 @@
          </font>
         </property>
         <property name="text">
-         <string>导出考生</string>
+         <string>保存考生</string>
         </property>
        </widget>
       </item>

@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     sendmessage.cpp \
     alterpaper.cpp \
     setmark.cpp \
-    papersetting.cpp
+    papersetting.cpp \
+    addstudent.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -73,7 +74,8 @@ HEADERS  += mainwindow.h \
     sendmessage.h \
     alterpaper.h \
     setmark.h \
-    papersetting.h
+    papersetting.h \
+    addstudent.h
 
 
 FORMS    += mainwindow.ui \

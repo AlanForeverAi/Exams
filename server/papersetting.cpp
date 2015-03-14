@@ -55,6 +55,7 @@ void PaperSetting::changePaper(QTableWidgetItem *item)
     tableWidget_selectstudent->clearContents();
     int paperID = tableWidget_allpaper->item(item->row(), 0)->text().toInt();
     emit this->getSelectStudent(paperID);
+    appendStudent.clear();
 }
 
 void PaperSetting::showSelectStudent(QStringList studentIDs)
@@ -79,6 +80,12 @@ void PaperSetting::showSelectStudent(QStringList studentIDs)
 void PaperSetting::setSelectStudent(QStringList studentIDs)
 {
     selectedStudent = studentIDs;
+}
+
+void PaperSetting::appendExaminee(QStringList studentIDs)
+{
+    appendStudent.operator +=(studentIDs);
+    showSelectStudent(selectedStudent.operator +(appendStudent));
 }
 
 void PaperSetting::on_pushButton_searchpaper_clicked()
@@ -152,4 +159,38 @@ void PaperSetting::on_pushButton_searchselectstudent_clicked()
 void PaperSetting::on_pushButton_allselectstudent_clicked()
 {
     showSelectStudent(selectedStudent);
+}
+
+void PaperSetting::on_pushButton_addstudent_clicked()
+{
+    AddStudent *addStudentDialog = new AddStudent();
+    connect(this, SIGNAL(passStudentList(QList<Student*>)), addStudentDialog, SLOT(setStudentList(QList<Student*>)));
+    connect(this, SIGNAL(passSelectStudent(QStringList)), addStudentDialog, SLOT(setSelectStudent(QStringList)));
+    connect(addStudentDialog, SIGNAL(appendExaminee(QStringList)), this, SLOT(appendExaminee(QStringList)));
+    connect(this, SIGNAL(showStudent()), addStudentDialog, SLOT(showStudent()));
+
+    emit this->passStudentList(studentList);
+    emit this->passSelectStudent(selectedStudent + appendStudent);
+    emit this->showStudent();
+
+    addStudentDialog->exec();
+}
+
+void PaperSetting::on_pushButton_deletestudent_clicked()
+{
+
+}
+
+void PaperSetting::on_pushButton_import_clicked()
+{
+    QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入考生"), "./data", QStringLiteral("csv Files (*.csv)"));
+    emit this->importExaminee(filename);
+}
+
+void PaperSetting::on_pushButton_save_clicked()
+{
+    int id = tableWidget_allpaper->item(tableWidget_allpaper->currentRow(), 0)->text().toInt();
+    selectedStudent += appendStudent;
+    appendStudent.clear();
+    emit this->saveExaminee(id, selectedStudent);
 }
