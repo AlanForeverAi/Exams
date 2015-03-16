@@ -1,5 +1,7 @@
 ﻿#ifndef MAINAPP_H
 #define MAINAPP_H
+
+#include <QTime>
 #include "dbmanager.h"
 #include "mainwindow.h"
 #include "server.h"
@@ -54,6 +56,10 @@ signals:
 
     void setChoiceQuestions(QList<ChoiceQuestions*>);
     void setEssayQuestions(QList<EssayQuestions*>);
+    void showSelectStudent(QStringList);   
+    void appendExaminee(QStringList);
+    void setPaperName(QString);
+    void setExamTime(QTime);
 
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
@@ -137,9 +143,18 @@ public slots:
     void importTeacher(QString);
     void importManager(QString);
     void importType(QString);
+    void importExaminee(QString);
 
     void updatePaper(Paper *);
     void insertPaper(Paper *);
+
+    void getSelectStudent(int);
+    void saveExaminee(int, QStringList);
+
+    void setPaper(int);
+    void setInfo(QStringList);
+    void getPaperName();
+    void getExamTime();
 
 private:
     DBManager *_DBM;

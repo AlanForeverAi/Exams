@@ -2,7 +2,8 @@
 #define LOGINUI_H
 
 #include <QWidget>
-#include "ui_LoginUI.h"
+//#include "ui_LoginUI.h"
+#include "ui_login.h"
 #include "data.h"
 class LoginUI : public QWidget,public Ui::LoginUI
 {

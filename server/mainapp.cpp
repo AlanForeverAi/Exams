@@ -7,6 +7,7 @@ MainApp::MainApp()
     readConfig();
     iniMainWindow();
     iniDBManager();
+    _server = NULL;
     _IOM = new IOManager;
     _serverState = STATE_NOEXAM;
     _infoList.append("*,");
@@ -92,7 +93,13 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showCurrentPaper(Paper)),&_window,SIGNAL(showCurrentPaper(Paper)));
     connect(&_window,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SLOT(saveUsertoPaperMark(int,QList<Student*>)));
 
-    ////////examctrl
+    ////////examsetting
+    connect(&_window, SIGNAL(getExamTime()), this, SLOT(getExamTime()));
+    connect(&_window, SIGNAL(getPaperName()), this, SLOT(getPaperName()));
+    connect(this, SIGNAL(setPaperName(QString)), &_window, SIGNAL(setPaperName(QString)));
+    connect(this, SIGNAL(setExamTime(QTime)), &_window, SIGNAL(setExamTime(QTime)));
+    connect(&_window, SIGNAL(setPaper(int)), this, SLOT(setPaper(int)));
+    connect(&_window, SIGNAL(setInfo(QStringList)), this, SLOT(setInfo(QStringList)));
     connect(&_window, SIGNAL(startServer()), this, SLOT(startServer()));
     connect(&_window, SIGNAL(closeServer()), this, SLOT(closeServer()));
     connect(&_window,SIGNAL(sendPaper(int)),this,SLOT(sendPaper(int)));
@@ -163,6 +170,13 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(outputOb()),this,SLOT(outputOb()));
     connect(&_window,SIGNAL(outputSub()),this,SLOT(outputSub()));
     connect(&_window,SIGNAL(outputPaper()),this,SLOT(outputPaper()));
+
+    //PaperSetting
+    connect(&_window, SIGNAL(getSelectPaper(int)), this, SLOT(getSelectStudent(int)));
+    connect(&_window, SIGNAL(importExaminee(QString)), this, SLOT(importExaminee(QString)));
+    connect(this, SIGNAL(showSelectStudent(QStringList)), &_window, SIGNAL(showSelectStudent(QStringList)));
+    connect(this, SIGNAL(appendExaminee(QStringList)), &_window, SIGNAL(appendExaminee(QStringList)));
+    connect(&_window, SIGNAL(saveExaminee(int,QStringList)), this, SLOT(saveExaminee(int,QStringList)));
     _window.show();
 }
 
@@ -727,10 +741,8 @@ QList<Student*> MainApp::getUserByPaperId(int id,QString state)
         }
 
     }
-
     emit this->showUserByPaperId(ulist);
     return ulist;
-
 }
 
 void MainApp::getSubAnswer(int pid,QString uid)
@@ -969,6 +981,8 @@ void MainApp::updateEssayQuestion(EssayQuestions *question)
 
 void MainApp::startServer()
 {
+    if(_server != NULL)
+        return;
     _server = new Server(this,_port);
     connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
     connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
@@ -980,6 +994,7 @@ void MainApp::closeServer()
     _serverState = STATE_NOEXAM;
     _server->close();
     delete(_server);
+    _server = NULL;
 }
 
 void MainApp::exportChoiceQuestion(QList<ChoiceQuestions *> questionlist, QString filename)
@@ -1108,6 +1123,16 @@ void MainApp::importType(QString filename)
     getType();
 }
 
+void MainApp::importExaminee(QString filename)
+{
+    if(filename == ""){
+        return ;
+    }
+
+    QStringList studentIDs = _IOM->importExaminee(filename);
+    emit this->appendExaminee(studentIDs);
+}
+
 void MainApp::updatePaper(Paper * paper)
 {
     _DBM->updatePaper(paper->getPaperId(), paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(),
@@ -1115,11 +1140,78 @@ void MainApp::updatePaper(Paper * paper)
 }
 
 void MainApp::insertPaper(Paper * paper)
-{   qDebug() << "eeeeeee";
-    if(paper == NULL)
-        qDebug() << "eeeeeee";
+{
     _DBM->insertPaper(paper->getObQuIds(), paper->getSubQuIds(), paper->getTotalMark(), paper->getPercent(),
                       paper->getDescription(), paper->getTime(), paper->getSubject(), paper->getObjectMark(), paper->getSubjectMark());
+}
+
+void MainApp::getSelectStudent(int id)
+{
+    QStringList studentIDs;
+    QSqlQuery query = _DBM->getStudentByPaperID(id);
+
+    while(query.next()){
+        studentIDs.append(query.value(0).toString());
+    }
+    emit this->showSelectStudent(studentIDs);
+}
+
+void MainApp::saveExaminee(int paperid, QStringList studentIDs)
+{
+    QMessageBox msg;
+    QStringList currentStudentIDs;
+    QSqlQuery query = _DBM->getStudentByPaperID(paperid);
+
+    while(query.next()){
+        currentStudentIDs.append(query.value(0).toString());
+    }
+
+    for(int i = 0; i < studentIDs.count(); ++i){
+        if(!currentStudentIDs.contains(studentIDs.at(i))){
+            if(_DBM->insertPaperMark(NULL, NULL, NULL, paperid, studentIDs.at(i))){
+                _DBM->insertObAnswers(paperid, studentIDs.at(i), NULL);
+                _DBM->insertSubAnswers(paperid, studentIDs.at(i));
+            }
+        }
+    }
+    msg.setText(QStringLiteral("操作完成"));
+    msg.exec();
+}
+
+void MainApp::setPaper(int id)
+{
+    _mainPaper = this->preparePaper(id);
+    _userList = this->getUserByPaperId(id, QStringLiteral("未完成"));
+    this->userStateChange(-1, QStringLiteral("未登录"));
+
+    QVariant v;
+    v.setValue(_mainPaper);
+    emit this->sendData(-1, MSG_GETPAPER, v);
+    _serverState = STATE_PAPERREADY;
+}
+
+void MainApp::setInfo(QStringList list)
+{
+    _infoList.clear();
+    _infoList.append("*,");
+    for(int i = 0; i < list.count(); i++)
+    {
+        _infoList.append(list.at(i));
+        _infoList.append(",");
+    }
+}
+
+void MainApp::getPaperName()
+{
+    emit this->setPaperName(_mainPaper.getDescription());
+}
+
+void MainApp::getExamTime()
+{
+    int time = _mainPaper.getTime();
+    QTime paperTime;
+    paperTime.setHMS(time / 60, time % 60, 0);
+    emit this->setExamTime(paperTime);
 }
 
 void MainApp::getStudent()

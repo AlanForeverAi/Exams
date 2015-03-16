@@ -267,9 +267,6 @@ QList<EssayQuestions*> IOManager::inputSub(QString path)
     while(!in.atEnd())
     {
         EssayQuestions* subquestions = new EssayQuestions;
-//        temp = in.readLine();
-//        temp = temp.mid(temp.indexOf(" ")+1);
-//        subquestions->setQuestionId(temp.toInt());
         temp = in.readLine();
         temp = temp.mid(temp.indexOf(" ")+1);
         subquestions->setQuestionTitle(temp);
@@ -313,16 +310,18 @@ void IOManager::exportStudent(QList<Student *> studentlist, QString filename)
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&file);
-//    out.setFieldAlignment(QTextStream::AlignCenter);
-    out.setFieldWidth(10);
-    out << QStringLiteral("学号") << QStringLiteral("姓名") << QStringLiteral("年级") << QStringLiteral("班级") << QStringLiteral("密码") << "\n";
-    out.setFieldWidth(11);
+    out << QStringLiteral("学号") << "," << QStringLiteral("姓名") << "," << QStringLiteral("年级") << ","
+        << QStringLiteral("班级") << "," << QStringLiteral("密码") << "\n";
     for(int i = 0; i< studentlist.count(); ++i)
     {
         out << studentlist.at(i)->getID();
+        out << ",";
         out << studentlist.at(i)->getName();
+        out << ",";
         out << studentlist.at(i)->getGrade();
+        out << ",";
         out << studentlist.at(i)->getClass();
+        out << ",";
         out << studentlist.at(i)->getPassword() << "\n";
     }
     file.close();
@@ -334,13 +333,14 @@ void IOManager::exportTeacher(QList<User *> teacherlist, QString filename)
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&file);
-    out.setFieldWidth(10);
-    out << QStringLiteral("老师工号") << QStringLiteral("姓名") << QStringLiteral("密码") << QStringLiteral("类型") << "\n";
-    out.setFieldWidth(11);
+    out << QStringLiteral("老师工号") << "," << QStringLiteral("姓名") << "," << QStringLiteral("密码") << "," << QStringLiteral("类型") << "\n";
     for(int i = 0; i < teacherlist.count(); ++i){
         out << teacherlist.at(i)->getID();
+        out << ",";
         out << teacherlist.at(i)->getName();
+        out << ",";
         out << teacherlist.at(i)->getPassword();
+        out << ",";
         out << teacherlist.at(i)->getSubject() << "\n";
     }
     file.close();
@@ -352,12 +352,12 @@ void IOManager::exportManager(QList<User *> managerlist, QString filename)
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&file);
-    out.setFieldWidth(10);
-    out << QStringLiteral("管理员工号") << QStringLiteral("姓名") << QStringLiteral("密码") << "\n";
-    out.setFieldWidth(11);
+    out << QStringLiteral("管理员工号") << "," << QStringLiteral("姓名") << "," << QStringLiteral("密码") << "\n";
     for(int i = 0; i < managerlist.count(); ++i){
         out << managerlist.at(i)->getID();
+        out << ",";
         out << managerlist.at(i)->getName();
+        out << ",";
         out << managerlist.at(i)->getPassword() << "\n";
     }
     file.close();
@@ -369,11 +369,10 @@ void IOManager::exportType(QMap<int, QString> typelist, QString filename)
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
     QTextStream out(&file);
-    out.setFieldWidth(10);
-    out << QStringLiteral("科目id") << QStringLiteral("科目") << "\n";
-    out.setFieldWidth(11);
+    out << QStringLiteral("科目编号") << "," << QStringLiteral("科目") << "\n";
     for(QMap<int, QString>::iterator ite = typelist.begin(); ite != typelist.end(); ++ite){
         out << ite.key();
+        out << ",";
         out << ite.value() << "\n";
     }
     file.close();
@@ -389,11 +388,10 @@ QList<Student *> IOManager::importStudent(QString filename)
     QString temp;
     QStringList args;
     temp = in.readLine();
-//    qDebug() << "this is title:" << temp << "\n";
     while(!in.atEnd()){
         Student *student = new Student();
         temp = in.readLine();
-        args = temp.split(' ');
+        args = temp.split(',');
         args.removeAll("");
         student->setID(args.at(0));
         student->setName(args.at(1));
@@ -419,7 +417,7 @@ QList<User *> IOManager::importTeacher(QString filename)
     while(!in.atEnd()){
         User *teacher = new User();
         temp = in.readLine();
-        args = temp.split(' ');
+        args = temp.split(',');
         args.removeAll("");
         teacher->setID(args.at(0));
         teacher->setName(args.at(1));
@@ -444,7 +442,7 @@ QList<User *> IOManager::importManager(QString filename)
     while(!in.atEnd()){
         User *manager = new User();
         temp = in.readLine();
-        args = temp.split(' ');
+        args = temp.split(',');
         args.removeAll("");
         manager->setID(args.at(0));
         manager->setName(args.at(1));
@@ -467,11 +465,29 @@ QMap<int, QString> IOManager::importType(QString filename)
     temp = in.readLine();
     while(!in.atEnd()){
         temp = in.readLine();
-        args = temp.split(' ');
+        args = temp.split(',');
         args.removeAll("");
         typelist[args.at(0).toInt()] = args.at(1);
     }
     file.close();
     return typelist;
+}
+
+QStringList IOManager::importExaminee(QString filename)
+{
+    QStringList studentIDs;
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        return studentIDs;
+    }
+    QTextStream in(&file);
+    QString temp;
+    temp = in.readLine();
+    while(!in.atEnd()){
+        temp = in.readLine();
+        studentIDs.append(temp.split(',').at(0));
+    }
+    file.close();
+    return studentIDs;
 }
 //以上为subquestions表读取文件

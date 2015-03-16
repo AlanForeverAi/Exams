@@ -2,7 +2,8 @@
 #define SUBMARKUI_H
 
 #include <QWidget>
-#include "ui_SubMarkUI.h"
+//#include "ui_SubMarkUI.h"
+#include "ui_submark.h"
 #include "data.h"
 #include <QTableWidgetItem>
 

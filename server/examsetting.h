@@ -1,19 +1,19 @@
-﻿void on_pushButton_startServer_clicked();
-#ifndef EXAMCTRL_H
-#define EXAMCTRL_H
+﻿#ifndef EXAMSETTING_H
+#define EXAMSETTING_H
 
 #include <QWidget>
 #include <QTimer>
-#include "ui_ExamCtrlUI.h"
+#include <QMessageBox>
+#include <QDebug>
+#include "ui_examsetting.h"
 #include "data.h"
-#include "examcontrol.h"
 
-class ExamCtrlUI:public QWidget,public Ui::ExamCtrlUI
+class ExamSettingUI:public QWidget,public Ui::ExamCtrlUI
 {
     Q_OBJECT
 public:
-    ExamCtrlUI(QWidget *parent=0);
-    ~ExamCtrlUI();
+    ExamSettingUI(QWidget *parent=0);
+    ~ExamSettingUI();
 
 signals:
     void sendPaper(int);
@@ -21,7 +21,7 @@ signals:
     void sendPaperTime(int,int);
     void sendInfo(QStringList);
     void updateStudentTable(QList<Student*>);
-    void setTime(QTime);
+//    void setTime(QTime);
 //    void setTime(int);
     void setExamName(QString);
     void beginExam();
@@ -31,6 +31,8 @@ signals:
     void getcurrentPaperTime(int);
     void startServer();
     void closeServer();
+    void setPaper(int);
+    void setInfo(QStringList);
 
 private slots:
     void showPapers(QList<Paper*>);
@@ -40,11 +42,11 @@ private slots:
     void on_pushButton_startServer_clicked();
 
 private:
-    QTimer *_countTimer;
-    QTimer *_dateTimer;
-    QTime _countTime;
+//    QTimer *_countTimer;
+//    QTimer *_dateTimer;
+//    QTime _countTime;
 };
 
 
 
-#endif // EXAMCTRL_H
+#endif // EXAMSETTING_H

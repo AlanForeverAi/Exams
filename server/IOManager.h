@@ -27,6 +27,7 @@ public:
     QList<User *> importTeacher(QString);
     QList<User *> importManager(QString);
     QMap<int, QString> importType(QString);
+    QStringList importExaminee(QString);
 };
 
 #endif // IOMANAGER_H

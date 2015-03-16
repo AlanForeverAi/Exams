@@ -530,6 +530,18 @@ QSqlQuery DBManager::queryPaperMark2(QString id)
     }
 }
 
+QSqlQuery DBManager::getStudentByPaperID(int id)
+{
+    QSqlQuery query;
+    QString s = "select fuserid from papermark where fpaperid = %1";
+    if(query.exec(s.arg(id))){
+        return query;
+    }
+    else{
+        qDebug() << "getStudentByPaperID] " << query.lastError();
+    }
+}
+
 //按试卷ID和学生ID在subanswers表中查询
 QSqlQuery DBManager::querySubAnswers(int fpaperid,QString studentid)
 {

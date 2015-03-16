@@ -1,5 +1,5 @@
 ﻿#include "mainwindow.h"
-#include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     _ui(new Ui::MainWindow)
@@ -56,23 +56,16 @@ void MainWindow::do_QuestionsManager()
 void MainWindow::do_makepaper()
 {
     PaperManageUI *make_paper  =  new PaperManageUI();
-
     connect(make_paper, SIGNAL(insertPaper(Paper*)), this, SIGNAL(insertPaper(Paper*)));
     connect(make_paper, SIGNAL(updatePaper(Paper*)), this,SIGNAL(updatePaper(Paper*)));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), make_paper, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
     connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)), make_paper, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
-//    connect(make_paper, SIGNAL(getChoiceQuestions()), this, SIGNAL(getChoiceQuestions()));
-//    connect(make_paper, SIGNAL(getEssayQuestions()), this, SIGNAL(getEssayQuestions()));
-//    connect(this, SIGNAL(showChoiceQuestionList(QList<ChoiceQuestions*>)), make_paper, SIGNAL(showChoiceQuestions(QList<ChoiceQuestions*>)));
-//    connect(this, SIGNAL(showEssayQuestionList(QList<EssayQuestions*>)), make_paper, SIGNAL(showEssayQuestions(QList<EssayQuestions*>)));
-//    connect(this,SIGNAL(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)),make_paper,SLOT(showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>)));
     connect(make_paper,SIGNAL(addPaper(Paper)),this,SIGNAL(addPaper(Paper)));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
     connect(make_paper->pushButton_AddorMoidfy,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
     connect(make_paper->pushButton_delete,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
     connect(make_paper,SIGNAL(deletePaper(int)),this,SIGNAL(deletePaper(int)));
     connect(make_paper,SIGNAL(modifyPaper(Paper)),this,SIGNAL(modifyPaper(Paper)));
-    connect(this,SIGNAL(showCurrentPaper(Paper)),make_paper,SLOT(showCurrentPaper(Paper)));
     connect(make_paper,SIGNAL(getPaperById(int)),this,SIGNAL(getPaperById(int)));
     connect(make_paper->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     connect(make_paper,SIGNAL(queryPaperMark(int,QString)),this,SIGNAL(getUserByPaperId(int,QString)));
@@ -82,37 +75,57 @@ void MainWindow::do_makepaper()
     this->setCentralWidget(make_paper);
 
     emit this->getAllPaper();
-//    emit this->getQuestions();
     emit this->getStudent();
     emit this->getChoiceQuestions();
     emit this->getEssayQuestions();
     _statusBar->showMessage(QStringLiteral("试卷管理"));
 }
 
-void MainWindow::do_examctrl()
+void MainWindow::do_examsetting()
 {
-    ExamCtrlUI *examctrl = new ExamCtrlUI();
-    connect(examctrl, SIGNAL(startServer()), this, SIGNAL(startServer()));
-    connect(examctrl, SIGNAL(closeServer()), this, SIGNAL(closeServer()));
-    connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examctrl,SLOT(showPapers(QList<Paper*>)));
-    connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
-    connect(examctrl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
-    connect(examctrl, SIGNAL(beginExam()), this, SLOT(examMode()));
-    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examctrl, SIGNAL(updateStudentTable(QList<Student*>)));
-    connect(examctrl,SIGNAL(endExam()),this,SIGNAL(endExam()));
-    connect(examctrl,SIGNAL(endExam()),this,SLOT(endExamMode()));
-    connect(examctrl, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
-    connect(examctrl, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
-    connect(examctrl, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
-    connect(examctrl->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
-    connect(this,SIGNAL(getcurrentPaperTime(int)),examctrl,SIGNAL(getcurrentPaperTime(int)));
-    connect(examctrl,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
-    connect(examctrl,SIGNAL(sendInfo(QStringList)),this,SIGNAL(sendInfo(QStringList)));
-    this->setCentralWidget(examctrl);
+    ExamSettingUI *examSetting = new ExamSettingUI();
+    connect(examSetting, SIGNAL(setPaper(int)), this, SIGNAL(setPaper(int)));
+    connect(examSetting, SIGNAL(setInfo(QStringList)), this, SIGNAL(setInfo(QStringList)));
+    connect(examSetting, SIGNAL(startServer()), this, SIGNAL(startServer()));
+    connect(examSetting, SIGNAL(closeServer()), this, SIGNAL(closeServer()));
+    connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examSetting,SLOT(showPapers(QList<Paper*>)));
+    connect(examSetting,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
+    connect(examSetting, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+    connect(examSetting, SIGNAL(beginExam()), this, SLOT(examMode()));
+    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examSetting, SIGNAL(updateStudentTable(QList<Student*>)));
+    connect(examSetting,SIGNAL(endExam()),this,SIGNAL(endExam()));
+    connect(examSetting,SIGNAL(endExam()),this,SLOT(endExamMode()));
+    connect(examSetting, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+    connect(examSetting, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+    connect(examSetting, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
+    connect(examSetting->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
+    connect(this,SIGNAL(getcurrentPaperTime(int)),examSetting,SIGNAL(getcurrentPaperTime(int)));
+    connect(examSetting,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
+    connect(examSetting,SIGNAL(sendInfo(QStringList)),this,SIGNAL(sendInfo(QStringList)));
+    this->setCentralWidget(examSetting);
     emit this->getAllPaper();
     emit this->getUserList();
     _statusBar->showMessage(QStringLiteral("考试控制"));
 
+}
+
+void MainWindow::do_examconctrol()
+{
+    ExamControl *examControl = new ExamControl();
+    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examControl, SLOT(updateStudentTable(QList<Student*>)));
+    connect(examControl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+    connect(examControl, SIGNAL(endExam()), this, SIGNAL(endExam()));
+    connect(examControl, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+    connect(examControl, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+    connect(examControl, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
+    connect(examControl, SIGNAL(sendPaperTime(int,int)), this, SIGNAL(sendPaperTime(int,int)));
+    connect(this, SIGNAL(setPaperName(QString)), examControl, SLOT(setPaperName(QString)));
+    connect(this, SIGNAL(setExamTime(QTime)), examControl, SLOT(setTime(QTime)));
+    connect(examControl->pushButton_back, SIGNAL(clicked()), this, SLOT(backToMenu()));
+    this->setCentralWidget(examControl);
+    emit this->getUserList();
+    emit this->getPaperName();
+    emit this->getExamTime();
 }
 
 void MainWindow::do_subscore()
@@ -194,14 +207,17 @@ void MainWindow::do_mainmenu()
     connect(mainmenu,SIGNAL(action_QuestionsManager()),this,SLOT(on_action_QuestionsManager_triggered()));
     connect(mainmenu,SIGNAL(action_makepaper()),this,SLOT(on_action_makepaper_triggered()));
     connect(mainmenu,SIGNAL(action_memmanager()),this,SLOT(on_action_memmanager_triggered()));
-    connect(mainmenu,SIGNAL(action_examctrl()),this,SLOT(on_action_examctrl_triggered()));
+    connect(mainmenu,SIGNAL(action_examctrl()),this,SLOT(action_examconctrol()));
     connect(mainmenu,SIGNAL(action_subscore()),this,SLOT(on_action_subscore_triggered()));
     connect(mainmenu,SIGNAL(action_config()),this,SLOT(on_action_config_triggered()));
     connect(mainmenu,SIGNAL(action_scoremanage()),this,SLOT(on_action_scomanage_triggered()));
     connect(mainmenu,SIGNAL(action_inoutput()),this,SLOT(on_action_inoutput_triggered()));
+    connect(mainmenu,SIGNAL(action_papersetting()),this,SLOT(action_papersetting()));
+    connect(mainmenu,SIGNAL(action_examsetting()),this,SLOT(action_examsetting()));
     this->setCentralWidget(mainmenu);
     this->statusBar()->showMessage(QStringLiteral("主菜单"));
 }
+
 void MainWindow::do_config()
 {
     ConfigUI *config = new ConfigUI;
@@ -242,6 +258,25 @@ void MainWindow::do_inoutput()
     _statusBar->showMessage(QStringLiteral("导入导出"));
 }
 
+void MainWindow::do_papersetting()
+{
+    PaperSetting *paperSetting = new PaperSetting();
+    connect(this, SIGNAL(showAllPaper(QList<Paper*>)), paperSetting, SLOT(setPaperList(QList<Paper*>)));
+    connect(this, SIGNAL(showAllPaper(QList<Paper*>)), paperSetting, SLOT(showPaper(QList<Paper*>)));
+    connect(this, SIGNAL(showStudent(QList<Student*>)), paperSetting, SLOT(setStudentList(QList<Student*>)));
+    connect(paperSetting, SIGNAL(getSelectStudent(int)), this, SIGNAL(getSelectPaper(int)));
+    connect(this, SIGNAL(showSelectStudent(QStringList)), paperSetting, SLOT(showSelectStudent(QStringList)));
+    connect(this, SIGNAL(showSelectStudent(QStringList)), paperSetting, SLOT(setSelectStudent(QStringList)));
+    connect(paperSetting, SIGNAL(importExaminee(QString)), this, SIGNAL(importExaminee(QString)));
+    connect(this, SIGNAL(appendExaminee(QStringList)), paperSetting, SLOT(appendExaminee(QStringList)));
+    connect(paperSetting, SIGNAL(saveExaminee(int,QStringList)), this, SIGNAL(saveExaminee(int,QStringList)));
+    connect(paperSetting->pushButton_back, SIGNAL(clicked()), this, SLOT(backToMenu()));
+    this->setCentralWidget(paperSetting);
+
+    emit this->getAllPaper();
+    emit this->getStudent();
+}
+
 void MainWindow::on_action_QuestionsManager_triggered()
 {
     do_QuestionsManager();
@@ -252,9 +287,14 @@ void MainWindow::on_action_makepaper_triggered()
     do_makepaper();
 }
 
-void MainWindow::on_action_examctrl_triggered()
+void MainWindow::action_examsetting()
 {
-    do_examctrl();
+    do_examsetting();
+}
+
+void MainWindow::action_examconctrol()
+{
+    do_examconctrol();
 }
 
 void MainWindow::on_action_subscore_triggered()
@@ -344,6 +384,11 @@ void MainWindow::LoginOK()
 void MainWindow::on_action_Qt_triggered()
 {
     QMessageBox::aboutQt(this,QStringLiteral("关于Qt"));
+}
+
+void MainWindow::action_papersetting()
+{
+    do_papersetting();
 }
 
 void MainWindow::backToMenu()

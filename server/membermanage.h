@@ -1,12 +1,11 @@
-﻿void on_pushButton_export_clicked();
-#ifndef MEMBERMANAGEUI_H
+﻿#ifndef MEMBERMANAGEUI_H
 #define MEMBERMANAGEUI_H
-//
+
 #include <QWidget>
 #include <QFileDialog>
 #include <QFile>
 #include <QDir>
-#include "ui_MemberManageUI.h"
+#include "ui_membermanage.h"
 #include "data.h"
 
 class MemberManageUI : public QWidget,public Ui::MemberManageUI

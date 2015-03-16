@@ -63,14 +63,6 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
             tableWidget_examInfo->setItem(1,0,description);
             tableWidget_examInfo->setItem(2,0,obn);
             tableWidget_examInfo->setItem(3,0,subn);
-
-//            int mark = 0;
-//            if(subnumber)
-//                mark = _paperList.at(i)->getTotalMark() * (100 - _paperList.at(i)->getPercent()) / 100 / subnumber;
-//            lineEdit_mark->setText(QString::number(mark));
-
-//            QIntValidator *validator  =  new QIntValidator(0,mark,this);//0-mark值之间的整数验证器
-//            lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
         }
     }
     pushButton_Pre->setEnabled(false);
@@ -114,8 +106,8 @@ void SubMarkUI::showSubAnswer(QVector<QString> s)
     _subMark.resize(_sub.size() / 2);
     _subMark.fill("0");
     lineEdit_mark->setText(markList.at(_subNo));
-//    QIntValidator *validator  =  new QIntValidator(0, lineEdit_mark->text().toInt(),this);//0-mark值之间的整数验证器
-//    lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
+    QIntValidator *validator  =  new QIntValidator(0, lineEdit_mark->text().toInt(),this);//0-mark值之间的整数验证器
+    lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
     pushButton_Pre->setEnabled(true);
     pushButton_Next->setEnabled(true);
     pushButton_submit->setEnabled(true);
@@ -145,8 +137,8 @@ void SubMarkUI::on_pushButton_Next_clicked()
 void SubMarkUI::showCurrentAnswer(int n)
 {
     lineEdit_mark->setText(markList.at(_subNo));
-//    QIntValidator *validator  =  new QIntValidator(0, lineEdit_mark->text().toInt(),this);//0-mark值之间的整数验证器
-//    lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
+    QIntValidator *validator  =  new QIntValidator(0, lineEdit_mark->text().toInt(),this);//0-mark值之间的整数验证器
+    lineEdit_GotMark->setValidator( validator );//0-mark值之间的整数验证器
     lineEdit_GotMark->setText(_subMark.at(n));
     textBrowser_answser->setText(_sub.at(n));
     textBrowser_title->setText(_sub.at(_sub.size() / 2 + n));

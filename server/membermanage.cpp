@@ -115,112 +115,112 @@ void MemberManageUI::showType(QMap<int, QString> type)
 
 void MemberManageUI::on_pushButton_add_user_clicked()
 {
-    if(tabWidget->currentIndex() == 0)
-    {
-        if(lineEdit_userID->text() == "" || lineEdit_userName->text() == "" || lineEdit_userClass->text() == "" ||
-                lineEdit_userGrade->text() == "" || lineEdit_userPwd->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//    if(tabWidget->currentIndex() == 0)
+//    {
+//        if(lineEdit_userID->text() == "" || lineEdit_userName->text() == "" || lineEdit_userClass->text() == "" ||
+//                lineEdit_userGrade->text() == "" || lineEdit_userPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_userID->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("学生ID已存在！"));
-                return ;
-            }
-        }
-        Student * studentptr =  new Student;
-        studentptr->setID(lineEdit_userID->text());
-        studentptr->setName(lineEdit_userName->text());
-        studentptr->setGrade(lineEdit_userGrade->text().toInt());
-        studentptr->setClass(lineEdit_userClass->text().toInt());
-        studentptr->setPassword(lineEdit_userPwd->text());
+//        for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_userID->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("学生ID已存在！"));
+//                return ;
+//            }
+//        }
+//        Student * studentptr =  new Student;
+//        studentptr->setID(lineEdit_userID->text());
+//        studentptr->setName(lineEdit_userName->text());
+//        studentptr->setGrade(lineEdit_userGrade->text().toInt());
+//        studentptr->setClass(lineEdit_userClass->text().toInt());
+//        studentptr->setPassword(lineEdit_userPwd->text());
 
-        emit this->addStudent(studentptr);
-        delete(studentptr);
-    }
-    else if(tabWidget->currentIndex() == 1)
-    {
-        if(lineEdit_teacherId->text() == "" || lineEdit_teacherName->text() == "" || lineEdit_teacherPwd->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//        emit this->addStudent(studentptr);
+//        delete(studentptr);
+//    }
+//    else if(tabWidget->currentIndex() == 1)
+//    {
+//        if(lineEdit_teacherId->text() == "" || lineEdit_teacherName->text() == "" || lineEdit_teacherPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        if(comboBox->currentText() == QStringLiteral("  未选择")){
-            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
-            return ;
-        }
+//        if(comboBox->currentText() == QStringLiteral("  未选择")){
+//            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
+//            return ;
+//        }
 
-        for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_teacherId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
-        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_teacherId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
+//        for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
+//        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
 
-        User *teacherptr = new User;
-        teacherptr->setID(lineEdit_teacherId->text());
-        teacherptr->setName(lineEdit_teacherName->text());
-        teacherptr->setPassword(lineEdit_teacherPwd->text());
-        teacherptr->setSubject(comboBox->currentText());
+//        User *teacherptr = new User;
+//        teacherptr->setID(lineEdit_teacherId->text());
+//        teacherptr->setName(lineEdit_teacherName->text());
+//        teacherptr->setPassword(lineEdit_teacherPwd->text());
+//        teacherptr->setSubject(comboBox->currentText());
 
-        emit this->addTeacher(teacherptr);
-        delete(teacherptr);
-    }
-    else if(tabWidget->currentIndex() == 2){
-        if(lineEdit_managerId->text() == "" || lineEdit_managerName->text() == "" || lineEdit_managerPwd->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//        emit this->addTeacher(teacherptr);
+//        delete(teacherptr);
+//    }
+//    else if(tabWidget->currentIndex() == 2){
+//        if(lineEdit_managerId->text() == "" || lineEdit_managerName->text() == "" || lineEdit_managerPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_teacherId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
+//        for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
 
-        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_managerId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
+//        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_managerId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
 
-        User *managerptr = new User;
-        managerptr->setID(lineEdit_managerId->text());
-        managerptr->setName(lineEdit_managerName->text());
-        managerptr->setPassword(lineEdit_managerPwd->text());
+//        User *managerptr = new User;
+//        managerptr->setID(lineEdit_managerId->text());
+//        managerptr->setName(lineEdit_managerName->text());
+//        managerptr->setPassword(lineEdit_managerPwd->text());
 
-        emit this->addManager(managerptr);
-        delete(managerptr);
-    }
-    else if(tabWidget->currentIndex() == 3){
-        if(lineEdit_typeId->text() == "" || lineEdit_typeName->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//        emit this->addManager(managerptr);
+//        delete(managerptr);
+//    }
+//    else if(tabWidget->currentIndex() == 3){
+//        if(lineEdit_typeId->text() == "" || lineEdit_typeName->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
-            if(ite.key() == lineEdit_typeId->text().toInt()){
-                QMessageBox::about(this, "msg", QStringLiteral("类型ID已存在！"));
-                return ;
-            }
-            if(ite.value() == lineEdit_typeName->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("类型已存在！"));
-                return ;
-            }
-        }
+//        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+//            if(ite.key() == lineEdit_typeId->text().toInt()){
+//                QMessageBox::about(this, "msg", QStringLiteral("类型ID已存在！"));
+//                return ;
+//            }
+//            if(ite.value() == lineEdit_typeName->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("类型已存在！"));
+//                return ;
+//            }
+//        }
 
-        emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
-    }
-    this->textClear();
+//        emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
+//    }
+//    this->textClear();
 
 }
 
@@ -267,7 +267,6 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     else if(tabWidget->currentIndex() == 3 && tableWidget_Type->currentRow() >= 0){
         int ret = msg.exec();
         if(ret == QMessageBox::Ok){
-//            emit this->deleteType(tableWidget_Type->item(tableWidget_Type->currentRow(), 0)->text().toInt());
             QList<QTableWidgetItem *> selectItems = tableWidget_Type->selectedItems();
             for(int i = 0; i < selectItems.count(); ++i){
                 emit this->deleteType(tableWidget_Type->item(selectItems.at(i)->row(), 0)->text().toInt());
@@ -470,19 +469,19 @@ void MemberManageUI::on_pushButton_export_clicked()
         dir.mkdir("data");
     }
     if(tabWidget->currentIndex() == 0){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportStudent(studentList, filename);
     }
     else if(tabWidget->currentIndex() == 1){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportTeacher(teacherList, filename);
     }
     else if(tabWidget->currentIndex() == 2){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportManager(managerList, filename);
     }
     else if(tabWidget->currentIndex() == 3){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->exportType(typeList, filename);
     }
 }
@@ -495,20 +494,19 @@ void MemberManageUI::on_pushButton_import_clicked()
         dir.mkdir("data");
     }
     if(tabWidget->currentIndex() == 0){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importStudent(filename);
     }
     else if(tabWidget->currentIndex() == 1){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importTeacher(filename);
     }
     else if(tabWidget->currentIndex() == 2){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importManager(filename);
     }
     else if(tabWidget->currentIndex() == 3){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("txt Files (*.txt)"));
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("csv Files (*.csv)"));
         emit this->importType(filename);
     }
 }
-
