@@ -7,6 +7,7 @@ MainApp::MainApp()
     readConfig();
     iniMainWindow();
     iniDBManager();
+    _server = NULL;
     _IOM = new IOManager;
     _serverState = STATE_NOEXAM;
     _infoList.append("*,");
@@ -92,7 +93,9 @@ void MainApp::iniMainWindow()
     connect(this,SIGNAL(showCurrentPaper(Paper)),&_window,SIGNAL(showCurrentPaper(Paper)));
     connect(&_window,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SLOT(saveUsertoPaperMark(int,QList<Student*>)));
 
-    ////////examctrl
+    ////////examsetting
+    connect(&_window, SIGNAL(setPaper(int)), this, SLOT(setPaper(int)));
+    connect(&_window, SIGNAL(setInfo(QStringList)), this, SLOT(setInfo(QStringList)));
     connect(&_window, SIGNAL(startServer()), this, SLOT(startServer()));
     connect(&_window, SIGNAL(closeServer()), this, SLOT(closeServer()));
     connect(&_window,SIGNAL(sendPaper(int)),this,SLOT(sendPaper(int)));
@@ -976,6 +979,8 @@ void MainApp::updateEssayQuestion(EssayQuestions *question)
 
 void MainApp::startServer()
 {
+    if(_server != NULL)
+        return;
     _server = new Server(this,_port);
     connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
     connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
@@ -987,6 +992,7 @@ void MainApp::closeServer()
     _serverState = STATE_NOEXAM;
     _server->close();
     delete(_server);
+    _server = NULL;
 }
 
 void MainApp::exportChoiceQuestion(QList<ChoiceQuestions *> questionlist, QString filename)
@@ -1168,6 +1174,29 @@ void MainApp::saveExaminee(int paperid, QStringList studentIDs)
     }
     msg.setText(QStringLiteral("操作完成"));
     msg.exec();
+}
+
+void MainApp::setPaper(int id)
+{
+    _mainPaper = this->preparePaper(id);
+    _userList = this->getUserByPaperId(id, QStringLiteral("未完成"));
+    this->userStateChange(-1, QStringLiteral("未登录"));
+
+    QVariant v;
+    v.setValue(_mainPaper);
+    emit this->sendData(-1, MSG_GETPAPER, v);
+    _serverState = STATE_PAPERREADY;
+}
+
+void MainApp::setInfo(QStringList list)
+{
+    _infoList.clear();
+    _infoList.append("*,");
+    for(int i = 0; i < list.count(); i++)
+    {
+        _infoList.append(list.at(i));
+        _infoList.append(",");
+    }
 }
 
 void MainApp::getStudent()

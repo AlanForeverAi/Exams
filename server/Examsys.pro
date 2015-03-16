@@ -27,7 +27,6 @@ SOURCES += main.cpp\
     iomanager.cpp \
     loginui.cpp \
     mainmenu.cpp \
-    examctrl.cpp \
     inoutput.cpp \
     membermanage.cpp \
     papermanage.cpp \
@@ -38,12 +37,13 @@ SOURCES += main.cpp\
     alteressayquestion.cpp \
     addquestion.cpp \
     addinformation.cpp \
-    examcontrol.cpp \
     sendmessage.cpp \
     alterpaper.cpp \
     setmark.cpp \
     papersetting.cpp \
-    addstudent.cpp
+    addstudent.cpp \
+    examsetting.cpp \
+    examctrl.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -59,7 +59,6 @@ HEADERS  += mainwindow.h \
     mainmenu.h \
     login.h \
     config.h \
-    examctrl.h \
     inoutput.h \
     membermanage.h \
     papermanage.h \
@@ -70,25 +69,16 @@ HEADERS  += mainwindow.h \
     alteressayquestion.h \
     addquestion.h \
     addinformation.h \
-    examcontrol.h \
     sendmessage.h \
     alterpaper.h \
     setmark.h \
     papersetting.h \
-    addstudent.h
+    addstudent.h \
+    examsetting.h \
+    examctrl.h
 
 
 FORMS    += mainwindow.ui \
-    QuestionsManageUI.ui \
-    PaperManageUI.ui \
-    ExamCtrlUI.ui \
-    SubMarkUI.ui \
-    InOutPutUI.ui \
-    ConfigUI.ui \
-    MainMenuUI.ui \
-    MemberManageUI.ui \
-    LoginUI.ui \
-    ScoreManageUI.ui \
     alterstudent.ui \
     alterteacher.ui \
     altermanager.ui \
@@ -97,12 +87,22 @@ FORMS    += mainwindow.ui \
     showessayquestion.ui \
     addquestion.ui \
     addinformation.ui \
-    examcontrol.ui \
     sendmessage.ui \
     alterpaper.ui \
     setmark.ui \
     papersetting.ui \
-    addstudent.ui
+    addstudent.ui \
+    examsetting.ui \
+    config.ui \
+    inoutput.ui \
+    login.ui \
+    mainmenu.ui \
+    membermanage.ui \
+    papermanage.ui \
+    questionsmanage.ui \
+    scoremanage.ui \
+    submark.ui \
+    examctrl.ui
 
 RESOURCES += \
     res.qrc

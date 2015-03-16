@@ -1,16 +1,13 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#pragma execution_character_set("utf-8")
-#pragma warning(disable: 4819)
-
 #include <QMainWindow>
 #include <QCloseEvent>
 #include "data.h"
 #include "ui_mainwindow.h"
 #include "questionsmanage.h"
 #include "papermanage.h"
-#include "examctrl.h"
+#include "examsetting.h"
 #include "submark.h"
 #include "membermanage.h"
 #include "login.h"
@@ -141,6 +138,9 @@ signals:
     void showSelectStudent(QStringList);
     void appendExaminee(QStringList);
     void saveExaminee(int, QStringList);
+
+    void setPaper(int);
+    void setInfo(QStringList);
 
 private slots:
     void on_action_QuestionsManager_triggered();

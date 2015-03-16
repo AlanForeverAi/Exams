@@ -147,6 +147,9 @@ public slots:
     void getSelectStudent(int);
     void saveExaminee(int, QStringList);
 
+    void setPaper(int);
+    void setInfo(QStringList);
+
 private:
     DBManager *_DBM;
     MainWindow _window;

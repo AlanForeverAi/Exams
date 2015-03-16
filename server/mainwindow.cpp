@@ -84,24 +84,26 @@ void MainWindow::do_makepaper()
 
 void MainWindow::do_examctrl()
 {
-    ExamCtrlUI *examctrl = new ExamCtrlUI();
-    connect(examctrl, SIGNAL(startServer()), this, SIGNAL(startServer()));
-    connect(examctrl, SIGNAL(closeServer()), this, SIGNAL(closeServer()));
-    connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examctrl,SLOT(showPapers(QList<Paper*>)));
-    connect(examctrl,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
-    connect(examctrl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
-    connect(examctrl, SIGNAL(beginExam()), this, SLOT(examMode()));
-    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examctrl, SIGNAL(updateStudentTable(QList<Student*>)));
-    connect(examctrl,SIGNAL(endExam()),this,SIGNAL(endExam()));
-    connect(examctrl,SIGNAL(endExam()),this,SLOT(endExamMode()));
-    connect(examctrl, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
-    connect(examctrl, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
-    connect(examctrl, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
-    connect(examctrl->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
-    connect(this,SIGNAL(getcurrentPaperTime(int)),examctrl,SIGNAL(getcurrentPaperTime(int)));
-    connect(examctrl,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
-    connect(examctrl,SIGNAL(sendInfo(QStringList)),this,SIGNAL(sendInfo(QStringList)));
-    this->setCentralWidget(examctrl);
+    ExamSettingUI *examSetting = new ExamSettingUI();
+    connect(examSetting, SIGNAL(setPaper(int)), this, SIGNAL(setPaper(int)));
+    connect(examSetting, SIGNAL(setInfo(QStringList)), this, SIGNAL(setInfo(QStringList)));
+    connect(examSetting, SIGNAL(startServer()), this, SIGNAL(startServer()));
+    connect(examSetting, SIGNAL(closeServer()), this, SIGNAL(closeServer()));
+    connect(this,SIGNAL(showAllPaper(QList<Paper*>)),examSetting,SLOT(showPapers(QList<Paper*>)));
+    connect(examSetting,SIGNAL(sendPaper(int)),this,SIGNAL(sendPaper(int)));
+    connect(examSetting, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+    connect(examSetting, SIGNAL(beginExam()), this, SLOT(examMode()));
+    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examSetting, SIGNAL(updateStudentTable(QList<Student*>)));
+    connect(examSetting,SIGNAL(endExam()),this,SIGNAL(endExam()));
+    connect(examSetting,SIGNAL(endExam()),this,SLOT(endExamMode()));
+    connect(examSetting, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+    connect(examSetting, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+    connect(examSetting, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
+    connect(examSetting->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
+    connect(this,SIGNAL(getcurrentPaperTime(int)),examSetting,SIGNAL(getcurrentPaperTime(int)));
+    connect(examSetting,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
+    connect(examSetting,SIGNAL(sendInfo(QStringList)),this,SIGNAL(sendInfo(QStringList)));
+    this->setCentralWidget(examSetting);
     emit this->getAllPaper();
     emit this->getUserList();
     _statusBar->showMessage(QStringLiteral("考试控制"));

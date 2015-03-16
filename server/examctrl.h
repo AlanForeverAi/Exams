@@ -1,42 +1,40 @@
-﻿#ifndef EXAMCTRL_H
-#define EXAMCTRL_H
+#ifndef EXAMCONTROL_H
+#define EXAMCONTROL_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QTimer>
-#include "ui_ExamCtrlUI.h"
+#include "ui_examcontrol.h"
+#include "sendmessage.h"
 #include "data.h"
-#include "examcontrol.h"
 
-class ExamCtrlUI:public QWidget,public Ui::ExamCtrlUI
+class ExamControl : public QDialog, public Ui::ExamControl
 {
     Q_OBJECT
 public:
-    ExamCtrlUI(QWidget *parent=0);
-    ~ExamCtrlUI();
+    explicit ExamControl();
+    ~ExamControl();
 
 signals:
-    void sendPaper(int);
-    void endExam();
-    void sendPaperTime(int,int);
-    void sendInfo(QStringList);
-    void updateStudentTable(QList<Student*>);
-    void setTime(QTime);
-//    void setTime(int);
-    void setExamName(QString);
     void beginExam();
+    void endExam();
     void pauseExam();
     void continueExam();
     void sendMessage(QString);
-    void getcurrentPaperTime(int);
-    void startServer();
-    void closeServer();
+    void sendPaperTime(int, int);
 
 private slots:
-    void showPapers(QList<Paper*>);
-    void on_pushButton_send_clicked();
-    void on_pushButton_closeServer_clicked();
-
-    void on_pushButton_startServer_clicked();
+    void updateStudentTable(QList<Student*>);
+    void setTime(QTime);
+    void setExamName(QString);
+    void updateDateTime();
+    void updateCountTime();
+    void getcurrentPaperTime(int);
+    void on_pushButton_begin_clicked();
+    void on_pushButton_sendMessage_clicked();
+    void on_pushButton_pause_clicked();
+    void on_pushButton_end_clicked();
+    void on_pushButton_back_clicked();
+    void on_pushButton_continue_clicked();
 
 private:
     QTimer *_countTimer;
@@ -44,6 +42,4 @@ private:
     QTime _countTime;
 };
 
-
-
-#endif // EXAMCTRL_H
+#endif // EXAMCONTROL_H

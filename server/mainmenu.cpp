@@ -66,3 +66,8 @@ void MainMenuUI::on_pushButton_papersetting_clicked()
 {
     emit this->action_papersetting();
 }
+
+void MainMenuUI::on_pushButton_examsetting_clicked()
+{
+    emit this->action_examctrl();
+}
