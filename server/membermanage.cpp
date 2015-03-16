@@ -115,112 +115,112 @@ void MemberManageUI::showType(QMap<int, QString> type)
 
 void MemberManageUI::on_pushButton_add_user_clicked()
 {
-    if(tabWidget->currentIndex() == 0)
-    {
-        if(lineEdit_userID->text() == "" || lineEdit_userName->text() == "" || lineEdit_userClass->text() == "" ||
-                lineEdit_userGrade->text() == "" || lineEdit_userPwd->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//    if(tabWidget->currentIndex() == 0)
+//    {
+//        if(lineEdit_userID->text() == "" || lineEdit_userName->text() == "" || lineEdit_userClass->text() == "" ||
+//                lineEdit_userGrade->text() == "" || lineEdit_userPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_userID->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("学生ID已存在！"));
-                return ;
-            }
-        }
-        Student * studentptr =  new Student;
-        studentptr->setID(lineEdit_userID->text());
-        studentptr->setName(lineEdit_userName->text());
-        studentptr->setGrade(lineEdit_userGrade->text().toInt());
-        studentptr->setClass(lineEdit_userClass->text().toInt());
-        studentptr->setPassword(lineEdit_userPwd->text());
+//        for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_userID->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("学生ID已存在！"));
+//                return ;
+//            }
+//        }
+//        Student * studentptr =  new Student;
+//        studentptr->setID(lineEdit_userID->text());
+//        studentptr->setName(lineEdit_userName->text());
+//        studentptr->setGrade(lineEdit_userGrade->text().toInt());
+//        studentptr->setClass(lineEdit_userClass->text().toInt());
+//        studentptr->setPassword(lineEdit_userPwd->text());
 
-        emit this->addStudent(studentptr);
-        delete(studentptr);
-    }
-    else if(tabWidget->currentIndex() == 1)
-    {
-        if(lineEdit_teacherId->text() == "" || lineEdit_teacherName->text() == "" || lineEdit_teacherPwd->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//        emit this->addStudent(studentptr);
+//        delete(studentptr);
+//    }
+//    else if(tabWidget->currentIndex() == 1)
+//    {
+//        if(lineEdit_teacherId->text() == "" || lineEdit_teacherName->text() == "" || lineEdit_teacherPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        if(comboBox->currentText() == QStringLiteral("  未选择")){
-            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
-            return ;
-        }
+//        if(comboBox->currentText() == QStringLiteral("  未选择")){
+//            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
+//            return ;
+//        }
 
-        for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_teacherId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
-        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_teacherId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
+//        for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
+//        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
 
-        User *teacherptr = new User;
-        teacherptr->setID(lineEdit_teacherId->text());
-        teacherptr->setName(lineEdit_teacherName->text());
-        teacherptr->setPassword(lineEdit_teacherPwd->text());
-        teacherptr->setSubject(comboBox->currentText());
+//        User *teacherptr = new User;
+//        teacherptr->setID(lineEdit_teacherId->text());
+//        teacherptr->setName(lineEdit_teacherName->text());
+//        teacherptr->setPassword(lineEdit_teacherPwd->text());
+//        teacherptr->setSubject(comboBox->currentText());
 
-        emit this->addTeacher(teacherptr);
-        delete(teacherptr);
-    }
-    else if(tabWidget->currentIndex() == 2){
-        if(lineEdit_managerId->text() == "" || lineEdit_managerName->text() == "" || lineEdit_managerPwd->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//        emit this->addTeacher(teacherptr);
+//        delete(teacherptr);
+//    }
+//    else if(tabWidget->currentIndex() == 2){
+//        if(lineEdit_managerId->text() == "" || lineEdit_managerName->text() == "" || lineEdit_managerPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_teacherId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
+//        for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
 
-        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
-            if((*ite)->getID() == lineEdit_managerId->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
-                return ;
-            }
-        }
+//        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_managerId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
 
-        User *managerptr = new User;
-        managerptr->setID(lineEdit_managerId->text());
-        managerptr->setName(lineEdit_managerName->text());
-        managerptr->setPassword(lineEdit_managerPwd->text());
+//        User *managerptr = new User;
+//        managerptr->setID(lineEdit_managerId->text());
+//        managerptr->setName(lineEdit_managerName->text());
+//        managerptr->setPassword(lineEdit_managerPwd->text());
 
-        emit this->addManager(managerptr);
-        delete(managerptr);
-    }
-    else if(tabWidget->currentIndex() == 3){
-        if(lineEdit_typeId->text() == "" || lineEdit_typeName->text() == ""){
-            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
-            return ;
-        }
+//        emit this->addManager(managerptr);
+//        delete(managerptr);
+//    }
+//    else if(tabWidget->currentIndex() == 3){
+//        if(lineEdit_typeId->text() == "" || lineEdit_typeName->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
-            if(ite.key() == lineEdit_typeId->text().toInt()){
-                QMessageBox::about(this, "msg", QStringLiteral("类型ID已存在！"));
-                return ;
-            }
-            if(ite.value() == lineEdit_typeName->text()){
-                QMessageBox::about(this, "msg", QStringLiteral("类型已存在！"));
-                return ;
-            }
-        }
+//        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+//            if(ite.key() == lineEdit_typeId->text().toInt()){
+//                QMessageBox::about(this, "msg", QStringLiteral("类型ID已存在！"));
+//                return ;
+//            }
+//            if(ite.value() == lineEdit_typeName->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("类型已存在！"));
+//                return ;
+//            }
+//        }
 
-        emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
-    }
-    this->textClear();
+//        emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
+//    }
+//    this->textClear();
 
 }
 

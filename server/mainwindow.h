@@ -3,11 +3,13 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QMessageBox>
 #include "data.h"
 #include "ui_mainwindow.h"
 #include "questionsmanage.h"
 #include "papermanage.h"
 #include "examsetting.h"
+#include "examcontrol.h"
 #include "submark.h"
 #include "membermanage.h"
 #include "login.h"
@@ -141,11 +143,16 @@ signals:
 
     void setPaper(int);
     void setInfo(QStringList);
+    void setPaperName(QString);
+    void getPaperName();
+    void setExamTime(QTime);
+    void getExamTime();
 
 private slots:
     void on_action_QuestionsManager_triggered();
-    void on_action_makepaper_triggered();
-    void on_action_examctrl_triggered();
+    void on_action_makepaper_triggered();    
+    void action_examsetting();
+    void action_examconctrol();
     void on_action_subscore_triggered();
     void on_action_memmanager_triggered();
     void on_action_login_triggered();
@@ -154,7 +161,7 @@ private slots:
     void on_action_scomanage_triggered();
     void on_action_inoutput_triggered();
     void on_action_Qt_triggered();
-    void action_papersetting();
+    void action_papersetting();    
     void examMode();
     void endExamMode();
     void LoginOK();
@@ -165,7 +172,8 @@ private slots:
 private:
     void do_QuestionsManager();
     void do_makepaper();
-    void do_examctrl();
+    void do_examsetting();
+    void do_examconctrol();
     void do_subscore();
     void do_memmanage();
     void do_login();

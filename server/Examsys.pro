@@ -43,7 +43,7 @@ SOURCES += main.cpp\
     papersetting.cpp \
     addstudent.cpp \
     examsetting.cpp \
-    examctrl.cpp
+    examcontrol.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -75,7 +75,7 @@ HEADERS  += mainwindow.h \
     papersetting.h \
     addstudent.h \
     examsetting.h \
-    examctrl.h
+    examcontrol.h
 
 
 FORMS    += mainwindow.ui \
@@ -102,7 +102,7 @@ FORMS    += mainwindow.ui \
     questionsmanage.ui \
     scoremanage.ui \
     submark.ui \
-    examctrl.ui
+    examcontrol.ui
 
 RESOURCES += \
     res.qrc

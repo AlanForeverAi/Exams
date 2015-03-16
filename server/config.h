@@ -2,7 +2,9 @@
 #define CONFIGUI_H
 
 #include <QWidget>
-#include "ui_ConfigUI.h"
+//#include "ui_ConfigUI.h"
+#include "ui_config.h"
+
 class ConfigUI : public QWidget,public Ui::ConfigUI
 {
     Q_OBJECT

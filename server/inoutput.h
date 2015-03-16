@@ -2,7 +2,9 @@
 #define INOUTPUTUI_H
 
 #include <QWidget>
-#include "ui_InOutPutUI.h"
+//#include "ui_InOutPutUI.h"
+#include "ui_inoutput.h"
+
 class InOutPutUI : public QWidget,public Ui::InOutPutUI
 {
     Q_OBJECT

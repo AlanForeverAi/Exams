@@ -1,4 +1,4 @@
-﻿#include "examcontrol.h"
+#include "examcontrol.h"
 
 ExamControl::ExamControl()
 {
@@ -57,13 +57,13 @@ void ExamControl::updateStudentTable(QList<Student *> students)
     label_studentcount->setText(QStringLiteral("共有%1名学生 已登录%2人 已交卷%3人").arg(students.count()).arg(numberLogin).arg(numbersubmit));
 }
 
-void ExamControl::setTime(QTime currentTime)
+void ExamControl::setTime(QTime examTime)
 {
-    _countTime = currentTime;
-    timeEdit_papertime->setTime(currentTime);
+    _countTime = examTime;
+    timeEdit_papertime->setTime(_countTime);
 }
 
-void ExamControl::setExamName(QString paperName)
+void ExamControl::setPaperName(QString paperName)
 {
     label_name->setText(paperName);
 }
@@ -120,19 +120,6 @@ void ExamControl::on_pushButton_pause_clicked()
     pushButton_continue->setEnabled(true);
 }
 
-void ExamControl::on_pushButton_end_clicked()
-{
-    emit this->endExam();
-    pushButton_pause->setEnabled(false);
-    pushButton_continue->setEnabled(false);
-    pushButton_back->setEnabled(true);
-}
-
-void ExamControl::on_pushButton_back_clicked()
-{
-    this->close();
-}
-
 void ExamControl::on_pushButton_continue_clicked()
 {
     emit this->continueExam();
@@ -141,3 +128,16 @@ void ExamControl::on_pushButton_continue_clicked()
     pushButton_continue->setEnabled(false);
     pushButton_pause->setEnabled(true);
 }
+
+void ExamControl::on_pushButton_end_clicked()
+{
+    emit this->endExam();
+    pushButton_pause->setEnabled(false);
+    pushButton_continue->setEnabled(false);
+    pushButton_back->setEnabled(true);
+}
+
+//void ExamControl::on_pushButton_back_clicked()
+//{
+
+//}

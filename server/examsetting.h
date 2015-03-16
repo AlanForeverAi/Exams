@@ -1,11 +1,12 @@
-﻿#ifndef EXAMCTRL_H
-#define EXAMCTRL_H
+﻿#ifndef EXAMSETTING_H
+#define EXAMSETTING_H
 
 #include <QWidget>
 #include <QTimer>
-#include "ui_ExamCtrlUI.h"
+#include <QMessageBox>
+#include <QDebug>
+#include "ui_examsetting.h"
 #include "data.h"
-#include "examctrl.h"
 
 class ExamSettingUI:public QWidget,public Ui::ExamCtrlUI
 {
@@ -20,7 +21,7 @@ signals:
     void sendPaperTime(int,int);
     void sendInfo(QStringList);
     void updateStudentTable(QList<Student*>);
-    void setTime(QTime);
+//    void setTime(QTime);
 //    void setTime(int);
     void setExamName(QString);
     void beginExam();
@@ -41,11 +42,11 @@ private slots:
     void on_pushButton_startServer_clicked();
 
 private:
-    QTimer *_countTimer;
-    QTimer *_dateTimer;
-    QTime _countTime;
+//    QTimer *_countTimer;
+//    QTimer *_dateTimer;
+//    QTime _countTime;
 };
 
 
 
-#endif // EXAMCTRL_H
+#endif // EXAMSETTING_H

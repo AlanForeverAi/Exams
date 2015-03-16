@@ -7,11 +7,12 @@ MainMenuUI::MainMenuUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
+    pushButton_examctrl->setEnabled(false);
     if(User::GetInstance().getType() == 1)
     {
         pushButton_question->setEnabled(false);
         pushButton_paper->setEnabled(false);
-        pushButton_examctrl->setEnabled(false);
+        pushButton_examsetting->setEnabled(false);
         pushButton_subscore->setEnabled(false);
         pushButton_scoremanage->setEnabled(false);
     }
@@ -69,5 +70,6 @@ void MainMenuUI::on_pushButton_papersetting_clicked()
 
 void MainMenuUI::on_pushButton_examsetting_clicked()
 {
-    emit this->action_examctrl();
+//    pushButton_examctrl->setEnabled(true);
+    emit this->action_examsetting();
 }

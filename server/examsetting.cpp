@@ -1,6 +1,4 @@
 ﻿#include "examsetting.h"
-#include <QMessageBox>
-#include <QDebug>
 
 ExamSettingUI::ExamSettingUI(QWidget *parent) :
     QWidget(parent)

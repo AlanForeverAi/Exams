@@ -94,6 +94,10 @@ void MainApp::iniMainWindow()
     connect(&_window,SIGNAL(saveUsertoPaperMark(int,QList<Student*>)),this,SLOT(saveUsertoPaperMark(int,QList<Student*>)));
 
     ////////examsetting
+    connect(&_window, SIGNAL(getExamTime()), this, SLOT(getExamTime()));
+    connect(&_window, SIGNAL(getPaperName()), this, SLOT(getPaperName()));
+    connect(this, SIGNAL(setPaperName(QString)), &_window, SIGNAL(setPaperName(QString)));
+    connect(this, SIGNAL(setExamTime(QTime)), &_window, SIGNAL(setExamTime(QTime)));
     connect(&_window, SIGNAL(setPaper(int)), this, SLOT(setPaper(int)));
     connect(&_window, SIGNAL(setInfo(QStringList)), this, SLOT(setInfo(QStringList)));
     connect(&_window, SIGNAL(startServer()), this, SLOT(startServer()));
@@ -737,10 +741,8 @@ QList<Student*> MainApp::getUserByPaperId(int id,QString state)
         }
 
     }
-
     emit this->showUserByPaperId(ulist);
     return ulist;
-
 }
 
 void MainApp::getSubAnswer(int pid,QString uid)
@@ -1197,6 +1199,19 @@ void MainApp::setInfo(QStringList list)
         _infoList.append(list.at(i));
         _infoList.append(",");
     }
+}
+
+void MainApp::getPaperName()
+{
+    emit this->setPaperName(_mainPaper.getDescription());
+}
+
+void MainApp::getExamTime()
+{
+    int time = _mainPaper.getTime();
+    QTime paperTime;
+    paperTime.setHMS(time / 60, time % 60, 0);
+    emit this->setExamTime(paperTime);
 }
 
 void MainApp::getStudent()

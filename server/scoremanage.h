@@ -2,7 +2,8 @@
 #define SCOMREANAGEUI_H
 
 #include <QWidget>
-#include "ui_ScoreManageUI.h"
+//#include "ui_ScoreManageUI.h"
+#include "ui_scoremanage.h"
 #include "data.h"
 
 class ScoreManageUI : public QWidget,public Ui::ScoreManageUI

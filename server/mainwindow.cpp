@@ -1,5 +1,5 @@
 ﻿#include "mainwindow.h"
-#include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     _ui(new Ui::MainWindow)
@@ -56,7 +56,6 @@ void MainWindow::do_QuestionsManager()
 void MainWindow::do_makepaper()
 {
     PaperManageUI *make_paper  =  new PaperManageUI();
-
     connect(make_paper, SIGNAL(insertPaper(Paper*)), this, SIGNAL(insertPaper(Paper*)));
     connect(make_paper, SIGNAL(updatePaper(Paper*)), this,SIGNAL(updatePaper(Paper*)));
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), make_paper, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
@@ -82,7 +81,7 @@ void MainWindow::do_makepaper()
     _statusBar->showMessage(QStringLiteral("试卷管理"));
 }
 
-void MainWindow::do_examctrl()
+void MainWindow::do_examsetting()
 {
     ExamSettingUI *examSetting = new ExamSettingUI();
     connect(examSetting, SIGNAL(setPaper(int)), this, SIGNAL(setPaper(int)));
@@ -108,6 +107,25 @@ void MainWindow::do_examctrl()
     emit this->getUserList();
     _statusBar->showMessage(QStringLiteral("考试控制"));
 
+}
+
+void MainWindow::do_examconctrol()
+{
+    ExamControl *examControl = new ExamControl();
+    connect(this, SIGNAL(updateUserTable(QList<Student*>)), examControl, SLOT(updateStudentTable(QList<Student*>)));
+    connect(examControl, SIGNAL(beginExam()), this, SIGNAL(beginExam()));
+    connect(examControl, SIGNAL(endExam()), this, SIGNAL(endExam()));
+    connect(examControl, SIGNAL(pauseExam()), this, SIGNAL(pauseExam()));
+    connect(examControl, SIGNAL(continueExam()), this, SIGNAL(continueExam()));
+    connect(examControl, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
+    connect(examControl, SIGNAL(sendPaperTime(int,int)), this, SIGNAL(sendPaperTime(int,int)));
+    connect(this, SIGNAL(setPaperName(QString)), examControl, SLOT(setPaperName(QString)));
+    connect(this, SIGNAL(setExamTime(QTime)), examControl, SLOT(setTime(QTime)));
+    connect(examControl->pushButton_back, SIGNAL(clicked()), this, SLOT(backToMenu()));
+    this->setCentralWidget(examControl);
+    emit this->getUserList();
+    emit this->getPaperName();
+    emit this->getExamTime();
 }
 
 void MainWindow::do_subscore()
@@ -189,12 +207,13 @@ void MainWindow::do_mainmenu()
     connect(mainmenu,SIGNAL(action_QuestionsManager()),this,SLOT(on_action_QuestionsManager_triggered()));
     connect(mainmenu,SIGNAL(action_makepaper()),this,SLOT(on_action_makepaper_triggered()));
     connect(mainmenu,SIGNAL(action_memmanager()),this,SLOT(on_action_memmanager_triggered()));
-    connect(mainmenu,SIGNAL(action_examctrl()),this,SLOT(on_action_examctrl_triggered()));
+    connect(mainmenu,SIGNAL(action_examctrl()),this,SLOT(action_examconctrol()));
     connect(mainmenu,SIGNAL(action_subscore()),this,SLOT(on_action_subscore_triggered()));
     connect(mainmenu,SIGNAL(action_config()),this,SLOT(on_action_config_triggered()));
     connect(mainmenu,SIGNAL(action_scoremanage()),this,SLOT(on_action_scomanage_triggered()));
     connect(mainmenu,SIGNAL(action_inoutput()),this,SLOT(on_action_inoutput_triggered()));
     connect(mainmenu,SIGNAL(action_papersetting()),this,SLOT(action_papersetting()));
+    connect(mainmenu,SIGNAL(action_examsetting()),this,SLOT(action_examsetting()));
     this->setCentralWidget(mainmenu);
     this->statusBar()->showMessage(QStringLiteral("主菜单"));
 }
@@ -268,9 +287,14 @@ void MainWindow::on_action_makepaper_triggered()
     do_makepaper();
 }
 
-void MainWindow::on_action_examctrl_triggered()
+void MainWindow::action_examsetting()
 {
-    do_examctrl();
+    do_examsetting();
+}
+
+void MainWindow::action_examconctrol()
+{
+    do_examconctrol();
 }
 
 void MainWindow::on_action_subscore_triggered()

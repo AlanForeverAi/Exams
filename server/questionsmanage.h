@@ -4,13 +4,13 @@
 #include <QWidget>
 #include <QFileDialog>
 #include <QFile>
-#include "ui_QuestionsManageUI.h"
+#include "ui_questionsmanage.h"
 #include "data.h"
 #include "alterchoicequestion.h"
 #include "alteressayquestion.h"
 #include "addquestion.h"
 
-class QuestionsManageUI:public QWidget,public Ui::QuestionsManageUI
+class QuestionsManageUI:public QWidget, public Ui::QuestionsManageUI
 {
     Q_OBJECT
 public:
