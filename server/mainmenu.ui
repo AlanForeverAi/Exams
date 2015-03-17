@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>670</height>
+    <width>1240</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
-    <height>670</height>
+    <width>1240</width>
+    <height>650</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1280</width>
-    <height>670</height>
+    <width>1240</width>
+    <height>650</height>
    </size>
   </property>
   <property name="font">
@@ -37,13 +37,13 @@
   <property name="windowTitle">
    <string>MainMenu</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>11</x>
-     <y>11</y>
-     <width>1261</width>
-     <height>656</height>
+     <x>12</x>
+     <y>12</y>
+     <width>1221</width>
+     <height>614</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -195,6 +195,13 @@
            </widget>
           </item>
           <item>
+           <widget class="Line" name="line_16">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="pushButton_papersetting">
             <property name="minimumSize">
              <size>
@@ -246,6 +253,13 @@
             </property>
             <property name="text">
              <string>用户管理</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_17">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
@@ -367,31 +381,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="Line" name="line_15">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_inoutput">
-            <property name="minimumSize">
-             <size>
-              <width>150</width>
-              <height>45</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>导入及导出</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>
@@ -436,7 +425,26 @@
              </font>
             </property>
             <property name="text">
-             <string>浏览试卷库，新增、修改和删除试卷；为试卷设置参加考试的学生</string>
+             <string>浏览试卷库，新增、修改和删除试卷。</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_12">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>为试卷设置参加考试的学生。</string>
             </property>
            </widget>
           </item>
@@ -460,6 +468,25 @@
            </widget>
           </item>
           <item>
+           <widget class="Line" name="line_15">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>考试设置。</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="Line" name="line_3">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -474,7 +501,7 @@
              </font>
             </property>
             <property name="text">
-             <string>开始一场考试。</string>
+             <string>控制考试。</string>
             </property>
            </widget>
           </item>
@@ -532,25 +559,6 @@
             </property>
             <property name="text">
              <string>配置数据库和与客户端连接的端口。</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_10">
-            <property name="font">
-             <font>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>将题库、试卷及用户资料导入或导出</string>
             </property>
            </widget>
           </item>

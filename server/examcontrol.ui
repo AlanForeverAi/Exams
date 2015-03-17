@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>670</height>
+    <width>1240</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
-    <height>670</height>
+    <width>1240</width>
+    <height>650</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1280</width>
-    <height>670</height>
+    <width>1240</width>
+    <height>650</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -704,13 +704,6 @@
     </layout>
    </item>
   </layout>
-  <zorder>splitter_3</zorder>
-  <zorder>verticalSpacer</zorder>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>horizontalSpacer_3</zorder>
-  <zorder>horizontalSpacer_4</zorder>
-  <zorder>horizontalSpacer_5</zorder>
-  <zorder>horizontalSpacer_6</zorder>
   <zorder>horizontalSpacer_7</zorder>
   <zorder>horizontalSpacer_8</zorder>
  </widget>

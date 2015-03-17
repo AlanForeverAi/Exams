@@ -6,15 +6,15 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     _ui->setupUi(this);
 
-    _ui->action_mainmenu->setEnabled(false);//按钮置灰
-    _ui->action_makepaper->setEnabled(false);
-    _ui->action_QuestionsManager->setEnabled(false);
-    _ui->action_memmanager->setEnabled(false);
-    _ui->action_examctrl->setEnabled(false);
-    _ui->action_subscore->setEnabled(false);
-    _ui->action_scomanage->setEnabled(false);
-    _ui->action_config->setEnabled(false);
-    _ui->action_inoutput->setEnabled(false);
+//    _ui->action_mainmenu->setEnabled(false);//按钮置灰
+//    _ui->action_makepaper->setEnabled(false);
+//    _ui->action_QuestionsManager->setEnabled(false);
+//    _ui->action_memmanager->setEnabled(false);
+//    _ui->action_examctrl->setEnabled(false);
+//    _ui->action_subscore->setEnabled(false);
+//    _ui->action_scomanage->setEnabled(false);
+//    _ui->action_config->setEnabled(false);
+//    _ui->action_inoutput->setEnabled(false);
 
     _statusBar = statusBar();
     this->on_action_login_triggered();
@@ -137,7 +137,7 @@ void MainWindow::do_subscore()
     connect(sub_score,SIGNAL(getSubAnswer(int,QString)),this,SIGNAL(getSubAnswer(int,QString)));
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),sub_score,SLOT(showSubAnswer(QVector<QString>)));
     connect(sub_score,SIGNAL(submitSubMark(QStringList)),this,SIGNAL(submitSubMark(QStringList)));
-    connect(sub_score->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
+//    connect(sub_score->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     emit this->getAllPaper();
     this->setCentralWidget(sub_score);
     _statusBar->showMessage(QStringLiteral("在线评卷"));

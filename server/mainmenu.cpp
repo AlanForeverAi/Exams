@@ -58,10 +58,10 @@ void MainMenuUI::on_pushButton_scoremanage_clicked()
     emit this->action_scoremanage();
 }
 
-void MainMenuUI::on_pushButton_inoutput_clicked()
-{
-    emit this->action_inoutput();
-}
+//void MainMenuUI::on_pushButton_inoutput_clicked()
+//{
+//    emit this->action_inoutput();
+//}
 
 void MainMenuUI::on_pushButton_papersetting_clicked()
 {
