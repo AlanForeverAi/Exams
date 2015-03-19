@@ -200,31 +200,16 @@ void IOManager::outputOb(QList<ChoiceQuestions*> obquestionlist)
 QList<ChoiceQuestions*> IOManager::inputOb(QString path)
 {
     QList<ChoiceQuestions*> oblist;
-
-    QFile inouput(path);
-    if(!inouput.open(QIODevice::ReadOnly | QIODevice::Text))
-        return oblist;
-    QTextStream in(&inouput);
-    QString temp;
-
-    while(!in.atEnd())
-    {
-        ChoiceQuestions* obquestions = new ChoiceQuestions;
-//        temp = in.readLine();
-//        temp = temp.mid(temp.indexOf(" ")+1);
-//        obquestions->setQuestionId(temp.toInt());
-
-        temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ") + 1);
-        obquestions->setQuestionTitle(temp);
-
-        temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ") + 1);
-        obquestions->setAnswer(temp);
-        oblist.append(obquestions);
+    ExcelEngine excel;
+    excel.Open(path, 1, false);
+    int cnt = excel.GetRowCount();
+    for(int i = 2; i <= cnt; ++i){
+        ChoiceQuestions* objectQuestions = new ChoiceQuestions();
+        objectQuestions->setQuestionTitle(excel.GetCellData(i, 1).toString());
+        objectQuestions->setAnswer(excel.GetCellData(i, 2).toString());
+        oblist.append(objectQuestions);
     }
-    inouput.close();
-
+    excel.Close();
     return oblist;
 }
 
@@ -256,238 +241,196 @@ void IOManager::outputSub(QList<EssayQuestions*> subquestionlist)
 //以下为subquestions表读取文件
 QList<EssayQuestions*> IOManager::inputSub(QString path)
 {
-    QList<EssayQuestions*> sublist;
-
-    QFile inouput(path);
-    if(!inouput.open(QIODevice::ReadOnly | QIODevice::Text))
-        return sublist;
-    QTextStream in(&inouput);
-    QString temp;
-
-    while(!in.atEnd())
-    {
-        EssayQuestions* subquestions = new EssayQuestions;
-        temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
-        subquestions->setQuestionTitle(temp);
-        sublist.append(subquestions);
+    ExcelEngine excel;
+    excel.Open(path, 1, false);
+    int cnt = excel.GetRowCount();
+    for(int i = 2; i <= cnt; ++i){
+        EssayQuestions *subquestion = new EssayQuestions();
+        subquestion->setQuestionTitle(excel.GetCellData(i, 1).toString());
+        sublist.append(subquestion);
     }
-    inouput.close();
+    excel.Close();
     return sublist;
 }
 
 void IOManager::exportChoiceQuestion(QList<ChoiceQuestions *> questionlist, QString filename)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return ;
-    QTextStream out(&file);
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    excel.SetCellData(1, 1, QStringLiteral("题目"));
+    excel.SetCellData(1, 2, QStringLiteral("答案"));
+    int cnt = 2;
     for(int i = 0; i < questionlist.count(); ++i){
-        out << QStringLiteral("题目： ");
-        out << questionlist.at(i)->getQuestionTitle() << "\n";
-        out << QStringLiteral("答案： ");
-        out << questionlist.at(i)->getAnswer() << "\n";
+        excel.SetCellData(cnt+i, 1, questionlist.at(i)->getQuestionTitle());
+        excel.SetCellData(cnt+i, 2, questionlist.at(i)->getAnswer());
     }
-    file.close();
+    excel.Save();
+    excel.Close();
 }
 
 void IOManager::exportEssayQuestion(QList<EssayQuestions *> questionlist, QString filename)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return ;
-    QTextStream out(&file);
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    excel.SetCellData(1, 1, QStringLiteral("题目"));
+    int cnt = 2;
     for(int i = 0; i < questionlist.count(); ++i){
-        out << QStringLiteral("题目： ");
-        out << questionlist.at(i)->getQuestionTitle() << "\n";
+        excel.SetCellData(cnt+i, 1, questionlist.at(i)->getQuestionTitle());
     }
-    file.close();
+    excel.Save();
+    excel.Close();
 }
 
 void IOManager::exportStudent(QList<Student *> studentlist, QString filename)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-    QTextStream out(&file);
-    out << QStringLiteral("学号") << "," << QStringLiteral("姓名") << "," << QStringLiteral("年级") << ","
-        << QStringLiteral("班级") << "," << QStringLiteral("密码") << "\n";
-    for(int i = 0; i< studentlist.count(); ++i)
-    {
-        out << studentlist.at(i)->getID();
-        out << ",";
-        out << studentlist.at(i)->getName();
-        out << ",";
-        out << studentlist.at(i)->getGrade();
-        out << ",";
-        out << studentlist.at(i)->getClass();
-        out << ",";
-        out << studentlist.at(i)->getPassword() << "\n";
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    excel.SetCellData(1, 1, QStringLiteral("学号"));
+    excel.SetCellData(1, 2, QStringLiteral("姓名"));
+    excel.SetCellData(1, 3, QStringLiteral("年级"));
+    excel.SetCellData(1, 4, QStringLiteral("班级"));
+    excel.SetCellData(1, 5, QStringLiteral("密码"));
+    int cnt = 2;
+    for(int i = 0; i < studentlist.count(); ++i){
+        excel.SetCellData(cnt+i, 1, studentlist.at(i)->getID());
+        excel.SetCellData(cnt+i, 2, studentlist.at(i)->getName());
+        excel.SetCellData(cnt+i, 3, studentlist.at(i)->getGrade());
+        excel.SetCellData(cnt+i, 4, studentlist.at(i)->getClass());
+        excel.SetCellData(cnt+i, 5, studentlist.at(i)->getPassword());
     }
-    file.close();
+    excel.Save();
+    excel.Close();
 }
 
 void IOManager::exportTeacher(QList<User *> teacherlist, QString filename)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-    QTextStream out(&file);
-    out << QStringLiteral("老师工号") << "," << QStringLiteral("姓名") << "," << QStringLiteral("密码") << "," << QStringLiteral("类型") << "\n";
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    excel.SetCellData(1, 1, QStringLiteral("老师工号"));
+    excel.SetCellData(1, 2, QStringLiteral("姓名"));
+    excel.SetCellData(1, 3, QStringLiteral("密码"));
+    excel.SetCellData(1, 4, QStringLiteral("类型"));
+    int cnt = 2;
     for(int i = 0; i < teacherlist.count(); ++i){
-        out << teacherlist.at(i)->getID();
-        out << ",";
-        out << teacherlist.at(i)->getName();
-        out << ",";
-        out << teacherlist.at(i)->getPassword();
-        out << ",";
-        out << teacherlist.at(i)->getSubject() << "\n";
+        excel.SetCellData(cnt+i, 1, teacherlist.at(i)->getID());
+        excel.SetCellData(cnt+i, 2, teacherlist.at(i)->getName());
+        excel.SetCellData(cnt+i, 3, teacherlist.at(i)->getPassword());
+        excel.SetCellData(cnt+i, 4, teacherlist.at(i)->getSubject());
     }
-    file.close();
+    excel.Save();
+    excel.Close();
 }
 
 void IOManager::exportManager(QList<User *> managerlist, QString filename)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-    QTextStream out(&file);
-    out << QStringLiteral("管理员工号") << "," << QStringLiteral("姓名") << "," << QStringLiteral("密码") << "\n";
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    excel.SetCellData(1, 1, QStringLiteral("管理员工号"));
+    excel.SetCellData(1, 2, QStringLiteral("姓名"));
+    excel.SetCellData(1, 3, QStringLiteral("密码"));
+    int cnt = 2;
     for(int i = 0; i < managerlist.count(); ++i){
-        out << managerlist.at(i)->getID();
-        out << ",";
-        out << managerlist.at(i)->getName();
-        out << ",";
-        out << managerlist.at(i)->getPassword() << "\n";
+        excel.SetCellData(cnt+i, 1, managerlist.at(i)->getID());
+        excel.SetCellData(cnt+i, 2, managerlist.at(i)->getName());
+        excel.SetCellData(cnt+i, 3, managerlist.at(i)->getPassword());
     }
-    file.close();
+    excel.Save();
+    excel.Close();
 }
 
 void IOManager::exportType(QMap<int, QString> typelist, QString filename)
 {
-    QFile file(filename);
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
-    QTextStream out(&file);
-    out << QStringLiteral("科目编号") << "," << QStringLiteral("科目") << "\n";
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    excel.SetCellData(1, 1, QStringLiteral("科目编号"));
+    excel.SetCellData(1, 2, QStringLiteral("科目"));
+    int cnt = 2, i = 0;
     for(QMap<int, QString>::iterator ite = typelist.begin(); ite != typelist.end(); ++ite){
-        out << ite.key();
-        out << ",";
-        out << ite.value() << "\n";
+        excel.SetCellData(cnt+i, 1, ite.key());
+        excel.SetCellData(cnt+i, 2, ite.value());
+        ++i;
     }
-    file.close();
+    excel.Save();
+    excel.Close();
 }
 
 QList<Student *> IOManager::importStudent(QString filename)
 {
     QList<Student *> studentlist;
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return studentlist;
-    QTextStream in(&file);
-    QString temp;
-    QStringList args;
-    temp = in.readLine();
-    while(!in.atEnd()){
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    int cnt = excel.GetRowCount();
+    for(int i = 2; i <= cnt; ++i){
         Student *student = new Student();
-        temp = in.readLine();
-        args = temp.split(',');
-        args.removeAll("");
-        student->setID(args.at(0));
-        student->setName(args.at(1));
-        student->setGrade(args.at(2).toInt());
-        student->setClass(args.at(3).toInt());
-        student->setPassword(args.at(4));
+        student->setID(excel.GetCellData(i, 1).toString());
+        student->setName(excel.GetCellData(i, 2).toString());
+        student->setGrade(excel.GetCellData(i, 3).toInt());
+        student->setClass(excel.GetCellData(i, 4).toInt());
+        student->setPassword(excel.GetCellData(i, 5).toString());
         studentlist.append(student);
     }
-    file.close();
+    excel.Close();
     return studentlist;
 }
 
 QList<User *> IOManager::importTeacher(QString filename)
 {
     QList<User *> teacherlist;
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return teacherlist;
-    QTextStream in(&file);
-    QString temp;
-    QStringList args;
-    temp = in.readLine();
-    while(!in.atEnd()){
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    int cnt = excel.GetRowCount();
+    for(int i = 2; i <= cnt; ++i){
         User *teacher = new User();
-        temp = in.readLine();
-        args = temp.split(',');
-        args.removeAll("");
-        teacher->setID(args.at(0));
-        teacher->setName(args.at(1));
-        teacher->setPassword(args.at(2));
-        teacher->setSubject(args.at(3));
+        teacher->setID(excel.GetCellData(i, 1).toString());
+        teacher->setName(excel.GetCellData(i, 2).toString());
+        teacher->setPassword(excel.GetCellData(i, 3).toString());
+        teacher->setSubject(excel.GetCellData(i, 4).toString());
         teacherlist.append(teacher);
     }
-    file.close();
+    excel.Close();
     return teacherlist;
 }
 
 QList<User *> IOManager::importManager(QString filename)
 {
     QList<User *> managerlist;
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return managerlist;
-    QTextStream in(&file);
-    QString temp;
-    QStringList args;
-    temp = in.readLine();
-    while(!in.atEnd()){
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    int cnt = excel.GetRowCount();
+    for(int i = 2; i <= cnt; ++i){
         User *manager = new User();
-        temp = in.readLine();
-        args = temp.split(',');
-        args.removeAll("");
-        manager->setID(args.at(0));
-        manager->setName(args.at(1));
-        manager->setPassword(args.at(2));
+        manager->setID(excel.GetCellData(i, 1).toString());
+        manager->setName(excel.GetCellData(i, 2).toString());
+        manager->setPassword(excel.GetCellData(i, 3).toString());
         managerlist.append(manager);
     }
-    file.close();
+    excel.Close();
     return managerlist;
 }
 
 QMap<int, QString> IOManager::importType(QString filename)
 {
     QMap<int, QString> typelist;
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return typelist;
-    QTextStream in(&file);
-    QString temp;
-    QStringList args;
-    temp = in.readLine();
-    while(!in.atEnd()){
-        temp = in.readLine();
-        args = temp.split(',');
-        args.removeAll("");
-        typelist[args.at(0).toInt()] = args.at(1);
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    int cnt = excel.GetRowCount();
+    for(int i = 2; i <= cnt; ++i){
+        typelist[excel.GetCellData(i, 1).toInt()] = excel.GetCellData(i, 2).toString();
     }
-    file.close();
+    excel.Close();
     return typelist;
 }
 
 QStringList IOManager::importExaminee(QString filename)
 {
     QStringList studentIDs;
-    QFile file(filename);
-    if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-        return studentIDs;
+    ExcelEngine excel;
+    excel.Open(filename, 1, false);
+    int cnt = excel.GetRowCount();
+    for(int i = 2; i <= cnt; ++i){
+        studentIDs.append(excel.GetCellData(i, 1).toString());
     }
-    QTextStream in(&file);
-    QString temp;
-    temp = in.readLine();
-    while(!in.atEnd()){
-        temp = in.readLine();
-        studentIDs.append(temp.split(',').at(0));
-    }
-    file.close();
+    excel.Close();
     return studentIDs;
 }
 //以上为subquestions表读取文件

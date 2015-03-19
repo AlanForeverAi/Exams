@@ -7,20 +7,20 @@ MainMenuUI::MainMenuUI(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
-    pushButton_examctrl->setEnabled(false);
-    if(User::GetInstance().getType() == 1)
-    {
-        pushButton_question->setEnabled(false);
-        pushButton_paper->setEnabled(false);
-        pushButton_examsetting->setEnabled(false);
-        pushButton_subscore->setEnabled(false);
-        pushButton_scoremanage->setEnabled(false);
-    }
-    else
-    {
-        pushButton_mem->setEnabled(false);
-        pushButton_config->setEnabled(false);
-    }
+//    pushButton_examctrl->setEnabled(false);
+//    if(User::GetInstance().getType() == 1)
+//    {
+//        pushButton_question->setEnabled(false);
+//        pushButton_paper->setEnabled(false);
+//        pushButton_examsetting->setEnabled(false);
+//        pushButton_subscore->setEnabled(false);
+//        pushButton_scoremanage->setEnabled(false);
+//    }
+//    else
+//    {
+//        pushButton_mem->setEnabled(false);
+//        pushButton_config->setEnabled(false);
+//    }
 }
 
 void MainMenuUI::on_pushButton_question_clicked()

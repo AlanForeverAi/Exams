@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     papersetting.cpp \
     addstudent.cpp \
     examsetting.cpp \
-    examcontrol.cpp
+    examcontrol.cpp \
+    excelengine.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -75,7 +76,8 @@ HEADERS  += mainwindow.h \
     papersetting.h \
     addstudent.h \
     examsetting.h \
-    examcontrol.h
+    examcontrol.h \
+    excelengine.h
 
 
 FORMS    += mainwindow.ui \
