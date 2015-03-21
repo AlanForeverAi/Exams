@@ -486,31 +486,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_sendMessage">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <family>SimSun-ExtB</family>
-         <pointsize>9</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>发送通知</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="pushButton_pause">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -531,7 +506,7 @@
         </font>
        </property>
        <property name="text">
-        <string>暂停</string>
+        <string>暂停/继续</string>
        </property>
       </widget>
      </item>

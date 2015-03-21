@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>675</height>
+    <height>720</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -83,19 +83,6 @@ p, li { white-space: pre-wrap; }
            </property>
           </widget>
          </widget>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_logo">
-         <property name="midLineWidth">
-          <number>0</number>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="res.qrc">:/res/minilogo.png</pixmap>
-         </property>
         </widget>
        </item>
        <item>
@@ -482,8 +469,6 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -1,9 +1,9 @@
-#include "examcontrol.h"
+﻿#include "examcontrol.h"
 
 ExamControl::ExamControl()
 {
     setupUi(this);
-
+    mode = STATE_EXAMING;
     tableWidget_student->verticalHeader()->setHidden(true);
     tableWidget_student->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -16,7 +16,6 @@ ExamControl::ExamControl()
     pushButton_pause->setEnabled(false);
     pushButton_continue->setEnabled(false);
     pushButton_end->setEnabled(false);
-    pushButton_sendMessage->setEnabled(false);
 }
 
 ExamControl::~ExamControl()
@@ -99,25 +98,22 @@ void ExamControl::on_pushButton_begin_clicked()
     pushButton_begin->setEnabled(false);
     pushButton_pause->setEnabled(true);
     pushButton_end->setEnabled(true);
-    pushButton_sendMessage->setEnabled(true);
     pushButton_back->setEnabled(false);
-}
-
-void ExamControl::on_pushButton_sendMessage_clicked()
-{
-    SendMessage *sendmessageDialog = new SendMessage();
-    connect(sendmessageDialog, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
-
-    sendmessageDialog->exec();
 }
 
 void ExamControl::on_pushButton_pause_clicked()
 {
-    emit this->pauseExam();
-    _countTimer->stop();
-    label_state->setText(QString("考试暂停"));
-    pushButton_pause->setEnabled(false);
-    pushButton_continue->setEnabled(true);
+    emit this->pauseExam();   
+    if(mode == STATE_EXAMING){
+        _countTimer->stop();
+        label_state->setText(QString("考试暂停"));
+        mode = STATE_PAUSE;
+    }
+    else if(mode == STATE_PAUSE){
+        _countTimer->start(1000);
+        label_state->setText(QString("考试进行中"));
+        mode = STATE_EXAMING;
+    }
 }
 
 void ExamControl::on_pushButton_continue_clicked()
@@ -137,7 +133,3 @@ void ExamControl::on_pushButton_end_clicked()
     pushButton_back->setEnabled(true);
 }
 
-//void ExamControl::on_pushButton_back_clicked()
-//{
-
-//}

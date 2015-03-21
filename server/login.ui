@@ -112,7 +112,7 @@
          </font>
         </property>
         <property name="text">
-         <string>管理登陆</string>
+         <string>老师、管理员登陆</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

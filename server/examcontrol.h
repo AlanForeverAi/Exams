@@ -1,4 +1,4 @@
-#ifndef EXAMCONTROL_H
+﻿#ifndef EXAMCONTROL_H
 #define EXAMCONTROL_H
 
 #include <QWidget>
@@ -7,6 +7,11 @@
 #include "ui_examcontrol.h"
 #include "data.h"
 #include "sendmessage.h"
+
+enum STATE {
+    STATE_EXAMING,
+    STATE_PAUSE
+};
 
 class ExamControl : public QWidget, public Ui::ExamControl
 {
@@ -31,16 +36,15 @@ private slots:
     void updateCountTime();
     void getcurrentPaperTime(int);
     void on_pushButton_begin_clicked();
-    void on_pushButton_sendMessage_clicked();
     void on_pushButton_pause_clicked();
     void on_pushButton_continue_clicked();
     void on_pushButton_end_clicked();
-//    void on_pushButton_back_clicked();
 
 private:
     QTimer *_countTimer;
     QTimer *_dateTimer;
     QTime _countTime;
+    int mode;
 };
 
 #endif // EXAMCONTROL_H

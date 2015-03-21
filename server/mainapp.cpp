@@ -7,6 +7,7 @@ MainApp::MainApp()
     readConfig();
     iniMainWindow();
     iniDBManager();
+//    iniServer();
     _server = NULL;
     _IOM = new IOManager;
     _serverState = STATE_NOEXAM;
@@ -491,10 +492,26 @@ void MainApp::endExam()
 
 void MainApp::pauseExam()
 {
-    _serverState = STATE_PAUSE;
-    for(int i = 0; i < _userList.count(); ++i){
-        if(_userList.at(i)->getState() == QStringLiteral("考试中")){
-            emit this->sendData(_userList.at(i)->getSockDescriptor(), MSG_PAUSEEXAM, 0);
+//    _serverState = STATE_PAUSE;
+//    for(int i = 0; i < _userList.count(); ++i){
+//        if(_userList.at(i)->getState() == QStringLiteral("考试中")){
+//            emit this->sendData(_userList.at(i)->getSockDescriptor(), MSG_PAUSEEXAM, 0);
+//        }
+//    }
+    if(_serverState == STATE_EXAMING){
+       _serverState = STATE_PAUSE;
+       for(int i = 0; i < _userList.count(); ++i){
+           if(_userList.at(i)->getState() == QStringLiteral("考试中")){
+               emit this->sendData(_userList.at(i)->getSockDescriptor(), MSG_PAUSEEXAM, 0);
+           }
+       }
+    }
+    else if(_serverState == STATE_PAUSE){
+        _serverState = STATE_EXAMING;
+        for(int i = 0; i < _userList.count(); ++i){
+            if(_userList.at(i)->getState() == QStringLiteral("考试中")){
+                emit this->sendData(_userList.at(i)->getSockDescriptor(), MSG_CONTINUEEXAM, 0);
+            }
         }
     }
 }
@@ -983,7 +1000,7 @@ void MainApp::startServer()
 {
     if(_server != NULL)
         return;
-    _server = new Server(this,_port);
+    _server = new Server(this, _port);
     connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
     connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
     connect(_server,SIGNAL(removeUser(int)),this,SLOT(removeUser(int)));

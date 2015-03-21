@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QDate>
 #include <QDebug>
+
 IOManager::IOManager()
 {
     QDir dir(".");
@@ -64,16 +65,16 @@ QList<Student*> IOManager::inputUser(QString path)
         temp = in.readLine();
         remp = temp.left(temp.indexOf("\t"));
         user->setID(remp);
-        temp = temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length() + 1);
         remp = temp.left(temp.indexOf("\t"));
         user->setName(remp);
-        temp = temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length() + 1);
         remp = temp.left(temp.indexOf("\t"));
         user->setGrade(remp.toInt());
-        temp = temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length() + 1);
         remp = temp.left(temp.indexOf("\t"));
         user->setClass(remp.toInt());
-        temp = temp.remove(0,remp.length()+1);
+        temp = temp.remove(0,remp.length() + 1);
         user->setPassword(temp);
         userlist.append(user);
     }
@@ -135,27 +136,27 @@ QList<Paper*> IOManager::inputPaper(QString path)
         Paper* paper = new Paper;
         temp = in.readLine();
         temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
+        temp = temp.mid(temp.indexOf(" ") + 1);
         paper->setObQuIds(temp);
 
         temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
+        temp = temp.mid(temp.indexOf(" ") + 1);
         paper->setSubQuIds(temp);
 
         temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
+        temp = temp.mid(temp.indexOf(" ") + 1);
         paper->setTotalMark(temp.toInt());
 
         temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
+        temp = temp.mid(temp.indexOf(" ") + 1);
         paper->setPercent(temp.toInt());
 
         temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
+        temp = temp.mid(temp.indexOf(" ") + 1);
         paper->setDescription(temp);
 
         temp = in.readLine();
-        temp = temp.mid(temp.indexOf(" ")+1);
+        temp = temp.mid(temp.indexOf(" ") + 1);
         paper->setTime(temp.toInt());
         temp = in.readLine();
 
@@ -188,9 +189,7 @@ void IOManager::outputOb(QList<ChoiceQuestions*> obquestionlist)
         out << obquestionlist.at(i)->getQuestionTitle() << "\n";
         out << "answer ";
         out << obquestionlist.at(i)->getAnswer() << "\n";
-
     }
-
     inouput.close();
 }
 //以上为obquestions表写入文件
@@ -226,7 +225,7 @@ void IOManager::outputSub(QList<EssayQuestions*> subquestionlist)
     if(!inouput.open(QIODevice::WriteOnly | QIODevice::Text))
         return ;
     QTextStream out(&inouput);
-    for(int i = 0; i<subquestionlist.count(); ++i)
+    for(int i = 0; i < subquestionlist.count(); ++i)
     {
         out << "subid ";
         out << subquestionlist.at(i)->getQuestionId() << "\n";
@@ -241,6 +240,7 @@ void IOManager::outputSub(QList<EssayQuestions*> subquestionlist)
 //以下为subquestions表读取文件
 QList<EssayQuestions*> IOManager::inputSub(QString path)
 {
+    QList<EssayQuestions *> sublist;
     ExcelEngine excel;
     excel.Open(path, 1, false);
     int cnt = excel.GetRowCount();
