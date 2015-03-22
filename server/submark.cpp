@@ -59,10 +59,10 @@ void SubMarkUI::paperTableChange(QTableWidgetItem *item)
             QTableWidgetItem* obn = new QTableWidgetItem(QString::number(obnumber));
             QTableWidgetItem* subn = new QTableWidgetItem(QString::number(subnumber));
 
-            tableWidget_examInfo->setItem(0,0,id);
-            tableWidget_examInfo->setItem(1,0,description);
-            tableWidget_examInfo->setItem(2,0,obn);
-            tableWidget_examInfo->setItem(3,0,subn);
+            tableWidget_examInfo->setItem(0, 0, id);
+            tableWidget_examInfo->setItem(1, 0, description);
+            tableWidget_examInfo->setItem(2, 0, obn);
+            tableWidget_examInfo->setItem(3, 0, subn);
         }
     }
     pushButton_Pre->setEnabled(false);

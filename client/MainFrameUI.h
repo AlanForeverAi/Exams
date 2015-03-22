@@ -24,7 +24,7 @@ public slots:
     void sendExamslot();
     void pauseExam();
     void continueExam();
-    void receiveMessage(QString);
+//    void receiveMessage(QString);
 
 private:
     ExamUI *_exam;

@@ -10,6 +10,16 @@
 MemberManageUI::MemberManageUI(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
+    studentButton.addButton(radioButton_studentid, 0);
+    studentButton.addButton(radioButton_class, 1);
+    studentButton.addButton(radioButton_grade, 2);
+    radioButton_studentid->setChecked(true);
+    teacherButton.addButton(radioButton_teacherid, 0);
+    teacherButton.addButton(radioButton_subject, 1);
+    radioButton_teacherid->setChecked(true);
+    managerButton.addButton(radioButton_managerid, 0);
+    managerButton.addButton(radioButton_managername, 1);
+    radioButton_managerid->setChecked(true);
     tableWidget_Manager->verticalHeader()->setHidden(true);
     tableWidget_Student->verticalHeader()->setHidden(true);
     tableWidget_Teacher->verticalHeader()->setHidden(true);
@@ -92,9 +102,9 @@ void MemberManageUI::showTeacher(QList<User *>listTeacher)
 
 void MemberManageUI::showSubject(QList<QString> typeList)
 {
-    for(int i = 0; i < typeList.count(); ++i){
-        comboBox->addItem(typeList.at(i));
-    }
+//    for(int i = 0; i < typeList.count(); ++i){
+//        comboBox->addItem(typeList.at(i));
+//    }
 }
 
 void MemberManageUI::showType(QMap<int, QString> type)
@@ -352,19 +362,19 @@ void MemberManageUI::on_pushButton_all_clicked()
 
 void MemberManageUI::textClear()
 {
-    lineEdit_userID->clear();
-    lineEdit_userName->clear();
-    lineEdit_userGrade->clear();
-    lineEdit_userClass->clear();
-    lineEdit_userPwd->clear();
-    lineEdit_managerId->clear();
-    lineEdit_managerName->clear();
-    lineEdit_managerPwd->clear();
-    lineEdit_teacherId->clear();
-    lineEdit_teacherName->clear();
-    lineEdit_teacherPwd->clear();
-    lineEdit_typeId->clear();
-    lineEdit_typeName->clear();
+//    lineEdit_userID->clear();
+//    lineEdit_userName->clear();
+//    lineEdit_userGrade->clear();
+//    lineEdit_userClass->clear();
+//    lineEdit_userPwd->clear();
+//    lineEdit_managerId->clear();
+//    lineEdit_managerName->clear();
+//    lineEdit_managerPwd->clear();
+//    lineEdit_teacherId->clear();
+//    lineEdit_teacherName->clear();
+//    lineEdit_teacherPwd->clear();
+//    lineEdit_typeId->clear();
+//    lineEdit_typeName->clear();
 }
 
 void MemberManageUI::studentDialog(QTableWidgetItem *item)
@@ -469,19 +479,19 @@ void MemberManageUI::on_pushButton_export_clicked()
         dir.mkdir("data");
     }
     if(tabWidget->currentIndex() == 0){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("csv Files (*.csv)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出学生"), "./data", QStringLiteral("excel Files (*.xls)"));
         emit this->exportStudent(studentList, filename);
     }
     else if(tabWidget->currentIndex() == 1){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("csv Files (*.csv)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出教师"), "./data", QStringLiteral("excel Files (*.xls)"));
         emit this->exportTeacher(teacherList, filename);
     }
     else if(tabWidget->currentIndex() == 2){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("csv Files (*.csv)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出管理员"), "./data", QStringLiteral("excel Files (*.xls)"));
         emit this->exportManager(managerList, filename);
     }
     else if(tabWidget->currentIndex() == 3){
-        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("csv Files (*.csv)"));
+        QString filename = QFileDialog::getSaveFileName(this, QStringLiteral("导出类型"), "./data", QStringLiteral("excel Files (*.xls)"));
         emit this->exportType(typeList, filename);
     }
 }
@@ -494,19 +504,128 @@ void MemberManageUI::on_pushButton_import_clicked()
         dir.mkdir("data");
     }
     if(tabWidget->currentIndex() == 0){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("csv Files (*.csv)"));
-        emit this->importStudent(filename);
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入学生"), "./data", QStringLiteral("excel Files (*.xls)"));
+        if(filename != "")
+            emit this->importStudent(filename);
     }
     else if(tabWidget->currentIndex() == 1){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("csv Files (*.csv)"));
-        emit this->importTeacher(filename);
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入老师"), "./data", QStringLiteral("excel Files (*.xls)"));
+        if(filename != "")
+            emit this->importTeacher(filename);
     }
     else if(tabWidget->currentIndex() == 2){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("csv Files (*.csv)"));
-        emit this->importManager(filename);
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入管理员"), "./data", QStringLiteral("excel Files (*.xls)"));
+        if(filename != "")
+            emit this->importManager(filename);
     }
     else if(tabWidget->currentIndex() == 3){
-        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("csv Files (*.csv)"));
-        emit this->importType(filename);
+        QString filename = QFileDialog::getOpenFileName(this, QStringLiteral("导入科目"), "./data", QStringLiteral("excel Files (*.xls)"));
+        if(filename != "")
+            emit this->importType(filename);
     }
+}
+
+void MemberManageUI::on_search_student_clicked()
+{
+    studentSearchList.clear();
+    QString s = lineEdit_student->text();
+    if(s == ""){
+        QMessageBox::about(this, "msg", QStringLiteral("请填写查找信息！"));
+        return ;
+    }
+
+    if(studentButton.checkedId() == 0){
+        for(int i =  0; i < studentList.count(); ++i){
+            if(studentList.at(i)->getID().startsWith(s)){
+                studentSearchList.append(studentList.at(i));
+            }
+        }
+    }
+
+    else if(studentButton.checkedId() == 1){
+        for(int i = 0; i < studentList.count(); ++i){
+            if(studentList.at(i)->getClass() == s.toInt()){
+                studentSearchList.append(studentList.at(i));
+            }
+        }
+    }
+
+    else if(studentButton.checkedId() == 2){
+        for(int i = 0; i < studentList.count(); ++i){
+            if(studentList.at(i)->getGrade() == s.toInt()){
+                studentSearchList.append(studentList.at(i));
+            }
+        }
+    }
+    showStudent(studentSearchList);
+}
+
+void MemberManageUI::on_all_student_clicked()
+{
+    showStudent(studentList);
+}
+
+void MemberManageUI::on_search_teacher_clicked()
+{
+    teacherSearchList.clear();
+    QString s = lineEdit_teacher->text();
+    if(s == ""){
+        QMessageBox::about(this, "msg", QStringLiteral("请填写查找信息！"));
+        return ;
+    }
+
+    if(teacherButton.checkedId() == 0){
+        for(int i = 0; i < teacherList.count(); ++i){
+            if(teacherList.at(i)->getID().startsWith(s)){
+                teacherSearchList.append(teacherList.at(i));
+            }
+        }
+    }
+
+    else if(teacherButton.checkedId() == 1){
+        for(int i = 0; i < teacherList.count(); ++i){
+            if(teacherList.at(i)->getSubject() == s){
+                teacherSearchList.append(teacherList.at(i));
+            }
+        }
+    }
+
+    showTeacher(teacherSearchList);
+}
+
+void MemberManageUI::on_all_teacher_clicked()
+{
+    showTeacher(teacherList);
+}
+
+void MemberManageUI::on_search_manager_clicked()
+{
+    managerSearchList.clear();
+    QString s = lineEdit_manager->text();
+    if(s == ""){
+        QMessageBox::about(this, "msg", QStringLiteral("请填写查找信息！"));
+        return ;
+    }
+
+    if(managerButton.checkedId() == 0){
+        for(int i = 0; i < managerList.count(); ++i){
+            if(managerList.at(i)->getID().startsWith(s)){
+                managerSearchList.append(managerList.at(i));
+            }
+        }
+    }
+    else if(managerButton.checkedId() == 1){
+        for(int i = 0; i < managerList.count(); ++i){
+            if(managerList.at(i)->getName() == s){
+                managerSearchList.append(managerList.at(i));
+            }
+        }
+    }
+
+    showManager(managerSearchList);
+}
+
+void MemberManageUI::on_all_manager_clicked()
+{
+    showManager(managerList);
 }

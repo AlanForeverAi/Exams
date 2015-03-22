@@ -1,6 +1,9 @@
 ﻿#ifndef IOMANAGER_H
 #define IOMANAGER_H
+
 #include "data.h"
+#include "excelengine.h"
+
 class IOManager:public QObject
 {
     Q_OBJECT

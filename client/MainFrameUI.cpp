@@ -35,10 +35,10 @@ void MainFrameUI::continueExam()
     _exam->timer->start(1000);
 }
 
-void MainFrameUI::receiveMessage(QString message)
-{
-    textBrowser_Inform->append(message);
-}
+//void MainFrameUI::receiveMessage(QString message)
+//{
+////    textBrowser_Inform->append(message);
+//}
 
 void MainFrameUI::showUserInfo(Student u)
 {

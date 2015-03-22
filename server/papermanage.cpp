@@ -24,8 +24,8 @@ PaperManageUI::PaperManageUI(QWidget *parent) :
 //    connect(this->tableWidget_allpaper,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(paperChange(QTableWidgetItem*)));
     connect(this->table_allpaper, SIGNAL(itemDoubleClicked(QTableWidgetItem*)), this, SLOT(alterPaper(QTableWidgetItem*)));
     QRegExp regExp("[1-9][0-9]+");//正则表达式：1开头的整数
-    pushButton_unmodify->setEnabled(false);
-    tabWidget_main->setCurrentIndex(0);
+//    pushButton_unmodify->setEnabled(false);
+//    tabWidget_main->setCurrentIndex(0);
 }
 
 PaperManageUI::~PaperManageUI()

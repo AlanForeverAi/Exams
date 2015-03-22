@@ -1,9 +1,9 @@
-#include "examcontrol.h"
+﻿#include "examcontrol.h"
 
 ExamControl::ExamControl()
 {
     setupUi(this);
-
+    mode = EXAMING;
     tableWidget_student->verticalHeader()->setHidden(true);
     tableWidget_student->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -16,7 +16,6 @@ ExamControl::ExamControl()
     pushButton_pause->setEnabled(false);
     pushButton_continue->setEnabled(false);
     pushButton_end->setEnabled(false);
-    pushButton_sendMessage->setEnabled(false);
 }
 
 ExamControl::~ExamControl()
@@ -30,9 +29,9 @@ void ExamControl::updateStudentTable(QList<Student *> students)
     int numbersubmit = 0;
     tableWidget_student->setRowCount(students.count());
     for(int i = 0; i < students.count(); ++i){
-        if(students.at(i)->getState() != QStringLiteral("未登录"))
+        if(students.at(i)->getState() != QString("未登录"))
             numberLogin++;
-        else if(students.at(i)->getState() == QStringLiteral("已经交卷"))
+        else if(students.at(i)->getState() == QString("已经交卷"))
             numbersubmit++;
 
         QTableWidgetItem *hostname = new QTableWidgetItem(students.at(i)->getHostname());
@@ -42,7 +41,7 @@ void ExamControl::updateStudentTable(QList<Student *> students)
         QTableWidgetItem *_class = new QTableWidgetItem(QString::number(students.at(i)->getClass()));
         QTableWidgetItem *state = new QTableWidgetItem(students.at(i)->getState());
 
-        if(state->text() == QStringLiteral("未登录"))
+        if(state->text() == QString("未登录"))
         {
             state->setTextColor(QColor("red"));
         }
@@ -54,7 +53,7 @@ void ExamControl::updateStudentTable(QList<Student *> students)
         tableWidget_student->setItem(i, 4, _class);
         tableWidget_student->setItem(i, 5, state);
     }
-    label_studentcount->setText(QStringLiteral("共有%1名学生 已登录%2人 已交卷%3人").arg(students.count()).arg(numberLogin).arg(numbersubmit));
+    label_studentcount->setText(QString("共有%1名学生 已登录%2人 已交卷%3人").arg(students.count()).arg(numberLogin).arg(numbersubmit));
 }
 
 void ExamControl::setTime(QTime examTime)
@@ -81,7 +80,7 @@ void ExamControl::updateCountTime()
         _countTimer->stop();
 
         emit this->endExam();
-        label_state->setText(QStringLiteral("考试结束！！！"));
+        label_state->setText(QString("考试结束！！！"));
     }
 }
 
@@ -95,36 +94,33 @@ void ExamControl::on_pushButton_begin_clicked()
 {
     emit this->beginExam();
     _countTimer->start(1000);
-    label_state->setText(QStringLiteral("考试进行中"));
+    label_state->setText(QString("考试进行中"));
     pushButton_begin->setEnabled(false);
     pushButton_pause->setEnabled(true);
     pushButton_end->setEnabled(true);
-    pushButton_sendMessage->setEnabled(true);
     pushButton_back->setEnabled(false);
-}
-
-void ExamControl::on_pushButton_sendMessage_clicked()
-{
-    SendMessage *sendmessageDialog = new SendMessage();
-    connect(sendmessageDialog, SIGNAL(sendMessage(QString)), this, SIGNAL(sendMessage(QString)));
-
-    sendmessageDialog->exec();
 }
 
 void ExamControl::on_pushButton_pause_clicked()
 {
-    emit this->pauseExam();
-    _countTimer->stop();
-    label_state->setText(QStringLiteral("考试暂停"));
-    pushButton_pause->setEnabled(false);
-    pushButton_continue->setEnabled(true);
+    emit this->pauseExam();   
+    if(mode == EXAMING){
+        _countTimer->stop();
+        label_state->setText(QString("考试暂停"));
+        mode = PAUSE;
+    }
+    else if(mode == PAUSE){
+        _countTimer->start(1000);
+        label_state->setText(QString("考试进行中"));
+        mode = EXAMING;
+    }
 }
 
 void ExamControl::on_pushButton_continue_clicked()
 {
     emit this->continueExam();
     _countTimer->start(1000);
-    label_state->setText(QStringLiteral("考试进行中"));
+    label_state->setText(QString("考试进行中"));
     pushButton_continue->setEnabled(false);
     pushButton_pause->setEnabled(true);
 }
@@ -136,8 +132,3 @@ void ExamControl::on_pushButton_end_clicked()
     pushButton_continue->setEnabled(false);
     pushButton_back->setEnabled(true);
 }
-
-//void ExamControl::on_pushButton_back_clicked()
-//{
-
-//}

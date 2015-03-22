@@ -65,6 +65,18 @@ private slots:
 
     void on_pushButton_export_clicked();
 
+    void on_search_student_clicked();
+
+    void on_all_student_clicked();
+
+    void on_search_teacher_clicked();
+
+    void on_all_teacher_clicked();
+
+    void on_search_manager_clicked();
+
+    void on_all_manager_clicked();
+
 private:
     QList<Student *> studentList;
     QList<User *>    teacherList;
@@ -74,6 +86,9 @@ private:
     QList<User *>    managerSearchList;
     QMap<int, QString> typeList;
     QMap<int, QString> typeSearchList;
+    QButtonGroup studentButton;
+    QButtonGroup teacherButton;
+    QButtonGroup managerButton;
 };
 
 #endif // MEMBERMANAGEUI_H

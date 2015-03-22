@@ -1,4 +1,5 @@
-﻿#ifndef PAPAERMANAGEUI_H
+﻿void on_pushButton_unmodify_clicked();
+#ifndef PAPAERMANAGEUI_H
 #define PAPAERMANAGEUI_H
 
 #include <QWidget>

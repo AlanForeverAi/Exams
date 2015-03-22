@@ -32,7 +32,7 @@ public slots:
     void on_pushButton_subscore_clicked();
     void on_pushButton_config_clicked();
     void on_pushButton_scoremanage_clicked();
-    void on_pushButton_inoutput_clicked();
+//    void on_pushButton_inoutput_clicked();
     void on_pushButton_papersetting_clicked();
     void on_pushButton_examsetting_clicked();
 };

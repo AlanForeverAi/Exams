@@ -9,7 +9,7 @@ Server类构造函数
 */
 Server::Server(QObject *parent, int port): QTcpServer(parent)
 {
-    if( !listen(QHostAddress::Any,port))
+    if( !listen(QHostAddress::Any, port))
     {
         qDebug("server start fail!");
         exit(2);
