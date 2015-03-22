@@ -3,7 +3,7 @@
 ExamControl::ExamControl()
 {
     setupUi(this);
-    mode = STATE_EXAMING;
+    mode = EXAMING;
     tableWidget_student->verticalHeader()->setHidden(true);
     tableWidget_student->setSelectionBehavior(QAbstractItemView::SelectRows);
     tableWidget_student->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -104,15 +104,15 @@ void ExamControl::on_pushButton_begin_clicked()
 void ExamControl::on_pushButton_pause_clicked()
 {
     emit this->pauseExam();   
-    if(mode == STATE_EXAMING){
+    if(mode == EXAMING){
         _countTimer->stop();
         label_state->setText(QString("考试暂停"));
-        mode = STATE_PAUSE;
+        mode = PAUSE;
     }
-    else if(mode == STATE_PAUSE){
+    else if(mode == PAUSE){
         _countTimer->start(1000);
         label_state->setText(QString("考试进行中"));
-        mode = STATE_EXAMING;
+        mode = EXAMING;
     }
 }
 
@@ -132,4 +132,3 @@ void ExamControl::on_pushButton_end_clicked()
     pushButton_continue->setEnabled(false);
     pushButton_back->setEnabled(true);
 }
-

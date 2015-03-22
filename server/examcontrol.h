@@ -9,8 +9,8 @@
 #include "sendmessage.h"
 
 enum STATE {
-    STATE_EXAMING,
-    STATE_PAUSE
+    EXAMING,
+    PAUSE
 };
 
 class ExamControl : public QWidget, public Ui::ExamControl

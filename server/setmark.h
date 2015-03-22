@@ -1,4 +1,4 @@
-#ifndef SETMARK_H
+﻿#ifndef SETMARK_H
 #define SETMARK_H
 
 #include <QDialog>
@@ -13,9 +13,6 @@ public:
     SetMark();
     ~SetMark();
     int getMark();
-
-signals:
-//    void getMark(int);
 
 private slots:
     void on_pushButton_submit_clicked();

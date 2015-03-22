@@ -21,8 +21,6 @@ signals:
     void sendPaperTime(int,int);
     void sendInfo(QStringList);
     void updateStudentTable(QList<Student*>);
-//    void setTime(QTime);
-//    void setTime(int);
     void setExamName(QString);
     void beginExam();
     void pauseExam();
@@ -38,13 +36,7 @@ private slots:
     void showPapers(QList<Paper*>);
     void on_pushButton_send_clicked();
     void on_pushButton_closeServer_clicked();
-
     void on_pushButton_startServer_clicked();
-
-private:
-//    QTimer *_countTimer;
-//    QTimer *_dateTimer;
-//    QTime _countTime;
 };
 
 
