@@ -70,7 +70,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <property name="iconSize">
         <size>
@@ -80,7 +80,7 @@
        </property>
        <widget class="QWidget" name="tab_3">
         <attribute name="title">
-         <string>客观题</string>
+         <string>选择题</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
@@ -128,7 +128,7 @@
        </widget>
        <widget class="QWidget" name="tab_4">
         <attribute name="title">
-         <string>主观题</string>
+         <string>问答题</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>

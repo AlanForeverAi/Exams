@@ -218,6 +218,23 @@ void MainWindow::do_mainmenu()
     this->statusBar()->showMessage(QStringLiteral("主菜单"));
 }
 
+void MainWindow::do_menu()
+{
+    Menu *mainmenu = new Menu();
+    connect(mainmenu,SIGNAL(action_QuestionsManager()),this,SLOT(on_action_QuestionsManager_triggered()));
+    connect(mainmenu,SIGNAL(action_makepaper()),this,SLOT(on_action_makepaper_triggered()));
+    connect(mainmenu,SIGNAL(action_memmanager()),this,SLOT(on_action_memmanager_triggered()));
+    connect(mainmenu,SIGNAL(action_examctrl()),this,SLOT(action_examconctrol()));
+    connect(mainmenu,SIGNAL(action_subscore()),this,SLOT(on_action_subscore_triggered()));
+    connect(mainmenu,SIGNAL(action_config()),this,SLOT(on_action_config_triggered()));
+    connect(mainmenu,SIGNAL(action_scoremanage()),this,SLOT(on_action_scomanage_triggered()));
+    connect(mainmenu,SIGNAL(action_inoutput()),this,SLOT(on_action_inoutput_triggered()));
+    connect(mainmenu,SIGNAL(action_papersetting()),this,SLOT(action_papersetting()));
+    connect(mainmenu,SIGNAL(action_examsetting()),this,SLOT(action_examsetting()));
+    this->setCentralWidget(mainmenu);
+    this->statusBar()->showMessage(QStringLiteral("主菜单"));
+}
+
 void MainWindow::do_config()
 {
     ConfigUI *config = new ConfigUI;
@@ -315,7 +332,8 @@ void MainWindow::on_action_login_triggered()
 
 void MainWindow::on_action_mainmenu_triggered()
 {
-    this->do_mainmenu();
+//    this->do_mainmenu();
+    do_menu();
 }
 
 void MainWindow::on_action_config_triggered()

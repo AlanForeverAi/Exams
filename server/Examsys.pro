@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     addstudent.cpp \
     examsetting.cpp \
     examcontrol.cpp \
-    excelengine.cpp
+    excelengine.cpp \
+    menu.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -77,7 +78,8 @@ HEADERS  += mainwindow.h \
     addstudent.h \
     examsetting.h \
     examcontrol.h \
-    excelengine.h
+    excelengine.h \
+    menu.h
 
 
 FORMS    += mainwindow.ui \
@@ -104,7 +106,8 @@ FORMS    += mainwindow.ui \
     questionsmanage.ui \
     scoremanage.ui \
     submark.ui \
-    examcontrol.ui
+    examcontrol.ui \
+    menu.ui
 
 RESOURCES += \
     res.qrc

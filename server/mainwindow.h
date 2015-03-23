@@ -18,6 +18,7 @@
 #include "scoremanage.h"
 #include "inoutput.h"
 #include "papersetting.h"
+#include "menu.h"
 
 namespace Ui
 {
@@ -178,6 +179,7 @@ private:
     void do_memmanage();
     void do_login();
     void do_mainmenu();
+    void do_menu();
     void do_config();
     void do_scomanage();
     void do_inoutput();
