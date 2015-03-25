@@ -31,6 +31,7 @@ signals:
     void closeServer();
     void setPaper(int);
     void setInfo(QStringList);
+    void examPrepare();
 
 private slots:
     void showPapers(QList<Paper*>);

@@ -23,6 +23,7 @@ signals:
     void action_inoutput();
     void action_papersetting();
     void action_examsetting();
+    void examprepare();
 
 private slots:
     void on_pushButton_mem_clicked();
@@ -34,6 +35,10 @@ private slots:
     void on_pushButton_papersetting_clicked();
     void on_pushButton_subscore_clicked();
     void on_pushButton_scoremanage_clicked();
+    void setState(int);
+
+private:
+    int state;
 };
 
 #endif // MENU_H

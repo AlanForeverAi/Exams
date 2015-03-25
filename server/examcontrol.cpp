@@ -93,6 +93,7 @@ void ExamControl::getcurrentPaperTime(int descriptor)
 void ExamControl::on_pushButton_begin_clicked()
 {
     emit this->beginExam();
+    emit this->examing();
     _countTimer->start(1000);
     label_state->setText(QString("考试进行中"));
     pushButton_begin->setEnabled(false);

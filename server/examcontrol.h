@@ -27,6 +27,7 @@ signals:
     void continueExam();
     void sendMessage(QString);
     void sendPaperTime(int, int);
+    void examing();
 
 private slots:
     void updateStudentTable(QList<Student *>);

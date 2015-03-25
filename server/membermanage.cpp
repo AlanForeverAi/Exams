@@ -291,74 +291,74 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     }
 }
 
-void MemberManageUI::on_pushButton_search_clicked()
-{
-    if(tabWidget->currentIndex() == 0)
-    {
-        studentSearchList.clear();
-        QString s_tosearch;
-        s_tosearch = lineEdit_search->text();
-        for(int i = 0; i < studentList.count(); i++)
-        {
-            if(studentList.at(i)->getID() == s_tosearch ||
-                    studentList.at(i)->getName() == s_tosearch ||
-                    studentList.at(i)->getGrade() == s_tosearch.toInt() ||
-                    studentList.at(i)->getClass() == s_tosearch.toInt())
-            {
-                studentSearchList.append(studentList.at(i));
-            }
-        }
-        this->showStudent(studentSearchList);
-    }
-    else if(tabWidget->currentIndex() == 1)
-    {
-        teacherSearchList.clear();
-        QString s_tosearch;
-        s_tosearch = lineEdit_search->text();
-        for(int i = 0; i < teacherList.count(); i++)
-        {
-            if(teacherList.at(i)->getID() == s_tosearch ||
-                    teacherList.at(i)->getName() == s_tosearch)
-            {
-                teacherSearchList.append(teacherList.at(i));
-            }
-        }
-        this->showTeacher(teacherSearchList);
-    }
-    else if(tabWidget->currentIndex() == 2)
-    {
-        managerSearchList.clear();
-        QString s_tosearch;
-        s_tosearch = lineEdit_search->text();
-        for(int i = 0; i < managerList.count(); i++){
-            if(managerList.at(i)->getID() == s_tosearch ||
-                    managerList.at(i)->getName() == s_tosearch)
-            {
-                managerSearchList.append(managerList.at(i));
-            }
-        }
-        this->showManager(managerSearchList);
-    }
-    else if(tabWidget->currentIndex() == 3){
-        typeSearchList.clear();
-        QString s_tosearch;
-        s_tosearch = lineEdit_search->text();
-        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
-            if(ite.key() == s_tosearch.toInt() || ite.value() == s_tosearch){
-                typeSearchList[ite.key()] = ite.value();
-            }
-        }\
-        this->showType(typeSearchList);
-    }
-}
+//void MemberManageUI::on_pushButton_search_clicked()
+//{
+//    if(tabWidget->currentIndex() == 0)
+//    {
+//        studentSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(int i = 0; i < studentList.count(); i++)
+//        {
+//            if(studentList.at(i)->getID() == s_tosearch ||
+//                    studentList.at(i)->getName() == s_tosearch ||
+//                    studentList.at(i)->getGrade() == s_tosearch.toInt() ||
+//                    studentList.at(i)->getClass() == s_tosearch.toInt())
+//            {
+//                studentSearchList.append(studentList.at(i));
+//            }
+//        }
+//        this->showStudent(studentSearchList);
+//    }
+//    else if(tabWidget->currentIndex() == 1)
+//    {
+//        teacherSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(int i = 0; i < teacherList.count(); i++)
+//        {
+//            if(teacherList.at(i)->getID() == s_tosearch ||
+//                    teacherList.at(i)->getName() == s_tosearch)
+//            {
+//                teacherSearchList.append(teacherList.at(i));
+//            }
+//        }
+//        this->showTeacher(teacherSearchList);
+//    }
+//    else if(tabWidget->currentIndex() == 2)
+//    {
+//        managerSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(int i = 0; i < managerList.count(); i++){
+//            if(managerList.at(i)->getID() == s_tosearch ||
+//                    managerList.at(i)->getName() == s_tosearch)
+//            {
+//                managerSearchList.append(managerList.at(i));
+//            }
+//        }
+//        this->showManager(managerSearchList);
+//    }
+//    else if(tabWidget->currentIndex() == 3){
+//        typeSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+//            if(ite.key() == s_tosearch.toInt() || ite.value() == s_tosearch){
+//                typeSearchList[ite.key()] = ite.value();
+//            }
+//        }\
+//        this->showType(typeSearchList);
+//    }
+//}
 
-void MemberManageUI::on_pushButton_all_clicked()
-{
-    this->showStudent(studentList);
-    this->showTeacher(teacherList);
-    this->showManager(managerList);
-    this->showType(typeList);
-}
+//void MemberManageUI::on_pushButton_all_clicked()
+//{
+//    this->showStudent(studentList);
+//    this->showTeacher(teacherList);
+//    this->showManager(managerList);
+//    this->showType(typeList);
+//}
 
 void MemberManageUI::textClear()
 {

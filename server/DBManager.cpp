@@ -354,8 +354,9 @@ QSqlQuery DBManager::selectPaperById(int id)
 QSqlQuery DBManager::selectPaper()
 {
     QSqlQuery query;
-    int subject = User::GetInstance().getType();
-    if( query.exec(QString("select * from paper where subject = %1").arg(subject)))
+//    int subject = User::GetInstance().getType();
+//    if( query.exec(QString("select * from paper where subject = %1").arg(subject)))
+    if(query.exec(QString("select * from paper")))
         return query;
     else
         return query;
@@ -390,7 +391,6 @@ void DBManager::updatePaper(int id, QString objectIds, QString subjectIds, int t
     query.exec(s.arg(objectIds).arg(subjectIds).arg(totalMark).arg(description).arg(time).arg(objectMarks).arg(subjectMarks).arg(id));
     qDebug() << "updatePaper] " << query.lastError();
 }
-
 
 //把学生客观题答案插入客观题答案表
 void DBManager::insertObAnswers(int fpaperid,QString studentid,QString answers)

@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    _ui->action_inoutput->setEnabled(false);
 
     _statusBar = statusBar();
+    state = NO;
     this->on_action_login_triggered();
 }
 
@@ -102,6 +103,7 @@ void MainWindow::do_examsetting()
     connect(this,SIGNAL(getcurrentPaperTime(int)),examSetting,SIGNAL(getcurrentPaperTime(int)));
     connect(examSetting,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
     connect(examSetting,SIGNAL(sendInfo(QStringList)),this,SIGNAL(sendInfo(QStringList)));
+    connect(examSetting, SIGNAL(examPrepare()), this, SLOT(examPrepare()));
     this->setCentralWidget(examSetting);
     emit this->getAllPaper();
     emit this->getUserList();
@@ -122,6 +124,7 @@ void MainWindow::do_examconctrol()
     connect(this, SIGNAL(setPaperName(QString)), examControl, SLOT(setPaperName(QString)));
     connect(this, SIGNAL(setExamTime(QTime)), examControl, SLOT(setTime(QTime)));
     connect(examControl->pushButton_back, SIGNAL(clicked()), this, SLOT(backToMenu()));
+    connect(examControl, SIGNAL(examing()), this, SLOT(examing()));
     this->setCentralWidget(examControl);
     emit this->getUserList();
     emit this->getPaperName();
@@ -231,7 +234,9 @@ void MainWindow::do_menu()
     connect(mainmenu,SIGNAL(action_inoutput()),this,SLOT(on_action_inoutput_triggered()));
     connect(mainmenu,SIGNAL(action_papersetting()),this,SLOT(action_papersetting()));
     connect(mainmenu,SIGNAL(action_examsetting()),this,SLOT(action_examsetting()));
+    connect(this, SIGNAL(menuMode(int)), mainmenu, SLOT(setState(int)));
     this->setCentralWidget(mainmenu);
+    emit this->menuMode(state);
     this->statusBar()->showMessage(QStringLiteral("主菜单"));
 }
 
@@ -411,7 +416,8 @@ void MainWindow::action_papersetting()
 
 void MainWindow::backToMenu()
 {
-    this->do_mainmenu();
+//    this->do_mainmenu();
+    do_menu();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -429,4 +435,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::pauseExamMode()
 {
 
+}
+
+void MainWindow::examPrepare()
+{
+    state = PREPARE;
+}
+
+void MainWindow::examing()
+{
+    state = NO;
 }
