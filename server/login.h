@@ -1,11 +1,11 @@
-#ifndef LOGINUI_H
+﻿#ifndef LOGINUI_H
 #define LOGINUI_H
 
 #include <QWidget>
-//#include "ui_LoginUI.h"
 #include "ui_login.h"
 #include "data.h"
-class LoginUI : public QWidget,public Ui::LoginUI
+
+class LoginUI : public QWidget, public Ui::LoginUI
 {
     Q_OBJECT
 public:
@@ -17,4 +17,4 @@ public slots:
     void on_pushButton_login_clicked();
 };
 
-#endif // LOGINUI_H
+#endif // LOGINUI_Hhhhhhh

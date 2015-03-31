@@ -18,6 +18,12 @@
 #include "scoremanage.h"
 #include "inoutput.h"
 #include "papersetting.h"
+#include "menu.h"
+
+enum State{
+    NO = 0,
+    PREPARE = 1
+};
 
 namespace Ui
 {
@@ -147,6 +153,7 @@ signals:
     void getPaperName();
     void setExamTime(QTime);
     void getExamTime();
+    void menuMode(int);
 
 private slots:
     void on_action_QuestionsManager_triggered();
@@ -168,6 +175,8 @@ private slots:
     void backToMenu();
     void closeEvent(QCloseEvent *);
     void pauseExamMode();
+    void examPrepare();
+    void examing();
 
 private:
     void do_QuestionsManager();
@@ -178,6 +187,7 @@ private:
     void do_memmanage();
     void do_login();
     void do_mainmenu();
+    void do_menu();
     void do_config();
     void do_scomanage();
     void do_inoutput();
@@ -185,7 +195,7 @@ private:
 
     Ui::MainWindow *_ui;
     QStatusBar *_statusBar;
-
+    int state;
 };
 
 #endif // MAINWINDOW_H

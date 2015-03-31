@@ -43,6 +43,7 @@ void ExamSettingUI::on_pushButton_send_clicked()
 
          emit this->sendPaper(paperid);
          emit this->sendInfo(info);
+         emit this->examPrepare();
      }
      else{
          QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));

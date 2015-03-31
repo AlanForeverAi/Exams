@@ -2,16 +2,24 @@
 <ui version="4.0">
  <class>LoginUI</class>
  <widget class="QWidget" name="LoginUI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1240</width>
+    <height>650</height>
+   </rect>
+  </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
-    <height>720</height>
+    <width>1240</width>
+    <height>650</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1280</width>
-    <height>720</height>
+    <width>1240</width>
+    <height>650</height>
    </size>
   </property>
   <property name="font">

@@ -1,4 +1,5 @@
-﻿#ifndef QuestionsManageUI_H
+﻿void on_Button_modify_clicked();
+#ifndef QuestionsManageUI_H
 #define QuestionsManageUI_H
 
 #include <QWidget>
@@ -47,6 +48,8 @@ private slots:
     void on_pushButton_export_clicked();
 
     void on_pushButton_import_clicked();
+
+    void on_Button_modify_clicked();
 
 private:
     QList<ChoiceQuestions*> choiceQuestionList;

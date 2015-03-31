@@ -107,6 +107,7 @@ void QuestionsManageUI::setEssayQuestions(QList<EssayQuestions *> questionList)
 void QuestionsManageUI::showChoiceQuestion(QTableWidgetItem *item)
 {
     AlterChoiceQuestion *alterChoiceQuestionDialog = new AlterChoiceQuestion();
+    alterChoiceQuestionDialog->setWindowTitle("修改选择题");
     connect(this, SIGNAL(showChoiceQuestion(ChoiceQuestions*)), alterChoiceQuestionDialog, SLOT(showQuestion(ChoiceQuestions*)));
     connect(alterChoiceQuestionDialog, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)), this, SIGNAL(updateChoiceQuestion(ChoiceQuestions*)));
 
@@ -124,6 +125,7 @@ void QuestionsManageUI::showChoiceQuestion(QTableWidgetItem *item)
 void QuestionsManageUI::showEssayQuestion(QTableWidgetItem *item)
 {
     AlterEssayQuestion *alterEssayQuestionDialog = new AlterEssayQuestion();
+    alterEssayQuestionDialog->setWindowTitle("修改问答题");
     connect(this, SIGNAL(showEssayQuestion(EssayQuestions*)), alterEssayQuestionDialog, SLOT(showQuestion(EssayQuestions*)));
     connect(alterEssayQuestionDialog, SIGNAL(updateEssayQuestion(EssayQuestions*)), this, SIGNAL(updateEssayQuestion(EssayQuestions*)));
 
@@ -141,6 +143,7 @@ void QuestionsManageUI::showEssayQuestion(QTableWidgetItem *item)
 void QuestionsManageUI::on_Button_new_clicked()
 {
     AddQuestion *addQuestionDialog = new AddQuestion();
+    addQuestionDialog->setWindowTitle("添加题目");
     connect(addQuestionDialog, SIGNAL(addChoiceQuestion(ChoiceQuestions*)), this, SIGNAL(addOb_Questoins(ChoiceQuestions*)));
     connect(addQuestionDialog, SIGNAL(addEssayQuestion(EssayQuestions*)), this, SIGNAL(addSub_Questoins(EssayQuestions*)));
 
@@ -175,3 +178,24 @@ void QuestionsManageUI::on_pushButton_import_clicked()
         emit this->importEssayQuestion(filename);
     }
 }
+
+void QuestionsManageUI::on_Button_modify_clicked()
+{
+    if(tabWidget_2->currentIndex() == 0){
+        if(obTable->currentRow() < 0){
+            QMessageBox::about(this,"msg",QStringLiteral("请选择一个题目"));
+            return ;
+        }
+
+        showChoiceQuestion(obTable->item(obTable->currentRow(), 0));
+    }
+    else if(tabWidget_2->currentIndex() == 1){
+        if(subTable->currentRow() < 0){
+            QMessageBox::about(this,"msg",QStringLiteral("请选择一个题目"));
+            return ;
+        }
+
+        showEssayQuestion(subTable->item(subTable->currentRow(), 0));
+    }
+}
+

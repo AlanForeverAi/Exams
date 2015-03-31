@@ -44,8 +44,8 @@ signals:
 private slots:
     void on_pushButton_add_user_clicked();
     void on_pushButton_delete_user_clicked();
-    void on_pushButton_search_clicked();
-    void on_pushButton_all_clicked();
+//    void on_pushButton_search_clicked();
+//    void on_pushButton_all_clicked();
     void showManager(QList<User *>);
     void showStudent(QList<Student *>);
     void showTeacher(QList<User *>);

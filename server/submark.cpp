@@ -75,7 +75,6 @@ void SubMarkUI::showUserByPaperId(QList<Student*> studentlist)
     tableWidget_userInfo->setRowCount(studentlist.count());
     for(int i = 0; i < studentlist.count(); i++)
     {
-
         QTableWidgetItem *id = new QTableWidgetItem(studentlist.at(i)->getID());
         QTableWidgetItem *name = new QTableWidgetItem(studentlist.at(i)->getName());
         QTableWidgetItem *grade = new QTableWidgetItem(QString::number(studentlist.at(i)->getGrade()));
@@ -169,6 +168,6 @@ void SubMarkUI::on_pushButton_submit_clicked()
     list.append(_currentUserId);
     list.append(mark);
     emit this->submitSubMark(list);
-    QMessageBox::about(this,QStringLiteral("信息"),QStringLiteral("你的批改已经保存。"));
-    tableWidget_userInfo->item(tableWidget_userInfo->currentRow(),4)->setText(QStringLiteral("已批改"));
+    QMessageBox::about(this,QStringLiteral("信息"), QStringLiteral("你的批改已经保存。"));
+    tableWidget_userInfo->item(tableWidget_userInfo->currentRow(), 4)->setText(QStringLiteral("已批改"));
 }
