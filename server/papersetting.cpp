@@ -1,4 +1,4 @@
-#include "papersetting.h"
+﻿#include "papersetting.h"
 
 PaperSetting::PaperSetting(QWidget *parent) :
     QWidget(parent)
@@ -164,6 +164,7 @@ void PaperSetting::on_pushButton_allselectstudent_clicked()
 void PaperSetting::on_pushButton_addstudent_clicked()
 {
     AddStudent *addStudentDialog = new AddStudent();
+    addStudentDialog->setWindowTitle("添加考生");
     connect(this, SIGNAL(passStudentList(QList<Student*>)), addStudentDialog, SLOT(setStudentList(QList<Student*>)));
     connect(this, SIGNAL(passSelectStudent(QStringList)), addStudentDialog, SLOT(setSelectStudent(QStringList)));
     connect(addStudentDialog, SIGNAL(appendExaminee(QStringList)), this, SLOT(appendExaminee(QStringList)));

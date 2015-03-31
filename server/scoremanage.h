@@ -1,4 +1,4 @@
-#ifndef SCOREMANAGEUI_H
+﻿#ifndef SCOREMANAGEUI_H
 #define SCOMREANAGEUI_H
 
 #include <QWidget>
@@ -20,13 +20,20 @@ signals:
 
 public slots:
     void showPapers(QList<Paper*> paperList);
-    void on_pushButton_search_clicked();
+//    void on_pushButton_search_clicked();
     void on_pushButton_print_clicked();
     void showCombo(QList<Combo*>);
     void paperChange(QTableWidgetItem*);
 
 private slots:
     void on_pushButton_delete_clicked();
+    void on_pushButton_searchPaper_clicked();
+    void on_pushButton_allPaper_clicked();
+    void on_pushButton_searchstudent_clicked();
+    void on_pushButton_allStudent_clicked();
+
+private :
+
 };
 
 #endif // SCOMANAGEUI_H

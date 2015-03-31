@@ -140,7 +140,7 @@ void MainWindow::do_subscore()
     connect(sub_score,SIGNAL(getSubAnswer(int,QString)),this,SIGNAL(getSubAnswer(int,QString)));
     connect(this,SIGNAL(showSubAnswer(QVector<QString>)),sub_score,SLOT(showSubAnswer(QVector<QString>)));
     connect(sub_score,SIGNAL(submitSubMark(QStringList)),this,SIGNAL(submitSubMark(QStringList)));
-//    connect(sub_score->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
+    connect(sub_score->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     emit this->getAllPaper();
     this->setCentralWidget(sub_score);
     _statusBar->showMessage(QStringLiteral("在线评卷"));
@@ -337,8 +337,8 @@ void MainWindow::on_action_login_triggered()
 
 void MainWindow::on_action_mainmenu_triggered()
 {
-//    this->do_mainmenu();
-    do_menu();
+    this->do_mainmenu();
+//    do_menu();
 }
 
 void MainWindow::on_action_config_triggered()
@@ -417,7 +417,8 @@ void MainWindow::action_papersetting()
 void MainWindow::backToMenu()
 {
 //    this->do_mainmenu();
-    do_menu();
+//    do_menu();
+    do_mainmenu();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

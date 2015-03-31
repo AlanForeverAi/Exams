@@ -380,6 +380,7 @@ void MemberManageUI::textClear()
 void MemberManageUI::studentDialog(QTableWidgetItem *item)
 {
     AlterStudent *alterStudentDialog = new AlterStudent();
+    alterStudentDialog->setWindowTitle("修改学生");
     connect(this, SIGNAL(showStudent(Student*)), alterStudentDialog, SLOT(showStudent(Student*)));
     connect(alterStudentDialog, SIGNAL(updateStudent(Student*)), this, SIGNAL(updateStudent(Student*)));
 
@@ -398,6 +399,7 @@ void MemberManageUI::studentDialog(QTableWidgetItem *item)
 void MemberManageUI::teacherDialog(QTableWidgetItem *item)
 {
     AlterTeacher *alterTeacherDialog = new AlterTeacher();
+    alterTeacherDialog->setWindowTitle("修改教师");
     connect(this, SIGNAL(showTypeList(QList<QString>)), alterTeacherDialog, SLOT(showTypeList(QList<QString>)));
     connect(this, SIGNAL(showTeacher(User*)), alterTeacherDialog, SLOT(showTeacher(User*)));
     connect(alterTeacherDialog, SIGNAL(updateTeacher(User*)), this, SIGNAL(updateTeacher(User*)));
@@ -418,6 +420,7 @@ void MemberManageUI::teacherDialog(QTableWidgetItem *item)
 void MemberManageUI::managerDialog(QTableWidgetItem *item)
 {
     AlterManager *alterManagerDialog = new AlterManager();
+    alterManagerDialog->setWindowTitle("修改管理员");
     connect(this, SIGNAL(showManager(User*)), alterManagerDialog, SLOT(showManager(User*)));
     connect(alterManagerDialog, SIGNAL(updateManager(User*)), this, SIGNAL(updateManager(User*)));
 
@@ -436,6 +439,7 @@ void MemberManageUI::managerDialog(QTableWidgetItem *item)
 void MemberManageUI::typeDialog(QTableWidgetItem *item)
 {
     AlterType *alterTypeDialog = new AlterType();
+    alterTypeDialog->setWindowTitle("修改类型");
     connect(this, SIGNAL(showType(int, QString)), alterTypeDialog, SLOT(showType(int, QString)));
     connect(alterTypeDialog, SIGNAL(updateType(int, QString)), this, SIGNAL(updateType(int, QString)));
 
