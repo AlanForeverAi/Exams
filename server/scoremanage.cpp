@@ -20,6 +20,15 @@ ScoreManageUI::ScoreManageUI(QWidget *parent) :
     tableWidget_paper->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableWidget_Detail->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+    radioButton_paperID->setChecked(true);
+    radioButton_studentID->setChecked(true);
+
+    paperSelect.addButton(radioButton_paperID, 0);
+    paperSelect.addButton(radioButton_papername, 1);
+    comboSelect.addButton(radioButton_studentID, 0);
+    comboSelect.addButton(radioButton_class, 1);
+    comboSelect.addButton(radioButton_grade, 2);
+
     connect(tableWidget_paper,SIGNAL(itemClicked(QTableWidgetItem*)),this,SLOT(paperChange(QTableWidgetItem*)));
 }
 
@@ -44,6 +53,16 @@ void ScoreManageUI::paperChange(QTableWidgetItem * item)
 {
     int pid = tableWidget_paper->item( item->row(),0)->text().toInt();
     emit this->getCombo_paperid(pid);
+}
+
+void ScoreManageUI::setPapers(QList<Paper *> paperlist)
+{
+    papers = paperlist;
+}
+
+void ScoreManageUI::setCombo(QList<Combo *> combolist)
+{
+    combos = combolist;
 }
 
 //void ScoreManageUI::on_pushButton_search_clicked()
@@ -149,20 +168,70 @@ void ScoreManageUI::on_pushButton_delete_clicked()
 
 void ScoreManageUI::on_pushButton_searchPaper_clicked()
 {
+    selectedPapers.clear();
+    QString s = lineEdit_paper->text();
+    if(s == ""){
+        QMessageBox::about(this, "msg", QStringLiteral("请填写查找信息！"));
+        return ;
+    }
 
+    if(paperSelect.checkedId() == 0){
+        for(int i = 0; i < papers.count(); ++i){
+            if(papers.at(i)->getPaperId() == s.toInt()){
+                selectedPapers.append(papers.at(i));
+            }
+        }
+    }
+    else if(paperSelect.checkedId() == 1){
+        for(int i = 0; i < papers.count(); ++i){
+            if(papers.at(i)->getDescription() == s){
+                selectedPapers.append(papers.at(i));
+            }
+        }
+    }
+    showPapers(selectedPapers);
 }
 
 void ScoreManageUI::on_pushButton_allPaper_clicked()
 {
-
+    showPapers(papers);
 }
 
 void ScoreManageUI::on_pushButton_searchstudent_clicked()
 {
+    selectedCombos.clear();
+    QString s = lineEdit_student->text();
+    if(s == ""){
+        QMessageBox::about(this, "msg", QStringLiteral("请填写查找信息！"));
+        return ;
+    }
 
+    if(comboSelect.checkedId() == 0){
+        for(int i = 0; i < combos.count(); ++i){
+            if(combos.at(i)->getUserId().startsWith(s)){
+                selectedCombos.append(combos.at(i));
+            }
+        }
+    }
+    else if(comboSelect.checkedId() == 1){
+        for(int i = 0; i < combos.count(); ++i){
+            if(combos.at(i)->getClass() == s.toInt()){
+                selectedCombos.append(combos.at(i));
+            }
+        }
+    }
+    else if(comboSelect.checkedId() == 2){
+        for(int i = 0; i < combos.count(); ++i){
+            if(combos.at(i)->getGrade() == s.toInt()){
+                selectedCombos.append(combos.at(i));
+            }
+        }
+    }
+
+    showCombo(combos);
 }
 
 void ScoreManageUI::on_pushButton_allStudent_clicked()
 {
-
+    showCombo(combos);
 }

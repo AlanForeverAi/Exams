@@ -24,6 +24,8 @@ public slots:
     void on_pushButton_print_clicked();
     void showCombo(QList<Combo*>);
     void paperChange(QTableWidgetItem*);
+    void setPapers(QList<Paper*>);
+    void setCombo(QList<Combo*>);
 
 private slots:
     void on_pushButton_delete_clicked();
@@ -33,7 +35,12 @@ private slots:
     void on_pushButton_allStudent_clicked();
 
 private :
-
+    QList<Paper*> papers;
+    QList<Combo*> combos;
+    QList<Paper*> selectedPapers;
+    QList<Combo*> selectedCombos;
+    QButtonGroup paperSelect;
+    QButtonGroup comboSelect;
 };
 
 #endif // SCOMANAGEUI_H
