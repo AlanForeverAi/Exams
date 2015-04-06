@@ -61,6 +61,8 @@ signals:
     void setPaperName(QString);
     void setExamTime(QTime);
 
+    void setCombo(QList<Combo*>);
+
 public slots:
     void messageArrive(int,qint32,QVariant);//信息到达
     void removeUser(int);//将考生状态重置为未连接

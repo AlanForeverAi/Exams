@@ -251,11 +251,13 @@ void MainWindow::do_config()
 void MainWindow::do_scomanage()
 {
     ScoreManageUI *score_manage  =  new ScoreManageUI();
-
-    connect(this,SIGNAL(showCombo(QList<Combo*>)),score_manage,SLOT(showCombo(QList<Combo*>)));
+    connect(this, SIGNAL(setPaper(QList<Paper*>)), score_manage, SLOT(setPapers(QList<Paper*>)));
+    connect(this, SIGNAL(setCombo(QList<Combo*>)), score_manage, SLOT(setCombo(QList<Combo*>)));
+    connect(this, SIGNAL(showCombo(QList<Combo*>)),score_manage,SLOT(showCombo(QList<Combo*>)));
     connect(score_manage,SIGNAL(getCombo_id(QString)),this,SIGNAL(getCombo_id(QString)));
     connect(score_manage,SIGNAL(getCombo_paperid(int)),this,SIGNAL(getCombo_paperid(int)));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),score_manage,SLOT(showPapers(QList<Paper*>)));
+    connect(this, SIGNAL(showAllPaper(QList<Paper*>)), score_manage, SLOT(setPapers(QList<Paper*>)));
     connect(score_manage->pushButton_back,SIGNAL(clicked()),this,SLOT(backToMenu()));
     connect(score_manage,SIGNAL(delete_score(int,qlonglong)),this,SIGNAL(delete_score(int,qlonglong)));
     emit this->getAllPaper();
@@ -337,8 +339,8 @@ void MainWindow::on_action_login_triggered()
 
 void MainWindow::on_action_mainmenu_triggered()
 {
-    this->do_mainmenu();
-//    do_menu();
+//    this->do_mainmenu();
+    do_menu();
 }
 
 void MainWindow::on_action_config_triggered()
@@ -417,8 +419,8 @@ void MainWindow::action_papersetting()
 void MainWindow::backToMenu()
 {
 //    this->do_mainmenu();
-//    do_menu();
-    do_mainmenu();
+    do_menu();
+//    do_mainmenu();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

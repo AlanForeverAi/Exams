@@ -144,7 +144,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>30</width>
              <height>20</height>
             </size>
            </property>
@@ -166,7 +166,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>11</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="text">
@@ -190,7 +190,7 @@
            </property>
            <property name="font">
             <font>
-             <pointsize>11</pointsize>
+             <pointsize>9</pointsize>
             </font>
            </property>
            <property name="text">
@@ -205,7 +205,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>30</width>
              <height>20</height>
             </size>
            </property>
@@ -218,7 +218,7 @@
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>30</width>
              <height>20</height>
             </size>
            </property>
@@ -414,7 +414,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QRadioButton" name="radioButton">
+            <widget class="QRadioButton" name="radioButton_studentID">
              <property name="minimumSize">
               <size>
                <width>51</width>
@@ -429,7 +429,7 @@
              </property>
              <property name="font">
               <font>
-               <pointsize>11</pointsize>
+               <pointsize>9</pointsize>
               </font>
              </property>
              <property name="text">
@@ -438,7 +438,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QRadioButton" name="radioButton_2">
+            <widget class="QRadioButton" name="radioButton_class">
              <property name="minimumSize">
               <size>
                <width>51</width>
@@ -453,7 +453,7 @@
              </property>
              <property name="font">
               <font>
-               <pointsize>11</pointsize>
+               <pointsize>9</pointsize>
               </font>
              </property>
              <property name="text">
@@ -462,7 +462,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QRadioButton" name="radioButton_3">
+            <widget class="QRadioButton" name="radioButton_grade">
              <property name="minimumSize">
               <size>
                <width>51</width>
@@ -477,7 +477,7 @@
              </property>
              <property name="font">
               <font>
-               <pointsize>11</pointsize>
+               <pointsize>9</pointsize>
               </font>
              </property>
              <property name="text">

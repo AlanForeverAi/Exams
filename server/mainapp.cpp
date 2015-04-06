@@ -160,6 +160,7 @@ void MainApp::iniMainWindow()
     //scomem
     connect(&_window,SIGNAL(getCombo_id(QString)),this,SLOT(getCombo_id(QString)));
     connect(this,SIGNAL(showCombo(QList<Combo*>)),&_window,SIGNAL(showCombo(QList<Combo*>)));
+    connect(this, SIGNAL(setCombo(QList<Combo*>)), &_window, SIGNAL(setCombo(QList<Combo*>)));
     connect(&_window,SIGNAL(getCombo_paperid(int)),this,SLOT(getCombo_paperid(int)));
     connect(&_window,SIGNAL(delete_score(int,qlonglong)),this,SLOT(delete_score(int,qlonglong)));
     //InOutPutUI
@@ -900,6 +901,7 @@ void MainApp::getCombo_paperid(int id)
         }
     }
     emit this->showCombo(comboList);
+    emit this->setCombo(comboList);
 }
 
 void MainApp::getManager(){

@@ -155,6 +155,9 @@ signals:
     void getExamTime();
     void menuMode(int);
 
+    void setPaper(QList<Paper*>);
+    void setCombo(QList<Combo*>);
+
 private slots:
     void on_action_QuestionsManager_triggered();
     void on_action_makepaper_triggered();    
