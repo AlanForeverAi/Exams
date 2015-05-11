@@ -1,4 +1,4 @@
-#include "addstudent.h"
+﻿#include "addstudent.h"
 
 AddStudent::AddStudent()
 {
@@ -113,10 +113,6 @@ void AddStudent::on_pushButton_allstudent_clicked()
 
 void AddStudent::on_pushButton_add_clicked()
 {
-//    QStringList appendStudent;
-//    for(int i = 0; i < tableWidget_allstudent->rowCount(); ++i){
-//        if(tableWidget_allstudent->item(i, 0)->checkState() == Qt)
-//    }
     emit this->appendExaminee(checkStudentIDs);
     this->close();
 }

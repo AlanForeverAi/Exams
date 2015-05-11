@@ -44,15 +44,9 @@ private slots:
     void on_pushButton_all_1_clicked();					//显示所有用户
     void on_pushButton_searchselect_clicked();			
     void on_pushButton_all_2_clicked();					//显示所有选择用户
-//    void on_pushButton_adduser_clicked();
-//    void on_pushButton_deleteuser_clicked();
-//    void on_pushButton_saveuser_clicked();
-//    void on_pushButton_print_clicked();
     void showAllPaper(QList<Paper*>);
     void showStudent(QList<Student *>);
     void showSelectUser(QList<Student*>);
-//    void paperChange(QTableWidgetItem*);
-//    void on_comboBoxselect_currentIndexChanged(const QString &arg1);
     void alterPaper(QTableWidgetItem *);
     void setChoiceQuestions(QList<ChoiceQuestions *>);
     void setEssayQuestions(QList<EssayQuestions *>);

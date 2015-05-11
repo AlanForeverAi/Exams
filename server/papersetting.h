@@ -1,4 +1,4 @@
-#ifndef PAPERSETTING_H
+﻿#ifndef PAPERSETTING_H
 #define PAPERSETTING_H
 
 #include <QWidget>
@@ -42,8 +42,6 @@ private slots:
     void on_pushButton_deletestudent_clicked();
 
     void on_pushButton_import_clicked();
-
-//    void on_pushButton_export_clicked();
 
     void on_pushButton_save_clicked();
 

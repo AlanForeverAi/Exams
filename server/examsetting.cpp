@@ -7,6 +7,7 @@ ExamSettingUI::ExamSettingUI(QWidget *parent) :
     tableWidget_paper->verticalHeader()->setHidden(true);
     tableWidget_paper->setEditTriggers(QAbstractItemView::NoEditTriggers);
     pushButton_closeServer->setEnabled(false);
+    pushButton_send->setEnabled(false);
 }
 ExamSettingUI::~ExamSettingUI()
 {
@@ -41,9 +42,10 @@ void ExamSettingUI::on_pushButton_send_clicked()
          info.append(textEdit_message->toPlainText());
          int paperid = tableWidget_paper->item(tableWidget_paper->currentRow(),0)->text().toInt();
 
-         emit this->sendPaper(paperid);
+//         emit this->sendPaper(paperid);
+         emit this->setPaper(paperid);
          emit this->sendInfo(info);
-         emit this->examPrepare();
+//         emit this->examPrepare();
      }
      else{
          QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
@@ -54,6 +56,7 @@ void ExamSettingUI::on_pushButton_startServer_clicked()
 {
     emit this->startServer();
     pushButton_startServer->setEnabled(false);
+    pushButton_send->setEnabled(true);
 }
 
 void ExamSettingUI::on_pushButton_closeServer_clicked()

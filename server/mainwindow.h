@@ -50,7 +50,9 @@ signals:
     void showQuestions(QList<ChoiceQuestions*>,QList<EssayQuestions*>);
     void addPaper(Paper);
     void getAllPaper();
+    void getPaperBySubject();
     void showAllPaper(QList<Paper*>);
+    void showPaperBySubject(QList<Paper*>);
     void deletePaper(int);
     void queryPaperMark(int);
     void saveUsertoPaperMark(int,QList<Student*>);

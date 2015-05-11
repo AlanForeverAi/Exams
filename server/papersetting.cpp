@@ -20,7 +20,6 @@ PaperSetting::PaperSetting(QWidget *parent) :
     studentSelect.addButton(radioButton_selectgrade, 1);
     studentSelect.addButton(radioButton_selectclass, 2);
     connect(tableWidget_allpaper, SIGNAL(itemClicked(QTableWidgetItem*)), this, SLOT(changePaper(QTableWidgetItem*)));
-
 }
 
 PaperSetting::~PaperSetting()

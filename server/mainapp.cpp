@@ -7,7 +7,6 @@ MainApp::MainApp()
     readConfig();
     iniMainWindow();
     iniDBManager();
-//    iniServer();
     _server = NULL;
     _IOM = new IOManager;
     _serverState = STATE_NOEXAM;
@@ -87,7 +86,9 @@ void MainApp::iniMainWindow()
     connect(&_window, SIGNAL(updatePaper(Paper*)), this, SLOT(updatePaper(Paper*)));
     connect(&_window,SIGNAL(addPaper(Paper)),this,SLOT(addPaper(Paper)));
     connect(&_window,SIGNAL(getAllPaper()),this,SLOT(getAllPaper()));
+    connect(&_window, SIGNAL(getPaperBySubject()), this, SLOT(getPaperBySubject()));
     connect(this,SIGNAL(showAllPaper(QList<Paper*>)),&_window,SIGNAL(showAllPaper(QList<Paper*>)));
+    connect(this, SIGNAL(showPaperBySubject(QList<Paper*>)), &_window, SIGNAL(showPaperBySubject(QList<Paper*>)));
     connect(&_window,SIGNAL(getPaperById(int)),this,SLOT(getPaperById(int)));
     connect(&_window,SIGNAL(deletePaper(int)),this,SLOT(deletePaper(int)));
     connect(&_window,SIGNAL(modifyPaper(Paper)),this,SLOT(modifyPaper(Paper)));
@@ -335,23 +336,47 @@ void MainApp::getAllPaper()
 {
     QList<Paper*> paperList;
     QSqlQuery query;
+    query = _DBM->selectAllPaper();
+    while(query.next())
+    {
+        Paper *paper = new Paper;
+        paper->setPaperId(query.value(0).toInt());
+        paper->setObQuIds(query.value(1).toString());
+        paper->setSubQuIds(query.value(2).toString());
+        paper->setTotalMark(query.value(3).toInt());
+        paper->setPercent(query.value(4).toInt());
+        paper->setDescription(query.value(5).toString());
+        paper->setTime(query.value(6).toInt());
+        paper->setSubject(query.value(7).toInt());
+        paper->setObjectMark(query.value(8).toString());
+        paper->setSubjectMark(query.value(9).toString());
+        paperList.append(paper);
+    }
+    emit this->showAllPaper(paperList);
+}
+
+void MainApp::getPaperBySubject()
+{
+    QList<Paper*> paperList;
+    QSqlQuery query;
     query = _DBM->selectPaper();
     while(query.next())
     {
-        Paper *p = new Paper;
-        p->setPaperId(query.value(0).toInt());
-        p->setObQuIds(query.value(1).toString());
-        p->setSubQuIds(query.value(2).toString());
-        p->setTotalMark(query.value(3).toInt());
-        p->setPercent(query.value(4).toInt());
-        p->setDescription(query.value(5).toString());
-        p->setTime(query.value(6).toInt());
-        p->setSubject(query.value(7).toInt());
-        p->setObjectMark(query.value(8).toString());
-        p->setSubjectMark(query.value(9).toString());
-        paperList.append(p);
+        Paper *paper = new Paper;
+        paper->setPaperId(query.value(0).toInt());
+        paper->setObQuIds(query.value(1).toString());
+        paper->setSubQuIds(query.value(2).toString());
+        paper->setTotalMark(query.value(3).toInt());
+        paper->setPercent(query.value(4).toInt());
+        paper->setDescription(query.value(5).toString());
+        paper->setTime(query.value(6).toInt());
+        paper->setSubject(query.value(7).toInt());
+        paper->setObjectMark(query.value(8).toString());
+        paper->setSubjectMark(query.value(9).toString());
+        paperList.append(paper);
     }
-    emit this->showAllPaper(paperList);
+
+    emit this->showPaperBySubject(paperList);
 }
 
 void MainApp::deletePaper(int id)
@@ -402,7 +427,7 @@ Paper MainApp::preparePaper(int id)
     query.next();
     if(!query.isValid())
     {
-        qDebug("null");
+        qDebug("preparePaper result is null");
 
     }
     Paper paper;
@@ -493,12 +518,6 @@ void MainApp::endExam()
 
 void MainApp::pauseExam()
 {
-//    _serverState = STATE_PAUSE;
-//    for(int i = 0; i < _userList.count(); ++i){
-//        if(_userList.at(i)->getState() == QStringLiteral("考试中")){
-//            emit this->sendData(_userList.at(i)->getSockDescriptor(), MSG_PAUSEEXAM, 0);
-//        }
-//    }
     if(_serverState == STATE_EXAMING){
        _serverState = STATE_PAUSE;
        for(int i = 0; i < _userList.count(); ++i){
@@ -604,9 +623,9 @@ void MainApp::sendPaperTime(int descriptor,int time)
     emit this->sendData(descriptor,MSG_GETPAPER, v);
 }
 
-bool MainApp::managerLogin(User m)
+bool MainApp::managerLogin(User user)
 {
-    QSqlQuery query = _DBM->managerLogin(m.getID(),m.getPassword());
+    QSqlQuery query = _DBM->managerLogin(user.getID(), user.getPassword());
     if(query.size() > 0)
     {
         emit this->LoginOK();
@@ -687,7 +706,6 @@ void MainApp::dealObAnswers(EssayAnswers obans)
     QString obMarkString;
     QStringList marks;
     marks = _mainPaper.getObjectMark().split(',');
-//    marks.removeAt(marks.count()-1);
     eachObmark = QString::number(_mainPaper.getTotalMark() * _mainPaper.getPercent() / 100 / _mainPaper.choiceQuestionList.count());
 
     for(int i = 0; i < ansList.count(); i++)
@@ -695,8 +713,6 @@ void MainApp::dealObAnswers(EssayAnswers obans)
         QString correctAns = _mainPaper.choiceQuestionList.value(i).getAnswer();
         if(ansList.at(i) == correctAns)
         {
-
-//            obMarkString.append(eachObmark);
             obMarkString.append(marks.at(i));
         }
         else
@@ -839,7 +855,6 @@ void MainApp::getCombo_id(QString a)
             if(h.next())
                 b->setPaperName(h.value(5).toString());
 
-            //from self (paper mark)
             b->setPaperMark(query.value(2).toInt());
             comboList.append(b);
         }
@@ -1000,12 +1015,34 @@ void MainApp::updateEssayQuestion(EssayQuestions *question)
 
 void MainApp::startServer()
 {
-    if(_server != NULL)
+    if(_server != NULL){
+        QMessageBox msg;
+        msg.setText(QStringLiteral("服务器已开启"));
+        msg.exec();
         return;
+    }
     _server = new Server(this, _port);
-    connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
-    connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
-    connect(_server,SIGNAL(removeUser(int)),this,SLOT(removeUser(int)));
+    if(_server != NULL){
+        connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
+        connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
+        connect(_server,SIGNAL(removeUser(int)),this,SLOT(removeUser(int)));
+        QMessageBox msg;
+        msg.setText(QStringLiteral("服务器开启成功"));
+        msg.exec();
+//        QMessageBox::about(this,"msg",QString("服务器开启成功"));
+        return ;
+    }
+    else {
+        QMessageBox msg;
+        msg.setText(QStringLiteral("服务器开启失败"));
+        msg.exec();
+//        QMessageBox::about(this,"msg",QString("服务器开启失败"));
+        return ;
+    }
+//    connect(this,SIGNAL(sendData(int,qint32,QVariant)),_server,SIGNAL(sendData(int,qint32,QVariant)));
+//    connect(_server,SIGNAL(messageArrive(int,qint32,QVariant)),this,SLOT(messageArrive(int,qint32,QVariant)),Qt::QueuedConnection);
+//    connect(_server,SIGNAL(removeUser(int)),this,SLOT(removeUser(int)));
+//    QMessageBox::about(this,"msg",QStringLiteral("请选择一个试卷"));
 }
 
 void MainApp::closeServer()
