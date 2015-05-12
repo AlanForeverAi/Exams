@@ -3,7 +3,7 @@
 ExamUI::ExamUI(QWidget *parent) :QWidget(parent)
 {
     setupUi(this);
-
+    _btnGroup = new QButtonGroup;
     _radionGroup.addButton(radio_A);
     _radionGroup.addButton(radio_B);
     _radionGroup.addButton(radio_C);
@@ -16,7 +16,8 @@ ExamUI::ExamUI(QWidget *parent) :QWidget(parent)
 
 ExamUI::~ExamUI()
 {
-
+    delete timer;
+    delete _btnGroup;
 }
 
 void ExamUI::showPaper(Paper paper)
@@ -162,7 +163,6 @@ void ExamUI::showQuestion(int questionNumber)
                 if(list.at(i) ==  "C") radio_C->setChecked(true);
                 if(list.at(i) ==  "D") radio_D->setChecked(true);
             }
-
         }
 
     }

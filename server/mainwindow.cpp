@@ -5,17 +5,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _ui(new Ui::MainWindow)
 {
     _ui->setupUi(this);
-
-//    _ui->action_mainmenu->setEnabled(false);//按钮置灰
-//    _ui->action_makepaper->setEnabled(false);
-//    _ui->action_QuestionsManager->setEnabled(false);
-//    _ui->action_memmanager->setEnabled(false);
-//    _ui->action_examctrl->setEnabled(false);
-//    _ui->action_subscore->setEnabled(false);
-//    _ui->action_scomanage->setEnabled(false);
-//    _ui->action_config->setEnabled(false);
-//    _ui->action_inoutput->setEnabled(false);
-
     _statusBar = statusBar();
     state = NO;
     this->on_action_login_triggered();
@@ -62,7 +51,8 @@ void MainWindow::do_makepaper()
     connect(this, SIGNAL(setChoiceQuestions(QList<ChoiceQuestions*>)), make_paper, SLOT(setChoiceQuestions(QList<ChoiceQuestions*>)));
     connect(this, SIGNAL(setEssayQuestions(QList<EssayQuestions*>)), make_paper, SLOT(setEssayQuestions(QList<EssayQuestions*>)));
     connect(make_paper,SIGNAL(addPaper(Paper)),this,SIGNAL(addPaper(Paper)));
-    connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
+//    connect(this,SIGNAL(showAllPaper(QList<Paper*>)),make_paper,SLOT(showAllPaper(QList<Paper*>)));
+    connect(this, SIGNAL(showPaperBySubject(QList<Paper*>)), make_paper, SLOT(showAllPaper(QList<Paper*>)));
     connect(make_paper->pushButton_AddorMoidfy,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
     connect(make_paper->pushButton_delete,SIGNAL(clicked()),this,SIGNAL(getAllPaper()));
     connect(make_paper,SIGNAL(deletePaper(int)),this,SIGNAL(deletePaper(int)));
@@ -75,7 +65,8 @@ void MainWindow::do_makepaper()
     connect(this, SIGNAL(showStudent(QList<Student*>)), make_paper, SLOT(showStudent(QList<Student*>)));
     this->setCentralWidget(make_paper);
 
-    emit this->getAllPaper();
+//    emit this->getAllPaper();
+    emit this->getPaperBySubject();
     emit this->getStudent();
     emit this->getChoiceQuestions();
     emit this->getEssayQuestions();
@@ -103,7 +94,8 @@ void MainWindow::do_examsetting()
     connect(this,SIGNAL(getcurrentPaperTime(int)),examSetting,SIGNAL(getcurrentPaperTime(int)));
     connect(examSetting,SIGNAL(sendPaperTime(int,int)),this,SIGNAL(sendPaperTime(int,int)));
     connect(examSetting,SIGNAL(sendInfo(QStringList)),this,SIGNAL(sendInfo(QStringList)));
-    connect(examSetting, SIGNAL(examPrepare()), this, SLOT(examPrepare()));
+//    connect(examSetting, SIGNAL(examPrepare()), this, SLOT(examPrepare()));
+    connect(examSetting->pushButton_send, SIGNAL(clicked()), this, SLOT(examPrepare()));
     this->setCentralWidget(examSetting);
     emit this->getAllPaper();
     emit this->getUserList();
@@ -129,6 +121,7 @@ void MainWindow::do_examconctrol()
     emit this->getUserList();
     emit this->getPaperName();
     emit this->getExamTime();
+    _statusBar->showMessage(QStringLiteral("考试控制"));
 }
 
 void MainWindow::do_subscore()
@@ -234,6 +227,7 @@ void MainWindow::do_menu()
     connect(mainmenu,SIGNAL(action_inoutput()),this,SLOT(on_action_inoutput_triggered()));
     connect(mainmenu,SIGNAL(action_papersetting()),this,SLOT(action_papersetting()));
     connect(mainmenu,SIGNAL(action_examsetting()),this,SLOT(action_examsetting()));
+    connect(mainmenu, SIGNAL(examprepare()), this, SLOT(examPrepare()));
     connect(this, SIGNAL(menuMode(int)), mainmenu, SLOT(setState(int)));
     this->setCentralWidget(mainmenu);
     emit this->menuMode(state);
@@ -360,49 +354,49 @@ void MainWindow::on_action_inoutput_triggered()
 
 void MainWindow::examMode()
 {
-    _ui->action_makepaper->setEnabled(false);
-    _ui->action_QuestionsManager->setEnabled(false);
-    _ui->action_examctrl->setEnabled(false);
-    _ui->action_config->setEnabled(false);
-    _ui->action_login->setEnabled(false);
-    _ui->action_mainmenu->setEnabled(false);
-    _ui->action_memmanager->setEnabled(false);
-    _ui->action_subscore->setEnabled(false);
-    _ui->action_scomanage->setEnabled(false);
-    _ui->action_inoutput->setEnabled(false);
+//    _ui->action_makepaper->setEnabled(false);
+//    _ui->action_QuestionsManager->setEnabled(false);
+//    _ui->action_examctrl->setEnabled(false);
+//    _ui->action_config->setEnabled(false);
+//    _ui->action_login->setEnabled(false);
+//    _ui->action_mainmenu->setEnabled(false);
+//    _ui->action_memmanager->setEnabled(false);
+//    _ui->action_subscore->setEnabled(false);
+//    _ui->action_scomanage->setEnabled(false);
+//    _ui->action_inoutput->setEnabled(false);
 }
 
 void MainWindow::endExamMode()
 {
-    _ui->action_makepaper->setEnabled(true);
-    _ui->action_QuestionsManager->setEnabled(true);
-    _ui->action_examctrl->setEnabled(true);
-    _ui->action_config->setEnabled(true);
-    _ui->action_login->setEnabled(true);
-    _ui->action_mainmenu->setEnabled(true);
-    _ui->action_memmanager->setEnabled(true);
-    _ui->action_subscore->setEnabled(true);
-    _ui->action_scomanage->setEnabled(true);
-    _ui->action_inoutput->setEnabled(true);
+//    _ui->action_makepaper->setEnabled(true);
+//    _ui->action_QuestionsManager->setEnabled(true);
+//    _ui->action_examctrl->setEnabled(true);
+//    _ui->action_config->setEnabled(true);
+//    _ui->action_login->setEnabled(true);
+//    _ui->action_mainmenu->setEnabled(true);
+//    _ui->action_memmanager->setEnabled(true);
+//    _ui->action_subscore->setEnabled(true);
+//    _ui->action_scomanage->setEnabled(true);
+//    _ui->action_inoutput->setEnabled(true);
 }
 
 //设置菜单栏的按钮是否活动
 void MainWindow::LoginOK()
 {
-    if(User::GetInstance().getType()  ==  1)
-    {
-        _ui->action_memmanager->setEnabled(true);
-        _ui->action_config->setEnabled(true);
+//    if(User::GetInstance().getType()  ==  1)
+//    {
+//        _ui->action_memmanager->setEnabled(true);
+//        _ui->action_config->setEnabled(true);
 
-    }
-    else
-    {
-        _ui->action_examctrl->setEnabled(true);
-        _ui->action_makepaper->setEnabled(true);
-        _ui->action_scomanage->setEnabled(true);
-        _ui->action_subscore->setEnabled(true);
-    }
-    _ui->action_inoutput->setEnabled(true);
+//    }
+//    else
+//    {
+//        _ui->action_examctrl->setEnabled(true);
+//        _ui->action_makepaper->setEnabled(true);
+//        _ui->action_scomanage->setEnabled(true);
+//        _ui->action_subscore->setEnabled(true);
+//    }
+//    _ui->action_inoutput->setEnabled(true);
     this->on_action_mainmenu_triggered();
 }
 
@@ -418,9 +412,7 @@ void MainWindow::action_papersetting()
 
 void MainWindow::backToMenu()
 {
-//    this->do_mainmenu();
     do_menu();
-//    do_mainmenu();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

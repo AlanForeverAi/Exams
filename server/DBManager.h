@@ -50,6 +50,7 @@ public:
     void insertPaper(QString, QString, int, int, QString, int, int, QString, QString);
     QSqlQuery selectPaperById(int);
     QSqlQuery selectPaper();
+    QSqlQuery selectAllPaper();
     void deletePaperById(int);
     void alterPaper(int,QString,QString,int,int,QString,int);
     void updatePaper(int, QString, QString, int, int, QString, int, QString, QString);

@@ -37,6 +37,7 @@ signals:
     void showChoiceQuestions(QList<ChoiceQuestions*>);
     void showEssayQuestions(QList<EssayQuestions*>);
     void showAllPaper(QList<Paper*>);//显示所以试卷
+    void showPaperBySubject(QList<Paper*>);
     void showCurrentPaper(Paper);//显示某一张试卷
     void updateUserTable(QList<Student*>);//更新考试控制界面的考生表
     void showUserByPaperId(QList<Student*>);//按试卷显示考生
@@ -76,6 +77,7 @@ public slots:
     void modifySub_Questoins(EssayQuestions*);//修改主观题
     void addPaper(Paper);//添加试卷
     void getAllPaper();//获取试卷
+    void getPaperBySubject();
     void getPaperById(int);//按ID获取试卷
     void saveUsertoPaperMark(int,QList<Student*>);//按试卷ID，将考生信息保存到papermark
     void deletePaper(int);//删除试卷

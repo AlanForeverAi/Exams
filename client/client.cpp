@@ -42,6 +42,7 @@ void Client::send()
 
     Student student;
     AllAnswers answers;
+//    QHostInfo hostInfo;
     /*根据信息类型将信息还原成原来的数据类型并写入*/
     switch(_messageType)
     {
@@ -49,7 +50,9 @@ void Client::send()
         break;
     case MSG_LOGIN:
         student = _data.value<Student>();
+//        hostInfo.setHostName(QHostInfo::localHostName());
         student.setHostName(QHostInfo::localHostName());
+//        student.setHostName(hostInfo.addresses().first().toString());
         out << student;
         break;
     case MSG_GETPAPER:

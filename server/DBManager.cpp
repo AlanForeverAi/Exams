@@ -336,11 +336,10 @@ void DBManager::insertPaper(QString obids, QString subids, int totalmark, int pe
 QSqlQuery DBManager::selectPaperById(int id)
 {
     QSqlQuery query;
-    int subject = User::GetInstance().getType();
-    QString s = "select * from paper where paperid = %1 and subject = %2";
-    if( query.exec(s.arg(id).arg(subject)))
+    QString s = "select * from paper where paperid = %1";
+    if( query.exec(s.arg(id)))
     {
-        qDebug() << "selectPaperById] " << query.lastError();
+//        qDebug() << "selectPaperById] " << query.lastError();
         return query;
 
     }
@@ -354,8 +353,16 @@ QSqlQuery DBManager::selectPaperById(int id)
 QSqlQuery DBManager::selectPaper()
 {
     QSqlQuery query;
-//    int subject = User::GetInstance().getType();
-//    if( query.exec(QString("select * from paper where subject = %1").arg(subject)))
+    int subject = User::GetInstance().getType();
+    if( query.exec(QString("select * from paper where subject = %1").arg(subject)))
+        return query;
+    else
+        return query;
+}
+
+QSqlQuery DBManager::selectAllPaper()
+{
+    QSqlQuery query;
     if(query.exec(QString("select * from paper")))
         return query;
     else
@@ -482,7 +489,6 @@ QSqlQuery DBManager::searchPaperMark(int pid, QString uid)
 
     if( query.exec(s.arg(pid).arg(uid)))
     {
-        qDebug() << "searchPaperMark] " << query.lastError();
         return query;
     }
     else
@@ -499,7 +505,6 @@ QSqlQuery DBManager::queryPaperMark1(int id)
     QString s = "select * from papermark inner join student on student.userid= papermark.fuserid where fpaperid= %1";
     if( query.exec(s.arg(id)))
     {
-        qDebug() << "queryPaperMark1] " << query.lastError();
         return query;
 
     }
@@ -579,7 +584,6 @@ QSqlQuery DBManager::managerLogin(QString id ,QString password)
     {
         query.first();
         User::GetInstance().setType(query.value(2).toInt());
-        qDebug() << "managerLogin] " << query.lastError();
         return query;
     }
     else

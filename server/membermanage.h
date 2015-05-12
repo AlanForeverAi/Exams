@@ -7,6 +7,7 @@
 #include <QDir>
 #include "ui_membermanage.h"
 #include "data.h"
+#include "addinformation.h"
 
 class MemberManageUI : public QWidget,public Ui::MemberManageUI
 {
@@ -44,8 +45,6 @@ signals:
 private slots:
     void on_pushButton_add_user_clicked();
     void on_pushButton_delete_user_clicked();
-//    void on_pushButton_search_clicked();
-//    void on_pushButton_all_clicked();
     void showManager(QList<User *>);
     void showStudent(QList<Student *>);
     void showTeacher(QList<User *>);
@@ -60,7 +59,6 @@ private slots:
     void updateTeacherList(QList<User *>);
     void updateManagerList(QList<User *>);
     void updateTypeList(QMap<int, QString>);
-
     void on_pushButton_import_clicked();
 
     void on_pushButton_export_clicked();

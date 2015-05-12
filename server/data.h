@@ -62,137 +62,6 @@ private:
     QString _subject;
 };
 
-/*
- * 参考设计模式，修改？设置问题基类，方便以后添加新的题型。。。。。但是如何解决判断题目的类型。。。设计模式。。。
-  */
-////问题基类。。。。
-//class Questions{
-//public:
-//    Questions();
-//    void setId(int);
-//    void setSubject(QString);
-//    void setTitle(QString);
-//    void setAnswer(QString);
-//    void setMark(int);
-//    int getId();
-//    int getMark();
-//    QString getSubject();
-//    QString getTitle();
-//    QString getAnswer();
-
-//private:
-//    int _questionId;
-//    //QString _subject; //科目
-//    QString _title;
-//    QString _answer;
-//    int _mark;
-//};
-
-//class ObQuestions : public Questions {
-//  // 暂时还没考虑具体子类的结构。。。。
-//};
-
-//class SubQuestions : public Questions {
-//  // 暂时还没考虑具体子类的结构。。。。
-//};
-
-
-//class showAnswerBehavior {
-//public:
-//    showAnswerBehavior();
-//    virtual QString getAnswer() = 0;
-//    virtual void setAnswer(QString) = 0;
-
-//protected:
-//    QString _answer;
-//};
-
-//class showNoAnswer : public showAnswerBehavior {
-//public:
-//    virtual QString getAnswer();
-//    virtual void setAnswer(QString);
-//};
-
-//class showWithAnswer : public showAnswerBehavior {
-//public:
-//    virtual QString getAnswer();
-//    virtual void setAnswer(QString);
-//};
-
-
-//class Questions{
-//public:
-//    Questions();
-
-//    int getQuestionId() const;
-//    void setQuestionId(int getQuestionId);
-
-//    QString getQuestionType() const;
-//    void setQuestionType(const QString &getQuestionType);
-
-//    QString getQuestionTitle() const;
-//    void setQuestionTitle(const QString &getQuestionTitle);
-
-//private:
-//    int _questionId;
-//    QString _questionType;
-//    QString _questionTitle;
-
-//protected:
-//    showAnswerBehavior *showAnswer;
-//};
-
-
-//class ObQuestionsTest : public Questions {
-//    friend QDataStream &operator <<(QDataStream &,const ObQuestionsTest &);
-//    friend QDataStream &operator >>(QDataStream &,ObQuestionsTest &);
-
-//public:
-//    ObQuestionsTest();
-//};
-
-
-
-//class SubQuestionsTest : public Questions {
-//    friend QDataStream &operator <<(QDataStream &,const SubQuestionsTest &);
-//    friend QDataStream &operator >>(QDataStream &,SubQuestionsTest &);
-
-//public:
-//    SubQuestionsTest();
-//};
-
-//question基类
-//class Questions{
-//public:
-//    Questions();
-//    ~Questions();
-//    int getQuestionId() const;
-//    void setQuestionId(int questionId);
-
-//    int getSubjectId() const;
-//    void setSubjectId(int subjectId);
-
-//    int getQuestionType() const;
-//    void setQuestionType(int questionType);
-
-//    int getMark() const;
-//    void setMark(int mark);
-
-//    QString getQuestionTitle() const;
-//    void setQuestionTitle(const QString &questionTitle);
-
-//    QString getAnswer() const;
-//    void setAnswer(const QString &getAnswer);
-
-//private:
-//    int _questionId;
-//    int _subjectId;
-//    int _questionType;
-//    int _mark;
-//    QString _questionTitle;
-//    QString _answer;
-//};
-
 class ObjectQuestions{
 public:
     ObjectQuestions();
@@ -247,42 +116,6 @@ private:
     QString _questionTitle;
 };
 
-
-////答案基类
-//class Answers{
-//public:
-//    Answers();
-//    ~Answers();
-//    void setanswerId(int id);
-//    void setpaperId(int);
-//    void setstudentId(int);
-//    int getanswerId();
-//    int getpaperId();
-//    QString getstrudentId();
-
-//private:
-//    int AnswerId;
-//    int PaperId;
-//    QString StudentId;
-//};
-
-//class SubAnswers : public Answers{
-//public:
-//    void setsubAnswerslist(QVector<QString>);
-//    QVector<QString>getsubAnswerslist();
-//private:
-//    QVector<QString> SubAnswerslist;
-//};
-
-//class ObAnswers : public Answers{
-//public:
-//    void setobAnswer(QString);
-//    QString getobAnswer();
-//private:
-//    QString ObAnswer;
-//};
-
-
 //选择题答案。。。。
 class ChoiceAnswers
 {
@@ -294,10 +127,10 @@ public:
     void setPaperId(int);
     void setStudentId(QString);
     void setAnswerList(QVector<QString> answer);
-    int getAnswerId();
-    int getPaperId();
-    QString getStudentId();
-    QVector<QString> getAnswerList();
+    int getAnswerId() const;
+    int getPaperId() const;
+    QString getStudentId() const;
+    QVector<QString> getAnswerList() const;
 private:
     int _answerId;
     int _paperId;
@@ -317,10 +150,10 @@ public:
     void setPaperId(int);
     void setStudentId(QString);
     void setAnswers(QString);
-    int getAnswerId();
-    int getPaperId();
-    QString getStudentId();
-    QString getAnswers();
+    int getAnswerId() const;
+    int getPaperId() const;
+    QString getStudentId() const;
+    QString getAnswers() const;
 private:
     int _answerId;
     int _paperId;
@@ -328,8 +161,6 @@ private:
     QString _answers;
 };
 
-//试卷。。。。坑爹的通过主观题id和客观题id来决定试卷内容。。。以后需要添加新的题型又需要修改。。。。
-//可以使用vector存储题目id？QList可以存储题目父类指针。。。。方便以后修改。。。。
 class Paper
 {
     friend QDataStream &operator <<(QDataStream &,const Paper &);
@@ -347,17 +178,17 @@ public:
     void setSubject(int);
     void setObjectMark(QString mark);
     void setSubjectMark(QString mark);
-    QString getObjectMark();
-    QString getSubjectMark();
-    int getSubject();
-    int getPaperId();
-    QString getObQuIds();
-    QString getSubQuIds();
-    QString getDescription();
-    int     getTotalMark();
-    int     getPercent();
-    int     getTime();
-    QString getDate();
+    QString getObjectMark() const;
+    QString getSubjectMark() const;
+    int getSubject() const;
+    int getPaperId() const;
+    QString getObQuIds() const;
+    QString getSubQuIds() const;
+    QString getDescription() const;
+    int     getTotalMark() const;
+    int     getPercent() const;
+    int     getTime() const;
+    QString getDate() const;
     QList<ChoiceQuestions> choiceQuestionList;
     QList<EssayQuestions> essayQuestionbList;
 private:
@@ -381,40 +212,23 @@ class AllAnswers
     friend QDataStream &operator >>(QDataStream &,AllAnswers &);
 public:
     AllAnswers();
-    //下面的东西又又做死了。。。。
     void setObanswer(EssayAnswers);
     void setSubanswer(ChoiceAnswers);
-
-    /*
-        void setAnswer(Answers *); //设置答案
-    */
     void setPaperid(int);
     void setUserid(QString);
-
-    //下面的东西又又写死了
-    EssayAnswers getObanswer();
-    ChoiceAnswers getSubanswer();
-
-    /*
-         Answers* getAnswer(); //获取答案
-    */
-    int getPaperid();
-    QString getUserid();
+    EssayAnswers getObanswer() const;
+    ChoiceAnswers getSubanswer() const;
+    int getPaperid() const;
+    QString getUserid() const;
 private:
-    //改进。。。。
     EssayAnswers _obAnswer;
     ChoiceAnswers _subAnswer;
-
-     /*
-         Answers * answer; //答案。。。
-     */
     int _paperId;
     QString _userId;
 };
 Q_DECLARE_METATYPE(AllAnswers)
 
 
-//有必要包括所有属性么？
 class Combo ///用于成绩管理 包括了user paper papermark全部或者部分属性
 {
     friend QDataStream &operator <<(QDataStream &,const Combo &);
@@ -432,16 +246,16 @@ public:
     void setSubmark(int submark);
     void setPaperName(QString paperName);
 
-    QString getUserId();
-    QString getName();
-    int getGrade();
-    int getClass();
-    int getTime();
-    int getPaperId();
-    int getPaperMark();
-    int getObmark();
-    int getSubMark();
-    QString getPaperName();
+    QString getUserId() const;
+    QString getName() const;
+    int getGrade() const;
+    int getClass() const;
+    int getTime() const;
+    int getPaperId() const;
+    int getPaperMark() const;
+    int getObmark() const;
+    int getSubMark() const;
+    QString getPaperName() const;
 private:
     QString _userId;
     QString _name;

@@ -133,8 +133,6 @@ void MainApp::messageArrive(qint32 m, QVariant v)
         break;
     case MSG_PAUSEEXAM:
         emit this->pauseExam();
-//        msg.setText(QStringLiteral("考试暂停！！！"));
-//        msg.exec();
         break;
     case MSG_CONTINUEEXAM:
         emit this->continueExam();

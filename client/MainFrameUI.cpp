@@ -8,7 +8,7 @@ MainFrameUI::MainFrameUI(QWidget *parent) :
     connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SIGNAL(sendAnswersSingle(AllAnswers)));
     connect(_exam,SIGNAL(sendAnswersingle(AllAnswers)),this,SLOT(sendExamslot()));
     connect(_exam,SIGNAL(sendAnswers(AllAnswers)),this,SIGNAL(sendAnswers(AllAnswers)));
-    connect(_exam,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(endExamslot()));
+//    connect(_exam,SIGNAL(sendAnswers(AllAnswers)),this,SLOT(endExamslot()));
     connect(this,SIGNAL(endExam()),_exam,SLOT(submitAnswers()));
     connect(this,SIGNAL(endExam()),this,SLOT(endExamslot()));
     stackedWidget_main->addWidget(_exam);
