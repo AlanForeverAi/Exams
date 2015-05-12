@@ -65,6 +65,11 @@ void ScoreManageUI::setCombo(QList<Combo *> combolist)
     combos = combolist;
 }
 
+//void ScoreManageUI::on_pushButton_search_clicked()
+//{
+//    emit this->getCombo_id(lineEdit->text());
+//}
+
 void ScoreManageUI::showCombo(QList<Combo *> combolist)
 {
     tableWidget_Detail->setRowCount(combolist.count());
@@ -77,14 +82,18 @@ void ScoreManageUI::showCombo(QList<Combo *> combolist)
         QTableWidgetItem *u_grade = new QTableWidgetItem(QString::number(combolist.at(i)->getGrade()));
         QTableWidgetItem *u_class = new QTableWidgetItem(QString::number(combolist.at(i)->getClass()));
 
+//        QTableWidgetItem *paper_id = new QTableWidgetItem(QString::number(combolist.at(i)->getPaperId()));
         QTableWidgetItem *paper_mark = new QTableWidgetItem(QString::number(combolist.at(i)->getPaperMark()));
         QTableWidgetItem *obmark = new QTableWidgetItem(QString::number(combolist.at(i)->getObmark()));
         QTableWidgetItem *submark = new QTableWidgetItem(QString::number(combolist.at(i)->getSubMark()));
+//        QTableWidgetItem *papername = new QTableWidgetItem(combolist.at(i)->getPaperName());
 
         tableWidget_Detail->setItem(i,0,u_id);
         tableWidget_Detail->setItem(i,1,u_name);
         tableWidget_Detail->setItem(i,2,u_grade);
         tableWidget_Detail->setItem(i,3,u_class);
+//        tableWidget_Detail->setItem(i,4,paper_id);
+//        tableWidget_Detail->setItem(i,5,papername);
         tableWidget_Detail->setItem(i,4,obmark);
         tableWidget_Detail->setItem(i,5,submark);
         tableWidget_Detail->setItem(i,6,paper_mark);

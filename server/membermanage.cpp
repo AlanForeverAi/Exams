@@ -102,7 +102,9 @@ void MemberManageUI::showTeacher(QList<User *>listTeacher)
 
 void MemberManageUI::showSubject(QList<QString> typeList)
 {
-
+//    for(int i = 0; i < typeList.count(); ++i){
+//        comboBox->addItem(typeList.at(i));
+//    }
 }
 
 void MemberManageUI::showType(QMap<int, QString> type)
@@ -123,14 +125,113 @@ void MemberManageUI::showType(QMap<int, QString> type)
 
 void MemberManageUI::on_pushButton_add_user_clicked()
 {
-    AddInformation *addinformationDialog = new AddInformation;
-    addinformationDialog->setWindowTitle("添加用户");
-    connect(addinformationDialog, SIGNAL(addStudent(Student*)), this, SIGNAL(addStudent(Student*)));
-    connect(addinformationDialog, SIGNAL(addTeacher(User*)), this, SIGNAL(addTeacher(User*)));
-    connect(addinformationDialog, SIGNAL(addManager(User*)), this, SIGNAL(addManager(User*)));
-    connect(addinformationDialog, SIGNAL(addType(int,QString)), this, SIGNAL(addType(int,QString)));
+//    if(tabWidget->currentIndex() == 0)
+//    {
+//        if(lineEdit_userID->text() == "" || lineEdit_userName->text() == "" || lineEdit_userClass->text() == "" ||
+//                lineEdit_userGrade->text() == "" || lineEdit_userPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
 
-    addinformationDialog->exec();
+//        for(QList<Student *>::iterator ite = studentList.begin(); ite != studentList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_userID->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("学生ID已存在！"));
+//                return ;
+//            }
+//        }
+//        Student * studentptr =  new Student;
+//        studentptr->setID(lineEdit_userID->text());
+//        studentptr->setName(lineEdit_userName->text());
+//        studentptr->setGrade(lineEdit_userGrade->text().toInt());
+//        studentptr->setClass(lineEdit_userClass->text().toInt());
+//        studentptr->setPassword(lineEdit_userPwd->text());
+
+//        emit this->addStudent(studentptr);
+//        delete(studentptr);
+//    }
+//    else if(tabWidget->currentIndex() == 1)
+//    {
+//        if(lineEdit_teacherId->text() == "" || lineEdit_teacherName->text() == "" || lineEdit_teacherPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
+
+//        if(comboBox->currentText() == QStringLiteral("  未选择")){
+//            QMessageBox::about(this, "msg", QStringLiteral("用户类型未选择！"));
+//            return ;
+//        }
+
+//        for(QList<User *>::iterator ite = teacherList.begin(); ite !=  teacherList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
+//        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
+
+//        User *teacherptr = new User;
+//        teacherptr->setID(lineEdit_teacherId->text());
+//        teacherptr->setName(lineEdit_teacherName->text());
+//        teacherptr->setPassword(lineEdit_teacherPwd->text());
+//        teacherptr->setSubject(comboBox->currentText());
+
+//        emit this->addTeacher(teacherptr);
+//        delete(teacherptr);
+//    }
+//    else if(tabWidget->currentIndex() == 2){
+//        if(lineEdit_managerId->text() == "" || lineEdit_managerName->text() == "" || lineEdit_managerPwd->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
+
+//        for(QList<User *>::iterator ite = teacherList.begin(); ite != teacherList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_teacherId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
+
+//        for(QList<User *>::iterator ite = managerList.begin(); ite != managerList.end(); ++ite){
+//            if((*ite)->getID() == lineEdit_managerId->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("ID已存在！"));
+//                return ;
+//            }
+//        }
+
+//        User *managerptr = new User;
+//        managerptr->setID(lineEdit_managerId->text());
+//        managerptr->setName(lineEdit_managerName->text());
+//        managerptr->setPassword(lineEdit_managerPwd->text());
+
+//        emit this->addManager(managerptr);
+//        delete(managerptr);
+//    }
+//    else if(tabWidget->currentIndex() == 3){
+//        if(lineEdit_typeId->text() == "" || lineEdit_typeName->text() == ""){
+//            QMessageBox::about(this, "msg", QStringLiteral("某项信息未填写！"));
+//            return ;
+//        }
+
+//        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+//            if(ite.key() == lineEdit_typeId->text().toInt()){
+//                QMessageBox::about(this, "msg", QStringLiteral("类型ID已存在！"));
+//                return ;
+//            }
+//            if(ite.value() == lineEdit_typeName->text()){
+//                QMessageBox::about(this, "msg", QStringLiteral("类型已存在！"));
+//                return ;
+//            }
+//        }
+
+//        emit this->addType(lineEdit_typeId->text().toInt(), lineEdit_typeName->text());
+//    }
+//    this->textClear();
+
 }
 
 void MemberManageUI::on_pushButton_delete_user_clicked()
@@ -190,9 +291,90 @@ void MemberManageUI::on_pushButton_delete_user_clicked()
     }
 }
 
+//void MemberManageUI::on_pushButton_search_clicked()
+//{
+//    if(tabWidget->currentIndex() == 0)
+//    {
+//        studentSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(int i = 0; i < studentList.count(); i++)
+//        {
+//            if(studentList.at(i)->getID() == s_tosearch ||
+//                    studentList.at(i)->getName() == s_tosearch ||
+//                    studentList.at(i)->getGrade() == s_tosearch.toInt() ||
+//                    studentList.at(i)->getClass() == s_tosearch.toInt())
+//            {
+//                studentSearchList.append(studentList.at(i));
+//            }
+//        }
+//        this->showStudent(studentSearchList);
+//    }
+//    else if(tabWidget->currentIndex() == 1)
+//    {
+//        teacherSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(int i = 0; i < teacherList.count(); i++)
+//        {
+//            if(teacherList.at(i)->getID() == s_tosearch ||
+//                    teacherList.at(i)->getName() == s_tosearch)
+//            {
+//                teacherSearchList.append(teacherList.at(i));
+//            }
+//        }
+//        this->showTeacher(teacherSearchList);
+//    }
+//    else if(tabWidget->currentIndex() == 2)
+//    {
+//        managerSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(int i = 0; i < managerList.count(); i++){
+//            if(managerList.at(i)->getID() == s_tosearch ||
+//                    managerList.at(i)->getName() == s_tosearch)
+//            {
+//                managerSearchList.append(managerList.at(i));
+//            }
+//        }
+//        this->showManager(managerSearchList);
+//    }
+//    else if(tabWidget->currentIndex() == 3){
+//        typeSearchList.clear();
+//        QString s_tosearch;
+//        s_tosearch = lineEdit_search->text();
+//        for(QMap<int, QString>::iterator ite = typeList.begin(); ite != typeList.end(); ++ite){
+//            if(ite.key() == s_tosearch.toInt() || ite.value() == s_tosearch){
+//                typeSearchList[ite.key()] = ite.value();
+//            }
+//        }\
+//        this->showType(typeSearchList);
+//    }
+//}
+
+//void MemberManageUI::on_pushButton_all_clicked()
+//{
+//    this->showStudent(studentList);
+//    this->showTeacher(teacherList);
+//    this->showManager(managerList);
+//    this->showType(typeList);
+//}
+
 void MemberManageUI::textClear()
 {
-
+//    lineEdit_userID->clear();
+//    lineEdit_userName->clear();
+//    lineEdit_userGrade->clear();
+//    lineEdit_userClass->clear();
+//    lineEdit_userPwd->clear();
+//    lineEdit_managerId->clear();
+//    lineEdit_managerName->clear();
+//    lineEdit_managerPwd->clear();
+//    lineEdit_teacherId->clear();
+//    lineEdit_teacherName->clear();
+//    lineEdit_teacherPwd->clear();
+//    lineEdit_typeId->clear();
+//    lineEdit_typeName->clear();
 }
 
 void MemberManageUI::studentDialog(QTableWidgetItem *item)

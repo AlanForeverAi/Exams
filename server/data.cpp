@@ -140,19 +140,19 @@ void ChoiceAnswers::setAnswerList(QVector<QString> answer)
 {
     _answerList = answer;
 }
-int ChoiceAnswers::getAnswerId() const
+int ChoiceAnswers::getAnswerId()
 {
     return _answerId;
 }
-int ChoiceAnswers::getPaperId() const
+int ChoiceAnswers::getPaperId()
 {
     return _paperId;
 }
-QString ChoiceAnswers::getStudentId() const
+QString ChoiceAnswers::getStudentId()
 {
     return _studentId;
 }
-QVector<QString> ChoiceAnswers::getAnswerList() const
+QVector<QString> ChoiceAnswers::getAnswerList()
 {
     return _answerList;
 }
@@ -184,35 +184,35 @@ QDataStream &operator <<(QDataStream &out,const Paper &p)
     out << p._paperId << p._description <<p ._obQuIds << p._subQuIds << p.choiceQuestionList << p.essayQuestionbList << p._totalMark << p._percent << p._time;
     return out;
 }
-int Paper::getPaperId() const
+int Paper::getPaperId()
 {
     return _paperId;
 }
-QString Paper::getObQuIds() const
+QString Paper::getObQuIds()
 {
     return _obQuIds;
 }
-QString Paper::getSubQuIds() const
+QString Paper::getSubQuIds()
 {
     return _subQuIds;
 }
-QString Paper::getDescription() const
+QString Paper::getDescription()
 {
     return _description;
 }
-int Paper::getTotalMark() const
+int Paper::getTotalMark()
 {
     return _totalMark;
 }
-int Paper::getPercent() const
+int Paper::getPercent()
 {
     return _percent;
 }
-int Paper::getTime() const
+int Paper::getTime()
 {
     return _time;
 }
-QString Paper::getDate() const
+QString Paper::getDate()
 {
     return _date;
 }
@@ -264,17 +264,17 @@ void Paper::setSubjectMark(QString mark)
     _subjectMark = mark;
 }
 
-QString Paper::getObjectMark() const
+QString Paper::getObjectMark()
 {
     return _objectMark;
 }
 
-QString Paper::getSubjectMark() const
+QString Paper::getSubjectMark()
 {
     return _subjectMark;
 }
 
-int Paper::getSubject() const
+int Paper::getSubject()
 {
     return _subject;
 }
@@ -330,19 +330,19 @@ EssayAnswers::EssayAnswers()
 {
     qRegisterMetaTypeStreamOperators<EssayAnswers>("Ob_answers");
 }
-int EssayAnswers::getAnswerId() const
+int EssayAnswers::getAnswerId()
 {
     return _answerId;
 }
-int EssayAnswers::getPaperId() const
+int EssayAnswers::getPaperId()
 {
     return _paperId;
 }
-QString EssayAnswers::getStudentId() const
+QString EssayAnswers::getStudentId()
 {
     return _studentId;
 }
-QString EssayAnswers::getAnswers() const
+QString EssayAnswers::getAnswers()
 {
     return _answers;
 }
@@ -394,19 +394,19 @@ void AllAnswers::setUserid(QString id)
 {
     _userId = id;
 }
-EssayAnswers AllAnswers::getObanswer() const
+EssayAnswers AllAnswers::getObanswer()
 {
     return _obAnswer;
 }
-ChoiceAnswers AllAnswers::getSubanswer() const
+ChoiceAnswers AllAnswers::getSubanswer()
 {
     return _subAnswer;
 }
-int AllAnswers::getPaperid() const
+int AllAnswers::getPaperid()
 {
     return _paperId;
 }
-QString AllAnswers::getUserid() const
+QString AllAnswers::getUserid()
 {
     return _userId;
 }
@@ -467,43 +467,43 @@ void Combo::setPaperName(QString paperName)
     _paperName = paperName;
 }
 
-QString Combo::getUserId() const
+QString Combo::getUserId()
 {
     return _userId;
 }
-QString Combo::getName() const
+QString Combo::getName()
 {
     return _name;
 }
-int Combo::getGrade() const
+int Combo::getGrade()
 {
     return _grade;
 }
-int Combo::getClass() const
+int Combo::getClass()
 {
     return _class;
 }
-int Combo::getTime() const
+int Combo::getTime()
 {
     return _time;
 }
-int Combo::getPaperId() const
+int Combo::getPaperId()
 {
     return _paperId;
 }
-int Combo::getPaperMark() const
+int Combo::getPaperMark()
 {
     return _paperMark;
 }
-int Combo::getObmark() const
+int Combo::getObmark()
 {
     return _obmark;
 }
-int Combo::getSubMark() const
+int Combo::getSubMark()
 {
     return _submark;
 }
-QString Combo::getPaperName() const
+QString Combo::getPaperName()
 {
     return _paperName;
 }

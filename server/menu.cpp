@@ -5,15 +5,14 @@ Menu::Menu(QWidget *parent) : QWidget(parent)
     setupUi(this);
     if(User::GetInstance().getType() == 1){
         stackedWidget->setCurrentIndex(1);
-//        if(state == 1){
-//            pushButton_examsetting->setEnabled(false);
-//            pushButton_config->setEnabled(false);
-//            pushButton_mem->setEnabled(false);
-//            pushButton_examctrl->setEnabled(true);
-//        }
-//        else{
-//            pushButton_examctrl->setEnabled(false);
-//        }
+        if(state == 1){
+            pushButton_examsetting->setEnabled(false);
+            pushButton_config->setEnabled(false);
+            pushButton_mem->setEnabled(false);
+        }
+        else{
+            pushButton_examctrl->setEnabled(false);
+        }
     }
     else {
         stackedWidget->setCurrentIndex(0);      
@@ -33,7 +32,7 @@ void Menu::on_pushButton_mem_clicked()
 void Menu::on_pushButton_examsetting_clicked()
 {
     emit this->action_examsetting();
-//    emit this->examprepare();
+    emit this->examprepare();
 }
 
 void Menu::on_pushButton_examctrl_clicked()

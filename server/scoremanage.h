@@ -20,6 +20,7 @@ signals:
 
 public slots:
     void showPapers(QList<Paper*> paperList);
+//    void on_pushButton_search_clicked();
     void on_pushButton_print_clicked();
     void showCombo(QList<Combo*>);
     void paperChange(QTableWidgetItem*);
