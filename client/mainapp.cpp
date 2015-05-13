@@ -118,10 +118,6 @@ void MainApp::messageArrive(qint32 m, QVariant v)
     case MSG_GETPAPER:
         _currentpaper = v.value<Paper>();
         emit this->paperReady(_currentpaper);
-        if(_serverState == STATE_EXAMING)
-        {
-            //emit this->showPaper();
-        }
         break;
     case MSG_BEGINEXAM:
         emit this->showPaper();

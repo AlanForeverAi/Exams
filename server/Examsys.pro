@@ -12,6 +12,8 @@ QT  += axcontainer
 TARGET = Examsys
 TEMPLATE = app
 
+CONFIG+=precompile_header
+PRECOMPILED_HEADER = stable.h
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -79,7 +81,8 @@ HEADERS  += mainwindow.h \
     examsetting.h \
     examcontrol.h \
     excelengine.h \
-    menu.h
+    menu.h \
+    stable.h
 
 
 FORMS    += mainwindow.ui \

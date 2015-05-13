@@ -42,6 +42,8 @@ public:
     void insertSub(QString, QString);
     QSqlQuery selectObQuestions();//查询客观题表的所有数据
     QSqlQuery selectSubQuestions();//查询主观题表的所有数据
+    QSqlQuery selectAllObQuestions();
+    QSqlQuery selectAllSubQuestions();
     void deleteObQuestionsByID(int);//按ID找到记录把在问题表和答案表内的该记录一并删除（客观题）
     void deleteSubQuestionsByID(int);//按ID找到记录把在问题表和答案表内的该记录一并删除（主观题）
     void updateChoiceQuestions(int, QString, QString);

@@ -24,7 +24,9 @@ void ExamUI::showPaper(Paper paper)
 {
     _currentPaper = paper;
     _obansList.resize(_currentPaper.obList.count());
+//    qDebug() << _currentPaper.obList.count();
     _subansList.resize(_currentPaper.subList.count());
+//    qDebug() << _currentPaper.subList.count();
     _obansList.fill("");
     _subansList.fill("");
     _totalque = _currentPaper.obList.count() + _currentPaper.subList.count();
@@ -37,7 +39,7 @@ void ExamUI::showPaper(Paper paper)
 
     this->iniQueInfo();
     this->showQuestion(_currentQue);
-    this->showQueInfo(0);
+    this->showQueInfo(_currentQue);
 }
 
 void ExamUI::on_Button_prev_clicked()
@@ -81,7 +83,7 @@ void ExamUI::remoteSubmit()
     }
     else
     {
-        _subansList.replace(_currentQue-_obansList.size(),textEdit_subans->toPlainText());
+        _subansList.replace(_currentQue - _obansList.size(),textEdit_subans->toPlainText());
     }
     ChoiceAnswers subanswers;
     subanswers.setPaperId(_currentPaper.getPaperId());
@@ -120,6 +122,7 @@ void ExamUI::on_pushButton_jump_clicked()
 //显示题目！！！！
 void ExamUI::showQuestion(int questionNumber)
 {
+    Q_CHECK_PTR(_btnGroup->button(questionNumber));
     if(_btnGroup->button(questionNumber)->text().contains("*"))
     {
         this->Button_mark->setText(QStringLiteral("取消标记"));
@@ -206,12 +209,12 @@ void ExamUI::showQueInfo(int )
         if(radio_B->isChecked()) answer.append("B-");
         if(radio_C->isChecked()) answer.append("C-");
         if(radio_D->isChecked()) answer.append("D-");
-        _obansList.replace(_currentQue,answer);
+        _obansList.replace(_currentQue, answer);
 
     }
     else
     {
-        _subansList.replace(_currentQue-_obansList.size(),textEdit_subans->toPlainText());
+        _subansList.replace(_currentQue - _obansList.size(),textEdit_subans->toPlainText());
     }
 
 
@@ -286,8 +289,6 @@ void ExamUI::iniQueInfo()
 
 void ExamUI::on_pushButton_submit_clicked()
 {
-
-
     QMessageBox msg;
     msg.setText(QStringLiteral("确定要提交吗？"));
     msg.setStandardButtons(QMessageBox::Ok|QMessageBox::Cancel);
@@ -310,12 +311,12 @@ void ExamUI::submitAnswers()
         if(radio_B->isChecked()) answer.append("B-");
         if(radio_C->isChecked()) answer.append("C-");
         if(radio_D->isChecked()) answer.append("D-");
-        _obansList.replace(_currentQue,answer);
+        _obansList.replace(_currentQue, answer);
 
     }
     else
     {
-        _subansList.replace(_currentQue-_obansList.size(),textEdit_subans->toPlainText());
+        _subansList.replace(_currentQue - _obansList.size(),textEdit_subans->toPlainText());
     }
 
     ChoiceAnswers subanswers;

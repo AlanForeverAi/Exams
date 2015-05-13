@@ -231,6 +231,8 @@ void MainApp::messageArrive(int descriptor,qint32 m, QVariant v)
         }
         else if(_serverState == STATE_EXAMING)
         {
+            v.setValue(_mainPaper);
+            emit this->sendData(descriptor,MSG_GETPAPER,v);
             emit this->getcurrentPaperTime(descriptor);
         }
         break;
@@ -443,7 +445,8 @@ Paper MainApp::preparePaper(int id)
     paper.setSubjectMark(query.value(9).toString());
     query.clear();
 
-    query = _DBM->selectObQuestions();
+//    query = _DBM->selectObQuestions();
+    query = _DBM->selectAllObQuestions();
     while(query.next())
     {
         if(paper.getObQuIds().indexOf(query.value(0).toString()) >= 0)
@@ -458,9 +461,10 @@ Paper MainApp::preparePaper(int id)
         }
 
     }
-
+//    std::cout << paper.choiceQuestionList.size() << std::endl;
     query.clear();
-    query = _DBM->selectSubQuestions();
+//    query = _DBM->selectSubQuestions();
+    query = _DBM->selectAllSubQuestions();
     while(query.next())
     {
         if(paper.getSubQuIds().indexOf(query.value(0).toString()) >= 0)
@@ -472,6 +476,7 @@ Paper MainApp::preparePaper(int id)
             paper.essayQuestionbList.append(*sub_que);
         }
     }
+//    std::cout << paper.essayQuestionbList.size() << std::endl;
     return paper;
 }
 
@@ -1266,7 +1271,7 @@ void MainApp::getExamTime()
 {
     int time = _mainPaper.getTime();
     QTime paperTime;
-    paperTime.setHMS(time / 60, time % 60, 0);
+    paperTime.setHMS(time / 3600, time % 3600 / 60, time % 3600 % 60);
     emit this->setExamTime(paperTime);
 }
 

@@ -271,8 +271,27 @@ QSqlQuery DBManager::selectSubQuestions()
         return query;
     else
         return query;
-    ;
 }
+
+QSqlQuery DBManager::selectAllObQuestions()
+{
+    QSqlQuery query;
+    if( query.exec(QString("select * from obquestions")))
+        return query;
+    else
+        return query;
+}
+
+QSqlQuery DBManager::selectAllSubQuestions()
+{
+    QSqlQuery query;
+    if( query.exec(QString("select * from subquestions")))
+        return query;
+    else
+        return query;
+}
+
+
 //按ID找到记录把在问题表和答案表内的该记录一并删除（客观题）
 void DBManager::deleteObQuestionsByID(int id)
 {

@@ -3,9 +3,11 @@
 
 #include <QWidget>
 #include "ui_ExamUI.h"
-#include"data.h"
-#include<QMessageBox>
-#include<QTimer>
+#include "data.h"
+#include <QMessageBox>
+#include <QTimer>
+#include <QDebug>
+
 class ExamUI : public QWidget,public Ui::ExamUI
 {
     Q_OBJECT

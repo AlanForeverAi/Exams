@@ -42,17 +42,26 @@ void Client::send()
 
     Student student;
     AllAnswers answers;
-//    QHostInfo hostInfo;
     /*根据信息类型将信息还原成原来的数据类型并写入*/
+    QString localHostName = QHostInfo::localHostName();
+    QHostInfo info = QHostInfo::fromName(localHostName);
+    QString ip4Address;
+
     switch(_messageType)
     {
     case MSG_NEWCONNECT:
         break;
     case MSG_LOGIN:
-        student = _data.value<Student>();
-//        hostInfo.setHostName(QHostInfo::localHostName());
-        student.setHostName(QHostInfo::localHostName());
-//        student.setHostName(hostInfo.addresses().first().toString());
+
+        foreach(QHostAddress address,info.addresses())
+        {
+            if(address.protocol() == QAbstractSocket::IPv4Protocol){
+                ip4Address = address.toString();
+                break;
+            }
+        }
+        student = _data.value<Student>(); 
+        student.setHostName(ip4Address);
         out << student;
         break;
     case MSG_GETPAPER:

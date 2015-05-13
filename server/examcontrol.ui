@@ -387,7 +387,7 @@
        </property>
        <column>
         <property name="text">
-         <string>主机名</string>
+         <string>IP地址</string>
         </property>
        </column>
        <column>
